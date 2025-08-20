@@ -21,7 +21,8 @@ public class EmailCampaignPage {
     public EmailCampaignPage(WebDriver driver) {
         this.driver = driver;
     }
-
+    
+    
     // Locators
     private By campaignHover = By.xpath("//span[@class='title'][contains(text(),'Campaign')]");
     private By createCampaign = By.xpath("//span[contains(@class,'title')][contains(text(),'Create Campaign')]");
