@@ -1,28 +1,29 @@
 package com.stratapps.xamplify.utils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
-    private static Properties prop = new Properties();
+    private static Properties properties = new Properties();
 
     static {
-        try (InputStream input = Thread.currentThread()
-                                        .getContextClassLoader()
-                                        .getResourceAsStream("config/config.properties")) {
+        try {
+            InputStream input = ConfigReader.class.getClassLoader().getResourceAsStream("config/config.properties");
             if (input != null) {
-                prop.load(input);
+                properties.load(input);
             } else {
-                throw new RuntimeException("config/config.properties file not found in classpath");
+                System.out.println("❌ config.properties not found in classpath!");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load config.properties", e);
+        } catch (Exception e) {
+            System.out.println("❌ Could not load config.properties: " + e.getMessage());
         }
     }
 
-    public static String get(String key) {
-        return prop.getProperty(key);
+    public static String getProperty(String key) {
+        String value = properties.getProperty(key);
+        if (value == null) {
+            System.out.println("❌ Property not found for key: " + key);
+        }
+        return value;
     }
 }
