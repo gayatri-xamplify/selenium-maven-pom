@@ -4,16 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
 
-import java.time.Duration;
-import java.util.ArrayList;
 
 public class EmailCampaignPage {
     private WebDriver driver;
@@ -51,52 +45,60 @@ public class EmailCampaignPage {
     private By backdrop = By.cssSelector("div.backdrop");
 
     public void createEmailCampaign(String name, String subject, String preHeader, String email, String emailSubject) {
+        // Hover and click Campaign menu
         WaitUtil.waitForElementVisible(driver, campaignHover, 60);
-        WebElement campaignElement = driver.findElement(campaignHover);
-        ElementUtil.hoverAndClick(campaignElement, driver);
+        ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+        
 
+        // Create campaign flow
         WaitUtil.waitAndClick(driver, createCampaign, 60);
         WaitUtil.waitAndClick(driver, openEmailCampaign, 60);
-
-        WaitUtil.waitForPageToLoad(driver, 80);
+       
+        
+        
         WaitUtil.waitForElementVisible(driver, campaignName, 60);
+        
         ElementUtil.sendText(campaignName, name + System.currentTimeMillis(), driver);
 
+        // Subject + Preheader
         ElementUtil.click(throughPartner, driver);
         ElementUtil.sendText(subjectLine, subject, driver);
         ElementUtil.sendText(preheader, preHeader, driver);
 
+        // Notification settings
         ElementUtil.click(notifyWorkflow, driver);
         ElementUtil.click(notifyMeOpened, driver);
         ElementUtil.click(notifyMeLinkClick, driver);
 
-        // Scroll
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(document.body.scrollHeight, 300)");
+        // Scroll into view for template search (instead of hardcoded JS scroll)
+       // ElementUtil.scrollToElement(driver.findElement(templateSearch), driver);
+
+        //ElementUtil.scrollToElement(templateSearch, driver);
         WaitUtil.waitForElementVisible(driver, templateSearch, 60);
 
+        // Search and select template
         ElementUtil.sendText(templateSearch, "email", driver);
         ElementUtil.sendKey(templateSearch, Keys.ENTER, driver);
-
         WaitUtil.waitAndClick(driver, templateSelect, 60);
-        
+
+        // Send Test Email
         WaitUtil.waitForElementClickable(driver, clickSendTestEmail, 60);
-       // ElementUtil.scrollToElement(clickSendTestEmail, driver);
         ElementUtil.clickWithRetry(clickSendTestEmail, driver, 3);
 
-        //WaitUtil.waitAndClick(driver, clickSendTestEmail, 60);
-        ElementUtil.clickWhenReady(driver, sendTextEmail, 30);
-
+        WaitUtil.waitForElementVisible(driver, sendTextEmail, 60);
         ElementUtil.sendText(sendTextEmail, email, driver);
         ElementUtil.sendKey(sendTextEmail, Keys.ENTER, driver);
+
         ElementUtil.sendText(sendTextEmailSubject, emailSubject, driver);
         ElementUtil.sendKey(sendTextEmailSubject, Keys.ENTER, driver);
 
+        // Send email
         WaitUtil.waitAndClick(driver, sendEmailButton, 60);
         WaitUtil.waitAndClick(driver, emailSentPopup, 60);
 
+        // Handle preview + proceed
         ElementUtil.previewhandlingtemplate(templatePreview, driver);
-        ElementUtil.click(nextBtn, driver);
+        WaitUtil.waitAndClick(driver, nextBtn, 60);
     }
 
     public void selectPartnerList() {

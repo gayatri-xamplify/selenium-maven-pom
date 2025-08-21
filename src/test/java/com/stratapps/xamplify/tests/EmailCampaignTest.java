@@ -44,7 +44,14 @@ public class EmailCampaignTest extends BaseTest {
     @Test(priority = 1, enabled = true)
     public void createEmailCampaignTest() {
         logger.info("Test 2: Create Email Campaign - STARTED");
-        emailCampaignPage.createEmailCampaign("mounika", "mounikatest", "mounisubject", "chmounika@stratapps.com", "sub");
+        emailCampaignPage.createEmailCampaign(
+        	    "mounika", 
+        	    "mounikatest", 
+        	    "mounisubject", 
+        	    "chmounika@stratapps.com", 
+        	    "sub"
+        	);
+
         logger.info("Test 2: Create Email Campaign - COMPLETED");
     }
 
