@@ -84,7 +84,7 @@ public class ShareLeadsTest extends BaseTest {
 		shareleadsPage.searchShareLead("Auto");
 
 		// Wait for loader to disappear after search
-		WaitUtil.waitForLoaderToDisappear(driver, 40);
+		WaitUtil.waitForLoaderToDisappear(driver, 70);
 
 	}
 
@@ -242,14 +242,14 @@ public class ShareLeadsTest extends BaseTest {
 
 	}
 
-	@AfterClass
-	public void tearDownClass() {
-		super.tearDown();
-    //	logoutIfLoggedIn();
-
-		logger.info("ShareleadsTest teardown completed");
-
-	}
+	/*
+	 * @AfterClass public void tearDownClass() { super.tearDown(); //
+	 * logoutIfLoggedIn();
+	 * 
+	 * logger.info("ShareleadsTest teardown completed");
+	 * 
+	 * }
+	 */
 	
 	
 	

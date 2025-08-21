@@ -15,18 +15,45 @@ import java.time.Duration;
 
 public class LoginPage {
     WebDriver driver;
+    private WebDriverWait wait;
+
     private static final Logger logger = LogManager.getLogger(LoginPage.class);
 
-    // Constructor
+	/*
+	 * // Constructor public LoginPage(WebDriver driver) { this.driver = driver; }
+	 */
+    
+
+   
+
+    private static final int DEFAULT_TIMEOUT_SECONDS = 30; // Define a default timeout
+    
+    
+    
+    
     public LoginPage(WebDriver driver) {
+
         this.driver = driver;
+
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT_SECONDS)); // Initialize WebDriverWait
+
     }
+
+
+    
 
     // Locators
     private By emailField = By.xpath("//input[@id='username']");
     private By passwordField = By.xpath("//input[@id='password']");
     private By loginButton = By.xpath("//button[@type='submit']");
-    private By welcomeMessage = By.xpath("//h4//span[contains(text(), 'Welcome')]");
+   // private By welcomeMessage = By.xpath("//h4//span[contains(text(), 'Welcome')]");
+    
+    		  //private By Accdashboard = By.xpath("//span[contains(text(),'Account Dashboard')]");
+    		  
+    		  private By invitevendor = By.xpath("//button[contains(text(),'Invite A vendor')]");
+    		  
+    		  
+    		
 
     // Actions
     public void login(String email, String password) {
@@ -35,6 +62,9 @@ public class LoginPage {
 
             //driver.findElement(emailField).clear();
             driver.findElement(emailField).sendKeys(email);
+            
+            
+            
             logger.debug("Entered email.");
 
             driver.findElement(passwordField).clear();
@@ -53,7 +83,7 @@ public class LoginPage {
 
             // Wait for welcome message with increased timeout
             new WebDriverWait(driver, Duration.ofSeconds(60))
-                .until(ExpectedConditions.visibilityOfElementLocated(welcomeMessage));
+                .until(ExpectedConditions.visibilityOfElementLocated(invitevendor));
             logger.info("Login successful. Welcome message displayed.");
 
         } catch (Exception e) {
@@ -77,7 +107,7 @@ public class LoginPage {
         login(ConfigReader.getProperty("partner.username"), ConfigReader.getProperty("partner.password"));
     }
     public boolean isWelcomeDisplayed() {
-        boolean visible = driver.findElement(welcomeMessage).isDisplayed();
+        boolean visible = driver.findElement(invitevendor).isDisplayed();
         logger.info("Welcome message is displayed: {}", visible);
         return visible;
     }

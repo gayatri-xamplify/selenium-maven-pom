@@ -22,15 +22,14 @@ public class ManagePartnerTest extends BaseTest{
     OnboardingPartnerPage onboardingPartnerPage = new OnboardingPartnerPage(this.driver);
 
 	
-	  @BeforeClass public void setUpClass() { 
-		  super.setUp(); 
-	  LoginPage loginPage =  new LoginPage(driver); 
-	  loginPage.loginAsVendor(); 
-	  managePartnerPage = new ManagePartnerPage(driver); 
-	  wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	  logger.info("OnboardingPartnerPage setup completed"); }
-	  
-	  
+	/*
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsVendor(); managePartnerPage = new
+	 * ManagePartnerPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60));
+	 * logger.info("OnboardingPartnerPage setup completed"); }
+	 * 
+	 */
 
 		@Test(priority = 1, enabled = true)
 		public void CreatePartnerGroup_ManagePartner() throws InterruptedException {

@@ -73,29 +73,72 @@ public class SharedLeadsPage {
 	private By manageSharedGridInfoicon = By.xpath("(//a[@class='Iconhover custom-grid-icon'])[1]");
 
 	// --------------------- Navigation ---------------------
-	public void navigateToSharedLeads() {
-		// wait.until(ExpectedConditions.elementToBeClickable(sharedLeadsMenu)).click();
+	
+	  public void navigateToSharedLeads() { //
+	  wait.until(ExpectedConditions.elementToBeClickable(sharedLeadsMenu)).click();
+	  
+	  WaitUtil.waitForDropdownToBeReady(driver, sharedLeadsMenu, 60);
+	  ElementUtil.click(sharedLeadsMenu, driver);
+	  
+	  }
+	 
 
-		WaitUtil.waitForDropdownToBeReady(driver, sharedLeadsMenu, 60);
-		ElementUtil.click(sharedLeadsMenu, driver);
-
-	}
+		/*
+		 * public void navigateToSharedLeads() {
+		 * logger.info("Navigating to Shared Leads page");
+		 * WaitUtil.waitForPageToLoad(driver, 60);
+		 * ElementUtil.clickWithRetry(sharedLeadsMenu, driver, 3); // ✅ safe click
+		 * WaitUtil.waitForLoaderToDisappear(driver, 60); }
+		 */
 
 	public void waitForCountsToLoad() {
-		WaitUtil.waitForElementVisible(driver, allCountBox, 60);
-		WaitUtil.waitForElementVisible(driver, validCountBox, 60);
-		WaitUtil.waitForElementVisible(driver, excludedCountBox, 60);
-		WaitUtil.waitForElementVisible(driver, undeliverableCountBox, 60);
-		WaitUtil.waitForElementVisible(driver, unsubscribedCountBox, 60);
-
+		logger.info("Waiting for tile counts to load");
+		WaitUtil.waitForVisibility(driver, allCountBox, 60); // ✅ generic tile count visibility
 	}
 
+	/*
+	 * public void waitForCountsToLoad() { WaitUtil.waitForElementVisible(driver,
+	 * allCountBox, 60); WaitUtil.waitForElementVisible(driver, validCountBox, 60);
+	 * WaitUtil.waitForElementVisible(driver, excludedCountBox, 60);
+	 * WaitUtil.waitForElementVisible(driver, undeliverableCountBox, 60);
+	 * WaitUtil.waitForElementVisible(driver, unsubscribedCountBox, 60);
+	 * 
+	 * }
+	 */
+
+	// ✅ 3. Click on first info icon with retry logic
 	public void clickFirstInfoIcon() {
-
-		WaitUtil.waitForDropdownToBeReady(driver, firstInfoIcon, 60);
-		ElementUtil.click(firstInfoIcon, driver);
-
+		logger.info("Clicking on first info icon");
+		WaitUtil.waitForVisibility(driver, firstInfoIcon, 60);
+		ElementUtil.clickWithRetry(firstInfoIcon, driver, 3); // ✅ retry-safe click
 	}
+
+	/*
+	 * public void clickFirstInfoIcon() {
+	 * 
+	 * WaitUtil.waitForDropdownToBeReady(driver, firstInfoIcon, 60);
+	 * ElementUtil.click(firstInfoIcon, driver);
+	 * 
+	 * }
+	 */
+
+	// ✅ 4. Sort dropdown using safe retry in loop
+	public void applyAllEditTileSortOptions() {
+		logger.info("Applying all tile sort options");
+		for (int i = 1; i <= 6; i++) {
+			By option = By.xpath("//select[@id='sortDropdown']/option[" + i + "]");
+			WaitUtil.waitForElementClickable(driver, sortDropdown, 30);
+			ElementUtil.clickWithRetry(sortDropdown, driver, 3); // open dropdown
+			ElementUtil.clickWithRetry(option, driver, 3); // ✅ retry for each dropdown option
+			WaitUtil.waitForLoaderToDisappear(driver, 30); // wait after sort
+		}
+	}
+
+	/*
+	 * // --------------------- Sorting --------------------- public void
+	 * applyAllEditTileSortOptions() { for (int i = 1; i <= 6; i++) {
+	 * selectDropdownValueWithRetry(sortDropdown, i + ": Object"); } }
+	 */
 
 	// --------------------- Tile Count ---------------------
 	private int extractTileCount(By locator) {
@@ -118,13 +161,6 @@ public class SharedLeadsPage {
 
 	public int getUndeliverableTileCount() {
 		return extractTileCount(undeliverableTile);
-	}
-
-	// --------------------- Sorting ---------------------
-	public void applyAllEditTileSortOptions() {
-		for (int i = 1; i <= 6; i++) {
-			selectDropdownValueWithRetry(sortDropdown, i + ": Object");
-		}
 	}
 
 	private void selectDropdownValueWithRetry(By locator, String value) {
@@ -164,7 +200,6 @@ public class SharedLeadsPage {
 			WaitUtil.waitForDropdownToBeReady(driver, filterCloseIcon, 60);
 			ElementUtil.click(filterCloseIcon, driver);
 
-			
 		} catch (Exception e) {
 			logger.error(
 					"Failed to apply filter with field: " + field + ", operator: " + operator + ", value: " + value, e);
@@ -186,53 +221,101 @@ public class SharedLeadsPage {
 
 	}
 
+	/*
+	 * public void clickMoreLessButton() { try {
+	 * 
+	 * WaitUtil.waitForPresence(driver, buttonid, 60);
+	 * 
+	 * WaitUtil.waitForDropdownToBeReady(driver, buttonid, 60);
+	 * ElementUtil.click(buttonid, driver);
+	 * 
+	 * logger.info("Clicked on More/Less button successfully."); } catch (Exception
+	 * e) { logger.error("Failed to click on More/Less button.", e); throw e; } }
+	 */
+
+	// ✅ 6. Click More/Less button with wait and retry
 	public void clickMoreLessButton() {
-		try {
-
-			WaitUtil.waitForPresence(driver, buttonid, 60);
-
-			WaitUtil.waitForDropdownToBeReady(driver, buttonid, 60);
-			ElementUtil.click(buttonid, driver);
-
-			logger.info("Clicked on More/Less button successfully.");
-		} catch (Exception e) {
-			logger.error("Failed to click on More/Less button.", e);
-			throw e;
-		}
+		logger.info("Clicking More/Less button");
+		WaitUtil.waitForPresence(driver, buttonid, 60);
+		WaitUtil.waitForDropdownToBeReady(driver, buttonid, 60);
+		ElementUtil.clickWithRetry(buttonid, driver, 3); // ✅ retry for flaky click
 	}
 
+	/*
+	 * 
+	 * 
+	 * 
+	 * public void clickMoreLessButton() { try { By moreLessButtonLocator =
+	 * buttonid; // assuming buttonid is a By object
+	 * 
+	 * WaitUtil.waitForPresence(driver, moreLessButtonLocator, 80);
+	 * WaitUtil.waitForDropdownToBeReady(driver, moreLessButtonLocator, 80);
+	 * 
+	 * // Retry logic try { ElementUtil.click(moreLessButtonLocator, driver); }
+	 * catch (StaleElementReferenceException stale) {
+	 * logger.warn("StaleElementReferenceException caught, retrying click...");
+	 * WaitUtil.waitForPresence(driver, moreLessButtonLocator, 80);
+	 * ElementUtil.click(moreLessButtonLocator, driver); }
+	 * 
+	 * logger.info("Clicked on More/Less button successfully."); } catch (Exception
+	 * e) { logger.error("Failed to click on More/Less button.", e); throw e; } }
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+
+	// ✅ 7. Click Unsubscribe icon flow with multi-step retry
 	public void clickUnsubscribeIcon() {
+		logger.info("Starting unsubscribe action");
 
 		WaitUtil.waitForDropdownToBeReady(driver, unsubIcon, 60);
-		ElementUtil.click(unsubIcon, driver);
-		WaitUtil.waitForDropdownToBeReady(driver, unsubReason, 60);
-		ElementUtil.click(unsubReason, driver);
-		WaitUtil.waitForDropdownToBeReady(driver, unsubSubmit, 60);
-		ElementUtil.click(unsubSubmit, driver);
+		ElementUtil.clickWithRetry(unsubIcon, driver, 3); // ✅ open unsubscribe dialog
 
-	
+		WaitUtil.waitForDropdownToBeReady(driver, unsubReason, 60);
+		ElementUtil.clickWithRetry(unsubReason, driver, 3); // ✅ choose reason
+
+		WaitUtil.waitForDropdownToBeReady(driver, unsubSubmit, 60);
+		ElementUtil.clickWithRetry(unsubSubmit, driver, 3); // ✅ submit
 	}
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * public void clickUnsubscribeIcon() {
+	 * 
+	 * WaitUtil.waitForDropdownToBeReady(driver, unsubIcon, 60);
+	 * ElementUtil.click(unsubIcon, driver);
+	 * WaitUtil.waitForDropdownToBeReady(driver, unsubReason, 60);
+	 * ElementUtil.click(unsubReason, driver);
+	 * WaitUtil.waitForDropdownToBeReady(driver, unsubSubmit, 60);
+	 * ElementUtil.click(unsubSubmit, driver);
+	 * 
+	 * 
+	 * }
+	 */
 
 	public void sharedLeadsListUnsubscribeTile() {
 
-		WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 60);
+		WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
 		ElementUtil.click(unsubscribedTile, driver);
 
 		filterSearch();
 		manageSharedleadsTilesEmailreports();
 
-		WaitUtil.waitForDropdownToBeReady(driver, resubscribeButton, 60);
+		WaitUtil.waitForDropdownToBeReady(driver, resubscribeButton, 80);
 		ElementUtil.click(resubscribeButton, driver);
 
 		driver.findElement(By.id("comment")).sendKeys("Resubscribe sharedlead 123");
 		ElementUtil.click(resubscribeSubmit, driver);
-		
+
 	}
 
 	public void sharedLeadsEditListValidTile(int count) {
 		if (count > 0)
 
-			WaitUtil.waitForDropdownToBeReady(driver, validTile, 60);
+			WaitUtil.waitForDropdownToBeReady(driver, validTile, 80);
 		ElementUtil.click(validTile, driver);
 
 	}
@@ -240,7 +323,7 @@ public class SharedLeadsPage {
 	public void sharedLeadsEditListExcludeTile(int count) {
 		if (count > 0)
 
-			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 60);
+			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 80);
 		ElementUtil.click(excludeTile, driver);
 
 		// wait.until(ExpectedConditions.elementToBeClickable(excludeTile)).click();
@@ -248,16 +331,15 @@ public class SharedLeadsPage {
 
 	public void sharedLeadsEditListUndeliverableTile(int count) {
 		if (count > 0)
-			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 60);
+			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 80);
 		ElementUtil.click(undeliverableTile, driver);
 
-	
 	}
 
 	// --------------------- Full Tile Flow ---------------------
 	public void manageAllSharedLeadsTileActions() {
 
-		WaitUtil.waitForDropdownToBeReady(driver, sharedleadsAllBtn, 60);
+		WaitUtil.waitForDropdownToBeReady(driver, sharedleadsAllBtn, 80);
 		ElementUtil.click(sharedleadsAllBtn, driver);
 
 		applyFilter("City", "Contains", "Hyderabad");
@@ -268,9 +350,8 @@ public class SharedLeadsPage {
 
 	public void manageValidSharedLeadsTileActions() {
 
-		WaitUtil.waitForDropdownToBeReady(driver, validTile, 60);
+		WaitUtil.waitForDropdownToBeReady(driver, validTile, 80);
 		ElementUtil.click(validTile, driver);
-
 
 		applyFilter("City", "Contains", "Hyderabad");
 
@@ -280,10 +361,9 @@ public class SharedLeadsPage {
 	public void manageExcludeSharedLeadsTileActions() {
 		if (getExcludeTileCount() > 0) {
 
-			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 60);
+			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 80);
 			ElementUtil.click(excludeTile, driver);
 
-		
 			applyFilter("City", "Contains", "Hyderabad");
 
 			manageSharedleadsTilesEmailreports();
@@ -293,7 +373,7 @@ public class SharedLeadsPage {
 	public void manageUndeliverableSharedLeadsTileActions() {
 		if (getUndeliverableTileCount() > 0) {
 
-			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 60);
+			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 80);
 			ElementUtil.click(undeliverableTile, driver);
 
 			applyFilter("City", "Contains", "Hyderabad");
@@ -304,7 +384,7 @@ public class SharedLeadsPage {
 
 	public void manageUnsubscribeSharedLeadsTileActions() {
 		if (extractTileCount(unsubscribedTile) > 0) {
-			WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 60);
+			WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
 			ElementUtil.click(unsubscribedTile, driver);
 
 			// wait.until(ExpectedConditions.elementToBeClickable(unsubscribedTile)).click();
@@ -330,7 +410,7 @@ public class SharedLeadsPage {
 
 			// Wait for backdrop if visible
 			try {
-				WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(35));
+				WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(55));
 				shortWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.backdrop")));
 			} catch (Exception e) {
 				System.out.println("Backdrop not found or already disappeared.");

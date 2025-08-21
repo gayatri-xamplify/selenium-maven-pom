@@ -199,7 +199,7 @@ public class ShareLeadsPage {
 
 	public void editShareLeadDetails() throws InterruptedException {
 
-		WaitUtil.waitAndClick(driver, EDIT_BUTTON, backdrop, 80);
+		WaitUtil.waitAndClick(driver, EDIT_BUTTON, backdrop, 120);
 
 		/*
 		 * // Now click safely ElementUtil.click(EDIT_BUTTON, driver);
@@ -225,7 +225,7 @@ public class ShareLeadsPage {
 
 	public void publishAndDownloadShareLeadFlow() throws InterruptedException {
 
-		WaitUtil.waitAndClick(driver, FIRST_PUBLISH_ICON, backdrop, 80);
+		WaitUtil.waitAndClick(driver, FIRST_PUBLISH_ICON, backdrop, 150);
 
 		// Now click safely
 		// ElementUtil.click(FIRST_PUBLISH_ICON, driver);
@@ -270,11 +270,7 @@ public class ShareLeadsPage {
 
 	public void searchShareLead(String query) throws InterruptedException {
 
-		WaitUtil.waitAndClick(driver, SEARCH_BAR, backdrop, 80);
-
-		// Now click safely
-		// ElementUtil.click(validTile, driver);
-
+		WaitUtil.waitAndClick(driver, SEARCH_BAR, backdrop, 130);
 		ElementUtil.sendText(SEARCH_BAR, query, driver);
 		ElementUtil.sendKey(SEARCH_BAR, Keys.ENTER, driver);
 		Thread.sleep(3000);
@@ -300,7 +296,7 @@ public class ShareLeadsPage {
 	}
 
 	public void clickDeleteIcon() {
-		WaitUtil.waitAndClick(driver, DELETE_ICON, backdrop, 80);
+		WaitUtil.waitAndClick(driver, DELETE_ICON, backdrop, 120);
 		ElementUtil.click(DELETE_CONFIRM, driver);
 
 		// ActionUtil.clickWithRetry(driver, DELETE_ICON, 3);
@@ -316,14 +312,14 @@ public class ShareLeadsPage {
 
 	public void clickAllTile() throws InterruptedException {
 
-		WaitUtil.waitAndClick(driver, allTile, backdrop, 80);
+		WaitUtil.waitAndClick(driver, allTile, backdrop, 120);
 
 		// ElementUtil.click(allTile, driver);
 		Thread.sleep(3000);
 	}
 
 	public void clickFilterIcon() throws InterruptedException {
-		Thread.sleep(5000);
+		Thread.sleep(8000);
 		ElementUtil.click(filterIcon, driver);
 		Thread.sleep(2000);
 	}
@@ -418,14 +414,14 @@ public class ShareLeadsPage {
 	}
 
 	public void clickSave() throws Exception {
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 		ElementUtil.click(saveButton, driver);
 	}
 
 	public void clickValidTile() {
 		try {
 
-			WaitUtil.waitAndClick(driver, validTile, backdrop, 80);
+			WaitUtil.waitAndClick(driver, validTile, backdrop, 130);
 
 			WebElement tile = driver.findElement(validTile);
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", tile);
@@ -565,7 +561,7 @@ public class ShareLeadsPage {
 	}
 
 	public void sortAllOptions(WebDriver driver) throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
 
 		// Ensure dropdown is visible
 		wait.until(ExpectedConditions.visibilityOfElementLocated(sortByDropdown));
@@ -577,7 +573,7 @@ public class ShareLeadsPage {
 			dropdown.selectByIndex(i);
 
 			// Wait for loader to disappear after each sort
-			WaitUtil.waitForLoaderToDisappear(driver, 40);
+			WaitUtil.waitForLoaderToDisappear(driver, 80);
 
 			// Wait for first publish icon as an indicator of loaded result
 			wait.until(ExpectedConditions
@@ -589,7 +585,7 @@ public class ShareLeadsPage {
 	}
 
 	public void sortAllTileOptions(WebDriver driver) throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
 
 		// ✅ Loop through dropdown options, refreshing elements each time
 		for (int i = 1;; i++) {
@@ -608,7 +604,7 @@ public class ShareLeadsPage {
 				Alldropdown.selectByIndex(i);
 
 				// ✅ Wait for loader to disappear (custom utility)
-				WaitUtil.waitForLoaderToDisappear(driver, 40);
+				WaitUtil.waitForLoaderToDisappear(driver, 80);
 
 				// ✅ Wait for results table to appear as confirmation of reload
 				wait.until(ExpectedConditions

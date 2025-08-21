@@ -1,6 +1,7 @@
 package com.stratapps.xamplify.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -70,9 +71,9 @@ public class AddTracksPage {
 	private By previewOrderAsset = By
 			.xpath("(//*[@id='actions-row ']/div/a[1]/i[@class='fa fa-eye IconCustomization'])[1]");
 	private By closeOrderAssetPreview = By.xpath("//button[@class='btn Btn-Gray']");
-	private By removeOrderAsset = By
-			.xpath("(//*[@id='actions-row ']/div/a[2]/i[@class='fa fa-times remove-button IconCustomization'])[1]");
+	private By removeOrderAsset = By.xpath("(//*[@id='actions-row ']/div/a[2]/i[@class='fa fa-times remove-button IconCustomization'])[1]");
 	private By followSequenceToggle = By.xpath("//span[@class='labels']");
+	private By  removeAsset = By.xpath("//button[contains(text(), 'Yes, Remove')]");
 	private By closeOrderAssetSection = By.xpath("//div[@id='order-assets']//span[contains(text(),'Close')]");
 
 	private By searchPublishInput = By.xpath("(//input[@id='sort-text'])[1]");
@@ -85,6 +86,7 @@ public class AddTracksPage {
 	private By backdrop = By.cssSelector("div.backdrop");
 
 	public void openContentMenu() {
+		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
 		ElementUtil.click(contentMenu, driver);
 	}
 
@@ -103,13 +105,10 @@ public class AddTracksPage {
 
 	public void selectFolder(String folderName) {
 		WaitUtil.waitForPageToLoad(driver, 70);
-		// Wait for backdrop (overlay/spinner) to disappear
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// Wait for the tile to be visible
 		WaitUtil.waitForVisibility(driver, folderDropdown, 60);
 
 		WaitUtil.waitAndClick(driver, folderDropdown, 80);
-		// ElementUtil.click(folderDropdown, driver);
 		ElementUtil.sendText(folderSearchField, folderName, driver);
 		WaitUtil.waitAndClick(driver, folderSelectOption, 80);
 
@@ -118,10 +117,9 @@ public class AddTracksPage {
 	public void addTags(String tagName) {
 
 		WaitUtil.waitAndClick(driver, tagPlusIcon, 60);
-		WaitUtil.waitAndClick(driver, addTagButton, 60);
+		WaitUtil.waitAndClick(driver, addTagButton, 90);
 		WaitUtil.waitForPageToLoad(driver, 70);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WaitUtil.waitForElementVisible(driver, tagInputField, 60);
+		WaitUtil.waitForElementVisible(driver, tagInputField, 90);
 		ElementUtil.sendText(tagInputField, tagName + "_" + System.currentTimeMillis(), driver);
 		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
 		WaitUtil.waitAndClick(driver, tagSaveButton, 60);
@@ -143,7 +141,6 @@ public class AddTracksPage {
 
 		WaitUtil.waitAndClick(driver, addMediaButton, 60);
 		WaitUtil.waitForPageToLoad(driver, 70);
-		// WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		WaitUtil.waitForVisibility(driver, firstAssetClick, 60);
 
 		if (driver.findElement(firstAssetClick).isDisplayed()) {
@@ -174,98 +171,106 @@ public class AddTracksPage {
 	}
 
 	public void enterDescription(String description) {
-		// Wait for page load
-		WaitUtil.waitForPageToLoad(driver, 60);
-		driver.switchTo().frame(0);
-		WaitUtil.waitForElementClickable(driver, descriptionField, 60);
-		ElementUtil.click(descriptionField, driver);
-		ElementUtil.sendText(descriptionField, description, driver);
-		driver.switchTo().defaultContent();
-		ActionUtil.clickWithRetry(driver, nextButton, 3);
+	    // Wait for page load
+	    WaitUtil.waitForPageToLoad(driver, 60);
+
+	    // Interact with iframe content
+	    driver.switchTo().frame(0);
+	    WaitUtil.waitForElementClickable(driver, descriptionField, 60);
+	    ElementUtil.click(descriptionField, driver);
+	    ElementUtil.sendText(descriptionField, description, driver);
+	    driver.switchTo().defaultContent();
+
+	    // Wait for nextButton to be present in DOM
+	    WaitUtil.waitForVisibility(driver, nextButton, 30);
+
+	    // Scroll and pause to let it settle
+	    WebElement nextBtnElement = driver.findElement(nextButton);
+	    ElementUtil.scrollToElement(nextBtnElement, driver);
+	    // Optional hard scroll up in case button is covered
+	    ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, -150);");
+
+	    ElementUtil.click(nextButton, driver);
 	}
 
 	public void selectAssetsAndQuiz() {
+	    // Asset Selection - jpg
+	    WaitUtil.waitForElementClickable(driver, searchAssetBox, 60);
+	    ElementUtil.sendText(searchAssetBox, "jpg", driver);
+	    ElementUtil.sendKey(searchAssetBox, Keys.ENTER, driver);
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	    ElementUtil.safeClickFirstAsset(firstAssetSelect, driver);
 
-		// Asset Selection - jpg
-		WaitUtil.waitForElementClickable(driver, searchAssetBox, 60);
-		ElementUtil.sendText(searchAssetBox, "jpg", driver);
-		ElementUtil.sendKey(searchAssetBox, Keys.ENTER, driver);
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// ✅ Locate freshly to avoid stale element
-		WebElement jpgAsset = WaitUtil.waitForVisibility(driver, firstAssetSelect, 60);
-		jpgAsset.click();
-		WaitUtil.waitAndClick(driver, clearSearchIcon, 60);
+	    WaitUtil.waitAndClick(driver, clearSearchIcon, 60);
+	    WaitUtil.waitForPageToLoad(driver, 60);
 
-		// Asset Selection - pdf
-		WaitUtil.waitForElementClickable(driver, searchAssetBox, 60);
-		ElementUtil.sendText(searchAssetBox, "pdf", driver);
-		ElementUtil.sendKey(searchAssetBox, Keys.ENTER, driver);
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// ✅ Locate freshly to avoid stale element
-		WebElement pdfAsset = WaitUtil.waitForVisibility(driver, firstAssetSelect, 60);
-		pdfAsset.click();
-		WaitUtil.waitAndClick(driver, clearSearchIcon, 60);
+	    // Asset Selection - pdf
+	    WaitUtil.waitForElementClickable(driver, searchAssetBox, 60);
+	    ElementUtil.sendText(searchAssetBox, "pdf", driver);
+	    ElementUtil.sendKey(searchAssetBox, Keys.ENTER, driver);
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	    ElementUtil.safeClickFirstAsset(firstAssetSelect, driver);
 
-		// Asset Type Dropdown - ppt
-		WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
-		DropdownUtil.selectByValue(driver, assetTypeDropdown, "11: ppt");
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// ✅ Locate freshly to avoid stale element
-		WebElement pptAsset = WaitUtil.waitForVisibility(driver, firstAssetSelect, 60);
-		pptAsset.click();
-		WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitAndClick(driver, clearSearchIcon, 60);
+	    WaitUtil.waitForPageToLoad(driver, 60);
 
-		// Asset Type Dropdown - mp4
-		WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
-		DropdownUtil.selectByVisibleText(driver, assetTypeDropdown, "mp4");
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// ✅ Locate freshly to avoid stale element
-		WebElement mp4Asset = WaitUtil.waitForVisibility(driver, firstAssetSelect, 60);
-		mp4Asset.click();
+	    // Asset Type Dropdown - ppt
+	    WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
+	    DropdownUtil.selectByValue(driver, assetTypeDropdown, "11: ppt");
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	    ElementUtil.safeClickFirstAsset(firstAssetSelect, driver);
 
-		// Reset Dropdown
-		WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
-		DropdownUtil.selectByVisibleText(driver, assetTypeDropdown, "Select Asset Type");
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// Wait for the tile to be visible
+	    WaitUtil.waitForPageToLoad(driver, 60);
 
-		// Quiz selection
-		WaitUtil.waitForVisibility(driver, selectQuizBtn, 60);
-		ElementUtil.click(selectQuizBtn, driver);
-		WaitUtil.waitForDropdownToBeReady(driver, quizSortBy, 60);
-		DropdownUtil.selectByVisibleText(driver, quizSortBy, "Created On (DESC)");
-		ElementUtil.sendText(quizSearchBox, "quiz", driver);
-		WebElement quiz = WaitUtil.waitForElementPresent(driver, firstQuizClick, 60);
+	    // Asset Type Dropdown - mp4
+	    WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
+	    DropdownUtil.selectByVisibleText(driver, assetTypeDropdown, "mp4");
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	    ElementUtil.safeClickFirstAsset(firstAssetSelect, driver);
 
-		if (quiz.isDisplayed()) {
+	    WaitUtil.waitForPageToLoad(driver, 60);
 
-			if (driver.findElement(firstQuizClick).isDisplayed()) {
-				ElementUtil.click(firstQuizClick, driver);
-				ElementUtil.click(previewQuiz, driver);
-				WaitUtil.waitForPageToLoad(driver, 60);
-				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-				WaitUtil.waitAndClick(driver, closeQuizPopup1, 70);
-				// ElementUtil.click(closeQuizPopup1, driver);
-				ElementUtil.click(closeQuizPopup, driver);
-			} else {
-				ElementUtil.click(closeQuizPopup, driver);
-			}
+	    // Reset Dropdown
+	    WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
+	    DropdownUtil.selectByVisibleText(driver, assetTypeDropdown, "Select Asset Type");
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-			ElementUtil.click(orderAssetsButton, driver);
-			ElementUtil.click(previewOrderAsset, driver);
-			WaitUtil.waitAndClick(driver, closeOrderAssetPreview, 70);
-			ElementUtil.click(removeOrderAsset, driver);
-			ElementUtil.click(followSequenceToggle, driver);
-			WaitUtil.waitAndClick(driver, closeOrderAssetSection, 70);
-			ElementUtil.click(nextButton, driver);
+	    // Quiz selection
+	    WaitUtil.waitForVisibility(driver, selectQuizBtn, 60);
+	    ElementUtil.click(selectQuizBtn, driver);
+	    WaitUtil.waitForDropdownToBeReady(driver, quizSortBy, 60);
+	    DropdownUtil.selectByVisibleText(driver, quizSortBy, "Created On (DESC)");
+	    ElementUtil.sendText(quizSearchBox, "quiz", driver);
+	    
+	    WebElement quiz = WaitUtil.waitForElementPresent(driver, firstQuizClick, 60);
+	    if (quiz.isDisplayed()) {
+	        if (ElementUtil.isElementVisible(firstQuizClick, driver)) {
+	            ElementUtil.click(firstQuizClick, driver);
+	            ElementUtil.click(previewQuiz, driver);
+	            WaitUtil.waitForPageToLoad(driver, 60);
+	            WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	            WaitUtil.waitAndClick(driver, closeQuizPopup1, 70);
+	            ElementUtil.click(closeQuizPopup, driver);
+	        } else {
+	            ElementUtil.click(closeQuizPopup, driver);
+	        }
 
-		}
+	        ElementUtil.click(orderAssetsButton, driver);
+	        ElementUtil.click(previewOrderAsset, driver);
+	        WaitUtil.waitAndClick(driver, closeOrderAssetPreview, 70);
+	        WaitUtil.waitAndClick(driver, removeOrderAsset, 70);    
+	        WaitUtil.waitAndClick(driver, removeAsset, 70);
+	        ElementUtil.click(followSequenceToggle, driver);
+	        WaitUtil.waitAndClick(driver, closeOrderAssetSection, 70);
+	        ElementUtil.click(nextButton, driver);
+	    }
 	}
+
 
 	public void publishTrack() {
 		WaitUtil.waitForPageToLoad(driver, 60);
@@ -273,10 +278,9 @@ public class AddTracksPage {
 		ElementUtil.sendText(searchPublishInput, "automate", driver);
 		ElementUtil.sendKey(searchPublishInput, Keys.ENTER, driver);
 		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// Wait for the tile to be visible
-		
-		WaitUtil.waitAndClick(driver, arrowClickTrack, 70);
+		WaitUtil.waitForElementVisible(driver, arrowClickTrack, 60);
+		ElementUtil.clickWithRetry(arrowClickTrack, driver, 3); // Use robust click
+		//WaitUtil.waitAndClick(driver, arrowClickTrack, 70);
 
 		WaitUtil.waitAndClick(driver, partnerSelectTrack, 70);
 		ElementUtil.click(saveAndPublishButton, driver);

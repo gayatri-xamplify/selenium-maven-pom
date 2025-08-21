@@ -22,15 +22,15 @@ import com.stratapps.xamplify.utils.xamplifyUtil;
 
 public class OpportunitiesLeadPage {
 
-	WebDriver driver;
-	private WebDriverWait wait;
+WebDriver driver;
+private WebDriverWait wait;
     long timestamp = System.currentTimeMillis();
 
-	public OpportunitiesLeadPage(WebDriver driver) {
-		this.driver = driver;
-		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	}	
-	// Locators
+public OpportunitiesLeadPage(WebDriver driver) {
+this.driver = driver;
+this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+}
+// Locators
     public static final By opportunities = By.xpath("//*[starts-with(text(),'Opportunities')]");
     public static final By opportunitiesManageLeads = By.xpath("//*[starts-with(text(),'Manage Leads')]");
     public static final By addLeadButton = By.xpath("//button[contains(@class,'button_blue bgcolor-unset p')]");
@@ -94,185 +94,185 @@ public class OpportunitiesLeadPage {
     public static final By leadDelete = By.xpath("(//i[@class='fa fa-trash-o trashIconCustomization'])[4]");
     public static final By leadDeleteReject = By.xpath("//button[@class='swal2-cancel styled']");
     public static final By leadDeleteApprove = By.xpath("//button[contains(@class,'swal2-confirm styled')]");
-    public static final By leadReacordCnt = By.xpath("(//span[starts-with(text(),'Total Records :')])[1]"); 
+    public static final By leadReacordCnt = By.xpath("(//span[starts-with(text(),'Total Records :')])[1]");
     public static final By leadNextPage = By.xpath("//i[@class='fa fa-angle-right' and contains(@title,'Next')]");
     public static final By leadLastPage = By.xpath("//i[@class='fa fa-angle-double-right' and contains(@title,'Last')]");
     public static final By leadPreviousPage = By.xpath("(//i[@class='fa fa-angle-left' and contains(@title,'Previous')])[1]");
     public static final By leadFirstPage = By.xpath("(//i[@class='fa fa-angle-double-left'])[1]");
     public static final By leadPageCntDrpDwn = By.xpath("(//select[contains(@class,'form-control margin-top pointer mt')])[1]");
     public static final By registerDeal = By.xpath("(//span[contains(text(),'Register Deal')])[3]");
-    
-    
-	/**
-	 * @hoverOnOpportunities written by ganesh
-	 */
-	public void hoverOnOpportunities_ManageLeads() throws Exception {
-		Thread.sleep(3000);
-		ActionUtil.hover(driver, opportunities); // hover only
-		ActionUtil.hoverAndClick(driver, opportunitiesManageLeads); // click after hover
-	}
+   
+   
+/**
+* @hoverOnOpportunities written by ganesh
+*/
+public void hoverOnOpportunities_ManageLeads() throws Exception {
+Thread.sleep(3000);
+ActionUtil.hover(driver, opportunities); // hover only
+ActionUtil.hoverAndClick(driver, opportunitiesManageLeads); // click after hover
+}
 
-	public void leadSearch() throws InterruptedException {
-		WaitUtil.waitAndSendKeys(driver, leadSearch, "lead", 10);
-		WaitUtil.waitAndClick(driver, leadsSearchButton, 10);
-		ScreenshotUtil.captureScreenshot(driver, "LeadSearch");	
-		/* WebElement firstResult = driver.findElement(By.xpath("xpath_for_first_result")).getText(); 
-		 * assertTrue(resultText.contains("AutoLead_FN_175"), "Search result validation failed!");*/
+public void leadSearch() throws InterruptedException {
+WaitUtil.waitAndSendKeys(driver, leadSearch, "lead", 10);
+WaitUtil.waitAndClick(driver, leadsSearchButton, 10);
+ScreenshotUtil.captureScreenshot(driver, "LeadSearch");
+/* WebElement firstResult = driver.findElement(By.xpath("xpath_for_first_result")).getText();
+* assertTrue(resultText.contains("AutoLead_FN_175"), "Search result validation failed!");*/
     }
-	
-	public void removeLeadSearch() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadsSearchCancel, 10);
-    }
-	
-	public void leadEmailReport() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, eMailReport, 10);
-		ScreenshotUtil.captureScreenshot(driver, "eMailReport");		
-		/* WebElement respondMessage = driver.findElement(By.xpath("xpath_for_first_result")).getText(); 
-		 * assertTrue(resultText.contains("AutoLead_FN_175"), "Search result validation failed!");*/
-    }
-	
-	public void LeadForm() throws InterruptedException {
-		WaitUtil.waitAndSendKeys(driver, firstNameId, "Lead", 5);
-		WaitUtil.waitAndSendKeys(driver, lastNameId, ""+timestamp, 5);
-		WaitUtil.waitAndSendKeys(driver, companyId, "Trend", 5);
-		WaitUtil.waitAndSendKeys(driver, emailId, "test.automation@gmail.com", 5);
-		WaitUtil.waitAndSendKeys(driver, phoneNumberId, "9998889990", 5);
-		WaitUtil.waitAndSendKeys(driver, websiteId, "www.trend.com", 5);
-		//WaitUtil.waitAndSendKeys(driver, address, "", 5);
-		WaitUtil.waitAndSendKeys(driver, cityId, "Hyderabad", 5);
-		WaitUtil.waitAndSendKeys(driver, stateId, "Telangana", 5);
-		WaitUtil.waitAndSendKeys(driver, countryId, "India", 5);
-		WaitUtil.waitAndSendKeys(driver, postalCodeId, "500085", 5);
-		WaitUtil.waitAndSendKeys(driver, jobTitleId, "QA", 5);
-		//WaitUtil.waitAndSendKeys(driver, amountId, "", 5);		
-		WaitUtil.waitAndSendKeys(driver, industryId, "Fasion", 5);
-		WaitUtil.waitAndSendKeys(driver, regionID, "SouthIndia", 5);
-	}
 
-	public void addLead() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, addLeadButton, 10);
-		WaitUtil.waitForDropdownToBeReady(driver, leadForCompany, 5);
-		DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
-		WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 5);
-		DropdownUtil.selectByVisibleText(driver, pipelineStageId, "Opened");
-		WaitUtil.waitAndSendKeys(driver, addleadCommentId, "Lead Created through automation", 5);
-		LeadForm();
-		WaitUtil.waitAndClick(driver, saveLead, 5);
-		Thread.sleep(3000);
-		ScreenshotUtil.captureScreenshot(driver, "NewLeadCreated");		
-	}
-	
-	public void leadView() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadView, 5);
-		WaitUtil.waitAndSendKeys(driver, leadCommentTxtArea, "comment added", 5);
-		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, leadCommentSubmit, 10);
+public void removeLeadSearch() throws InterruptedException {
+WaitUtil.waitAndClick(driver, leadsSearchCancel, 10);
+    }
+
+public void leadEmailReport() throws InterruptedException {
+WaitUtil.waitAndClick(driver, eMailReport, 10);
+ScreenshotUtil.captureScreenshot(driver, "eMailReport");
+/* WebElement respondMessage = driver.findElement(By.xpath("xpath_for_first_result")).getText();
+* assertTrue(resultText.contains("AutoLead_FN_175"), "Search result validation failed!");*/
+    }
+
+public void LeadForm() throws InterruptedException {
+WaitUtil.waitAndSendKeys(driver, firstNameId, "Lead", 5);
+WaitUtil.waitAndSendKeys(driver, lastNameId, ""+timestamp, 5);
+WaitUtil.waitAndSendKeys(driver, companyId, "Trend", 5);
+WaitUtil.waitAndSendKeys(driver, emailId, "test.automation@gmail.com", 5);
+WaitUtil.waitAndSendKeys(driver, phoneNumberId, "9998889990", 5);
+WaitUtil.waitAndSendKeys(driver, websiteId, "www.trend.com", 5);
+//WaitUtil.waitAndSendKeys(driver, address, "", 5);
+WaitUtil.waitAndSendKeys(driver, cityId, "Hyderabad", 5);
+WaitUtil.waitAndSendKeys(driver, stateId, "Telangana", 5);
+WaitUtil.waitAndSendKeys(driver, countryId, "India", 5);
+WaitUtil.waitAndSendKeys(driver, postalCodeId, "500085", 5);
+WaitUtil.waitAndSendKeys(driver, jobTitleId, "QA", 5);
+//WaitUtil.waitAndSendKeys(driver, amountId, "", 5);
+WaitUtil.waitAndSendKeys(driver, industryId, "Fasion", 5);
+WaitUtil.waitAndSendKeys(driver, regionID, "SouthIndia", 5);
+}
+
+public void addLead() throws InterruptedException {
+WaitUtil.waitAndClick(driver, addLeadButton, 10);
+WaitUtil.waitForDropdownToBeReady(driver, leadForCompany, 5);
+DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
+WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 5);
+DropdownUtil.selectByVisibleText(driver, pipelineStageId, "Opened");
+WaitUtil.waitAndSendKeys(driver, addleadCommentId, "Lead Created through automation", 5);
+LeadForm();
+WaitUtil.waitAndClick(driver, saveLead, 5);
+Thread.sleep(3000);
+ScreenshotUtil.captureScreenshot(driver, "NewLeadCreated");
+}
+
+public void leadView() throws InterruptedException {
+WaitUtil.waitAndClick(driver, leadView, 5);
+WaitUtil.waitAndSendKeys(driver, leadCommentTxtArea, "comment added", 5);
+Thread.sleep(2000);
+WaitUtil.waitAndClick(driver, leadCommentSubmit, 10);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, 0);");
-		WaitUtil.waitAndClick(driver, leadViewCloseButton, 10);
-		Thread.sleep(2000);
-		Thread.sleep(3000);
-		ScreenshotUtil.captureScreenshot(driver, "leadView");		
-	}
-	
-	public void editLead() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadEdit, 10);
-		WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 5);
-		DropdownUtil.selectByVisibleText(driver, pipelineStageId, "Converted");
-		WaitUtil.waitAndSendKeys(driver, addleadCommentId, "Lead updated through automation", 5);
-		WaitUtil.waitAndSendKeys(driver, firstNameId, "Leads", 5);
-		//WaitUtil.waitAndSendKeys(driver, lastNameId, ""+timestamp, 5);
-		WaitUtil.waitAndSendKeys(driver, companyId, "Trends", 5);
-		//WaitUtil.waitAndSendKeys(driver, emailId, "test.automation@gmail.com", 5);
-		WaitUtil.waitAndSendKeys(driver, phoneNumberId, "9998889999", 5);
-		WaitUtil.waitAndSendKeys(driver, websiteId, "www.trends.com", 5);
-		//WaitUtil.waitAndSendKeys(driver, address, "", 5);
-		WaitUtil.waitAndSendKeys(driver, cityId, "Hyderabad_U", 5);
-		WaitUtil.waitAndSendKeys(driver, stateId, "Telangana_U", 5);
-		WaitUtil.waitAndSendKeys(driver, countryId, "India_U", 5);
-		WaitUtil.waitAndSendKeys(driver, postalCodeId, "500085", 5);
-		WaitUtil.waitAndSendKeys(driver, jobTitleId, "QA_U", 5);
-		//WaitUtil.waitAndSendKeys(driver, amountId, "", 5);		
-		WaitUtil.waitAndSendKeys(driver, industryId, "Fasion_U", 5);
-		WaitUtil.waitAndSendKeys(driver, regionID, "SouthIndia_U", 5);
-		WaitUtil.waitAndClick(driver, saveLead, 5);
-		Thread.sleep(3000);
-		ScreenshotUtil.captureScreenshot(driver, "editLeadUpdated");	
-	}
-	
-	public void addcomment() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadComments, 10);
-		WaitUtil.waitAndSendKeys(driver, leadCommentTxtArea, "comment added through automation", 10);
-		WaitUtil.waitAndClick(driver, leadCommentSubmit, 10);
-		WaitUtil.waitAndClick(driver, leadCommentWindowClose, 10);
-		Thread.sleep(3000);
-		ScreenshotUtil.captureScreenshot(driver, "AddedCommentToLead");
-	}
-	
-	public void leadFilter() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadsFilter, 10);
-		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, leadsFilterAddedBy, 10);
-		//WaitUtil.waitAndSendKeys(driver, leadsFilterAddedBy, "partnerautomate@gmail.com", 10);
-	//	xamplifyUtil.sendKeyEvent(driver, leadsFilterAddedBy, Key.);
-	}
-	
-	public void deletelead() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadDelete, 10);
-		WaitUtil.waitAndClick(driver, leadDeleteApprove, 10);
-		Thread.sleep(3000);
-		ScreenshotUtil.captureScreenshot(driver, "DeleteLead");
-	}
-	
-	public void CampainView() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, campaignView, 10);
-		WaitUtil.waitAndClick(driver, campaignViewleadslist, 200);
-		ActionUtil.hover(driver, campaignViewleadslist);
-		Thread.sleep(3000);
-		ScreenshotUtil.captureScreenshot(driver, "campaignViewleadslist");
-	}
-	  
+WaitUtil.waitAndClick(driver, leadViewCloseButton, 10);
+Thread.sleep(2000);
+Thread.sleep(3000);
+ScreenshotUtil.captureScreenshot(driver, "leadView");
+}
+
+public void editLead() throws InterruptedException {
+WaitUtil.waitAndClick(driver, leadEdit, 10);
+WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 5);
+DropdownUtil.selectByVisibleText(driver, pipelineStageId, "Converted");
+WaitUtil.waitAndSendKeys(driver, addleadCommentId, "Lead updated through automation", 5);
+WaitUtil.waitAndSendKeys(driver, firstNameId, "Leads", 5);
+//WaitUtil.waitAndSendKeys(driver, lastNameId, ""+timestamp, 5);
+WaitUtil.waitAndSendKeys(driver, companyId, "Trends", 5);
+//WaitUtil.waitAndSendKeys(driver, emailId, "test.automation@gmail.com", 5);
+WaitUtil.waitAndSendKeys(driver, phoneNumberId, "9998889999", 5);
+WaitUtil.waitAndSendKeys(driver, websiteId, "www.trends.com", 5);
+//WaitUtil.waitAndSendKeys(driver, address, "", 5);
+WaitUtil.waitAndSendKeys(driver, cityId, "Hyderabad_U", 5);
+WaitUtil.waitAndSendKeys(driver, stateId, "Telangana_U", 5);
+WaitUtil.waitAndSendKeys(driver, countryId, "India_U", 5);
+WaitUtil.waitAndSendKeys(driver, postalCodeId, "500085", 5);
+WaitUtil.waitAndSendKeys(driver, jobTitleId, "QA_U", 5);
+//WaitUtil.waitAndSendKeys(driver, amountId, "", 5);
+WaitUtil.waitAndSendKeys(driver, industryId, "Fasion_U", 5);
+WaitUtil.waitAndSendKeys(driver, regionID, "SouthIndia_U", 5);
+WaitUtil.waitAndClick(driver, saveLead, 5);
+Thread.sleep(3000);
+ScreenshotUtil.captureScreenshot(driver, "editLeadUpdated");
+}
+
+public void addcomment() throws InterruptedException {
+WaitUtil.waitAndClick(driver, leadComments, 10);
+WaitUtil.waitAndSendKeys(driver, leadCommentTxtArea, "comment added through automation", 10);
+WaitUtil.waitAndClick(driver, leadCommentSubmit, 10);
+WaitUtil.waitAndClick(driver, leadCommentWindowClose, 10);
+Thread.sleep(3000);
+ScreenshotUtil.captureScreenshot(driver, "AddedCommentToLead");
+}
+
+public void leadFilter() throws InterruptedException {
+WaitUtil.waitAndClick(driver, leadsFilter, 10);
+Thread.sleep(2000);
+WaitUtil.waitAndClick(driver, leadsFilterAddedBy, 10);
+//WaitUtil.waitAndSendKeys(driver, leadsFilterAddedBy, "partnerautomate@gmail.com", 10);
+// xamplifyUtil.sendKeyEvent(driver, leadsFilterAddedBy, Key.);
+}
+
+public void deletelead() throws InterruptedException {
+WaitUtil.waitAndClick(driver, leadDelete, 10);
+WaitUtil.waitAndClick(driver, leadDeleteApprove, 10);
+Thread.sleep(3000);
+ScreenshotUtil.captureScreenshot(driver, "DeleteLead");
+}
+
+public void CampainView() throws InterruptedException {
+WaitUtil.waitAndClick(driver, campaignView, 10);
+WaitUtil.waitAndClick(driver, campaignViewleadslist, 200);
+ActionUtil.hover(driver, campaignViewleadslist);
+Thread.sleep(3000);
+ScreenshotUtil.captureScreenshot(driver, "campaignViewleadslist");
+}
+ 
 public void leadsPaginationandPageCount() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadNextPage, 10);
-		Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadNextPage");		
-		WaitUtil.waitAndClick(driver, leadLastPage, 10);
-		Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadLastPage");		
-		WaitUtil.waitAndClick(driver, leadPreviousPage, 10);
-		Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");		
-		WaitUtil.waitAndClick(driver, leadFirstPage, 10);
-		Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadFirstPage");
-		/*
-		 * try { DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "1");
-		 * ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-1");
-		 * DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "2");
-		 * ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-2"); } catch (Exception
-		 * e) { ScreenshotUtil.captureScreenshot(driver, "No of pages available"); }
-		 */
-	}
-    
+WaitUtil.waitAndClick(driver, leadNextPage, 10);
+Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadNextPage");
+WaitUtil.waitAndClick(driver, leadLastPage, 10);
+Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadLastPage");
+WaitUtil.waitAndClick(driver, leadPreviousPage, 10);
+Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
+WaitUtil.waitAndClick(driver, leadFirstPage, 10);
+Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadFirstPage");
+/*
+* try { DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "1");
+* ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-1");
+* DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "2");
+* ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-2"); } catch (Exception
+* e) { ScreenshotUtil.captureScreenshot(driver, "No of pages available"); }
+*/
+}
+   
     public void leadTiles() {
-    	String TotalRecords;
+    String TotalRecords;
     System.out.println("test1");
-    	WaitUtil.waitAndClick(driver, totalLeads, 60);
-		 String TotalLeadCount = driver.findElement(totalLeadCount).getText(); 
-		 TotalRecords = driver.findElement(leadReacordCnt).getText(); 
-		 assertEquals(TotalLeadCount, TotalRecords);
-	System.out.println("test2");
-	    WaitUtil.waitAndClick(driver, wonLeads, 60);
-		 String TotalWonLeadsCount = driver.findElement(wonLeadsCount).getText(); 
-		 TotalRecords = driver.findElement(leadReacordCnt).getText(); 
-		 assertEquals(wonLeadsCount, TotalWonLeadsCount);
+    WaitUtil.waitAndClick(driver, totalLeads, 60);
+String TotalLeadCount = driver.findElement(totalLeadCount).getText();
+TotalRecords = driver.findElement(leadReacordCnt).getText();
+assertEquals(TotalLeadCount, TotalRecords);
+System.out.println("test2");
+   WaitUtil.waitAndClick(driver, wonLeads, 60);
+String TotalWonLeadsCount = driver.findElement(wonLeadsCount).getText();
+TotalRecords = driver.findElement(leadReacordCnt).getText();
+assertEquals(wonLeadsCount, TotalWonLeadsCount);
     System.out.println("test3");
-		 WaitUtil.waitAndClick(driver, lostLeads, 60);
-		 String TotalLostLeadsCount = driver.findElement(lostLeadsCount).getText(); 
-		 TotalRecords = driver.findElement(leadReacordCnt).getText(); 
-		 assertEquals(TotalLostLeadsCount, TotalRecords);
+WaitUtil.waitAndClick(driver, lostLeads, 60);
+String TotalLostLeadsCount = driver.findElement(lostLeadsCount).getText();
+TotalRecords = driver.findElement(leadReacordCnt).getText();
+assertEquals(TotalLostLeadsCount, TotalRecords);
     System.out.println("test3");
-		 WaitUtil.waitAndClick(driver, convertedLeads, 60);
-		 String TotalConvertedLeadsCount = driver.findElement(convertedLeadsCount).getText(); 
-		 TotalRecords = driver.findElement(leadReacordCnt).getText(); 
-		 assertEquals(TotalConvertedLeadsCount, TotalRecords);		 		
-	}
+WaitUtil.waitAndClick(driver, convertedLeads, 60);
+String TotalConvertedLeadsCount = driver.findElement(convertedLeadsCount).getText();
+TotalRecords = driver.findElement(leadReacordCnt).getText();
+assertEquals(TotalConvertedLeadsCount, TotalRecords);
+}
    
 
 }

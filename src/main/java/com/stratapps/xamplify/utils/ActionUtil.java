@@ -56,7 +56,8 @@ public class ActionUtil {
 	
 	
 	
-	
+
+
 	
 	
 	
@@ -116,6 +117,23 @@ public class ActionUtil {
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollTop += arguments[1];", element, pixels);
 	
 	}
+	
+	
+	
+	
+	public static void jsClick(WebDriver driver, WebElement addCompanyBtn) {
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addCompanyBtn);
+	}
+
+	public static void scrollToElement(WebDriver driver, WebElement element) {
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

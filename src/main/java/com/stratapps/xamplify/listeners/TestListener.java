@@ -10,7 +10,6 @@ import com.stratapps.xamplify.utils.ScreenshotUtil;
 import org.openqa.selenium.WebDriver;
 import org.testng.*;
 
-import java.io.FileWriter;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -64,56 +63,18 @@ public class TestListener implements ITestListener, ISuiteListener {
     public void onFinish(ISuite suite) {
         suiteEndTime = System.currentTimeMillis();
 
-        int passedCount = 0;
-        int failedCount = 0;
-        int skippedCount = 0;
-
-        StringBuilder passedTests = new StringBuilder();
-        StringBuilder failedTests = new StringBuilder();
-        StringBuilder skippedTests = new StringBuilder();
-
-        // New: Grouped by class name
-        Map<String, int[]> classSummary = new LinkedHashMap<>();
+        int passedCount = 0, failedCount = 0, skippedCount = 0;
 
         for (ISuiteResult result : suite.getResults().values()) {
             ITestContext context = result.getTestContext();
-
             passedCount += context.getPassedTests().size();
             failedCount += context.getFailedTests().size();
             skippedCount += context.getSkippedTests().size();
-
-            accumulateClassSummary(classSummary, context.getPassedTests().getAllResults(), 1, 0, 0);
-            accumulateClassSummary(classSummary, context.getFailedTests().getAllResults(), 0, 1, 0);
-            accumulateClassSummary(classSummary, context.getSkippedTests().getAllResults(), 0, 0, 1);
         }
 
-        // Write class-level summary to CSV
-        try (FileWriter writer = new FileWriter("TestExecutionSummary.csv")) {
-            writer.append("Name\tPassed\tFailed\tSkipped\tOthers\tPassed %\n");
-            for (Map.Entry<String, int[]> entry : classSummary.entrySet()) {
-                int passed = entry.getValue()[0];
-                int failed = entry.getValue()[1];
-                int skipped = entry.getValue()[2];
-                int others = 0;
-                int total = passed + failed + skipped;
-                double passedPercentage = total == 0 ? 0 : ((double) passed / total) * 100;
-
-                writer.append(entry.getKey()).append("\t")
-                        .append(String.valueOf(passed)).append("\t")
-                        .append(String.valueOf(failed)).append("\t")
-                        .append(String.valueOf(skipped)).append("\t")
-                        .append(String.valueOf(others)).append("\t")
-                        .append(String.format("%.3f%%", passedPercentage)).append("\n");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-       // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        
+        // Time details
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-
         String startTimeStr = sdf.format(new Date(suiteStartTime));
         String endTimeStr = sdf.format(new Date(suiteEndTime));
         long durationMillis = suiteEndTime - suiteStartTime;
@@ -141,7 +102,6 @@ public class TestListener implements ITestListener, ISuiteListener {
                 .append("\uD83D\uDCBB Machine: ").append(machine).append("\n")
                 .append("\uD83C\uDF10 Browser: ").append(browser != null ? browser : "Not Set").append("\n")
                 .append("\uD83C\uDFF7️ Environment: ").append(environment != null ? environment : "Not Set").append("\n\n")
-                .append("\uD83D\uDCC6 Execution details exported to TestExecutionSummary.csv\n\n")
                 .append("\uD83D\uDCCC Please find the attached test execution report and any screenshots.");
 
         String subject = "\uD83D\uDCE7 Automation Test Report - Summary";
@@ -156,17 +116,6 @@ public class TestListener implements ITestListener, ISuiteListener {
                 reportPath,
                 BaseTest.failedScreenshotPaths
         );
-    }
-
-    private void accumulateClassSummary(Map<String, int[]> summary, Set<ITestResult> results, int p, int f, int s) {
-        for (ITestResult result : results) {
-            String className = result.getTestClass().getName();
-            summary.putIfAbsent(className, new int[3]);
-            int[] counts = summary.get(className);
-            counts[0] += p;
-            counts[1] += f;
-            counts[2] += s;
-        }
     }
 
     @Override public void onStart(ITestContext context) {}

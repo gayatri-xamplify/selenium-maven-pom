@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.TeamVendorPage;
 import com.stratapps.xamplify.utils.ConfigReader;
@@ -21,16 +22,23 @@ public class TeamVendorTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(TeamVendorTest.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
-	public void setUpClass() {
-		super.setUp();
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
-		teamvendorPage = new TeamVendorPage(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		logger.info("TeamVendorTest setup completed");
-	}
+	
 
+	  @BeforeClass
+	    public void setUpClass() {
+	        super.setUp();  // ✅ Ensure driver setup and URL navigation happens
+
+	        if (!isLoggedIn()) {  // ✅ Only log in if session isn't active
+	            LoginPage loginPage = new LoginPage(driver);
+	            loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+	        }
+
+	        teamvendorPage = new TeamVendorPage(driver);
+	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+	        logger.info("AddTracksTest setup completed");
+	    }
+
+	    
 
     @Test(priority = 1, enabled = true)
     public void addTeamMemberTest() throws InterruptedException {
