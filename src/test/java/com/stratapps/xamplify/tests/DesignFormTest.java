@@ -14,12 +14,9 @@ import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.OnboardingPartnerPage;
 
 public class DesignFormTest extends BaseTest{
-
-	
 	private DesignFormPage designFormPage;
 	private static final Logger logger = LogManager.getLogger(DesignFormPage.class);
 	private WebDriverWait wait;
-
 
 	 @BeforeClass public void setUpClass() {
 	 super.setUp();
@@ -30,15 +27,38 @@ public class DesignFormTest extends BaseTest{
 	 logger.info("DesignFormPage setup completed"); }
 
 	 @Test(priority = 1, enabled = true)
-	 public void DesignForm() throws InterruptedException {
+	 public void DesignRegularForm() throws InterruptedException {
 	  System.out.println(" ");
 	 logger.info("Starting test: DesignFormPage");
 	 designFormPage.Design_ClickDesignForm();
 	 designFormPage.SelectFormTab("REGULAR");	
 	 designFormPage.CreateForm();
-	 
-	 Thread.sleep(10000);
-	  logger.info("Successfully onboarded partner using Upload CSV");
+	 Thread.sleep(2000);  
+	  logger.info("Regular Form created successfully ");
 	  System.out.println(" ");
 	 }  
+	 
+	 @Test(priority = 2, enabled = true)
+	 public void DesignQuizForm() throws InterruptedException {
+	  System.out.println(" ");
+	 logger.info("Starting test: DesignQuizForm");
+	 designFormPage.Design_ClickDesignForm();
+	 designFormPage.SelectFormTab("QUIZ");	
+	 designFormPage.CreateForm();
+	 Thread.sleep(2000);  
+	  logger.info("Quiz Form created successfully ");
+	  System.out.println(" ");
+	 } 
+	 
+	 @Test(priority = 3, enabled = true)
+	 public void DesignSurveyForm() throws InterruptedException {
+	  System.out.println(" ");
+	 logger.info("Starting test: DesignSurveyFormPage");
+	 designFormPage.Design_ClickDesignForm();
+	 designFormPage.SelectFormTab("SURVEY");	
+	 designFormPage.CreateForm();
+	 Thread.sleep(2000);  
+	  logger.info("Survey Form created successfully ");
+	  System.out.println(" ");
+	 } 
 }
