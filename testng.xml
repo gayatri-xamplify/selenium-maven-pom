@@ -7,15 +7,18 @@
   <test name="Vendor Account Tests">
     <classes>
     
-    <!-- <class name="com.stratapps.xamplify.tests.OnboardingPartnersTest" />
+     <class name="com.stratapps.xamplify.tests.OnboardingPartnersTest" />
       <class name="com.stratapps.xamplify.tests.ManagePartnerTest" />
-     
-     
-    
-    <class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->
+            <class name="com.stratapps.xamplify.tests.DesignFormTest" />
+
+       <class name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
+
+      
+     <!-- 
       <class name="com.stratapps.xamplify.tests.AddTracksTest" />
-      <class name="com.stratapps.xamplify.tests.ManageTracksTest" />
-    <!--  <class name="com.stratapps.xamplify.tests.TeamVendorTest" />-->
+      <class name="com.stratapps.xamplify.tests.ManageTracksTest" />-->
+    <!--  <class name="com.stratapps.xamplify.tests.TeamVendorTest" />
+    <class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->-->
     </classes>
   </test>
 
@@ -33,9 +36,9 @@
        <class name="com.stratapps.xamplify.tests.TeamPartnerTest"/>
       -->
          <class name="com.stratapps.xamplify.tests.ContactsTest"/>
-      <class name="com.stratapps.xamplify.tests.OpportunitiesLeadTest"/>
+     <!-- <class name="com.stratapps.xamplify.tests.OpportunitiesLeadTest"/>
             <class name="com.stratapps.xamplify.tests.OpportunitiesDealTest"/>
-
+-->
       
     </classes>
   </test>

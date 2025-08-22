@@ -327,7 +327,7 @@ ScreenshotUtil.captureScreenshot(driver, "NewDealCreated");
 /*** @addDealWithAttachLead written by Ganesh */
 public void addDealWithAttachLead() throws InterruptedException {
 WaitUtil.waitAndClick(driver, addDealButton, 10);
-Thread.sleep(4000);
+Thread.sleep(2000);
 WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
 DropdownUtil.selectByValue(driver, dealCompany, "5430");
 attachLeadInDealForm();
@@ -359,7 +359,7 @@ ScreenshotUtil.captureScreenshot(driver, "addedLeadConvertToDeal");
 /*** @addDealWithAttachContact written by Ganesh */
 public void addDealWithAttachContact() throws InterruptedException {
 WaitUtil.waitAndClick(driver, addDealButton, 10);
-Thread.sleep(4000);
+Thread.sleep(2000);
 WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
 DropdownUtil.selectByValue(driver, dealCompany, "5430");
 attachContactInDealForm();
@@ -391,7 +391,7 @@ ScreenshotUtil.captureScreenshot(driver, "dealView");
 public void editDeal() throws InterruptedException {
 WaitUtil.waitAndClick(driver, editDeal, 10);
 WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 10);
-Thread.sleep(4000);
+Thread.sleep(2000);
 DropdownUtil.selectByValue(driver, dealPipeLineStage, "88671");
 WaitUtil.waitAndSendKeys(driver, dealComment, "comment added in edit deal", 10);
 WaitUtil.waitAndClick(driver, saveDeal, 5);
