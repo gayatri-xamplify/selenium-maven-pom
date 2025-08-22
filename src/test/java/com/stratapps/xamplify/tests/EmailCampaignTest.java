@@ -41,6 +41,7 @@ public class EmailCampaignTest extends BaseTest {
 //        logger.info("Test 1: Navigate to Email Campaign - COMPLETED");
 //    }
 
+
     @Test(priority = 1, enabled = true)
     public void createEmailCampaignTest() {
         logger.info("Test 2: Create Email Campaign - STARTED");
@@ -61,6 +62,7 @@ public class EmailCampaignTest extends BaseTest {
         emailCampaignPage.selectPartnerList();
         logger.info("Test 3: Select Partner List - COMPLETED");
     }
+
 //
 //    @Test(priority = 4, enabled = false)
 //    public void sendTestEmailTest() {
