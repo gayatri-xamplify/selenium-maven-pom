@@ -15,6 +15,7 @@ public class DesignFormPage {
 	WebDriver driver;
 	private WebDriverWait wait;
 	long timestamp = System.currentTimeMillis();
+	String FormType;
 
 	public DesignFormPage(WebDriver driver) {
 	this.driver = driver;
@@ -25,7 +26,7 @@ public class DesignFormPage {
 	public static final By Designmodule = By.xpath("//i[@class='fa fa-paint-brush']");
 	public static final By DesignForms = By.xpath("(//span[@class=\"design-name mDisableColor\"])[2]");
 	public static final By RegularForm = By.xpath("(//li[@class=\"filter\"])[1]");
-	public static final By Hoveringregularform = By.xpath("(//div[@class=\"bar gridIconCustomization\"])[1]");
+	public static final By Hoveringregularform = By.xpath("(//div[@class='img-responsive center-block fit-in-image'])[1]");
 	public static final By clickoncreatingregularform = By.xpath("(//a[@class=\"Iconhover custom-grid-icon\"])[1]");
 	public static final By Regularformname = By.xpath("//input[@id=\"formName\"]");
 	public static final By Regularformcontinue = By.xpath("//span[@class=\"btn  Btn-Green transition\"]");
@@ -36,6 +37,16 @@ public class DesignFormPage {
 	public static final By quizformname = By.xpath("//input[@id=\"formName\"]");
 	public static final By quizformcontinue = By.xpath("(//button[@type=\"submit\"])[5]");
 	public static final By savingquizform = By.xpath("(//button/span[@class=\"btn Btn-Green transition txt_pd-top3\"])[2]");
+	public static final By formDescription = By.xpath("//textarea[@id='description']");
+	public static final By salesAccountGroupDropdown = By.xpath("(//a[@title='View/Hide Team Members'])[1]");
+	public static final By editFormTitle = By.xpath("//a[@class='icon-margin']");
+	public static final By formPreview = By.xpath("//a[@id='preview-form']");
+	public static final By FullScreen = By.xpath("//a[@id='full-screen']");
+	public static final By closePreview = By.xpath("//a[@id='bottom-right']");
+
+	
+	
+	public static final By allCheckbox = By.xpath("//input[@type='checkbox'][@class='ng-untouched ng-pristine ng-valid']");
 	public static final By surveyForm = By.xpath("(//li[@class=\"filter\"])[3]");
 	public static final By Hoveringsurveyform = By.xpath("(//div[@class=\"bar gridIconCustomization\"])[1]");
 	public static final By clickoncreatingsurveyform = By.xpath("(//a[@class=\"Iconhover custom-grid-icon\"])[1]");
@@ -115,13 +126,13 @@ public class DesignFormPage {
 
 
 	//=======================================================
+	
 	/*@Design_ClickDesignForm written by Ganesh ***/
 	public void Design_ClickDesignForm() {
 		WaitUtil.waitAndClick(driver, Designmodule, 10);
 		WaitUtil.waitAndClick(driver, DesignForms, 10);
 	} 
 	 
-	
 	
 	/*@SelectFormTab written by Ganesh ***/
 	public  void SelectFormTab(String selectTab) {
@@ -134,26 +145,35 @@ public class DesignFormPage {
 		else if(selectTab == "SURVEY") {
 			WaitUtil.waitAndClick(driver, surveyForm, 10);
 		}
+		FormType = selectTab;
 	}
 	
 	/*@SelectFormTab written by Ganesh ***/
 	public void CreateForm() throws InterruptedException {
-		Thread.sleep(5000);
+
+		Thread.sleep(4000);
 		ActionUtil.hover(driver, Hoveringregularform);
 		WaitUtil.waitAndClick(driver, clickoncreatingregularform, 10);
-		WaitUtil.waitAndSendKeys(driver, Regularformname, "_"+ Regularformname, 10);
+		Thread.sleep(3000);
+		WaitUtil.waitAndSendKeys(driver, Regularformname, FormType + System.currentTimeMillis(), 10);
+		WaitUtil.waitAndSendKeys(driver, formDescription, "Form Desc", 20);
+		WaitUtil.waitAndClick(driver, salesAccountGroupDropdown, 20);
+		WaitUtil.waitAndClick(driver, checkbox, 20);
 		WaitUtil.waitAndClick(driver, Regularformcontinue, 10);
+		WaitUtil.waitAndClick(driver, editFormTitle, 20);
+		WaitUtil.waitAndSendKeys(driver, Regularformname, FormType + System.currentTimeMillis(), 10);
+		WaitUtil.waitAndSendKeys(driver, formDescription, "Form Desc", 20);
+		WaitUtil.waitAndClick(driver, Regularformcontinue, 10);
+		
+		WaitUtil.waitAndClick(driver, formPreview, 20);
+		WaitUtil.waitAndClick(driver, closePreview, 20);
+	
+		WaitUtil.waitAndClick(driver, FullScreen, 20);
 		WaitUtil.waitAndClick(driver, savingregularform, 10);
 		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "CreateForm");
 		
-		Thread.sleep(9000);
-	}
-
-	
-	
-	
-	
-	
+		Thread.sleep(9000);  
+	}	
 	
 }
