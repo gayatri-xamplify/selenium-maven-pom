@@ -84,6 +84,8 @@ public class ScheduleEmailCampaignPage {
 	// Clicks the "Schedule Launch" button.
 
 	public void clickScheduleLaunch() {
+		WaitUtil.waitForPageToLoad(driver, 60);
+
 		WaitUtil.waitForElementVisible(driver, scheduleLaunchBtn, 60);
 		WaitUtil.waitAndClick(driver, scheduleLaunchBtn, 90);
 		// ElementUtil.click(scheduleLaunchBtn, driver);
