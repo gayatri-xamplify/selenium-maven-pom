@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Set;
 
 public class WaitUtil {
 	
@@ -177,7 +178,46 @@ public class WaitUtil {
     
     
     
+    // Mounika
+    public static void waitForNewTabAndSwitch(WebDriver driver, int timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        
+        // Store the original window handle
+        String originalWindow = driver.getWindowHandle();
+
+        // Wait until a new window is opened
+        wait.until(driver1 -> driver1.getWindowHandles().size() > 1);
+
+        // Get all open window handles
+        Set<String> windowHandles = driver.getWindowHandles();
+
+        // Switch to the new window
+        for (String handle : windowHandles) {
+            if (!handle.equals(originalWindow)) {
+                driver.switchTo().window(handle);
+                break;
+            }
+        }
+    }
    
+    
+    
+    private static String mainWindowHandle;
+
+    public static void storeMainTabHandle(WebDriver driver) {
+        mainWindowHandle = driver.getWindowHandle();
+    }
+
+    public static void switchToMainTab(WebDriver driver, String originalHandle) {
+        driver.switchTo().window(originalHandle);
+    }
+
+    
 
 
+    public static void waitForVisibilityElement(WebDriver driver, WebElement element, int timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
 }
+
