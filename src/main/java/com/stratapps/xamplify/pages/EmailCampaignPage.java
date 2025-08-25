@@ -15,6 +15,7 @@ public class EmailCampaignPage {
     public EmailCampaignPage(WebDriver driver) {
         this.driver = driver;
     }
+
     
     
     // Locators
@@ -125,3 +126,4 @@ public class EmailCampaignPage {
         js.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
     }
 }
+

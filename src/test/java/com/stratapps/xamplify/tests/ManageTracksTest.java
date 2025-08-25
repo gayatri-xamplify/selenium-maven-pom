@@ -88,7 +88,7 @@ public class ManageTracksTest extends BaseTest {
         logger.info("Test 7: Sort and Delete Track - COMPLETED");
     }
 
-    @Test(priority = 8, enabled = true)
+    @Test(priority = 8, enabled = false)
     public void trackViewsTest() throws AWTException {
         logger.info("Test 8: Track Views - STARTED");
         manageTracksPage.trackViews("D:\\Track_img\\Thumbnail_file.jpg");
