@@ -22,9 +22,9 @@ public class LaunchEmailCampaignTest extends BaseTest {
 
 	@BeforeClass
 	public void setUpClass() {
-		super.setUp();
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+//		super.setUp();
+//		LoginPage loginPage = new LoginPage(driver);
+//		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
 
 		emailCampaignPage = new EmailCampaignPage(driver);
 		launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
