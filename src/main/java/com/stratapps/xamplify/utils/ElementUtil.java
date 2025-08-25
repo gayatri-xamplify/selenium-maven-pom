@@ -1,8 +1,10 @@
 package com.stratapps.xamplify.utils;
 
 import java.time.Duration;
+import java.util.Set;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -180,6 +182,42 @@ public class ElementUtil {
 public static void scrollIntoView(WebDriver driver, By locator) {
     WebElement element = driver.findElement(locator);
     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+}
+
+
+public static void hoverAndClick(WebElement campaignElement, WebDriver driver) {
+    try {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(campaignElement).pause(500).click().build().perform();
+    } catch (Exception e) {
+        throw new RuntimeException("Failed to hover and click on element: " + campaignElement, e);
+    }
+}
+
+
+public static void clickWithJS(WebElement Element, WebDriver driver) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    js.executeScript("arguments[0].click();", Element);
+}
+
+
+public static void previewhandlingtemplate(By locator, WebDriver driver) {
+	
+	 //  Store the original tab/window handle
+    String originalWindow = driver.getWindowHandle();
+    ElementUtil.clickWhenReady(driver, locator, 30);
+    
+    WebElement preview = driver.findElement(locator);
+    ElementUtil.clickWithJS(preview, driver);
+    WaitUtil.waitForNewTabAndSwitch(driver, 30);
+    
+ // Wait safely for 2 seconds using dummy wait
+    new WebDriverWait(driver, Duration.ofSeconds(2)).until(d -> true);
+    
+    driver.close();
+    WaitUtil.switchToMainTab(driver, originalWindow);
+    
+	
 }
     
     
