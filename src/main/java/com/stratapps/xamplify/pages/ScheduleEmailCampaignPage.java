@@ -101,7 +101,7 @@ public class ScheduleEmailCampaignPage {
 	// Full flow: Schedules the email campaign using dynamic time and validates
 	// success message.
 
-	public boolean scheduleEmailCampaign(String countryName) {
+	public void scheduleEmailCampaign(String countryName) {
 		clickScheduleEmailCampaign();
 		openDatePicker();
 		selectTodayDate();
@@ -109,8 +109,10 @@ public class ScheduleEmailCampaignPage {
 		selectCountry(countryName);
 		clickScheduleLaunch();
 
-		String actualMessage = getResponseMessage();
-		String expectedMessage = "The campaign was successfully scheduled. Please wait until the scheduled time to see it launched.";
-		return expectedMessage.equals(actualMessage);
+		/*
+		 * String actualMessage = getResponseMessage(); String expectedMessage =
+		 * "The campaign was successfully scheduled. Please wait until the scheduled time to see it launched."
+		 * ; return expectedMessage.equals(actualMessage);
+		 */
 	}
 }

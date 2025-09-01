@@ -24,8 +24,11 @@ public class AddTracksTest extends BaseTest {
     @BeforeClass
     public void setUpClass() {
         super.setUp();
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+		/*
+		 * LoginPage loginPage = new LoginPage(driver);
+		 * loginPage.login(ConfigReader.getProperty("username"),
+		 * ConfigReader.getProperty("password"));
+		 */
         addTracksPage = new AddTracksPage(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         logger.info("AddTracksTest setup completed");

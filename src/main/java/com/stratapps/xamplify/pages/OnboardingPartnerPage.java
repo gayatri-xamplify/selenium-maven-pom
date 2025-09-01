@@ -530,6 +530,8 @@ System.out.println("Error in deleteFilterRecord method" + e);
 throw e;
 }
 }
-
+public void backToHome() {
+    WaitUtil.waitAndClick(driver, xamplifyLogo, 10);
+}
 
 }

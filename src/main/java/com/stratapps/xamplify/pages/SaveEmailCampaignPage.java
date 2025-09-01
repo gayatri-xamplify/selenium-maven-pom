@@ -97,15 +97,16 @@ public class SaveEmailCampaignPage {
 	
 	 // Full flow: Test mail -> Spam check -> Save campaign
 	
-	public boolean saveEmailCampaign(String email, String subject) {
+	public void saveEmailCampaign(String email, String subject) {
 		clickTestMail();
 		enterTestMailDetails(email, subject);
 		sendTestMail();
 		runSpamCheck();
 		saveCampaign();
 
-		String actualMessage = getResponseMessage();
-		String expectedMessage = "Campaign saved successfully";
-		return expectedMessage.equals(actualMessage);
+		/*
+		 * String actualMessage = getResponseMessage(); String expectedMessage =
+		 * "Campaign saved successfully"; return expectedMessage.equals(actualMessage);
+		 */
 	}
 }

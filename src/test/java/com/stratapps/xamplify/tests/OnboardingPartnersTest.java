@@ -4,6 +4,7 @@ import java.time.Duration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -11,6 +12,7 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.OnboardingPartnerPage;
+import com.stratapps.xamplify.utils.WaitUtil;
 
 public class OnboardingPartnersTest extends BaseTest{
 
@@ -138,7 +140,15 @@ logger.info("Starting test: Sort the records and no of records per page");
   logger.info("successfully sort and select no of partner records per page");
   System.out.println(" ");
  }
+ @Test(priority = 13, enabled = true)
+	public void Home() throws Throwable {
+		System.out.println(" ");
+		logger.info("Navigate to Home Page");
+		onboardingPartnerPage.backToHome();
+		logger.info("Successfully Navigate to Home Page");
+		System.out.println(" ");
+	}
 
-
+ 
 
 }

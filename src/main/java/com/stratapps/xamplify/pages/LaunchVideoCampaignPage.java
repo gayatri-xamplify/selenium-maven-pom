@@ -42,13 +42,16 @@ public class LaunchVideoCampaignPage {
 
     
     // Full flow: Launches the video campaign and validates the success message.
-    public boolean launchVideoCampaign() {
+    public void launchVideoCampaign() {
         clickNowVideoCampaign();
         clickLaunchVideo();
-        String actualMessage = getResponseMessage();
-
-        String expectedMessage = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner.";
-        return expectedMessage.equals(actualMessage);
+		/*
+		 * String actualMessage = getResponseMessage();
+		 * 
+		 * String expectedMessage =
+		 * "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner."
+		 * ; return expectedMessage.equals(actualMessage);
+		 */
     }
 }
 

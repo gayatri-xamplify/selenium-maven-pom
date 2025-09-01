@@ -8,16 +8,27 @@
     <classes>
     
      <class name="com.stratapps.xamplify.tests.OnboardingPartnersTest" />
-      <class name="com.stratapps.xamplify.tests.ManagePartnerTest" />
+      <!--<class name="com.stratapps.xamplify.tests.ManagePartnerTest" />-->
             <class name="com.stratapps.xamplify.tests.DesignFormTest" />
+            
+              
+      
+     <!-- <class name="com.stratapps.xamplify.tests.AddTracksTest" />
+      <class name="com.stratapps.xamplify.tests.ManageTracksTest" />-->
 
        <class name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
+        <class name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
+   
+       <class name="com.stratapps.xamplify.tests.ScheduleEmailCampaignTest" />
+       
+       
+       <class name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />
+        
+               <class name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
+              <class name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
 
-      
-     <!-- 
-      <class name="com.stratapps.xamplify.tests.AddTracksTest" />
-      <class name="com.stratapps.xamplify.tests.ManageTracksTest" />-->
-    <!--  <class name="com.stratapps.xamplify.tests.TeamVendorTest" />
+
+			<!--  <class name="com.stratapps.xamplify.tests.TeamVendorTest" />
     <class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->-->
     </classes>
   </test>

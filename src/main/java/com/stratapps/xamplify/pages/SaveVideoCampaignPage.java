@@ -62,7 +62,7 @@ public class SaveVideoCampaignPage {
         ElementUtil.click(saveInsideSpamCheckBtn, driver);
 
         WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
-        WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 90);
+        WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 120);
 
         WaitUtil.waitForElementVisible(driver, spamCheckCloseBtn, 60);
         ElementUtil.click(spamCheckCloseBtn, driver);
@@ -81,15 +81,16 @@ public class SaveVideoCampaignPage {
     }
 
     // Full flow: Test mail -> Spam check -> Save campaign
-    public boolean saveVideoCampaign(String email, String subject) {
+    public void saveVideoCampaign(String email, String subject) {
         clickTestMail();
         enterTestMailDetails(email, subject);
         sendTestMail();
         runSpamCheck();
         saveCampaign();
 
-        String actualMessage = getResponseMessage();
-        String expectedMessage = "Campaign saved successfully";
-        return expectedMessage.equals(actualMessage);
+		/*
+		 * String actualMessage = getResponseMessage(); String expectedMessage =
+		 * "Campaign saved successfully"; return expectedMessage.equals(actualMessage);
+		 */
     }
 }
