@@ -18,13 +18,15 @@ public class DesignFormTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(DesignFormPage.class);
 	private WebDriverWait wait;
 
-	 @BeforeClass public void setUpClass() {
+	 @BeforeClass 
+	 public void setUpClass() {
 	 super.setUp();
 	 LoginPage loginPage =  new LoginPage(driver);
 	 loginPage.loginAsVendor();
 	 designFormPage = new DesignFormPage(driver);
 	 wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	 logger.info("DesignFormPage setup completed"); }
+	 logger.info("DesignFormPage setup completed"); 
+	 }
 
 	 @Test(priority = 1, enabled = true)
 	 public void DesignRegularForm() throws InterruptedException {

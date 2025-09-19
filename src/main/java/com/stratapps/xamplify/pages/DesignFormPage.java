@@ -1,12 +1,10 @@
 package com.stratapps.xamplify.pages;
 
-import java.sql.Driver;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.ScreenshotUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
@@ -15,7 +13,7 @@ public class DesignFormPage {
 	WebDriver driver;
 	private WebDriverWait wait;
 	long timestamp = System.currentTimeMillis();
-	String FormType;
+	static String FormType;
 
 	public DesignFormPage(WebDriver driver) {
 	this.driver = driver;
@@ -135,7 +133,8 @@ public class DesignFormPage {
 	 
 	
 	/*@SelectFormTab written by Ganesh ***/
-	public  void SelectFormTab(String selectTab) {
+	public  void SelectFormTab(String selectTab) throws InterruptedException {
+		Thread.sleep(3000);
 		if(selectTab == "REGULAR") {
 			WaitUtil.waitAndClick(driver, RegularForm, 10);
 		}
