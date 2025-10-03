@@ -18,21 +18,18 @@ public class DesignPageTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(ManageFormsPage.class);
 	private WebDriverWait wait;
  
-	 @BeforeClass 
-	 public void setUpClass() {
-	 super.setUp();
-	 LoginPage loginPage =  new LoginPage(driver);
-	 loginPage.loginAsVendor();
-	 designPages = new DesignPages(driver);
-	 wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	 logger.info("DesignFormPage setup completed"); 
-	 }
+	/*
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsVendor(); designPages = new
+	 * DesignPages(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("DesignFormPage setup completed"); }
+	 */
 	
-//    @BeforeClass public void setUpClass() {	    
-//    	designPages = new DesignPages(driver);   
-//    }
+    @BeforeClass public void setUpClass() {	    
+    	designPages = new DesignPages(driver);   
+    }
 	
-		
+		 
 		  @Test(priority = 1, enabled = true) public void
 		  CreateRegularPublicPage()throws InterruptedException {
 		  System.out.println(" ");

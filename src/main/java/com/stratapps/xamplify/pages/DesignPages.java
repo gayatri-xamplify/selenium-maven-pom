@@ -198,7 +198,7 @@ public class DesignPages {
 		WaitUtil.waitAndClick(driver, okbutton1, 20);
 	}
 
-	
+	 
 	 /* @editpage written by Ganesh ***/
 	public void editpage() throws	InterruptedException { 
 		WaitUtil.waitAndClick(driver, Editregpublicpage, 20);
