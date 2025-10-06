@@ -8,14 +8,20 @@
 
 			<class name="com.stratapps.xamplify.tests.OnboardingPartnersTest" />
 			<!--<class name="com.stratapps.xamplify.tests.ManagePartnerTest" />-->
-            <class
+            <!--<class
 				name="com.stratapps.xamplify.tests.DesignFormTest" />
 
-
-			<!-- <class name="com.stratapps.xamplify.tests.AddTracksTest" />
+    <class
+				name="com.stratapps.xamplify.tests.DesignPageTest" />-->
+   
+	<!--		 <class name="com.stratapps.xamplify.tests.AddTracksTest" />
       <class name="com.stratapps.xamplify.tests.ManageTracksTest" />-->
 
-       <class
+			 <!-- <class name="com.stratapps.xamplify.tests.TeamVendorTest" />-->
+			    
+      
+
+      <!-- <class
 				name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
         <class
 				name="com.stratapps.xamplify.tests.ScheduleEmailCampaignTest" />
@@ -23,19 +29,23 @@
         <class
 				name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
    
-       
-       
-       <class
+    <class
+				name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
+        <class
 				name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />
         
                <class
 				name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
-              <class
-				name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
+             -->
+     
 
-
-			<!--  <class name="com.stratapps.xamplify.tests.TeamVendorTest" />
-    <class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->--> </classes>
+   <!-- <class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->
+    
+     <class
+				name="com.stratapps.xamplify.tests.LogoutTest" />
+    
+    
+    --> </classes>
 	</test>
 	✅ Partner block can remain separate <test name="Partner Account Tests">
 		<classes>

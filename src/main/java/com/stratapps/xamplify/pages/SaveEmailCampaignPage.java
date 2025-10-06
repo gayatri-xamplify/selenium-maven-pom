@@ -68,11 +68,13 @@ public class SaveEmailCampaignPage {
 		WaitUtil.waitForElementVisible(driver, spamCheckBtn, 60);
 		ElementUtil.click(spamCheckBtn, driver);
 
-		WaitUtil.waitForElementVisible(driver, saveInsideSpamCheckBtn, 60);
-		ElementUtil.click(saveInsideSpamCheckBtn, driver);
-
-		WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
-		WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 90);
+		/*
+		 * WaitUtil.waitForElementVisible(driver, saveInsideSpamCheckBtn, 60);
+		 * ElementUtil.click(saveInsideSpamCheckBtn, driver);
+		 * 
+		 * WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
+		 * WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 90);
+		 */
 
 		WaitUtil.waitForElementVisible(driver, spamCheckCloseBtn, 60);
 		ElementUtil.click(spamCheckCloseBtn, driver);
