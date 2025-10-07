@@ -29,7 +29,7 @@ public OnboardingPartnerPage(WebDriver driver) {
 this.driver = driver;
 this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 }
-
+//------------------------
 public static final By hoverPartner = By.xpath("/html/body/app-root/app-home/div/app-leftsidebar/div/div/ul/li[2]");
 public static final By onboardingPartner = By.xpath("/html/body/app-root/app-home/div/app-leftsidebar/div/div/ul/li[2]/ul/li[1]/a/span");
 public static final By oneAtATime = By.xpath("//button[@id='addContacts']");

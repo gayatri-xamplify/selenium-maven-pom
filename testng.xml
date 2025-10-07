@@ -15,28 +15,28 @@
     <class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->
       <class name="com.stratapps.xamplify.tests.AddTracksTest" />
       <class name="com.stratapps.xamplify.tests.ManageTracksTest" />
-      <class name="com.stratapps.xamplify.tests.TeamVendorTest" />
+    <!--  <class name="com.stratapps.xamplify.tests.TeamVendorTest" />-->
     </classes>
   </test>
 
 
 
 
- <!--  ✅ Partner block can remain separate 
+   ✅ Partner block can remain separate 
   <test name="Partner Account Tests">
     <classes>
-      <class name="com.stratapps.xamplify.tests.SharedLeadsTest"/>
-      
+     <!-- <class name="com.stratapps.xamplify.tests.SharedLeadsTest"/>-->
+     <!-- 
       
          
 
        <class name="com.stratapps.xamplify.tests.TeamPartnerTest"/>
-      
+      -->
          <class name="com.stratapps.xamplify.tests.ContactsTest"/>
       <class name="com.stratapps.xamplify.tests.OpportunitiesLeadTest"/>
             <class name="com.stratapps.xamplify.tests.OpportunitiesDealTest"/>
 
       
     </classes>
-  </test>-->
+  </test>
 </suite>
