@@ -30,8 +30,8 @@ public class TeamVendorPage {
 	private By lastNameField = By.xpath("//input[@name='lastName']");
 	private By emailIdField = By.xpath("//input[@name='emailId']");
 	private By groupDropdown = By.xpath(
-			"//form[@class='form-horizontal form-bordered form-label-stripped ng-untouched ng-pristine ng-valid']//div[4]/div/div/select");
-	private By groupDropdowncsv = By.xpath("//*[@id='add-team-member-table']/tbody/tr/td[3]/div/select");
+			"//select[option[contains(text(), '--Please Select Group--')]]");
+	private By groupDropdowncsv = By.xpath("//strong[contains(text(), 'Select Team Member Group')]/following::select[@id='globalGroupSelect']");
 	private By saveButton = By.xpath("//span[normalize-space()='Save']");
 	private By inviteButton = By.xpath("//button[normalize-space()='Invite A Team Member']");
 	private By inviteEmailField = By.xpath("(//input[@placeholder='Enter email address(es)'])[2]");
@@ -40,7 +40,7 @@ public class TeamVendorPage {
 	private By uploadCSVInput = By.xpath("//input[@type='file']");
 	private By saveCSVButton = By.xpath("//button[@id='right']");
 	private By searchField = By.xpath("(//input[@placeholder='Search'])[1]");
-	private By searchIcon = By.xpath("(//button[@class='search-box-item-click']//i[@class='fa fa-search'])[2]");
+	private By searchIcon = By.xpath("(//button[@class='search-box-item-click']//i[@class='fa fa-search'])[3]");
 	private By deleteUploadIcon = By.xpath("//a[@data-placement='bottom']//i[@class='fa fa-trash-o trashIconCustomization']");
 	private By exportExcelButton = By.xpath("//button[@class='btn btn-xs  hidden-xs l-g-view']");
 	private By refreshButton = By.xpath("//i[contains(@class,'fa fa-refresh')]");
@@ -76,7 +76,7 @@ public class TeamVendorPage {
 		ElementUtil.sendText(firstNameField, "Mounika", driver);
 		ElementUtil.sendText(lastNameField, "K", driver);
 		ElementUtil.sendText(emailIdField, "Oneteam" + System.currentTimeMillis() + "@test.com", driver);
-		ElementUtil.click(groupDropdown, driver);
+	ElementUtil.click(groupDropdown, driver);
 		WaitUtil.waitForVisibility(driver, groupDropdown, 30);
 		ElementUtil.selectDropdownByVisibleText(groupDropdown, "Sales Account Manager", driver);
 
