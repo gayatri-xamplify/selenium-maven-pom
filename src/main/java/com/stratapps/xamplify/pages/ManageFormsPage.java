@@ -62,7 +62,7 @@ public class ManageFormsPage {
 	public static final By Embed = By.xpath("(//a[@class=\"custom-icon\"])[3]");
 	public static final By Embedclose = By.xpath("//a[@id=\"right\"]");
 	public static final By Deleteregform = By.xpath("(//a[@id='template-delete' or @class=\"delete custom-icon\"])[1]/i");
-	public static final By yesdelete = By.xpath("//button[@class=\"swal2-confirm styled\"]");
+	public static final By yesdelete = By.xpath("//button[text()='Yes, delete it!']");
 	public static final By quizfilter = By.xpath("(//li[@class=\"filter\"])[2]");
 	public static final By gridviewclick = By.xpath("//i[@class=\"fa fa-th-large p10\"]");
 	public static final By gridview1 = By.xpath("(//div[@class=\"bar gridIconCustomization auto-height icons_align\"])[1]");
@@ -202,7 +202,8 @@ public class ManageFormsPage {
 	/*@DeleteForm written by Ganesh ***/
 	public void DeleteForm() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, Deleteregform, 20);
-		WaitUtil.waitAndClick(driver, yesdelete, 20);
+		//Thread.sleep(10000);
+		WaitUtil.waitAndClick(driver, yesdelete, 200);
 	}
 	
 	/*@FillRegularFormAndSubmit written by Ganesh ***/

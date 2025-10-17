@@ -57,7 +57,7 @@ logger.info("Starting test: edit partner and update the partner details");
   System.out.println(" ");
  }
 
- @Test(priority = 4, enabled = false)
+ @Test(priority = 4, enabled = true)
  public void SearchPartner() throws InterruptedException {
 logger.info("Starting test: search the partner");
   onboardingPartnerPage.HoverPartners_OnboardingPartner();
@@ -66,7 +66,7 @@ logger.info("Starting test: search the partner");
   System.out.println(" ");
  }
 
- @Test(priority = 5, enabled = false)
+ @Test(priority = 5, enabled = true)
  public void ExportExcellReportPartner() throws InterruptedException {
 logger.info("Starting test: export the partner details to excel report");
   onboardingPartnerPage.exportToExcel();
@@ -74,7 +74,7 @@ logger.info("Starting test: export the partner details to excel report");
   System.out.println(" ");
  }
 
- @Test(priority = 6, enabled = false)
+ @Test(priority = 6, enabled = true)
  public void ExportEmailReportPartner() throws InterruptedException {
 logger.info("Starting test: export the partner details to email report");
   onboardingPartnerPage.exportToEmail();
@@ -82,7 +82,7 @@ logger.info("Starting test: export the partner details to email report");
   System.out.println(" ");
  }
 
- @Test(priority = 7, enabled = false)
+ @Test(priority = 7, enabled = true)
  public void CreateGroupPartner() throws InterruptedException {
 logger.info("Starting test: create new partner group");
   onboardingPartnerPage.createGroup();
@@ -90,7 +90,7 @@ logger.info("Starting test: create new partner group");
   System.out.println(" ");
  }
 
- @Test(priority = 8, enabled = false)
+ @Test(priority = 8, enabled = true)
  public void AddToGroupPartner() throws InterruptedException {
 logger.info("Starting test: Add partner to existing group");
   onboardingPartnerPage.HoverPartners_OnboardingPartner();
@@ -99,7 +99,7 @@ logger.info("Starting test: Add partner to existing group");
   System.out.println(" ");
  }
 
- @Test(priority = 9, enabled = false)
+ @Test(priority = 9, enabled = true)
  public void ApplyFilter_partner() throws InterruptedException {
 logger.info("Starting test: Apply Filter with partner Fields ");
   onboardingPartnerPage.HoverPartners_OnboardingPartner();
@@ -114,7 +114,7 @@ logger.info("Starting test: Apply Filter with partner Fields ");
   System.out.println(" ");
  }
 
- @Test(priority = 10, enabled = false)
+ @Test(priority = 10, enabled = true)
  public void DeletePartner() throws InterruptedException {
 logger.info("Starting test: Deleted the partner");
   onboardingPartnerPage.HoverPartners_OnboardingPartner();
@@ -123,7 +123,7 @@ logger.info("Starting test: Deleted the partner");
   System.out.println(" ");
  }
 
- @Test(priority = 11, enabled = false)
+ @Test(priority = 11, enabled = true)
  public void PaginationPartner() throws Throwable {
 logger.info("Starting test: navigate to next page through pagination");
   onboardingPartnerPage.HoverPartners_OnboardingPartner();
@@ -132,7 +132,7 @@ logger.info("Starting test: navigate to next page through pagination");
   System.out.println(" ");
  }
 
- @Test(priority = 12, enabled = false)
+ @Test(priority = 12, enabled = true)
  public void SortAndRecordsPerPage() throws Throwable {
 logger.info("Starting test: Sort the records and no of records per page");
   onboardingPartnerPage.HoverPartners_OnboardingPartner();
