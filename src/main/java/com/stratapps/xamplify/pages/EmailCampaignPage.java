@@ -81,7 +81,7 @@ public class EmailCampaignPage {
             WebElement toggle = driver.findElement(throughPartner);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", toggle);
         }
-
+   
         // 4️⃣ Subject + Preheader
         ElementUtil.sendText(subjectLine, subject, driver);
         ElementUtil.sendText(preheader, preHeader, driver);

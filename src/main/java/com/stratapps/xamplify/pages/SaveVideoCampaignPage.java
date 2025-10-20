@@ -28,7 +28,7 @@ public class SaveVideoCampaignPage {
     private By spamCheckCloseBtn = By.xpath("(//a[contains(@class,'Btn-Gray')][normalize-space()='Close'])[2]");
 
     private By responseMessage = By.xpath("//span[@id='responseMessage']");
-
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
     // Clicks on "Test Mail" button
     public void clickTestMail() {
         WaitUtil.waitForElementVisible(driver, testMailBtn, 60);
@@ -81,6 +81,9 @@ public class SaveVideoCampaignPage {
         WaitUtil.waitForElementVisible(driver, responseMessage, 60);
         return ElementUtil.getText(responseMessage, driver);
     }
+    public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
 
     // Full flow: Test mail -> Spam check -> Save campaign
     public void saveVideoCampaign(String email, String subject) {
@@ -89,6 +92,8 @@ public class SaveVideoCampaignPage {
         sendTestMail();
         runSpamCheck();
         saveCampaign();
+        getResponseMessage();
+        backToHome();
 
 		/*
 		 * String actualMessage = getResponseMessage(); String expectedMessage =

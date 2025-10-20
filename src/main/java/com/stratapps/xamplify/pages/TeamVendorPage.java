@@ -167,13 +167,14 @@ public class TeamVendorPage {
 		WaitUtil.waitForElementVisible(driver, deleteUploadIcon, 60);
 		ElementUtil.click(deleteUploadIcon, driver);
 		ElementUtil.click(yesDelete, driver);
-		WaitUtil.waitForPageToLoad(driver, 90);
-		ElementUtil.click(refreshButton, driver);
-		WaitUtil.waitForPageToLoad(driver, 90);
+		WaitUtil.waitForPageToLoad(driver, 120);
+//		ElementUtil.click(refreshButton, driver);
+//		WaitUtil.waitForPageToLoad(driver, 90);
 	}
 
 	public void exportTeamMembers() {
-
+		ElementUtil.click(refreshButton, driver);
+		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitAndClick(driver, exportExcelButton, 60);
 
 	}
