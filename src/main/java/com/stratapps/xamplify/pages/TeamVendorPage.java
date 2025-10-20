@@ -67,6 +67,7 @@ public class TeamVendorPage {
 	private By closeAdminsPopup = By.xpath("//button[normalize-space()='Close']");
 	private By select_tm = By.xpath("//input[@placeholder='Select Team Members']");
 	private By previewclose = By.xpath("//div[@id=\"preview-team-member-popup\"]/div/div/div[3]/button");
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
 	public void addTeammember() {
 	    // Ensure no backdrop/overlay is blocking the element
@@ -237,10 +238,6 @@ public class TeamVendorPage {
 	}
 
 	public void handleAdminsPopup() {
-//		WaitUtil.waitForPageToLoad(driver, 70);
-//		WaitUtil.waitForElementVisible(driver, admins, 60);
-//		WaitUtil.waitAndClick(driver, admins, 60);
-//		WaitUtil.waitAndClick(driver, closeAdminsPopup, 60);
 
 		// Wait for page load and ensure admins section is visible
 		WaitUtil.waitForPageToLoad(driver, 70);
@@ -256,4 +253,9 @@ public class TeamVendorPage {
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(closeAdminsPopup));
 
 	}
+	
+	 public void backToHome() {
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
+
 }
