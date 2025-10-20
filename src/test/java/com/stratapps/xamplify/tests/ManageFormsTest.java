@@ -55,7 +55,7 @@ public class ManageFormsTest extends BaseTest{
 	  logger.info("Manage Regular Form - Edit, copy, preview, copyFormUrl, delete form is succesfull");
 	  System.out.println(" ");
 	 }
-	 
+	  
 	 @Test(priority = 2, enabled = true)
 	 public void ManageQuizForm() throws InterruptedException, UnsupportedFlavorException, IOException {
 	  System.out.println(" ");

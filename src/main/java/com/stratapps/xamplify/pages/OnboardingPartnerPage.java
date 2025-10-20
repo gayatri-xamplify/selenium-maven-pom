@@ -408,6 +408,12 @@ public void deletePartner() throws InterruptedException {
    ScreenshotUtil.captureScreenshot(driver, "deletePartner");
 }
 
+public void deletePartners() throws InterruptedException {
+	   WaitUtil.waitAndClick(driver, deletePartnerOnboardBtn, 30);
+	   WaitUtil.waitAndClick(driver, yesDeleteIt, 30);
+	   Thread.sleep(15000);
+	   ScreenshotUtil.captureScreenshot(driver, "deletePartner");
+	}
 
 // Onboarding partner pagination
 public void pagenation() throws Throwable {
