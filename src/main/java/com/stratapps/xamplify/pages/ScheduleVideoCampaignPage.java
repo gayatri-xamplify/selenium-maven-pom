@@ -22,7 +22,7 @@ public class ScheduleVideoCampaignPage {
     private By selectCountryDropdown = By.xpath("//select[@id='countryName']");
     private By scheduleLaunchBtn = By.xpath("(//span[contains(text(),'Schedule')])[2]");
     private By responseMessage = By.xpath("//span[@id='responseMessage']");
-
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
     // Clicks the "Schedule Video Campaign" button
     public void clickScheduleVideoCampaign() {
         WaitUtil.waitForElementVisible(driver, scheduleVideoCampaignBtn, 60);
@@ -88,6 +88,10 @@ public class ScheduleVideoCampaignPage {
         return ElementUtil.getText(responseMessage, driver);
     }
 
+    public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
+
     // Full flow: Schedule video campaign
     public void scheduleVideoCampaign(String countryName) {
         clickScheduleVideoCampaign();
@@ -96,6 +100,8 @@ public class ScheduleVideoCampaignPage {
         setDynamicScheduleTime();
         selectCountry(countryName);
         clickScheduleLaunch();
+        getResponseMessage();
+        backToHome();
 		/*
 		 * String actualMessage = getResponseMessage(); String expectedMessage =
 		 * "The campaign was successfully scheduled. Please wait until the scheduled time to see it launched."

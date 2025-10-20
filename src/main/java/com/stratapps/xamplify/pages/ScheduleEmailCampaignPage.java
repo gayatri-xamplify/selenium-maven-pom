@@ -23,7 +23,7 @@ public class ScheduleEmailCampaignPage {
 	private By scheduleHour = By.xpath("//div[contains(@class,'open')]//input[@class='numInput flatpickr-hour']");
 	private By scheduleMinute = By.xpath("//div[contains(@class,'open')]//input[@class='numInput flatpickr-minute']");
 	private By responseMessage = By.xpath("//span[@id='responseMessage']");
-
+	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 	public void clickScheduleEmailCampaign() {
 		WaitUtil.waitForElementVisible(driver, scheduleEmailCampaignBtn, 60);
 		ElementUtil.click(scheduleEmailCampaignBtn, driver);
@@ -100,6 +100,9 @@ public class ScheduleEmailCampaignPage {
 
 	// Full flow: Schedules the email campaign using dynamic time and validates
 	// success message.
+	 public void backToHome() {
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
 
 	public void scheduleEmailCampaign(String countryName) {
 		clickScheduleEmailCampaign();
@@ -108,6 +111,8 @@ public class ScheduleEmailCampaignPage {
 		setDynamicScheduleTime(); // <-- New Dynamic Time logic
 		selectCountry(countryName);
 		clickScheduleLaunch();
+		getResponseMessage();
+		backToHome();
 
 		/*
 		 * String actualMessage = getResponseMessage(); String expectedMessage =

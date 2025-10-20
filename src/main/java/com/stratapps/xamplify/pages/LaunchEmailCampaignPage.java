@@ -11,13 +11,12 @@ public class LaunchEmailCampaignPage {
     public LaunchEmailCampaignPage(WebDriver driver) {
         this.driver = driver;
     }
-
     // Locators
     private By nowEmailCampaignBtn = By.xpath("(//div[@class='btn-group btn-group-justified']//label)[1]");
     private By launchEmailBtn = By.xpath("//span[normalize-space(text())='Launch']");
     private By responseMessage = By.xpath("//span[@id='responseMessage']");
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
-   
      // Clicks the "Now Email Campaign" button.
     
     public void clickNowEmailCampaign() {
@@ -41,12 +40,17 @@ public class LaunchEmailCampaignPage {
         return ElementUtil.getText(responseMessage, driver);
     }
 
-    
+    public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
+
      //Full flow: Launches the email campaign and validates the success message.
     
     public void launchEmailCampaign() {
         clickNowEmailCampaign();
         clickLaunchEmail();
+        getResponseMessage();
+        backToHome();
 		/*
 		 * String actualMessage = getResponseMessage();
 		 * 
@@ -55,4 +59,7 @@ public class LaunchEmailCampaignPage {
 		 * ; return expectedMessage.equals(actualMessage);
 		 */
     }
+    
+    
+
 }
