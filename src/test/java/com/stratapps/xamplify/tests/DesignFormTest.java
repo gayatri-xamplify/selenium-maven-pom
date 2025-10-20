@@ -20,15 +20,17 @@ public class DesignFormTest extends BaseTest {
 	private WebDriverWait wait;
 
 	
-	  @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	  new LoginPage(driver); loginPage.loginAsVendor(); designFormPage = new
-	  DesignFormPage(driver); wait = new WebDriverWait(driver,
-	  Duration.ofSeconds(60)); logger.info("DesignFormPage setup completed"); }
+	/*
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsVendor(); designFormPage = new
+	 * DesignFormPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("DesignFormPage setup completed"); }
+	 */
 	 
 	 
-//	    @BeforeClass public void setUpClass() {	    
-//	    	designFormPage = new DesignFormPage(driver);
-//	    }
+	    @BeforeClass public void setUpClass() {	    
+	    	designFormPage = new DesignFormPage(driver);
+	    }
 
 	 @Test(priority = 1, enabled = true)
 	 public void DesignRegularForm() throws InterruptedException {
