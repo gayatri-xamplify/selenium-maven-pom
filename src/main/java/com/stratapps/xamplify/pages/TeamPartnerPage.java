@@ -77,7 +77,8 @@ public class TeamPartnerPage {
 	public void openTeamPage() {
 		// Ensure no backdrop/overlay is blocking the element
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-
+		 // Scroll down slightly to bring the Team menu into view
+	    ActionUtil.scrollToElement(driver, driver.findElement(teamMenu));
 		// Hover over the team menu and click on "Add"
 		ActionUtil.hoverAndClick(driver, teamMenu);
 
