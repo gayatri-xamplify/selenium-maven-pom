@@ -19,7 +19,6 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.class);
 	private WebDriverWait wait;
 	
-	
 	  @BeforeClass public void setUpClass() { 
 		  super.setUp(); 
 		  LoginPage loginPage =	  new LoginPage(driver); 
@@ -28,7 +27,11 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	  Duration.ofSeconds(60));
 	  logger.info("OpportunitiesDealPage setup completed"); }
 	 
-	
+	/*
+	 * @BeforeClass public void setUp() { opportunitiesDealPage = new
+	 * OpportunitiesDealPage(driver); }
+	 */
+	  
 	@Test(priority = 1, enabled = true)
 	public void OpenManageDealsPage() {
 		logger.info("Starting test: Navigate to Manage Deals");
@@ -40,7 +43,7 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 		}
 	}
 	@Test(priority = 2, enabled = true)
-	public void searchLeadAndEmailReport() throws Exception {
+	public void searchDealAndEmailReport() throws Exception {
 		logger.info("Starting test: search deals and send email report");
 		opportunitiesDealPage.dealSearch();
 		opportunitiesDealPage.dealEmailReport();
@@ -54,6 +57,8 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 		opportunitiesDealPage.dealView();
 		logger.info("Starting test: add comment to deal in Manage deals");
 		opportunitiesDealPage.addDealComment();
+		logger.info("Starting test: update Status to deal in Manage deals");
+		opportunitiesDealPage.editDealStatus();
 	}
 	
 	@Test(priority = 5, enabled = true)
@@ -71,7 +76,6 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 		WaitUtil.waitAndClick(driver, opportunitiesDealPage.vendorViewCampDeal, 10);
 		WaitUtil.waitAndClick(driver, opportunitiesDealPage.vendorViewDealCount, 200);
 		opportunitiesDealPage.addDealCommentCampaignView();
-		System.out.println("3.1");
 		opportunitiesDealPage.dealEmailReport();
 	}
 	

@@ -1,5 +1,7 @@
 package com.stratapps.xamplify.tests;
 
+import java.time.Duration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -7,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.OpportunitiesLeadPage;
 import com.stratapps.xamplify.utils.ScreenshotUtil;
 
@@ -16,19 +19,19 @@ public class OpportunitiesLeadTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(OpportunitiesLeadTest.class);
 	private WebDriverWait wait;
 
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	 * new LoginPage(driver); loginPage.loginAsPartner(); opportunitiesleadPage =
-	 * new OpportunitiesLeadPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("OpportunitiesLeadTest setup completed"); }
-	 */
+	
+	  @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	  new LoginPage(driver); loginPage.loginAsPartner(); opportunitiesleadPage =
+	  new OpportunitiesLeadPage(driver); wait = new WebDriverWait(driver,
+	  Duration.ofSeconds(60));
+	  logger.info("OpportunitiesLeadTest setup completed"); }
+	 
 
-	@BeforeClass
-	public void setUpClass() {
-
-		opportunitiesleadPage = new OpportunitiesLeadPage(driver);
-	}
+//	@BeforeClass
+//	public void setUpClass() {
+//
+//		opportunitiesleadPage = new OpportunitiesLeadPage(driver);
+//	}
 
 	@Test(priority = 1, enabled = true)
 	public void OpenManageLeads() {
@@ -68,7 +71,7 @@ public class OpportunitiesLeadTest extends BaseTest {
 		opportunitiesleadPage.deletelead();
 	}
 
-	@Test(priority = 5, enabled = false)
+	@Test(priority = 5, enabled = true)
 	public void CampainViewLeads() throws Exception {
 		logger.info("Starting test: Create new lead in Manage leads");
 		opportunitiesleadPage.CampainView();

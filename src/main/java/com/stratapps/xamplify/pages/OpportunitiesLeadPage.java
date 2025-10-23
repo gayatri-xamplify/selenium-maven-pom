@@ -233,13 +233,13 @@ ScreenshotUtil.captureScreenshot(driver, "campaignViewleadslist");
 }
  
 public void leadsPaginationandPageCount() throws InterruptedException {
-WaitUtil.waitAndClick(driver, leadNextPage, 10);
+WaitUtil.waitAndClick(driver, leadNextPage, 20);
 Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadNextPage");
-WaitUtil.waitAndClick(driver, leadLastPage, 10);
+WaitUtil.waitAndClick(driver, leadLastPage, 20);
 Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadLastPage");
-WaitUtil.waitAndClick(driver, leadPreviousPage, 10);
+WaitUtil.waitAndClick(driver, leadPreviousPage, 20);
 Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
-WaitUtil.waitAndClick(driver, leadFirstPage, 10);
+WaitUtil.waitAndClick(driver, leadFirstPage, 20);
 Thread.sleep(2000);ScreenshotUtil.captureScreenshot(driver, "leadFirstPage");
 /*
 * try { DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "1");

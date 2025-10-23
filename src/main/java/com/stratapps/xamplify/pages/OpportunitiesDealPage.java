@@ -158,7 +158,7 @@ public static final By campViewDealSearchIcon = By.xpath("// button[contains(@cl
 public static final By campViewDealSearchclear = By
 .xpath("//button[@class='glyphicon glyphicon-remove search-box-item-clear']");
 public static final By viewDealforThisCampaign = By.xpath("(//i[@class='circled-number fa fa-users IconCustomization'])[1]");
-public static final By editDealStageStatus = By.xpath("(//span[@class='fa fa-edit IconCustomization'])[1]");
+public static final By editDealStageStatus = By.xpath("(//span[@class='fa fa-edit mr5 IconCustomization'])[1]/..");
 public static final By campViewEditDealStage = By.xpath("//select[@id='createdForPipelineStageId']");
 public static final By campViewEditAddComment = By.xpath("//textarea[@id='dealComment']");
 public static final By campViewUpdateDeal = By.xpath("//span[contains(text(),'Update Deal')]");
@@ -177,6 +177,7 @@ public static final By campViewDealFirstPg = By
 public static final By campViewDealDrpDwn = By
 .xpath("(//select[contains(@class,'form-control margin-top pointer mt')])[2]");
    public static final By leadstageinDeal = By.xpath("//select[@id='createdForPipelineStageId'][@placeholder='createdForPipelineStageId']");
+   public static final By updatestageinDeal = By.xpath(" //select[@class='form-control ng-untouched ng-pristine ng-valid']");
    public static final By saveLeadBtn = By.xpath("(//span[text() = 'Add Lead']/..)[2]");
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -189,8 +190,8 @@ ActionUtil.hoverAndClick(driver, opportunitiesManageDeals); // click after hover
 
 /*** @dealSearch written by Ganesh */
 public void dealSearch() throws InterruptedException {
-WaitUtil.waitAndSendKeys(driver, searchDeals, "lead", 10);
-WaitUtil.waitAndClick(driver, clickSearchDealIcon, 10);
+WaitUtil.waitAndSendKeys(driver, searchDeals, "deal", 20);
+WaitUtil.waitAndClick(driver, clickSearchDealIcon, 20);
 ScreenshotUtil.captureScreenshot(driver, "DealSearch");
 /*
 * WebElement firstResult =
@@ -202,12 +203,12 @@ ScreenshotUtil.captureScreenshot(driver, "DealSearch");
 
 /*** removeDealSearch written by Ganesh */
 public void removeDealSearch() throws InterruptedException {
-WaitUtil.waitAndClick(driver, searchCancel, 10);
+WaitUtil.waitAndClick(driver, searchCancel, 20);
 }
 
 /*** dealEmailReport written by Ganesh */
 public void dealEmailReport() throws InterruptedException {
-WaitUtil.waitAndClick(driver, dealsEmailReport, 10);
+WaitUtil.waitAndClick(driver, dealsEmailReport, 20);
 ScreenshotUtil.captureScreenshot(driver, "dealEmailReport");
 /*
 * WebElement respondMessage =
@@ -401,13 +402,13 @@ ScreenshotUtil.captureScreenshot(driver, "editDealUpdated");
 
 /*** @addDealComment written by Ganesh */
 public void addDealComment() throws InterruptedException {
-WaitUtil.waitAndClick(driver, commentDeal, 10);
-WaitUtil.waitAndSendKeys(driver, commentHistoryDeal, "comment added in edit comment", 10);
+WaitUtil.waitAndClick(driver, commentDeal, 20);
+WaitUtil.waitAndSendKeys(driver, commentHistoryDeal, "comment added in edit comment", 20);
 Thread.sleep(2000);
 JavascriptExecutor js = (JavascriptExecutor) driver;
 js.executeScript("window.scrollTo(0, 800);");
-WaitUtil.waitAndClick(driver, dealCommentSubmit, 10);
-WaitUtil.waitAndClick(driver, dealCloseCommentWindow, 10);
+WaitUtil.waitAndClick(driver, dealCommentSubmit, 20);
+WaitUtil.waitAndClick(driver, dealCloseCommentWindow, 20);
 Thread.sleep(3000);
 ScreenshotUtil.captureScreenshot(driver, "AddedCommentToDead");
 }
@@ -491,11 +492,9 @@ Thread.sleep(2000);
 ScreenshotUtil.captureScreenshot(driver, "DealNextPage");
 WaitUtil.waitAndClick(driver, dealLastPg, 10);
 Thread.sleep(5000);
-System.out.println("check1");
 ScreenshotUtil.captureScreenshot(driver, "DealLastPage");
 //WaitUtil.waitAndClick(driver, dealPreviousPg, 10);
 Thread.sleep(5000);
-System.out.println("check12");
 ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
         JavascriptExecutor js = (JavascriptExecutor) driver;
         //js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(dealFirstPg));
@@ -503,7 +502,6 @@ ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
         Thread.sleep(3000);
 WaitUtil.waitAndClick(driver, dealFirstPg, 10);
 Thread.sleep(5000);
-System.out.println("check123");
 ScreenshotUtil.captureScreenshot(driver, "DealFirstPage");
 /*
 * try { DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "1");
@@ -512,6 +510,16 @@ ScreenshotUtil.captureScreenshot(driver, "DealFirstPage");
 * ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-2"); } catch (Exception
 * e) { ScreenshotUtil.captureScreenshot(driver, "No of pages available"); }
 */
+}
+
+/*** @editDealStatus written by Ganesh */
+public void editDealStatus() {
+	WaitUtil.waitAndClick(driver, editDealStageStatus, 20);
+	WaitUtil.waitAndClick(driver, commentHistoryDeal, 20);
+	DropdownUtil.selectByVisibleText(driver, updatestageinDeal, "               Rejected");
+	WaitUtil.waitAndClick(driver, dealStageUpdateBtn, 20);
+	ScreenshotUtil.captureScreenshot(driver, "editDealStatus");
+
 }
 
 }

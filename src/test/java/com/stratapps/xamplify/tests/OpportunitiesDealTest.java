@@ -1,5 +1,7 @@
 package com.stratapps.xamplify.tests;
 
+import java.time.Duration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -7,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.OpportunitiesDealPage;
 import com.stratapps.xamplify.utils.ScreenshotUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
@@ -19,29 +22,18 @@ private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.
 private WebDriverWait wait;
 
 
+
+  @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+  new LoginPage(driver); loginPage.loginAsPartner(); opportunitiesDealPage =
+  new OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
+  Duration.ofSeconds(60));
+  logger.info("OpportunitiesDealPage setup completed"); }
+  
+ 
 /*
- * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
- * new LoginPage(driver); loginPage.loginAsPartner(); opportunitiesDealPage =
- * new OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
- * Duration.ofSeconds(60));
- * logger.info("OpportunitiesDealPage setup completed"); }
- * 
+ * @BeforeClass public void setUp() { opportunitiesDealPage = new
+ * OpportunitiesDealPage(driver); }
  */
-
-
-
-@BeforeClass
-public void setUp() {
-    opportunitiesDealPage = new OpportunitiesDealPage(driver); 
-}
-
-
-
-
-
-
-
-
 
 @Test(priority = 1, enabled = true)
 public void OpenManageDealsPage() {
