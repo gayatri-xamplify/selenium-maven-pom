@@ -23,12 +23,11 @@ public class AddTracksTest extends BaseTest {
 
     @BeforeClass
     public void setUpClass() {
-        super.setUp();
-		/*
-		 * LoginPage loginPage = new LoginPage(driver);
-		 * loginPage.login(ConfigReader.getProperty("username"),
-		 * ConfigReader.getProperty("password"));
-		 */
+//        super.setUp();
+//		
+//		  LoginPage loginPage = new LoginPage(driver);
+//		  loginPage.login(ConfigReader.getProperty("username"),
+//		  ConfigReader.getProperty("password"));		 
         addTracksPage = new AddTracksPage(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         logger.info("AddTracksTest setup completed");
@@ -102,6 +101,7 @@ public class AddTracksTest extends BaseTest {
         logger.info("Test 10: Get Publish Confirmation Message - STARTED");
         String message = addTracksPage.getPublishConfirmationMessage();
         logger.info("Publish Message: " + message);
+        addTracksPage.backToHome();
         logger.info("Test 10: Get Publish Confirmation Message - COMPLETED");
     }
 } 
