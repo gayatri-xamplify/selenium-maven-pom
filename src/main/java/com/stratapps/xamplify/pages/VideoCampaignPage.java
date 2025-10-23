@@ -81,17 +81,15 @@ public class VideoCampaignPage {
             WebElement toggle = driver.findElement(throughPartner);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", toggle);
         }
-
-        // 4️⃣ Fill subject + preheader
+        // 4️ Fill subject + preheader
         ElementUtil.sendText(subjectLine, subject, driver);
         ElementUtil.sendText(preheader, preHeader, driver);
-
+        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
         // 5️⃣ Enable notification toggles
         ElementUtil.click(notifyWorkflow, driver);
         ElementUtil.click(notifyMeOpened, driver);
         ElementUtil.click(notifyMeLinkClick, driver);
         ElementUtil.click(notifyMeVideo, driver);
-
         // 6️⃣ Select video
         WaitUtil.waitForElementVisible(driver, dropdownSort, 60);
         DropdownUtil.selectByValue(driver, dropdownSort, "3: Object");

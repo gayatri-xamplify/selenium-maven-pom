@@ -80,12 +80,11 @@ public class EmailCampaignPage {
         } catch (ElementClickInterceptedException e) {
             WebElement toggle = driver.findElement(throughPartner);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", toggle);
-        }
-   
+        }   
         // 4️⃣ Subject + Preheader
         ElementUtil.sendText(subjectLine, subject, driver);
         ElementUtil.sendText(preheader, preHeader, driver);
-
+        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
         // 5️⃣ Enable Notification settings
         ElementUtil.click(notifyWorkflow, driver);
         ElementUtil.click(notifyMeOpened, driver);
