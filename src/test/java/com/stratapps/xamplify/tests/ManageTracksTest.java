@@ -85,9 +85,9 @@ public class ManageTracksTest extends BaseTest {
     public void sortAndDeleteTrackTest() {
         logger.info("Test 7: Sort and Delete Track - STARTED");
         manageTracksPage.sortAndDeleteTrack();
+        manageTracksPage.backToHome();
         logger.info("Test 7: Sort and Delete Track - COMPLETED");
     }
-
     @Test(priority = 8, enabled = false)
     public void trackViewsTest() throws AWTException {
         logger.info("Test 8: Track Views - STARTED");
