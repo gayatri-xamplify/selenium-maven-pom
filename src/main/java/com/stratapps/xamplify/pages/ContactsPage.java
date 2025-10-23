@@ -62,6 +62,7 @@ public class ContactsPage {
 	private By csvVerifyBtn = By.xpath("//button[@id='verifyCSV']");
 	private By csvErrorMsg = By.xpath("//span[contains(text(),'already exists')]");
 	private By csvListName = By.xpath("//input[@id='listName']");
+	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
 	// =================== METHODS ===================
 
@@ -70,6 +71,9 @@ public class ContactsPage {
 		ActionUtil.hover(driver, hoverContacts);
 	}
 
+	public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
 	public void clickAddContacts() {
 		logger.info("Clicking 'Add Contacts' button.");
 		WaitUtil.waitAndClick(driver, addContactsBtn, 60);
