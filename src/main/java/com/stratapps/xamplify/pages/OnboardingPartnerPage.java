@@ -388,8 +388,8 @@ searchAndVerifyPartner();
    WaitUtil.waitAndClick(driver, actionBtn, 10);
    WaitUtil.waitAndClick(driver, addToGroup, 10);
 //WaitUtil.waitForPageToLoad(driver, 30);
-Thread.sleep(15000);
-   WaitUtil.waitAndClick(driver, groupCheckbox, 10);
+   //Thread.sleep(60000);
+   WaitUtil.waitAndClick(driver, groupCheckbox, 60);
    WaitUtil.waitAndClick(driver, addPartnerToGroup, 10);
 WaitUtil.waitForPageToLoad(driver, 30);
    ScreenshotUtil.captureScreenshot(driver, "AddPartnerToGroup");
@@ -408,6 +408,12 @@ public void deletePartner() throws InterruptedException {
    ScreenshotUtil.captureScreenshot(driver, "deletePartner");
 }
 
+public void deletePartners() throws InterruptedException {
+	   WaitUtil.waitAndClick(driver, deletePartnerOnboardBtn, 30);
+	   WaitUtil.waitAndClick(driver, yesDeleteIt, 30);
+	   Thread.sleep(15000);
+	   ScreenshotUtil.captureScreenshot(driver, "deletePartner");
+	}
 
 // Onboarding partner pagination
 public void pagenation() throws Throwable {
@@ -455,7 +461,7 @@ WaitUtil.waitForLoaderToDisappear(driver, 30);
 
 // Filter partners with partner fields
 public void filterPartner(String Field, String Condition, String Value) throws InterruptedException {
-Thread.sleep(3000);
+Thread.sleep(4000);
 WaitUtil.waitAndClick(driver, partnerFilter, 10);
 applyFilter(Field, Condition, Value);
 }

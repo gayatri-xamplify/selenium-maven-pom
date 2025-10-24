@@ -26,6 +26,7 @@ public class VendorOpportunitiesLeadTest extends BaseTest{
 	  Duration.ofSeconds(60));
 	  logger.info("OpportunitiesLeadTest setup completed"); }
 	 
+	  
 	
 	@Test(priority = 1, enabled = true)
 	public void OpenManageLeads() {

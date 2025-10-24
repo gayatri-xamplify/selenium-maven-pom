@@ -18,7 +18,7 @@ public class LaunchVideoCampaignPage {
     private By nowVideoCampaignBtn = By.xpath("//input[@value='NOW']");
     private By launchVideoBtn = By.xpath("//span[contains(text(),'Launch')]");
     private By responseMessage = By.xpath("//span[@id='responseMessage']");
-
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
     
     // Clicks the "Now Video Campaign" button.
     public void clickNowVideoCampaign() {
@@ -40,11 +40,17 @@ public class LaunchVideoCampaignPage {
         return ElementUtil.getText(responseMessage, driver);
     }
 
+    public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
+
     
     // Full flow: Launches the video campaign and validates the success message.
     public void launchVideoCampaign() {
         clickNowVideoCampaign();
         clickLaunchVideo();
+        getResponseMessage();
+        backToHome();
 		/*
 		 * String actualMessage = getResponseMessage();
 		 * 

@@ -23,21 +23,18 @@ public class ManageFormsTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(ManageFormsPage.class);
 	private WebDriverWait wait;
  
-//	 @BeforeClass 
-//	 public void setUpClass() {
-//	 super.setUp();
-//	 LoginPage loginPage =  new LoginPage(driver);
-//	 loginPage.loginAsVendor();
-//	 manageFormsPage = new ManageFormsPage(driver);
-//	 designFormPage =  new DesignFormPage(driver);
-//	 wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-//	 logger.info("DesignFormPage setup completed"); 
-//	 }
+	/*
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsVendor(); manageFormsPage = new
+	 * ManageFormsPage(driver); designFormPage = new DesignFormPage(driver); wait =
+	 * new WebDriverWait(driver, Duration.ofSeconds(60));
+	 * logger.info("DesignFormPage setup completed"); }
+	 */
 	
-    @BeforeClass public void setUpClass() {	    
-    	manageFormsPage = new ManageFormsPage(driver);   
-    	designFormPage = new DesignFormPage(driver);
-    }
+	
+	  @BeforeClass public void setUpClass() { manageFormsPage = new
+	  ManageFormsPage(driver); designFormPage = new DesignFormPage(driver); }
+	 
 	 
 	 @Test(priority = 1, enabled = true)
 	 public void ManageRegularForm() throws InterruptedException, UnsupportedFlavorException, IOException {
@@ -58,7 +55,7 @@ public class ManageFormsTest extends BaseTest{
 	  logger.info("Manage Regular Form - Edit, copy, preview, copyFormUrl, delete form is succesfull");
 	  System.out.println(" ");
 	 }
-	 
+	  
 	 @Test(priority = 2, enabled = true)
 	 public void ManageQuizForm() throws InterruptedException, UnsupportedFlavorException, IOException {
 	  System.out.println(" ");
@@ -178,6 +175,7 @@ public class ManageFormsTest extends BaseTest{
 	 //Thread.sleep(2000);
 	// manageFormsPage.RegularFormAnalytics();
 	 manageFormsPage.HoveronFirstForm();
+	 Thread.sleep(1000);
 	 manageFormsPage.DeleteForm();
 	 Thread.sleep(4000);  
 	  logger.info("Manage Regular Form - Edit, copy, preview, copyFormUrl, delete form is succesfull");

@@ -11,23 +11,26 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.DesignFormPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageFormsPage;
 import com.stratapps.xamplify.pages.OnboardingPartnerPage;
 
-public class DesignFormTest extends BaseTest{
+public class DesignFormTest extends BaseTest {
 	private DesignFormPage designFormPage;
 	private static final Logger logger = LogManager.getLogger(DesignFormPage.class);
 	private WebDriverWait wait;
 
-	 @BeforeClass 
-	 public void setUpClass() {
-	 super.setUp();
-		/*
-		 * LoginPage loginPage = new LoginPage(driver); loginPage.loginAsVendor();
-		 */
-	 designFormPage = new DesignFormPage(driver);
-	 wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	 logger.info("DesignFormPage setup completed"); 
-	 }
+	
+	/*
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsVendor(); designFormPage = new
+	 * DesignFormPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("DesignFormPage setup completed"); }
+	 */
+	 
+	 
+	    @BeforeClass public void setUpClass() {	    
+	    	designFormPage = new DesignFormPage(driver);
+	    }
 
 	 @Test(priority = 1, enabled = true)
 	 public void DesignRegularForm() throws InterruptedException {

@@ -57,6 +57,7 @@ public class ContactsTest extends BaseTest  {
             logger.error("❌ Test Failed: Add Contact - One At A Time", e);
             throw new RuntimeException(e);
         }
+        contactsPage.backToHome();
     }
 
     @Test(priority = 2, enabled = false)

@@ -26,24 +26,22 @@ public class TeamVendorTest extends BaseTest {
 
 	  @BeforeClass
 	    public void setUpClass() {
-	        super.setUp();  // ✅ Ensure driver setup and URL navigation happens
-
-	        if (!isLoggedIn()) {  // ✅ Only log in if session isn't active
-	            LoginPage loginPage = new LoginPage(driver);
-	            loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
-	        }
-
+//	        super.setUp();  // ✅ Ensure driver setup and URL navigation happens
+//
+//	        if (!isLoggedIn()) {  // ✅ Only log in if session isn't active
+//	            LoginPage loginPage = new LoginPage(driver);
+//	            loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+//	        }
 	        teamvendorPage = new TeamVendorPage(driver);
 	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 	        logger.info("AddTracksTest setup completed");
 	    }
 
-	    
 
     @Test(priority = 1, enabled = true)
     public void addTeamMemberTest() throws InterruptedException {
         logger.info("Test 1: Add Team Member - STARTED");
-        teamvendorPage.hoverTeam();
+       // teamvendorPage.hoverTeam();
         teamvendorPage.addTeammember();
         logger.info("Test 1: Add Team Member - COMPLETED");
     }
@@ -123,6 +121,10 @@ public class TeamVendorTest extends BaseTest {
     public void deleteTeamMemberTest() throws InterruptedException {
         logger.info("Test 12: Delete Team Member - STARTED");
         teamvendorPage.deleteTeammember();
+        teamvendorPage.backToHome();
         logger.info("Test 12: Delete Team Member - COMPLETED");
     }
+    
+    
+    
 } 

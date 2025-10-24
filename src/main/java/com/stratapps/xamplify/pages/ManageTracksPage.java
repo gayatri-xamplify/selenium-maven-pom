@@ -76,7 +76,7 @@ public class ManageTracksPage {
 	private By listViewBtn = By.xpath("//span[@class='btn btn-xs l-g-view']");
 	private By homeLink = By.xpath("//a[normalize-space()='Home']");
 	private By backdrop = By.cssSelector("div.backdrop");
-
+	private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 	public ManageTracksPage(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -204,7 +204,6 @@ public class ManageTracksPage {
 		WaitUtil.waitForElementVisible(driver, clearSearch, 60);
 		ElementUtil.clickWithRetry(clearSearch, driver, 3);
 	}
-
 	public void trackViews(String localFilePath) {
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
@@ -216,24 +215,6 @@ public class ManageTracksPage {
 		ElementUtil.click(gridAsset, driver);
 		ElementUtil.click(editGridTrack, driver);
 		WaitUtil.waitForElementVisible(driver, thumbnailIcon, 60);
-
-
-//		WaitUtil.waitForVisibility(driver, editGridTrack, 60);
-//
-//		// Scroll directly to the element
-//		WebElement editIcon = driver.findElement(editGridTrack);
-//		ElementUtil.scrollToElement(editIcon, driver);
-//
-//		// Additional scroll to handle sticky headers if needed
-//		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", editIcon);
-//		//Thread.sleep(500); // Give time for scroll animation if needed
-//
-//		// Ensure clickable and then click
-//		WaitUtil.waitForElementClickable(driver, editGridTrack, 30);
-//		ElementUtil.click(editGridTrack, driver);
-	    
-	    WaitUtil.waitForElementVisible(driver, thumbnailIcon, 60);
-
 	    ElementUtil.clickWhenReady(driver, thumbnailIcon, 30);
 	    WaitUtil.waitForVisibility(driver, uploadButton, 70);
 
@@ -286,6 +267,8 @@ public class ManageTracksPage {
 	    WaitUtil.waitAndClick(driver, homeLink, 80);
 	}
 
-
+	public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
 
 }
