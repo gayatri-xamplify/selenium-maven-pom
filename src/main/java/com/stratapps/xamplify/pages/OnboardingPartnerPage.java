@@ -461,7 +461,7 @@ WaitUtil.waitForLoaderToDisappear(driver, 30);
 
 // Filter partners with partner fields
 public void filterPartner(String Field, String Condition, String Value) throws InterruptedException {
-Thread.sleep(3000);
+Thread.sleep(4000);
 WaitUtil.waitAndClick(driver, partnerFilter, 10);
 applyFilter(Field, Condition, Value);
 }
