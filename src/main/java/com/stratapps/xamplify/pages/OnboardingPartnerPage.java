@@ -289,12 +289,12 @@ System.out.println(e);
 }
   // WebElement uploadElement = WaitUtil.waitForElementVisible(driver, uploadCsvInput, 10);
   // uploadElement.sendKeys(filePath);
-   WaitUtil.waitAndSendKeys(driver, legallInput, "Legitimate interest - prospect/lead", 10);
-   WaitUtil.waitForElementPresent(driver, legallInput, 10).sendKeys(Keys.ENTER);
+   WaitUtil.waitAndSendKeys(driver, legallInput, "Legitimate interest - prospect/lead", 20);
+   WaitUtil.waitForElementPresent(driver, legallInput, 20).sendKeys(Keys.ENTER);
    Thread.sleep(3000);
-   WaitUtil.waitAndClick(driver, csvPartnerSave, 10);
-   WaitUtil.waitAndClick(driver, acceptTerms, 10);
-   WaitUtil.waitAndClick(driver, pContinue, 10);
+   WaitUtil.waitAndClick(driver, csvPartnerSave, 20);
+   WaitUtil.waitAndClick(driver, acceptTerms, 20);
+   WaitUtil.waitAndClick(driver, pContinue, 20);
 ScreenshotUtil.captureScreenshot(driver, "Upload CSV");
 }
 
@@ -302,11 +302,11 @@ ScreenshotUtil.captureScreenshot(driver, "Upload CSV");
 // Onboarding partner through One At a Time
 public void OnboardPartnerOneAtaTime() throws InterruptedException {
 Thread.sleep(6000);
-   WaitUtil.waitAndClick(driver, oneAtATime, 10);
+   WaitUtil.waitAndClick(driver, oneAtATime, 20);
    onboardpartnerForm();
-   WaitUtil.waitAndClick(driver, oneAtATimeProceed, 10);
-   WaitUtil.waitAndClick(driver, acceptTerms, 10);
-   WaitUtil.waitAndClick(driver, pContinue, 10);
+   WaitUtil.waitAndClick(driver, oneAtATimeProceed, 20);
+   WaitUtil.waitAndClick(driver, acceptTerms, 20);
+   WaitUtil.waitAndClick(driver, pContinue, 20);
    ScreenshotUtil.captureScreenshot(driver, "OneataTime");
 }
 
@@ -461,7 +461,7 @@ WaitUtil.waitForLoaderToDisappear(driver, 30);
 
 // Filter partners with partner fields
 public void filterPartner(String Field, String Condition, String Value) throws InterruptedException {
-Thread.sleep(3000);
+Thread.sleep(9000);
 WaitUtil.waitAndClick(driver, partnerFilter, 10);
 applyFilter(Field, Condition, Value);
 }
