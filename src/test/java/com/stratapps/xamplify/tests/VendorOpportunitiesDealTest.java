@@ -19,18 +19,18 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.class);
 	private WebDriverWait wait;
 	
-	  @BeforeClass public void setUpClass() { 
-		  super.setUp(); 
-		  LoginPage loginPage =	  new LoginPage(driver); 
-		  loginPage.loginAsVendor(); 
-		  opportunitiesDealPage = new OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
-	  Duration.ofSeconds(60));
-	  logger.info("OpportunitiesDealPage setup completed"); }
-	 
 	/*
-	 * @BeforeClass public void setUp() { opportunitiesDealPage = new
-	 * OpportunitiesDealPage(driver); }
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsVendor(); opportunitiesDealPage = new
+	 * OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60));
+	 * logger.info("OpportunitiesDealPage setup completed"); }
 	 */
+	 
+	
+	  @BeforeClass public void setUp() { opportunitiesDealPage = new
+	  OpportunitiesDealPage(driver); }
+	 
 	  
 	@Test(priority = 1, enabled = true)
 	public void OpenManageDealsPage() {
@@ -45,7 +45,7 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	@Test(priority = 2, enabled = true)
 	public void searchDealAndEmailReport() throws Exception {
 		logger.info("Starting test: search deals and send email report");
-		opportunitiesDealPage.dealSearch();
+		opportunitiesDealPage.dealSearch("deal");
 		opportunitiesDealPage.dealEmailReport();
 		opportunitiesDealPage.removeDealSearch();
 		//opportunitiesleadPage.DealFilter();

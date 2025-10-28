@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
@@ -71,7 +72,7 @@ public class OpportunitiesDealPage {
 	public static final By searchLeadButton = By
 			.xpath("//button[contains(@class,'search-box-item-click top mb_v_search')]");
 	public static final By searchCancel = By
-			.xpath("//button[contains(@class,'glyphicon-remove search-box-item-clear')]");
+			.xpath("//button[@class='glyphicon glyphicon-remove search-box-item-clear']");
 	public static final By dealType = By.xpath("//input[@id='Deal_Type']");
 	public static final By dealName = By.xpath("//input[@id='Deal_Name']");
 	public static final By dealAmount = By.xpath("//input[@id='Amount']");
@@ -192,6 +193,16 @@ public class OpportunitiesDealPage {
 	public static final By updatestageinDeal = By
 			.xpath(" //select[@class='form-control ng-untouched ng-pristine ng-valid']");
 	public static final By saveLeadBtn = By.xpath("(//span[text() = 'Add Lead']/..)[2]");
+	public static final By AllDealTile = By.xpath("(//a[text()= ' Detailed view '])[1]/..");
+	public static final By AllDealTileCount = By.xpath("(//div[@class='number']/span)[1]");
+	public static final By AllDealTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+	public static final By WonDealTile = By.xpath("(//a[text()= ' Detailed view '])[2]/..");
+	public static final By WonDealTileCount = By.xpath("(//div[@class='number']/span)[2]");
+	public static final By WonDealTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+	public static final By LossDealTile = By.xpath("(//a[text()= ' Detailed view '])[3]/..");
+	public static final By LossDealTileCount = By.xpath("(//div[@class='number']/span)[3]");
+	public static final By LossDealTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+
 // ------------------------------------------------------------------------------------------------------------------
 
 	/*** @hoverOnOpportunities_ManageDeals written by Ganesh */
@@ -202,8 +213,8 @@ public class OpportunitiesDealPage {
 	}
 
 	/*** @dealSearch written by Ganesh */
-	public void dealSearch() throws InterruptedException {
-		WaitUtil.waitAndSendKeys(driver, searchDeals, "deal", 20);
+	public void dealSearch(String SearchKeyword) throws InterruptedException {
+		WaitUtil.waitAndSendKeys(driver, searchDeals, SearchKeyword, 20);
 		WaitUtil.waitAndClick(driver, clickSearchDealIcon, 20);
 		ScreenshotUtil.captureScreenshot(driver, "DealSearch");
 		/*
@@ -243,7 +254,7 @@ public class OpportunitiesDealPage {
 	public void attachLeadInDealForm() throws InterruptedException {
 // DropdownUtil.selectByVisibleText(driver, dealCompany, "xAmplify");
 
-		Thread.sleep(80000);
+		Thread.sleep(5000);
 
 		WaitUtil.waitAndClick(driver, dealAttachdrpDwn, 10);
 		WaitUtil.waitAndClick(driver, attachLead, 10);
@@ -266,8 +277,7 @@ public class OpportunitiesDealPage {
 	/*** @attachContactInDealForm written by Ganesh */
 	public void attachContactInDealForm() throws InterruptedException {
 // DropdownUtil.selectByVisibleText(driver, dealCompany, "xAmplify");
-		Thread.sleep(80000);
-
+		Thread.sleep(5000);
 		WaitUtil.waitAndClick(driver, dealAttachdrpDwn, 10);
 		WaitUtil.waitAndClick(driver, attachContact, 10);
 		WaitUtil.waitAndClick(driver, dealAttachaContact, 10);
@@ -285,11 +295,10 @@ public class OpportunitiesDealPage {
 
 	/*** @attachLeadInDealForm written by Ganesh */
 	public void addLeadAndAttachLeadInDealForm() throws InterruptedException {
-		Thread.sleep(80000);
+		Thread.sleep(5000);
 		WaitUtil.waitAndClick(driver, dealAttachdrpDwn, 10);
 		WaitUtil.waitAndClick(driver, attachLead, 10);
 		Thread.sleep(2000);
-		System.out.println("pass2");
 		WaitUtil.waitAndClick(driver, attachAddLeadBtn, 10);
 		Thread.sleep(2000);
 		WaitUtil.waitForDropdownToBeReady(driver, OpportunitiesLeadPage.pipelineStageId, 10);
@@ -340,7 +349,8 @@ public class OpportunitiesDealPage {
 
 	/*** @addDealWithAttachLead written by Ganesh */
 	public void addDealWithAttachLead() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, addDealButton, 10);
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, addDealButton, 20);
 		Thread.sleep(2000);
 		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
 		DropdownUtil.selectByValue(driver, dealCompany, "5430");
@@ -356,7 +366,7 @@ public class OpportunitiesDealPage {
 
 	/*** @addedLeadConvertToDeal written by Ganesh */
 	public void addedLeadConvertToDeal() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, addDealButton, 10);
+		WaitUtil.waitAndClick(driver, addDealButton, 30);
 		Thread.sleep(4000);
 		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
 		DropdownUtil.selectByValue(driver, dealCompany, "5430");
@@ -372,6 +382,7 @@ public class OpportunitiesDealPage {
 
 	/*** @addDealWithAttachContact written by Ganesh */
 	public void addDealWithAttachContact() throws InterruptedException {
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, addDealButton, 10);
 		Thread.sleep(2000);
 		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
@@ -405,7 +416,7 @@ public class OpportunitiesDealPage {
 	public void editDeal() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, editDeal, 10);
 		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 10);
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 		DropdownUtil.selectByValue(driver, dealPipeLineStage, "88671");
 		WaitUtil.waitAndSendKeys(driver, dealComment, "comment added in edit deal", 10);
 		WaitUtil.waitAndClick(driver, saveDeal, 5);
@@ -445,7 +456,7 @@ public class OpportunitiesDealPage {
 
 	/*** @deleteDeal written by Ganesh */
 	public void deleteDeal() throws InterruptedException {
-		Thread.sleep(10000);
+		Thread.sleep(5000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollTo(0, 0);");
 		WaitUtil.waitAndClick(driver, deleteDeal, 20);
@@ -528,10 +539,7 @@ public class OpportunitiesDealPage {
 		 */
 	}
 
-	/***
-	 * @throws InterruptedException
-	 * @editDealStatus written by Ganesh
-	 */
+	/*** @editDealStatus written by Ganesh	 */
 	public void editDealStatus() throws InterruptedException {
 		Thread.sleep(2000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -541,10 +549,56 @@ public class OpportunitiesDealPage {
 		WaitUtil.waitAndClick(driver, commentHistoryDeal, 20);
 		DropdownUtil.selectByVisibleText(driver, updatestageinDeal, "               Rejected");
 		WaitUtil.waitAndClick(driver, dealStageUpdateBtn, 20);
+		Thread.sleep(2000);
 		ScreenshotUtil.captureScreenshot(driver, "editDealStatus");
-//
-		//
-
 	}
 
+	public void dealTiles() {
+		WaitUtil.waitAndClick(driver, WonDealTile, 20);
+		String WonDealCount = driver.findElement(WonDealTileCount).getText();
+		String Totalrecord = driver.findElement(dealAddedByInput).getText();
+		System.out.println(WonDealCount);
+	}
+	
+	public void WonDealTileCountValidation() throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, WonDealTile, 20);
+	    Thread.sleep(5000);
+	    String WonDealCountText = driver.findElement(WonDealTileCount).getText();
+	    String TotalRecordText = driver.findElement(WonDealTotalCount).getText();
+	    // Convert to int
+	    int wonDealCount = Integer.parseInt(WonDealCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("Won Deal Count: " + wonDealCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(wonDealCount, totalRecordCount, "Mismatch between Won Deal count and Total record count!");
+	}
+	
+	public void LossDealTileCountValidation() throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, LossDealTile, 20);
+	    Thread.sleep(5000);
+	    String LossDealCountText = driver.findElement(LossDealTileCount).getText();
+	    String TotalRecordText = driver.findElement(LossDealTotalCount).getText();
+	    // Convert to int
+	    int lossDealCount = Integer.parseInt(LossDealCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("loss Deal Count: " + lossDealCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(lossDealCount, totalRecordCount, "Mismatch between Loss Deal count and Total record count!");    
+	}
+	
+	public void AllDealTileCountValidation() throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, AllDealTile, 20);
+	    Thread.sleep(5000);
+	    String LossDealCountText = driver.findElement(AllDealTileCount).getText();
+	    String TotalRecordText = driver.findElement(AllDealTotalCount).getText();
+	    // Convert to int
+	    int allDealCount = Integer.parseInt(LossDealCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("All Deal Count: " + allDealCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(allDealCount, totalRecordCount, "Mismatch between All Deal count and Total record count!");    
+	}
 }
