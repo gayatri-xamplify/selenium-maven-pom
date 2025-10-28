@@ -26,27 +26,29 @@ public class UploadAssetPage {
 	private By uploadAssetsLink = By.xpath("//span[normalize-space()='Upload']");
 	private By fileInput = By.xpath("//input[@type='file']");
 	private By browseBtn = By.xpath("//button[normalize-space()='Browse Files']");
-	private By assetName = By.id("assetName");
-	private By descriptionFrame = By.xpath("//iframe[@title='Rich Text Editor, editor1']");
+	private By assetName = By.xpath("(//input[@placeholder=\"Enter Name\"])[1]");
+	private By descriptionFrame = By.xpath("//iframe[contains(@title, 'Rich Text Editor')]");
 	private By descriptionInput = By.xpath("//body[@contenteditable='true']");
-	private By folderDropdown = By.xpath("//div[@class='xamplify-dropdown']");
-	private By folderSelectOption_search = By.xpath("//input[@id='myInput']");
+	private By folderDropdown = By.xpath("//div[contains(@class,'dropdown')]//input[contains(@type,'text')]");
+	private By folderSearchInput = By.xpath("//input[@id='myInput']");
+	private By folder_name = By.xpath("//div[@title='xamplify2024-Default-Folder']");
 	private By pickUpTag = By.xpath("//button[@class='btn btn-primary add-btn']");
 	private By addTagIcon = By.xpath("//button[normalize-space()='Add a tag']");
 	private By tagInput = By.xpath("(//input[@placeholder='Add a tag & press Enter'])[2]");
-	private By tagInputField = By.xpath("(//div[contains(@class,'modal-dialog') and .//h4[contains(text(),'Enter Tag Details')]] //input[@aria-label='Add a tag & press Enter'])[2]");
+	private By tagInputField = By.xpath(
+			"(//div[contains(@class,'modal-dialog') and .//h4[contains(text(),'Enter Tag Details')]] //input[@aria-label='Add a tag & press Enter'])[2]");
 	private By tagSaveButton = By.xpath("//span[contains(text(),'save')]");
 	private By tagSelectCheckbox = By.xpath("//label[@class='checkbox-btn']");
-	private By addMoreTagsLink = By.xpath("//div[contains(@class,'row form-group mTags')]/div/a");
-	private By addMoreTagsSearch = By.xpath("(//input[@placeholder='Search...'])[2]");
+	private By addMoreTagsLink = By.xpath("//a[normalize-space()='+ Add more tags']");
+	private By addMoreTagsSearch = By.xpath("(//input[@placeholder='Search...'])[3]");
 	private By addMoreTagsSelect = By.xpath("(//label[@class='checkbox-btn'])[1]");
 	private By addMoreTagsUpdate = By.xpath("//span[contains(text(),'update')]");
 	private By nextButton = By.xpath("//button[normalize-space()='Next']");
 	private By tagSaveBtn = By.xpath("//button[contains(text(),'Save Tag')]");
 	private By save = By.xpath("//span[@class='btn btn-primary transition'][normalize-space()='Save']");
+	private By saveasDraft=By.xpath("//span[normalize-space()='Save as Draft']");
 	private By successToast = By.xpath("//div[contains(@class,'toast-success')]");
 	private By backdrop = By.cssSelector("div.backdrop");
-
 	// BOX upload
 	private By boxIcon = By.xpath("//img[@alt='Box']");
 	private By boxEmail = By.xpath("//input[@type='email']");
@@ -55,6 +57,12 @@ public class UploadAssetPage {
 	private By boxLoginBtn = By.xpath("//button[@type='submit']");
 	private By boxFirstDoc = By.xpath("(//span[contains(@class,'ItemName')])[1]");
 	private By boxChooseBtn = By.xpath("//button[contains(text(),'Choose')]");
+	private By searchPublishInput = By.xpath("(//input[@id='sort-text'])[1]");
+	private By arrowClickAsset = By.xpath("//i[@class='fa IconCustomization fa-angle-right']");
+	private By partnerSelectAsset = By.xpath("//th[@class='text-center']/input");
+	private By saveAndPublishButton = By.xpath("(//span[contains(text(),'Save & Publish')])");
+	private By publishConfirmationMessage = By.xpath("//div[@role='alert']//h4");
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
 	// ================= METHODS ================= //
 
@@ -64,10 +72,10 @@ public class UploadAssetPage {
 		ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
 		WaitUtil.waitAndClick(driver, designUploadOption, 60);
 		WaitUtil.waitAndClick(driver, uploadAssetsLink, 60);
-		// WaitUtil.waitForElementVisible(driver, browseBtn, 60);
-		// ElementUtil.click(browseBtn, driver);
 	}
 
+	
+	/** Upload Asset */
 	public void uploadFile(String filePath) {
 		try {
 			// Ensure the file actually exists before uploading
@@ -108,114 +116,237 @@ public class UploadAssetPage {
 		}
 	}
 
+	
+	/** Selects folder dropdown and declare asset type */
+	
+	public void selectDropdown(String asset_Type, String foldersearchip, String folderName) {
 
+		WaitUtil.waitForPageToLoad(driver, 70);
+		// Wait for backdrop (overlay/spinner) to disappear
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		// Wait for the tile to be visible
+		WaitUtil.waitForVisibility(driver, assetName, 60);
+		ElementUtil.sendText(assetName, asset_Type + System.currentTimeMillis(), driver);
+
+		// Scroll the dropdown into view
+		WebElement dropdownArrow = driver.findElement(folderDropdown);
+		ActionUtil.scrollToElement(driver, dropdownArrow);
+		WaitUtil.waitForElementClickable(driver, folderDropdown, 60);
+		// Try normal click first
+		try {
+			dropdownArrow.click();
+
+		} catch (Exception e) {
+			// If intercepted, try JS click
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", dropdownArrow);
+		}
+
+		WaitUtil.waitForElementVisible(driver, folderSearchInput, 60);
+		WebElement searchInput = driver.findElement(folderSearchInput);
+		searchInput.sendKeys(foldersearchip);
+		searchInput.sendKeys(Keys.ENTER);
+		WaitUtil.waitForElementVisible(driver, folder_name, 60);
+		ActionUtil.hover(driver, folder_name);
+		WaitUtil.waitForElementClickable(driver, folder_name, 10);
+		ElementUtil.click(folder_name, driver);
+		WaitUtil.waitForPageToLoad(driver, 60);
+
+	}
+
+	/** Add Tags to Asset */
+	public void addTags(String tagName) {
+		WaitUtil.waitForPageToLoad(driver, 90);
+		// ✅ Step 1: Wait for and click on 'Pick up Tag(s)'
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitForElementVisible(driver, pickUpTag, 30);
+		WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
+		WebElement pickUpButton = driver.findElement(pickUpTag);
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", pickUpButton);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", pickUpButton);
+
+		System.out.println("✅ Clicked on 'Pick up Tag(s)' successfully");
+
+		// ✅ Step 2: Click on + icon to add new tag
+		WaitUtil.waitAndClick(driver, addTagIcon, 30);
+
+		// ✅ Step 3: Enter new tag name
+		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
+		String uniqueTag = tagName + "_" + System.currentTimeMillis();
+		ElementUtil.sendText(tagInputField, uniqueTag, driver);
+		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+
+		// ✅ Step 4: Save and select tag
+		WaitUtil.waitAndClick(driver, tagSaveButton, 30);
+		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 30);
+		ElementUtil.click(tagSaveButton, driver);
+
+		// ✅ Step 5: Add more tags
+		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 30);
+		ElementUtil.click(addMoreTagsLink, driver);
+		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
+		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
+		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 30);
+		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 30);
+		WaitUtil.waitForPageToLoad(driver, 60);
+		System.out.println("✅ Tags added successfully.");
+	}
 
 	/** Enter Asset Description */
-	public void enterDescription(String text) {
-		WaitUtil.waitForElementVisible(driver, descriptionFrame, 60);
-		driver.switchTo().frame(driver.findElement(descriptionFrame));
-		WebElement descBox = driver.findElement(descriptionInput);
-		descBox.clear();
-		descBox.sendKeys(text);
-		driver.switchTo().defaultContent();
-	}
+//	public void enterDescription(String text) {
+//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+//		WaitUtil.waitForElementVisible(driver, descriptionFrame, 60);
+//		driver.switchTo().frame(driver.findElement(descriptionFrame));
+//		WebElement descBox = driver.findElement(descriptionInput);
+//		descBox.clear();
+//		descBox.sendKeys(text);
+//		driver.switchTo().defaultContent();
+//
+//	}
 
-	/** Upload File directly using sendKeys (No Robot) */
-
-	/** Select Folder from Dropdown */
-	public void selectFolder(String folderName) {
-		
-			// Step 1: Open the folder dropdown
-			WaitUtil.waitAndClick(driver, folderDropdown, 60);
-
-			// Step 2: Click on the search box inside the dropdown
-			WaitUtil.waitAndClick(driver, folderSelectOption_search, 60);
-
-			// Step 3: Type the folder name into the search field
-			WebElement searchInput = driver.findElement(folderSelectOption_search);
-			searchInput.clear();
-			searchInput.sendKeys(folderName);
-
-			// Step 4: Press ENTER to confirm or select the folder
-			searchInput.sendKeys(Keys.ENTER);
-
-			System.out.println("✅ Folder '" + folderName + "' selected successfully!");
-		
-	}
-
-	/** Add Tag to Asset */	
-		
-		public void addTags(String tagName) {
-
-			WaitUtil.waitAndClick(driver, pickUpTag, 60);
-			WaitUtil.waitAndClick(driver, addTagIcon, 90);
-			WaitUtil.waitForPageToLoad(driver, 70);
-			WaitUtil.waitForElementVisible(driver, tagInputField, 90);
-			ElementUtil.sendText(tagInputField, tagName + "_" + System.currentTimeMillis(), driver);
-			ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
-			WaitUtil.waitAndClick(driver, tagSaveButton, 60);
-			WaitUtil.waitAndClick(driver, tagSelectCheckbox, 60);
-			ElementUtil.click(tagSaveButton, driver);
-
-			WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 60);
-			ElementUtil.click(addMoreTagsLink, driver);
-			WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 60);
-			ElementUtil.sendText(addMoreTagsSearch, "test", driver);
-			ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
-			WaitUtil.waitAndClick(driver, addMoreTagsSelect, 60);
-			WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 60);
-
-			//ElementUtil.click(nextButton, driver);
-		}
-		
 	
-	/** Save and Publish Asset */
-	public void saveAndPublishAsset() {
-		WaitUtil.waitAndClick(driver, save, 60);
+	
+	/** Enters description text inside the asset description editor. */
+	public void enterDescription(String text) {
+	    try {
+	        // Wait for any overlay/backdrop to disappeara
+	        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+	        // Wait until the description iframe is present and visible
+	        WaitUtil.waitForPresence(driver, descriptionFrame, 60);
+	        WaitUtil.waitForElementVisible(driver, descriptionFrame, 60);
+
+	        // Switch to the description iframe safely
+	        driver.switchTo().frame(driver.findElement(descriptionFrame));
+
+	        // Wait for description input box to appear inside the iframe
+	        WaitUtil.waitForElementVisible(driver, descriptionInput, 30);
+	        WebElement descBox = driver.findElement(descriptionInput);
+
+	        // Clear and enter description text
+	        descBox.clear();
+	        descBox.sendKeys(text);
+
+	        // Switch back to main DOM after entering text
+	        driver.switchTo().defaultContent();
+
+	        // Wait for the page to stabilize before proceeding
+	        WaitUtil.waitForPageToLoad(driver, 10);
+
+	       // logger.info("Description entered successfully: " + text);
+	    } catch (Exception e) {
+	       // logger.error("Failed to enter description: " + e.getMessage());
+	        throw e;
+	    }
 	}
 
-	/** Validate success message */
-	public String getUploadSuccessMessage() {
-		WaitUtil.waitForElementVisible(driver, successToast, 60);
-		return driver.findElement(successToast).getText().trim();
-	}
+	/** Save Asset */
+	public void saveAsset() {
+		// Wait for page stability after frame switch
+		WaitUtil.waitForPageToLoad(driver, 20);
+		// Ensure Save button is visible and clickable
+		WebElement saveBtn = driver.findElement(save);
+		ActionUtil.scrollToElement(driver, saveBtn);
+		WaitUtil.waitForElementClickable(driver, save, 30);
 
-	// ================= BOX Upload Flow ================= //
-
-	public void uploadFromBox(String email, String password) {
 		try {
-			WaitUtil.waitAndClick(driver, browseBtn, 60);
-			WaitUtil.waitAndClick(driver, boxIcon, 60);
-
-			switchToNewWindow();
-
-			WaitUtil.waitForElementVisible(driver, boxEmail, 60);
-			ElementUtil.sendText(boxEmail, email, driver);
-			WaitUtil.waitAndClick(driver, boxNextBtn, 60);
-
-			WaitUtil.waitForElementVisible(driver, boxPassword, 60);
-			ElementUtil.sendText(boxPassword, password, driver);
-			WaitUtil.waitAndClick(driver, boxLoginBtn, 60);
-
-			WaitUtil.waitAndClick(driver, boxFirstDoc, 60);
-			WaitUtil.waitAndClick(driver, boxChooseBtn, 60);
-
-			switchToMainWindow();
-			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			ElementUtil.click(save, driver);
+			System.out.println("✅ Save button clicked successfully.");
 		} catch (Exception e) {
-			e.printStackTrace();
+			// fallback with JS click if normal click fails
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
+			System.out.println("⚠️ Normal click failed, performed JS click on Save button.");
 		}
 	}
+	
+	
+	/** Save As draft Asset */
+	public void saveAsDraftAsset() {
+		// Wait for page stability after frame switch
+		WaitUtil.waitForPageToLoad(driver, 20);
+		// Ensure Save button is visible and clickable
+		WebElement savedraftBtn = driver.findElement(saveasDraft);
+		ActionUtil.scrollToElement(driver, savedraftBtn);
+		WaitUtil.waitForElementClickable(driver, saveasDraft, 30);
 
-	// ================= UTILITIES ================= //
-
-	private void switchToNewWindow() {
-		for (String handle : driver.getWindowHandles()) {
-			driver.switchTo().window(handle);
+		try {
+			ElementUtil.click(saveasDraft, driver);
+			System.out.println("✅ SaveasDraft button clicked successfully.");
+		} catch (Exception e) {
+			// fallback with JS click if normal click fails
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", savedraftBtn);
+			System.out.println("⚠️ Normal click failed, performed JS click on SaveasDraft button.");
 		}
 	}
+	
+	
+	
+	public void selectPartner() {
+		
+		
+		WaitUtil.waitForPageToLoad(driver, 60);
 
-	private void switchToMainWindow() {
-		driver.switchTo().window(driver.getWindowHandles().iterator().next());
+		ElementUtil.sendText(searchPublishInput, "automate", driver);
+		ElementUtil.sendKey(searchPublishInput, Keys.ENTER, driver);
+		WaitUtil.waitForPageToLoad(driver, 60);
+		WaitUtil.waitForElementVisible(driver, arrowClickAsset, 60);
+		ElementUtil.clickWithRetry(arrowClickAsset, driver, 3); // Use robust click
+		//WaitUtil.waitAndClick(driver, arrowClickTrack, 70);
+
+		WaitUtil.waitAndClick(driver, partnerSelectAsset, 70);
+		ElementUtil.click(saveAndPublishButton, driver);
 	}
+	
+	
+	
+	public String getPublishConfirmationMessage() {
+		return WaitUtil.waitForElementVisible(driver, publishConfirmationMessage, 60).getText();
+	}	
+	 public void backToHome() {
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
+
+	 
 }
+
+
+//	// ================= BOX Upload Flow ================= //
+//
+//	public void uploadFromBox(String email, String password) {
+//		try {
+//			WaitUtil.waitAndClick(driver, browseBtn, 60);
+//			WaitUtil.waitAndClick(driver, boxIcon, 60);
+//
+//			switchToNewWindow();
+//
+//			WaitUtil.waitForElementVisible(driver, boxEmail, 60);
+//			ElementUtil.sendText(boxEmail, email, driver);
+//			WaitUtil.waitAndClick(driver, boxNextBtn, 60);
+//
+//			WaitUtil.waitForElementVisible(driver, boxPassword, 60);
+//			ElementUtil.sendText(boxPassword, password, driver);
+//			WaitUtil.waitAndClick(driver, boxLoginBtn, 60);
+//
+//			WaitUtil.waitAndClick(driver, boxFirstDoc, 60);
+//			WaitUtil.waitAndClick(driver, boxChooseBtn, 60);
+//
+//			switchToMainWindow();
+//			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	// ================= UTILITIES ================= //
+//
+//	private void switchToNewWindow() {
+//		for (String handle : driver.getWindowHandles()) {
+//			driver.switchTo().window(handle);
+//		}
+//	}
+//
+//	private void switchToMainWindow() {
+//		driver.switchTo().window(driver.getWindowHandles().iterator().next());
+//	}
+//}

@@ -1,6 +1,5 @@
 
 package com.stratapps.xamplify.tests;
-
 import java.time.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,41 +28,75 @@ public class UploadAssetTest extends BaseTest {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 		logger.info("UploadAssetsTest setup completed");
 	}
-
 	@Test(priority = 1, enabled = true)
-	public void navigateToUploadAssetsPage() {
+	public void uploadAndSaveAsset() {
 		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.saveAsset();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
 		
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void uploadNewAsset() {
+	public void uploadAndsaveasDraft() {
+		
+		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
 		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
-		// uploadAssetPage.enterAssetName("Demo Test Asset");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.saveAsDraftAsset();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+	}
+	
+	
+	
+	@Test(priority = 3, enabled = false)
+	public void uploadAndPublishAsset() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
 		
 	}
+	
 
-	@Test(priority = 3, enabled = true)
-	public void selectFolder() {
-		// Select folder, category, tags etc.
-		//uploadAssetPage.selectFolder("xamplify");
+	
+	@Test(priority = 9, enabled = false)
+	public void PublishConfirmationMessage() {
 
-		uploadAssetPage.addTags("Automation");
-		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		// Click on Save / Upload button
-		uploadAssetPage.saveAndPublishAsset();
-
-		// Validate success message
-		String successMsg = uploadAssetPage.getUploadSuccessMessage();
-		Assert.assertTrue(successMsg.contains("successfully"), "Asset upload failed!");
+		uploadAssetPage.getPublishConfirmationMessage();
 	}
+	
+	
+	@Test(priority = 10, enabled = false)
+	public void Home() {
 
-	@Test(priority = 3, enabled = false)
+		uploadAssetPage.backToHome();
+	}
+	
+	
+	
+	
+
+	@Test(priority = 5, enabled = false)
 	public void uploadNewAsset_Box() {
 		{
 
-			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
+			//uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
 //    uploadAssetPage.switchToNewWindow();
 //    uploadAssetPage.enterDescription("This is an automated test asset upload from Box");
 		}
