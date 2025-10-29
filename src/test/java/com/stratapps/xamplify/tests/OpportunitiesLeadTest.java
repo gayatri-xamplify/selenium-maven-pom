@@ -57,6 +57,8 @@ public class OpportunitiesLeadTest extends BaseTest {
 	public void AddLead() throws Exception {
 		logger.info("Starting test: Create new lead in Manage leads");
 		opportunitiesleadPage.addLead();
+		logger.info("Starting test: Create new lead in My profile");
+		opportunitiesleadPage.addleadFromMyprofile();
 	}
 
 	@Test(priority = 4, enabled = true)
@@ -85,7 +87,7 @@ public class OpportunitiesLeadTest extends BaseTest {
 		opportunitiesleadPage.addcomment();
 	}
 
-	@Test(priority = 6, enabled = true)
+	@Test(priority = 6, enabled = false)
 	public void LeadTilesAndPagination() throws Exception {
 //logger.info("Starting test: Lead Tiles in Manage leads");
 //opportunitiesleadPage.leadTiles();

@@ -168,7 +168,7 @@ public class OpportunitiesDealPage {
 	public static final By campViewDealSearchIcon = By.xpath("// button[contains(@class,'search-box-item-click')]");
 	public static final By campViewDealSearchclear = By
 			.xpath("//button[@class='glyphicon glyphicon-remove search-box-item-clear']");
-	public static final By viewDealforThisCampaign = By
+	public final By viewDealforThisCampaign = By
 			.xpath("(//i[@class='circled-number fa fa-users IconCustomization'])[1]");
 	public static final By editDealStageStatus = By.xpath("(//span[@class='fa fa-edit mr5 IconCustomization'])[2]");
 	public static final By campViewEditDealStage = By.xpath("//select[@id='createdForPipelineStageId']");

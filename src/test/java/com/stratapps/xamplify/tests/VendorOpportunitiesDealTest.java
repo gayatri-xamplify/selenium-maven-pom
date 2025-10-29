@@ -19,17 +19,17 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.class);
 	private WebDriverWait wait;
 	
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	 * new LoginPage(driver); loginPage.loginAsVendor(); opportunitiesDealPage = new
-	 * OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("OpportunitiesDealPage setup completed"); }
-	 */
-	 
 	
-	  @BeforeClass public void setUp() { opportunitiesDealPage = new
-	  OpportunitiesDealPage(driver); }
+	
+	  @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	  new LoginPage(driver); loginPage.loginAsVendor(); opportunitiesDealPage = new
+	  OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
+	  Duration.ofSeconds(60));
+	  logger.info("OpportunitiesDealPage setup completed"); }
+	  
+	  
+//	  @BeforeClass public void setUp() { opportunitiesDealPage = new
+//	  OpportunitiesDealPage(driver); }
 	 
 	  
 	@Test(priority = 1, enabled = true)
@@ -62,12 +62,22 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	}
 	
 	@Test(priority = 5, enabled = true)
+	public void DealTielsCountValidations() throws InterruptedException {
+		logger.info("Starting test: Won deal tile count and total records validation in Manage deals");
+		opportunitiesDealPage.WonDealTileCountValidation();
+		logger.info("Starting test: Loss deal tile count and total records validation in Manage deals");
+		opportunitiesDealPage.LossDealTileCountValidation();
+		logger.info("Starting test: All deals tile count and total records validation in Manage deals");
+		opportunitiesDealPage.AllDealTileCountValidation();
+	}
+	
+	@Test(priority = 6, enabled = true)
 	public void DealsPagination() throws Exception {
 		logger.info("Starting test: Pagination in Manage deals");
 		opportunitiesDealPage.dealsPaginationandPageCount();
 	}
 	
-	@Test(priority = 6, enabled = true)
+	@Test(priority = 7, enabled = true)
 	public void DealsCampaignView() throws Exception {
 		logger.info("Starting test: CampaignView in Manage deals");
 		opportunitiesDealPage.VendordealCampainView();
@@ -80,7 +90,7 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 	}
 	
 	//pending 
-	@Test(priority = 7, enabled = false)
+	@Test(priority = 8, enabled = false)
 	public void DealsFilter() throws Exception {
 		logger.info("Starting test: appling filter in Manage deals");
 		opportunitiesDealPage.filterDeals();
