@@ -32,7 +32,7 @@ public class UploadAssetTest extends BaseTest {
 	public void uploadAndSaveAsset() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-docx.docx");
 		 //Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -48,7 +48,7 @@ public class UploadAssetTest extends BaseTest {
 		
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-mp3.mp3");
 		 //Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -60,8 +60,40 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 	
-	@Test(priority = 3, enabled = false)
-	public void uploadAndPublishAsset() {
+	@Test(priority = 3, enabled = true)
+	public void uploadAndPublishAsset1() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-mp4.mp4");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+		
+	}
+	
+	@Test(priority = 4, enabled = true)
+	public void uploadAndPublishAsset2() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-doc.doc");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+		
+	}
+	
+	
+	
+	@Test(priority = 5, enabled = true)
+	public void uploadAndPublishAsset3() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
 		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
@@ -70,10 +102,88 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+		
+	}
+	
+	
+	
+	@Test(priority = 6, enabled = true)
+	public void uploadAndPublishAsset4() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-ppt.ppt");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+		
+	}
+	
+	
+	@Test(priority = 7, enabled = true)
+	public void uploadAndPublishAsset5() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-zip.zip");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+		
+	}
+	
+	@Test(priority = 8, enabled = true)
+	public void uploadAndPublishAsset6() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-file.pdf");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+		
+	}
+	
+	@Test(priority = 9, enabled = true)
+	public void uploadAndPublishAsset7() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\files\\test-csv.csv");
+		 //Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("Jpg","xamplify","xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
 		
 	}
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@Test(priority = 9, enabled = false)
 	public void PublishConfirmationMessage() {
