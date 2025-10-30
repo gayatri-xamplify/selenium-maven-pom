@@ -43,7 +43,7 @@ public class UploadAssetTest extends BaseTest {
 		
 	}
 
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 2, enabled = false)
 	public void uploadAndsaveasDraft() {
 		
 		uploadAssetPage.openUploadAssetSection();
@@ -60,7 +60,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 	
-	@Test(priority = 3, enabled = true)
+	@Test(priority = 3, enabled = false)
 	public void uploadAndPublishAsset1() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -75,7 +75,7 @@ public class UploadAssetTest extends BaseTest {
 		
 	}
 	
-	@Test(priority = 4, enabled = true)
+	@Test(priority = 4, enabled = false)
 	public void uploadAndPublishAsset2() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -92,7 +92,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 	
-	@Test(priority = 5, enabled = true)
+	@Test(priority = 5, enabled = false)
 	public void uploadAndPublishAsset3() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -109,7 +109,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 	
-	@Test(priority = 6, enabled = true)
+	@Test(priority = 6, enabled = false)
 	public void uploadAndPublishAsset4() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -125,7 +125,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 	
 	
-	@Test(priority = 7, enabled = true)
+	@Test(priority = 7, enabled = false)
 	public void uploadAndPublishAsset5() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -140,7 +140,7 @@ public class UploadAssetTest extends BaseTest {
 		
 	}
 	
-	@Test(priority = 8, enabled = true)
+	@Test(priority = 8, enabled = false)
 	public void uploadAndPublishAsset6() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -155,7 +155,7 @@ public class UploadAssetTest extends BaseTest {
 		
 	}
 	
-	@Test(priority = 9, enabled = true)
+	@Test(priority = 9, enabled = false)
 	public void uploadAndPublishAsset7() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
@@ -202,13 +202,13 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 
-	@Test(priority = 5, enabled = false)
+	@Test(priority = 11, enabled = true)
 	public void uploadNewAsset_Box() {
 		{
-
-			//uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
-//    uploadAssetPage.switchToNewWindow();
-//    uploadAssetPage.enterDescription("This is an automated test asset upload from Box");
+			uploadAssetPage.openUploadAssetSection();
+			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
+    uploadAssetPage.switchToNewWindow();
+    uploadAssetPage.enterDescription("This is an automated test asset upload from Box");
 		}
 	}
 }

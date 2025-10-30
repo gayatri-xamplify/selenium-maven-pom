@@ -308,45 +308,44 @@ public class UploadAssetPage {
 	    }
 
 	 
+
+
+	// ================= BOX Upload Flow ================= //
+
+	public void uploadFromBox(String email, String password) {
+		try {
+			//WaitUtil.waitAndClick(driver, browseBtn, 60);
+			WaitUtil.waitAndClick(driver, boxIcon, 60);
+
+			switchToNewWindow();
+
+			WaitUtil.waitForElementVisible(driver, boxEmail, 60);
+			ElementUtil.sendText(boxEmail, email, driver);
+			WaitUtil.waitAndClick(driver, boxNextBtn, 60);
+
+			WaitUtil.waitForElementVisible(driver, boxPassword, 60);
+			ElementUtil.sendText(boxPassword, password, driver);
+			WaitUtil.waitAndClick(driver, boxLoginBtn, 60);
+
+			WaitUtil.waitAndClick(driver, boxFirstDoc, 60);
+			WaitUtil.waitAndClick(driver, boxChooseBtn, 60);
+
+			switchToMainWindow();
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// ================= UTILITIES ================= //
+
+	public void switchToNewWindow() {
+		for (String handle : driver.getWindowHandles()) {
+			driver.switchTo().window(handle);
+		}
+	}
+
+	private void switchToMainWindow() {
+		driver.switchTo().window(driver.getWindowHandles().iterator().next());
+	}
 }
-
-
-//	// ================= BOX Upload Flow ================= //
-//
-//	public void uploadFromBox(String email, String password) {
-//		try {
-//			WaitUtil.waitAndClick(driver, browseBtn, 60);
-//			WaitUtil.waitAndClick(driver, boxIcon, 60);
-//
-//			switchToNewWindow();
-//
-//			WaitUtil.waitForElementVisible(driver, boxEmail, 60);
-//			ElementUtil.sendText(boxEmail, email, driver);
-//			WaitUtil.waitAndClick(driver, boxNextBtn, 60);
-//
-//			WaitUtil.waitForElementVisible(driver, boxPassword, 60);
-//			ElementUtil.sendText(boxPassword, password, driver);
-//			WaitUtil.waitAndClick(driver, boxLoginBtn, 60);
-//
-//			WaitUtil.waitAndClick(driver, boxFirstDoc, 60);
-//			WaitUtil.waitAndClick(driver, boxChooseBtn, 60);
-//
-//			switchToMainWindow();
-//			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	// ================= UTILITIES ================= //
-//
-//	private void switchToNewWindow() {
-//		for (String handle : driver.getWindowHandles()) {
-//			driver.switchTo().window(handle);
-//		}
-//	}
-//
-//	private void switchToMainWindow() {
-//		driver.switchTo().window(driver.getWindowHandles().iterator().next());
-//	}
-//}
