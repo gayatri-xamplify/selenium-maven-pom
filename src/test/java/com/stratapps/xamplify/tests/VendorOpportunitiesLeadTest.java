@@ -69,6 +69,18 @@ public class VendorOpportunitiesLeadTest extends BaseTest{
 		opportunitiesleadPage.addcomment();
 	}
 	
+	@Test(priority = 5, enabled = true)
+	public void DealTielsCountValidations() throws InterruptedException {
+		logger.info("Starting test: Won Lead tile count and total records validation in Manage deals");
+		opportunitiesleadPage.WonLeadTileCountValidation();
+		logger.info("Starting test: Loss Lead tile count and total records validation in Manage deals");
+		opportunitiesleadPage.LossLeadTileCountValidation();
+		logger.info("Starting test: Converted Lead tile count and total records validation in Manage deals");
+		opportunitiesleadPage.ConvertedLeadTileCountValidation();
+		logger.info("Starting test: All Lead tile count and total records validation in Manage deals");
+		opportunitiesleadPage.AllLeadTileCountValidation();
+	}
+	
 	@Test(priority = 5, enabled = false)
 	public void LeadTilesAndPagination() throws Exception {
 		//logger.info("Starting test: Lead Tiles in Manage leads");

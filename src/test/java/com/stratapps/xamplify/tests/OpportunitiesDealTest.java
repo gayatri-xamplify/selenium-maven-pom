@@ -20,20 +20,18 @@ public class OpportunitiesDealTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
-	public void setUpClass() {
-		super.setUp();
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.loginAsPartner();
-		opportunitiesDealPage = new OpportunitiesDealPage(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		logger.info("OpportunitiesDealPage setup completed");
-	}
-
 	/*
-	 * @BeforeClass public void setUp() { opportunitiesDealPage = new
-	 * OpportunitiesDealPage(driver); }
+	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
+	 * new LoginPage(driver); loginPage.loginAsPartner(); opportunitiesDealPage =
+	 * new OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60));
+	 * logger.info("OpportunitiesDealPage setup completed"); }
 	 */
+
+	
+	  @BeforeClass public void setUp() { opportunitiesDealPage = new
+	  OpportunitiesDealPage(driver); }
+	 
 
 	@Test(priority = 1, enabled = true)
 	public void OpenManageDealsPage() {
@@ -52,7 +50,6 @@ public class OpportunitiesDealTest extends BaseTest {
 		opportunitiesDealPage.dealSearch("deal");
 		opportunitiesDealPage.dealEmailReport();
 		opportunitiesDealPage.removeDealSearch();
-//opportunitiesleadPage.DealFilter();
 	}
 
 	@Test(priority = 3, enabled = true)
@@ -65,6 +62,8 @@ public class OpportunitiesDealTest extends BaseTest {
 		opportunitiesDealPage.addDealWithAttachContact();
 		logger.info("Starting test: Create new deal by attaching New lead attach in Manage deals");
 		opportunitiesDealPage.addedLeadConvertToDeal();
+		logger.info("Starting test: Create new deal from my Profile dropdown");
+		opportunitiesDealPage.addleadFromMyprofile();
 
 	}
 

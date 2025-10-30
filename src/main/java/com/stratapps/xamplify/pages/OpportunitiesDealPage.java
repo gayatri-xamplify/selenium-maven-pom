@@ -202,7 +202,10 @@ public class OpportunitiesDealPage {
 	public static final By LossDealTile = By.xpath("(//a[text()= ' Detailed view '])[3]/..");
 	public static final By LossDealTileCount = By.xpath("(//div[@class='number']/span)[3]");
 	public static final By LossDealTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
-
+	public static final By MyProfileDropdown = By.xpath("//li[@id='headerdropDownLi']/a");
+	public static final By AddDealBTN = By.xpath("//*[@id=\"headerdropDownLi\"]//li[7]/a");
+	
+	
 // ------------------------------------------------------------------------------------------------------------------
 
 	/*** @hoverOnOpportunities_ManageDeals written by Ganesh */
@@ -328,21 +331,22 @@ public class OpportunitiesDealPage {
 
 	/*** @addDeal written by Ganesh */
 	public void addDeal() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, addDealButton, 10);
+		Thread.sleep(1000);
+		WaitUtil.waitAndClick(driver, addDealButton, 20);
 		Thread.sleep(4000);
-		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
+		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 20);
 		DropdownUtil.selectByValue(driver, dealCompany, "5430");
 		attachLeadInDealForm();
 		changeAttachLeadInDealForm();
-		WaitUtil.waitAndClick(driver, detachContactOrLead, 10);
+		WaitUtil.waitAndClick(driver, detachContactOrLead, 20);
 		attachContactInDealForm();
 		changeContactInDealForm();
-		WaitUtil.waitAndClick(driver, detachContactOrLead, 10);
-		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 5);
+		WaitUtil.waitAndClick(driver, detachContactOrLead, 20);
+		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 20);
 		DropdownUtil.selectByVisibleText(driver, dealPipeLineStage, "Opened");
-		WaitUtil.waitAndSendKeys(driver, dealComment, "Deal Created through automation", 5);
+		WaitUtil.waitAndSendKeys(driver, dealComment, "Deal Created through automation", 20);
 		DealForm();
-		WaitUtil.waitAndClick(driver, saveDeal, 5);
+		WaitUtil.waitAndClick(driver, saveDeal, 20);
 		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "NewDealCreated");
 	}
@@ -430,7 +434,7 @@ public class OpportunitiesDealPage {
 		WaitUtil.waitAndSendKeys(driver, commentHistoryDeal, "comment added in edit comment", 20);
 		Thread.sleep(2000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollTo(0, 800);");
+		js.executeScript("window.scrollTo(0, 960);");
 		WaitUtil.waitAndClick(driver, dealCommentSubmit, 20);
 		WaitUtil.waitAndClick(driver, dealCloseCommentWindow, 20);
 		Thread.sleep(3000);
@@ -516,10 +520,10 @@ public class OpportunitiesDealPage {
 		WaitUtil.waitAndClick(driver, dealNextPg, 20);
 		Thread.sleep(2000);
 		ScreenshotUtil.captureScreenshot(driver, "DealNextPage");
-		WaitUtil.waitAndClick(driver, dealLastPg, 10);
+		WaitUtil.waitAndClick(driver, dealLastPg, 20);
 		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "DealLastPage");
-//WaitUtil.waitAndClick(driver, dealPreviousPg, 10);
+        WaitUtil.waitAndClick(driver, dealPreviousPg, 20);
 		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -600,5 +604,23 @@ public class OpportunitiesDealPage {
 	    System.out.println("Total Records: " + totalRecordCount);	    
 	    // Assertion to compare both values
 	    Assert.assertEquals(allDealCount, totalRecordCount, "Mismatch between All Deal count and Total record count!");    
+	}
+	
+	public void addleadFromMyprofile() throws InterruptedException {
+		WaitUtil.waitAndClick(driver, MyProfileDropdown, 20);
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, AddDealBTN, 20);
+		Thread.sleep(4000);
+		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 20);
+		DropdownUtil.selectByValue(driver, dealCompany, "5430");
+		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 20);
+		Thread.sleep(3000);
+		DropdownUtil.selectByValue(driver, dealPipeLineStage, "88669");
+//		DropdownUtil.selectByVisibleText(driver, dealPipeLineStage, "Opened");
+		WaitUtil.waitAndSendKeys(driver, dealComment, "Deal Created through My profile dropdown", 5);
+		DealForm();
+		WaitUtil.waitAndClick(driver, saveDeal, 5);
+		Thread.sleep(2000);
+		ScreenshotUtil.captureScreenshot(driver, "NewDealCreated");
 	}
 }

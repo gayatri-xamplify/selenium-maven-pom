@@ -12,6 +12,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
@@ -25,7 +26,6 @@ public class OpportunitiesLeadPage {
 	WebDriver driver;
 	private WebDriverWait wait;
 	long timestamp = System.currentTimeMillis();
-
 	public OpportunitiesLeadPage(WebDriver driver) {
 		this.driver = driver;
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -118,6 +118,20 @@ public class OpportunitiesLeadPage {
 	public static final By leadPageCntDrpDwn = By
 			.xpath("(//select[contains(@class,'form-control margin-top pointer mt')])[1]");
 	public static final By registerDeal = By.xpath("(//span[contains(text(),'Register Deal')])[3]");
+	
+	public static final By AllLeadTile = By.xpath("(//a[text()= ' Detailed view '])[1]/..");
+	public static final By AllLeadTileCount = By.xpath("(//div[@class='number']/span)[1]");
+	public static final By AllLeadTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+	public static final By WonLeadTile = By.xpath("(//a[text()= ' Detailed view '])[2]/..");
+	public static final By WonLeadTileCount = By.xpath("(//div[@class='number']/span)[2]");
+	public static final By WonLeadTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+	public static final By LossLeadTile = By.xpath("(//a[text()= ' Detailed view '])[3]/..");
+	public static final By LossLeadTileCount = By.xpath("(//div[@class='number']/span)[3]");
+	public static final By LossLeadTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+	public static final By ConvertedLeadTile = By.xpath("(//a[text()= ' Detailed view '])[4]/..");
+	public static final By ConvertedLeadTileCount = By.xpath("(//div[@class='number']/span)[4]");
+	public static final By ConvertedLeadTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
+	
 
 	/**
 	 * @hoverOnOpportunities written by ganesh
@@ -253,7 +267,8 @@ public class OpportunitiesLeadPage {
 	}
 
 	public void CampainView() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, campaignView, 10);
+		WaitUtil.waitAndClick(driver, campaignView, 20);
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, campaignViewleadslist, 200);
 		ActionUtil.hover(driver, campaignViewleadslist);
 		Thread.sleep(3000);
@@ -261,35 +276,43 @@ public class OpportunitiesLeadPage {
 	}
 
 	public void leadsPaginationandPageCount() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, leadNextPage, 20);
 		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, leadNextPage, 20);
+		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "leadNextPage");
 		WaitUtil.waitAndClick(driver, leadLastPage, 20);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "leadLastPage");
 		WaitUtil.waitAndClick(driver, leadPreviousPage, 20);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
 		WaitUtil.waitAndClick(driver, leadFirstPage, 20);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "leadFirstPage");
-		/*
-		 * try { DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "1");
-		 * ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-1");
-		 * DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "2");
-		 * ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-2"); } catch (Exception
-		 * e) { ScreenshotUtil.captureScreenshot(driver, "No of pages available"); }
-		 */
+		
+		  try { 
+			  Thread.sleep(3000);
+//			  DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "1");
+			  DropdownUtil.selectByVisibleText(driver, leadPageCntDrpDwn, " 24");
+			  ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-1");
+			  Thread.sleep(3000);
+//			  DropdownUtil.selectByValue(driver, leadPageCntDrpDwn, "2");
+			  DropdownUtil.selectByVisibleText(driver, leadPageCntDrpDwn, " 48");
+			  ScreenshotUtil.captureScreenshot(driver, "leadPageCnt-2"); } 
+		  catch (Exception
+		  e) 
+		  { ScreenshotUtil.captureScreenshot(driver, "No of pages available"); }
+		 
 	}
 	
 	
 	public static final By MyProfileDropdown = By.xpath("//li[@id='headerdropDownLi']/a");
-	public static final By AddLead = By.xpath("//*[@id=\"headerdropDownLi\"]//li[6]/a/text()[2]");
+	public static final By AddLeadBTN = By.xpath("//*[@id=\"headerdropDownLi\"]//li[6]/a");
 	
 	public void addleadFromMyprofile() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, MyProfileDropdown, 20);
 		Thread.sleep(3000);
-		WaitUtil.waitAndClick(driver, AddLead, 20);
+		WaitUtil.waitAndClick(driver, AddLeadBTN, 20);
 		WaitUtil.waitForDropdownToBeReady(driver, leadForCompany, 20);
 		DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
 		WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 20);
@@ -301,28 +324,63 @@ public class OpportunitiesLeadPage {
 		ScreenshotUtil.captureScreenshot(driver, "NewLeadCreated From My profile");
 	}
 
-	public void leadTiles() {
-		String TotalRecords;
-		System.out.println("test1");
-		WaitUtil.waitAndClick(driver, totalLeads, 60);
-		String TotalLeadCount = driver.findElement(totalLeadCount).getText();
-		TotalRecords = driver.findElement(leadReacordCnt).getText();
-		assertEquals(TotalLeadCount, TotalRecords);
-		System.out.println("test2");
-		WaitUtil.waitAndClick(driver, wonLeads, 60);
-		String TotalWonLeadsCount = driver.findElement(wonLeadsCount).getText();
-		TotalRecords = driver.findElement(leadReacordCnt).getText();
-		assertEquals(wonLeadsCount, TotalWonLeadsCount);
-		System.out.println("test3");
-		WaitUtil.waitAndClick(driver, lostLeads, 60);
-		String TotalLostLeadsCount = driver.findElement(lostLeadsCount).getText();
-		TotalRecords = driver.findElement(leadReacordCnt).getText();
-		assertEquals(TotalLostLeadsCount, TotalRecords);
-		System.out.println("test3");
-		WaitUtil.waitAndClick(driver, convertedLeads, 60);
-		String TotalConvertedLeadsCount = driver.findElement(convertedLeadsCount).getText();
-		TotalRecords = driver.findElement(leadReacordCnt).getText();
-		assertEquals(TotalConvertedLeadsCount, TotalRecords);
+	public void WonLeadTileCountValidation() throws InterruptedException {
+		Thread.sleep(2000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 0);");
+	    WaitUtil.waitAndClick(driver, WonLeadTile, 20);
+	    Thread.sleep(5000);
+	    String WonLeadCountText = driver.findElement(WonLeadTileCount).getText();
+	    String TotalRecordText = driver.findElement(WonLeadTotalCount).getText();
+	    // Convert to int
+	    int wonLeadCount = Integer.parseInt(WonLeadCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("Won Lead Count: " + wonLeadCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(wonLeadCount, totalRecordCount, "Mismatch between Won Lead count and Total record count!");
+	}
+	
+	public void LossLeadTileCountValidation() throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, LossLeadTile, 20);
+	    Thread.sleep(5000);
+	    String LossLeadCountText = driver.findElement(LossLeadTileCount).getText();
+	    String TotalRecordText = driver.findElement(LossLeadTotalCount).getText();
+	    // Convert to int
+	    int lossLeadCount = Integer.parseInt(LossLeadCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("loss Lead Count: " + lossLeadCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(lossLeadCount, totalRecordCount, "Mismatch between Loss Lead count and Total record count!");    
+	}
+	
+	public void AllLeadTileCountValidation() throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, AllLeadTile, 20);
+	    Thread.sleep(5000);
+	    String LossLeadCountText = driver.findElement(AllLeadTileCount).getText();
+	    String TotalRecordText = driver.findElement(AllLeadTotalCount).getText();
+	    // Convert to int
+	    int allLeadCount = Integer.parseInt(LossLeadCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("All Lead Count: " + allLeadCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(allLeadCount, totalRecordCount, "Mismatch between All Lead count and Total record count!");    
+	}
+	
+	public void ConvertedLeadTileCountValidation() throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, ConvertedLeadTile, 20);
+	    Thread.sleep(5000);
+	    String ConvertedLeadCountText = driver.findElement(ConvertedLeadTileCount).getText();
+	    String TotalRecordText = driver.findElement(ConvertedLeadTotalCount).getText();
+	    // Convert to int
+	    int ConvertedLeadCount = Integer.parseInt(ConvertedLeadCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("Converted Lead Count: " + ConvertedLeadCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(ConvertedLeadCount, totalRecordCount, "Mismatch between Converted Lead count and Total record count!");    
 	}
 
 }
