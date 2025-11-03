@@ -46,23 +46,40 @@ public class UploadAssetPage {
 	private By nextButton = By.xpath("//button[normalize-space()='Next']");
 	private By tagSaveBtn = By.xpath("//button[contains(text(),'Save Tag')]");
 	private By save = By.xpath("//span[@class='btn btn-primary transition'][normalize-space()='Save']");
-	private By saveasDraft=By.xpath("//span[normalize-space()='Save as Draft']");
+	private By saveasDraft = By.xpath("//span[normalize-space()='Save as Draft']");
 	private By successToast = By.xpath("//div[contains(@class,'toast-success')]");
 	private By backdrop = By.cssSelector("div.backdrop");
 	// BOX upload
 	private By boxIcon = By.xpath("//img[@alt='Box']");
-	private By boxEmail = By.xpath("//input[@type='email']");
-	private By boxNextBtn = By.xpath("//input[@type='submit']");
-	private By boxPassword = By.xpath("//input[@type='password']");
-	private By boxLoginBtn = By.xpath("//button[@type='submit']");
-	private By boxFirstDoc = By.xpath("(//span[contains(@class,'ItemName')])[1]");
-	private By boxChooseBtn = By.xpath("//button[contains(text(),'Choose')]");
+	private By boxEmail = By.xpath("//input[@id='login-email']");
+	private By boxNextBtn = By.xpath("//button[@id='login-submit']");
+	private By boxPassword = By.xpath("//input[@id='password-login']");
+	private By boxLoginBtn = By.xpath("//button[@id='login-submit-password']");
+	private By boxFolderDoc = By.xpath("//li[1]//div[1]//div[2]//ul[1]");
+	private By boxthirdDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[1]/div/div[2]/div/input");
+	private By boxfirstDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[5]/div/div[2]/div/input");
+	private By boxsecDoc_Select = By.xpath("//*[@id=\"box-select-item-list\"]/li[6]/div/div[2]/div/input");
+	
+	private By boxChooseBtn = By.xpath("//button[@id='popup_button_select']//span[@class='button_val']");
 	private By searchPublishInput = By.xpath("(//input[@id='sort-text'])[1]");
 	private By arrowClickAsset = By.xpath("//i[@class='fa IconCustomization fa-angle-right']");
 	private By partnerSelectAsset = By.xpath("//th[@class='text-center']/input");
 	private By saveAndPublishButton = By.xpath("(//span[contains(text(),'Save & Publish')])");
 	private By publishConfirmationMessage = By.xpath("//div[@role='alert']//h4");
-    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
+	
+	private By dropBoxIcon = By.xpath("//img[@alt='Dropbox']");
+	private By dropBoxEmail = By.xpath("//input[@id='login-email']");
+	private By dropBoxNextBtn = By.xpath("//button[@id='login-submit']");
+	private By dropBoxPassword = By.xpath("//input[@id='password-login']");
+	private By dropBoxLoginBtn = By.xpath("//button[@id='login-submit-password']");
+	private By dropBoxFolderDoc = By.xpath("//li[1]//div[1]//div[2]//ul[1]");
+	private By dropBoxthirdDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[1]/div/div[2]/div/input");
+	private By dropBoxfirstDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[5]/div/div[2]/div/input");
+	private By dropBoxsecDoc_Select = By.xpath("//*[@id=\"box-select-item-list\"]/li[6]/div/div[2]/div/input");
+	
+	
+	
 
 	// ================= METHODS ================= //
 
@@ -74,7 +91,6 @@ public class UploadAssetPage {
 		WaitUtil.waitAndClick(driver, uploadAssetsLink, 60);
 	}
 
-	
 	/** Upload Asset */
 	public void uploadFile(String filePath) {
 		try {
@@ -116,9 +132,8 @@ public class UploadAssetPage {
 		}
 	}
 
-	
 	/** Selects folder dropdown and declare asset type */
-	
+
 	public void selectDropdown(String asset_Type, String foldersearchip, String folderName) {
 
 		WaitUtil.waitForPageToLoad(driver, 70);
@@ -205,40 +220,37 @@ public class UploadAssetPage {
 //
 //	}
 
-	
-	
 	/** Enters description text inside the asset description editor. */
 	public void enterDescription(String text) {
-	    try {
-	        // Wait for any overlay/backdrop to disappeara
-	        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		try {
+			// Wait for any overlay/backdrop to disappeara
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-	        // Wait until the description iframe is present and visible
-	        WaitUtil.waitForPresence(driver, descriptionFrame, 60);
-	        WaitUtil.waitForElementVisible(driver, descriptionFrame, 60);
+			// Wait until the description iframe is present and visible
+			WaitUtil.waitForPresence(driver, descriptionFrame, 60);
+			WaitUtil.waitForElementVisible(driver, descriptionFrame, 60);
 
-	        // Switch to the description iframe safely
-	        driver.switchTo().frame(driver.findElement(descriptionFrame));
+			// Switch to the description iframe safely
+			driver.switchTo().frame(driver.findElement(descriptionFrame));
 
-	        // Wait for description input box to appear inside the iframe
-	        WaitUtil.waitForElementVisible(driver, descriptionInput, 30);
-	        WebElement descBox = driver.findElement(descriptionInput);
+			// Wait for description input box to appear inside the iframe
+			WaitUtil.waitForElementVisible(driver, descriptionInput, 30);
+			WebElement descBox = driver.findElement(descriptionInput);
+			// Clear and enter description text
+			descBox.clear();
+			descBox.sendKeys(text);
 
-	        // Clear and enter description text
-	        descBox.clear();
-	        descBox.sendKeys(text);
+			// Switch back to main DOM after entering text
+			driver.switchTo().defaultContent();
 
-	        // Switch back to main DOM after entering text
-	        driver.switchTo().defaultContent();
+			// Wait for the page to stabilize before proceeding
+			WaitUtil.waitForPageToLoad(driver, 10);
 
-	        // Wait for the page to stabilize before proceeding
-	        WaitUtil.waitForPageToLoad(driver, 10);
-
-	       // logger.info("Description entered successfully: " + text);
-	    } catch (Exception e) {
-	       // logger.error("Failed to enter description: " + e.getMessage());
-	        throw e;
-	    }
+			// logger.info("Description entered successfully: " + text);
+		} catch (Exception e) {
+			// logger.error("Failed to enter description: " + e.getMessage());
+			throw e;
+		}
 	}
 
 	/** Save Asset */
@@ -259,8 +271,7 @@ public class UploadAssetPage {
 			System.out.println("⚠️ Normal click failed, performed JS click on Save button.");
 		}
 	}
-	
-	
+
 	/** Save As draft Asset */
 	public void saveAsDraftAsset() {
 		// Wait for page stability after frame switch
@@ -279,46 +290,40 @@ public class UploadAssetPage {
 			System.out.println("⚠️ Normal click failed, performed JS click on SaveasDraft button.");
 		}
 	}
-	
-	
-	
-	public void selectPartner() {
-		
-		
-		WaitUtil.waitForPageToLoad(driver, 60);
 
+	public void selectPartner() {
+
+		WaitUtil.waitForPageToLoad(driver, 60);
+		// Scroll down slightly to bring the Team menu into view
+//	    ActionUtil.scrollToElement(driver, driver.findElement(searchPublishInput));
 		ElementUtil.sendText(searchPublishInput, "automate", driver);
 		ElementUtil.sendKey(searchPublishInput, Keys.ENTER, driver);
 		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitForElementVisible(driver, arrowClickAsset, 60);
 		ElementUtil.clickWithRetry(arrowClickAsset, driver, 3); // Use robust click
-		//WaitUtil.waitAndClick(driver, arrowClickTrack, 70);
+		// WaitUtil.waitAndClick(driver, arrowClickTrack, 70);
 
 		WaitUtil.waitAndClick(driver, partnerSelectAsset, 70);
 		ElementUtil.click(saveAndPublishButton, driver);
 	}
-	
-	
-	
+
 	public String getPublishConfirmationMessage() {
 		return WaitUtil.waitForElementVisible(driver, publishConfirmationMessage, 60).getText();
-	}	
-	 public void backToHome() {
-	        WaitUtil.waitAndClick(driver, Gotohome, 60);
-	    }
+	}
 
-	 
-
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
 
 	// ================= BOX Upload Flow ================= //
 
 	public void uploadFromBox(String email, String password) {
 		try {
-			//WaitUtil.waitAndClick(driver, browseBtn, 60);
+			// Click the Box icon and switch to new Box login window
 			WaitUtil.waitAndClick(driver, boxIcon, 60);
-
 			switchToNewWindow();
 
+			// Perform Box login
 			WaitUtil.waitForElementVisible(driver, boxEmail, 60);
 			ElementUtil.sendText(boxEmail, email, driver);
 			WaitUtil.waitAndClick(driver, boxNextBtn, 60);
@@ -326,14 +331,27 @@ public class UploadAssetPage {
 			WaitUtil.waitForElementVisible(driver, boxPassword, 60);
 			ElementUtil.sendText(boxPassword, password, driver);
 			WaitUtil.waitAndClick(driver, boxLoginBtn, 60);
-
-			WaitUtil.waitAndClick(driver, boxFirstDoc, 60);
+			WaitUtil.waitAndClick(driver, boxfirstDoc_Select, 60);
+			WaitUtil.waitAndClick(driver, boxsecDoc_Select, 60);
+			// Select first document and confirm upload
+			WaitUtil.waitAndClick(driver, boxFolderDoc, 60);
+			WaitUtil.waitAndClick(driver, boxthirdDoc_Select, 60);
+			
 			WaitUtil.waitAndClick(driver, boxChooseBtn, 60);
 
+			// ✅ Switch back to main window
 			switchToMainWindow();
+
+			// ✅ Wait for upload to finish and overlay to disappear
 			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+			// ✅ Ensure Description section is visible and ready
+			WaitUtil.waitForElementVisible(driver, searchPublishInput, 60);
+			System.out.println("✅ Switched back to main window successfully after Box upload.");
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("❌ Error during Box upload: " + e.getMessage());
 		}
 	}
 
@@ -348,4 +366,37 @@ public class UploadAssetPage {
 	private void switchToMainWindow() {
 		driver.switchTo().window(driver.getWindowHandles().iterator().next());
 	}
-}
+
+
+
+//================= DropBOX Upload Flow ================= //
+	public void uploadFromDropBox(String email, String password) {
+
+		try {
+
+
+//			// Click the DropBox icon and switch to new DropBox login window
+
+
+			WaitUtil.waitAndClick(driver, dropBoxIcon, 60);
+			switchToNewWindow();
+			// Perform DropBox login
+			WaitUtil.waitForElementVisible(driver, dropBoxEmail, 60);
+			ElementUtil.sendText(dropBoxEmail, email, driver);
+			WaitUtil.waitAndClick(driver, dropBoxNextBtn, 60);
+			WaitUtil.waitForElementVisible(driver, dropBoxPassword, 60);
+			ElementUtil.sendText(dropBoxPassword, password, driver);
+			WaitUtil.waitAndClick(driver, dropBoxLoginBtn, 60);
+			
+		}
+		
+	
+		catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("❌ Error during DropBox upload: " + e.getMessage());
+		}
+		
+	}
+	
+	}
+
