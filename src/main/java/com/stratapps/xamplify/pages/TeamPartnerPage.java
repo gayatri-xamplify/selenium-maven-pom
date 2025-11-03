@@ -1,4 +1,5 @@
 package com.stratapps.xamplify.pages;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -6,6 +7,7 @@ import java.io.IOException;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -31,15 +33,14 @@ public class TeamPartnerPage {
 	private By firstNameField = By.xpath("//input[@id='firstName']");
 	private By lastNameField = By.xpath("//input[@name='lastName']");
 	private By emailIdField = By.xpath("//input[@name='emailId']");
-	private By groupDropdown = By.xpath(
-			"//form[@class='form-horizontal form-bordered form-label-stripped ng-untouched ng-pristine ng-valid']//div[4]/div/div/select");
+	private By groupDropdown = By.xpath("//select[option[contains(text(), '--Please Select Group--')]]");
 	private By saveButton = By.xpath("//span[normalize-space()='Save']");
 	private By inviteButton = By.xpath("//button[normalize-space()='Invite A Team Member']");
 	private By inviteEmailField = By.xpath("(//input[@placeholder='Enter email address(es)'])[2]");
 	private By inviteSendButton = By.xpath("(//span[contains(text(), 'Send')])[2]");
 	private By inviteClose = By.xpath("(//button[contains(text(), 'Cancel')])[4]");
 	private By searchField = By.xpath("(//input[@placeholder='Search'])[1]");
-	private By searchIcon = By.xpath("(//button[@class='search-box-item-click']//i[@class='fa fa-search'])[2]");
+	private By searchIcon = By.xpath("//div[@class='portlet-input input-inline input-small tmutttpx']//i[@class='fa fa-search']");
 	private By deleteUploadIcon = By
 			.xpath("//a[@data-placement='bottom']//i[@class='fa fa-trash-o trashIconCustomization']");
 	private By yesDelete = By.xpath("//button[normalize-space()='Yes, delete it!']");
@@ -67,17 +68,35 @@ public class TeamPartnerPage {
 	private By clearFilter = By.xpath("//a[normalize-space()='Clear Filter']");
 	private By previewIcon = By.xpath("(//i[@class='fa fa-eye'])[1]");
 	private By previewclose = By.xpath("//div[@id=\"preview-team-member-popup\"]/div/div/div[3]/button");
-	private By select_tm=By.xpath("//input[@placeholder='Select Team Members']");
-	
-	private By select_vendor=By.xpath("//input[@placeholder='Select Vendors']");
+	private By select_tm = By.xpath("//input[@placeholder='Select Team Members']");
+	private By backdrop = By.cssSelector("div.backdrop");
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+
+	private By select_vendor = By.xpath("//input[@placeholder='Select Vendors']");
 
 	public void openTeamPage() {
+		// Ensure no backdrop/overlay is blocking the element
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+		// Hover over the team menu and click on "Add"
 		ActionUtil.hoverAndClick(driver, teamMenu);
+
 	}
 
 	public void addTeamMember() {
-		ElementUtil.click(addButton, driver);
+
+		// Wait for the "Add" button to be visible
+		WaitUtil.waitForVisibility(driver, addButton, 60);
+
+		// Check if an overlay or modal is blocking and wait until it's gone
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+		// Use JavaScript to click the element in case it is being blocked
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(addButton));
+
+		// Wait for the next element (First Name Field) to be visible
 		WaitUtil.waitForVisibility(driver, firstNameField, 30);
+		// Fill in the team member details
 		ElementUtil.sendText(firstNameField, "CMR_FN", driver);
 		ElementUtil.sendText(lastNameField, "LN", driver);
 		ElementUtil.sendText(emailIdField, "Partteam" + System.currentTimeMillis() + "@test.com", driver);
@@ -87,8 +106,10 @@ public class TeamPartnerPage {
 
 		WaitUtil.waitForPageToLoad(driver, 70);
 
-		// Wait for backdrop (overlay/spinner) to disappear
-		// WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		// Wait for any potential backdrop/overlay to disappear
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		// Ensure the "Save" button is visible and clickable
+		WaitUtil.waitForVisibility(driver, saveButton, 60);
 		ElementUtil.click(saveButton, driver);
 	}
 
@@ -107,7 +128,7 @@ public class TeamPartnerPage {
 	public void generateCSV() {
 		// Define file path and data
 		String filePath = "teammemberupload.csv";
-		String[][] data = { { "Email Id", "First Name", "Last Name" }, { "autotest@gmail.com", "mouni", "ch" }};
+		String[][] data = { { "Email Id", "First Name", "Last Name" }, { "autotest@gmail.com", "mouni", "ch" } };
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			for (String[] row : data) {
 				writer.write(String.join(",", row));
@@ -144,7 +165,7 @@ public class TeamPartnerPage {
 	}
 
 	public void exportTeamMembers() {
-		
+
 		WaitUtil.waitAndClick(driver, exportExcelButton, 60);
 	}
 
@@ -174,7 +195,7 @@ public class TeamPartnerPage {
 	}
 
 	public void editTeamMember(String updatedFirstName) {
-		
+
 		WaitUtil.waitAndClick(driver, editIcon, 60);
 		WaitUtil.waitAndClick(driver, firstNameField, 60);
 		ElementUtil.sendText(firstNameField, updatedFirstName, driver);
@@ -193,9 +214,24 @@ public class TeamPartnerPage {
 	}
 
 	public void handleAdminsPopup() {
-		
-		WaitUtil.waitAndClick(driver, admins, 60);
+
+		// Wait for page load and ensure admins section is visible
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForElementVisible(driver, admins, 60);
+
+		// Check for any modal/backdrop overlay and wait until it disappears
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+		// Click on Admins section and close the popup
+		ElementUtil.click(admins, driver);
 		WaitUtil.waitAndClick(driver, closeAdminsPopup, 60);
-		
+		// Use JavaScript to ensure we click if standard Selenium click fails
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(closeAdminsPopup));
+
 	}
+	
+	 public void backToHome() {
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
+
 }

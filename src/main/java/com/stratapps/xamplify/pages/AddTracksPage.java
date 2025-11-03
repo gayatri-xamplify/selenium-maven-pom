@@ -24,10 +24,9 @@ public class AddTracksPage {
 	private By folderDropdown = By.xpath("//div[contains(@class,'dropdown')]//input[contains(@type,'text')]");
 	private By folderSearchField = By.xpath("//input[@id='myInput']");
 	private By folderSelectOption = By.xpath("//div[contains(text(),'xamplify2024-Default-Folder')]");
-
 	private By tagPlusIcon = By.xpath("//div[@class='row form-group mTags']/div/button");
 	private By addTagButton = By.xpath("//button[@data-original-title='Add a Tag']");
-	private By tagInputField = By.xpath("(//input[@aria-label='Add a tag & press Enter'])[2]");
+	private By tagInputField = By.xpath("(//div[contains(@class,'modal-dialog') and .//h4[contains(text(),'Enter Tag Details')]] //input[@aria-label='Add a tag & press Enter'])[2]");
 	private By tagSaveButton = By.xpath("//span[contains(text(),'save')]");
 	private By tagSelectCheckbox = By.xpath("//label[@class='checkbox-btn']");
 	private By addMoreTagsLink = By.xpath("//div[contains(@class,'row form-group mTags')]/div/a");
@@ -61,7 +60,7 @@ public class AddTracksPage {
 	private By quizSortBy = By.xpath("(//*[@id='left']/select)[4]");
 	private By quizSearchBox = By.xpath("(//input[@id='search-text'])[2]");
 	private By firstQuizClick = By
-			.xpath("//*[@id='quiz-list']/div/div/div[2]/div[1]/div/div/div[2]/table/tbody/tr/td[1]/input");
+			.xpath("(//*[@id='quiz-list']/div/div/div[2]/div[1]/div/div/div[2]/table/tbody/tr/td[1]/input)[1]");
 	private By previewQuiz = By.xpath("(//tbody/tr[1]/td[4]/div/a/i)[2]");
 	private By closeQuizPopup1 = By.xpath("//a[@id='bottom-right']");
 	private By closeQuizPopup = By
@@ -82,6 +81,7 @@ public class AddTracksPage {
 	private By saveAndPublishButton = By.xpath("(//span[contains(text(),'Save & Publish')])");
 	private By refreshButton = By.xpath("//i[@class='fa fa-refresh']");
 	private By publishConfirmationMessage = By.xpath("//div[@role='alert']//h4");
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
 	private By backdrop = By.cssSelector("div.backdrop");
 
@@ -294,5 +294,8 @@ public class AddTracksPage {
 
 	public String getPublishConfirmationMessage() {
 		return WaitUtil.waitForElementVisible(driver, publishConfirmationMessage, 60).getText();
-	}
+	}	
+	 public void backToHome() {
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
 }

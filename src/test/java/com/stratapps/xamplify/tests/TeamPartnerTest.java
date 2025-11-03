@@ -30,9 +30,7 @@ import com.stratapps.xamplify.utils.ConfigReader;
 			LoginPage loginPage = new LoginPage(driver);
 			loginPage.login(ConfigReader.getProperty("partner.username"), ConfigReader.getProperty("partner.password"));
 			
-			
-			//PartnerLoginPage partnerloginPage = new PartnerLoginPage(driver);
-			//partnerloginPage.login(ConfigReader.getProperty("partnerusername"), ConfigReader.getProperty("partnerpassword"));
+		
 			teamPartnerPage = new TeamPartnerPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("TeamVendorTest setup completed");
@@ -126,6 +124,7 @@ import com.stratapps.xamplify.utils.ConfigReader;
     public void deleteTeamMemberTest() throws InterruptedException {
         logger.info("Test 12: Delete Team Member - STARTED");
         teamPartnerPage.deleteTeamMember();
+        teamPartnerPage.backToHome();
         logger.info("Test 12: Delete Team Member - COMPLETED");
     }
     
