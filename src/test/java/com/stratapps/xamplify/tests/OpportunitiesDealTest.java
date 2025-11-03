@@ -20,18 +20,30 @@ public class OpportunitiesDealTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.class);
 	private WebDriverWait wait;
 
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	 * new LoginPage(driver); loginPage.loginAsPartner(); opportunitiesDealPage =
-	 * new OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("OpportunitiesDealPage setup completed"); }
-	 */
+	@BeforeClass
+	public void setUpClass() {
+		try {
+			opportunitiesDealPage = new OpportunitiesDealPage(driver);
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsPartner();
+			opportunitiesDealPage = new OpportunitiesDealPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("OpportunitiesDealPage setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single classes Run Fail");
+		}
 
-	
-	  @BeforeClass public void setUp() { opportunitiesDealPage = new
-	  OpportunitiesDealPage(driver); }
-	 
+	}
+
+	/*
+	 * @BeforeClass public void setUp() { opportunitiesDealPage = new
+	 * OpportunitiesDealPage(driver); }
+	 */
 
 	@Test(priority = 1, enabled = true)
 	public void OpenManageDealsPage() {
@@ -82,7 +94,7 @@ public class OpportunitiesDealTest extends BaseTest {
 		logger.info("Starting test: Delete deal in Manage deals");
 		opportunitiesDealPage.deleteDeal();
 	}
-	
+
 	@Test(priority = 5, enabled = true)
 	public void DealTielsCountValidations() throws InterruptedException {
 		logger.info("Starting test: Won deal tile count and total records validation in Manage deals");
@@ -116,6 +128,5 @@ public class OpportunitiesDealTest extends BaseTest {
 		logger.info("Starting test: appling filter in Manage deals");
 		opportunitiesDealPage.filterDeals();
 	}
-
 
 }

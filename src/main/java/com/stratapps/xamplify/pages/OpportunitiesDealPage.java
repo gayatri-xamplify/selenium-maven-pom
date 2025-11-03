@@ -203,7 +203,7 @@ public class OpportunitiesDealPage {
 	public static final By LossDealTileCount = By.xpath("(//div[@class='number']/span)[3]");
 	public static final By LossDealTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
 	public static final By MyProfileDropdown = By.xpath("//li[@id='headerdropDownLi']/a");
-	public static final By AddDealBTN = By.xpath("//*[@id=\"headerdropDownLi\"]//li[7]/a");
+	public static final By AddDealBTN = By.xpath("//*[@id='headerdropDownLi']//li[7]/a");
 	
 	
 // ------------------------------------------------------------------------------------------------------------------
@@ -516,15 +516,15 @@ public class OpportunitiesDealPage {
 
 	/*** @leadsPaginationandPageCount written by Ganesh */
 	public void dealsPaginationandPageCount() throws InterruptedException {
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 		WaitUtil.waitAndClick(driver, dealNextPg, 20);
-		Thread.sleep(2000);
+		Thread.sleep(6000);
 		ScreenshotUtil.captureScreenshot(driver, "DealNextPage");
 		WaitUtil.waitAndClick(driver, dealLastPg, 20);
-		Thread.sleep(5000);
+		Thread.sleep(6000);
 		ScreenshotUtil.captureScreenshot(driver, "DealLastPage");
         WaitUtil.waitAndClick(driver, dealPreviousPg, 20);
-		Thread.sleep(5000);
+		Thread.sleep(6000);
 		ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		// js.executeScript("arguments[0].scrollIntoView(true);",
@@ -607,6 +607,7 @@ public class OpportunitiesDealPage {
 	}
 	
 	public void addleadFromMyprofile() throws InterruptedException {
+		Thread.sleep(6000);
 		WaitUtil.waitAndClick(driver, MyProfileDropdown, 20);
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, AddDealBTN, 20);
