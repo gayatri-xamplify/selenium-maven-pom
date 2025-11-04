@@ -183,20 +183,19 @@ public class UploadAssetTest extends BaseTest {
 			uploadAssetPage.openUploadAssetSection();
 			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
 			uploadAssetPage.switchToNewWindow();
-			// uploadAssetPage.enterDescription("This is an automated test asset upload from
-			// Box");
+		
 			uploadAssetPage.selectPartner();
 			uploadAssetPage.getPublishConfirmationMessage();
 			uploadAssetPage.backToHome();
 		}
 	}
-	@Test(priority = 11, enabled = true)
-	public void uploadNewAsset_DropBox() {
-
+	@Test(priority = 12, enabled = true)
+	public void uploadFromWebcamAsset() {
 		uploadAssetPage.openUploadAssetSection();
-		uploadAssetPage.uploadFromDropBox("chmounika@stratapps.com", "Xamplify@11");
-		uploadAssetPage.switchToNewWindow();
-		
+		uploadAssetPage.uploadFromWebcam();
+//		uploadAssetPage.uploadFromDropBox("chmounika@stratapps.com", "Xamplify@11");
+//		uploadAssetPage.switchToNewWindow();
+//		 uploadAssetPage.enterDescription("This is an automated test asset upload from DropBox");
 
 	}
 

@@ -69,16 +69,21 @@ public class UploadAssetPage {
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 	
 	private By dropBoxIcon = By.xpath("//img[@alt='Dropbox']");
-	private By dropBoxEmail = By.xpath("//input[@id='login-email']");
-	private By dropBoxNextBtn = By.xpath("//button[@id='login-submit']");
-	private By dropBoxPassword = By.xpath("//input[@id='password-login']");
-	private By dropBoxLoginBtn = By.xpath("//button[@id='login-submit-password']");
+	private By dropBoxEmail = By.xpath("//input[@type='email']");
+	private By dropBoxContinueBtn = By.xpath("//*[@id=\"susi-container\"]/div/div/div[2]/div/div[2]/form/div[2]/div/button");
+	private By dropBoxPassword = By.xpath("//input[@type='password']");
+	private By dropBoxLoginBtn = By.xpath("//*[@id=\"susi-container\"]/div/div/div[2]/div/div[3]/div/div/form/button/div");
 	private By dropBoxFolderDoc = By.xpath("//li[1]//div[1]//div[2]//ul[1]");
 	private By dropBoxthirdDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[1]/div/div[2]/div/input");
 	private By dropBoxfirstDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[5]/div/div[2]/div/input");
 	private By dropBoxsecDoc_Select = By.xpath("//*[@id=\"box-select-item-list\"]/li[6]/div/div[2]/div/input");
+	private By dropBoxpuzzle = By.xpath("//div[@id=\"root\"]/div/div[1]/button");
 	
-	
+	private By WebCamicon = By.xpath("//img[@alt='Webcam']");
+	private By WebCamrecordicon = By.xpath("//img[@alt='Webcam']");
+	private By WebCamstartrecordicon = By.xpath("//button[@title='Record']");
+	private By WebCamstoprecordicon = By.xpath("//button[@title='Record']");
+	private By WebCamuploadbutton = By.xpath("//button[normalize-space()='Upload']");
 	
 
 	// ================= METHODS ================= //
@@ -369,6 +374,37 @@ public class UploadAssetPage {
 
 
 
+	public void uploadFromWebcam() {
+		
+		
+		try {
+
+
+		// Click the DropBox icon and switch to new DropBox login window
+
+			WaitUtil.waitAndClick(driver, WebCamicon, 60);
+			WaitUtil.waitAndClick(driver, WebCamrecordicon, 60);
+			WaitUtil.waitAndClick(driver, WebCamstartrecordicon, 60);
+			WaitUtil.waitAndClick(driver, WebCamstoprecordicon, 60);
+			WaitUtil.waitAndClick(driver, WebCamuploadbutton, 60);
+			
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("❌ Error during WebCam upload: " + e.getMessage());
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //================= DropBOX Upload Flow ================= //
 	public void uploadFromDropBox(String email, String password) {
 
@@ -383,14 +419,13 @@ public class UploadAssetPage {
 			// Perform DropBox login
 			WaitUtil.waitForElementVisible(driver, dropBoxEmail, 60);
 			ElementUtil.sendText(dropBoxEmail, email, driver);
-			WaitUtil.waitAndClick(driver, dropBoxNextBtn, 60);
+			WaitUtil.waitAndClick(driver, dropBoxContinueBtn, 60);
 			WaitUtil.waitForElementVisible(driver, dropBoxPassword, 60);
 			ElementUtil.sendText(dropBoxPassword, password, driver);
 			WaitUtil.waitAndClick(driver, dropBoxLoginBtn, 60);
 			
 		}
-		
-	
+			
 		catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("❌ Error during DropBox upload: " + e.getMessage());
