@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -218,6 +219,23 @@ public class WaitUtil {
     public static void waitForVisibilityElement(WebDriver driver, WebElement element, int timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    
+    public static void dragAndDrop(WebDriver driver, By sourceLocator, By targetLocator, int timeoutInSeconds) {
+
+        try {
+            WebElement source = waitForElementVisible(driver, sourceLocator, timeoutInSeconds);
+            WebElement target = waitForElementVisible(driver, targetLocator, timeoutInSeconds);
+
+            Actions actions = new Actions(driver);
+            actions.clickAndHold(source).moveToElement(target).release().build().perform();
+
+            System.out.println("✅ Drag and drop performed successfully: " + sourceLocator + " → " + targetLocator);
+
+        } catch (Exception e) {
+                   System.out.println("❌ Error performing drag and drop: " + e.getMessage());
+        }
+
     }
 }
 
