@@ -110,7 +110,7 @@ public class TestListener implements ITestListener, ISuiteListener {
         ExtentManager.flushReport();
 
         EmailUtil.sendReportEmailWithAttachments(
-                "gayatri@xamplify.com",
+                "gayatri@xamplify.com,ganesh@xamplify.com,mounika@xamplify.com",
                 subject,
                 emailBody.toString(),
                 reportPath,

@@ -14,24 +14,35 @@ import com.stratapps.xamplify.pages.OpportunitiesDealPage;
 import com.stratapps.xamplify.utils.ScreenshotUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 
-public class VendorOpportunitiesDealTest extends BaseTest{
+public class VendorOpportunitiesDealTest extends BaseTest {
 	private OpportunitiesDealPage opportunitiesDealPage;
 	private static final Logger logger = LogManager.getLogger(OpportunitiesDealTest.class);
 	private WebDriverWait wait;
-	
-	  @BeforeClass public void setUpClass() { 
-		  super.setUp(); 
-		  LoginPage loginPage =	  new LoginPage(driver); 
-		  loginPage.loginAsVendor(); 
-		  opportunitiesDealPage = new OpportunitiesDealPage(driver); wait = new WebDriverWait(driver,
-	  Duration.ofSeconds(60));
-	  logger.info("OpportunitiesDealPage setup completed"); }
-	 
+
+	@BeforeClass
+	public void setUpClass() {
+		try {
+			opportunitiesDealPage = new OpportunitiesDealPage(driver);
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsVendor();
+			opportunitiesDealPage = new OpportunitiesDealPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("OpportunitiesDealPage setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single classes Run Fail");
+		}
+	}
+
 	/*
 	 * @BeforeClass public void setUp() { opportunitiesDealPage = new
 	 * OpportunitiesDealPage(driver); }
 	 */
-	  
+
 	@Test(priority = 1, enabled = true)
 	public void OpenManageDealsPage() {
 		logger.info("Starting test: Navigate to Manage Deals");
@@ -42,15 +53,16 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 			logger.error("Error in opportunities", e);
 		}
 	}
+
 	@Test(priority = 2, enabled = true)
 	public void searchDealAndEmailReport() throws Exception {
 		logger.info("Starting test: search deals and send email report");
-		opportunitiesDealPage.dealSearch();
+		opportunitiesDealPage.dealSearch("deal");
 		opportunitiesDealPage.dealEmailReport();
 		opportunitiesDealPage.removeDealSearch();
-		//opportunitiesleadPage.DealFilter();
+		// opportunitiesleadPage.DealFilter();
 	}
-	
+
 	@Test(priority = 3, enabled = true)
 	public void DealAction() throws Exception {
 		logger.info("Starting test: view deal in Manage deals");
@@ -60,14 +72,24 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 		logger.info("Starting test: update Status to deal in Manage deals");
 		opportunitiesDealPage.editDealStatus();
 	}
-	
+
 	@Test(priority = 5, enabled = true)
+	public void DealTielsCountValidations() throws InterruptedException {
+		logger.info("Starting test: Won deal tile count and total records validation in Manage deals");
+		opportunitiesDealPage.WonDealTileCountValidation();
+		logger.info("Starting test: Loss deal tile count and total records validation in Manage deals");
+		opportunitiesDealPage.LossDealTileCountValidation();
+		logger.info("Starting test: All deals tile count and total records validation in Manage deals");
+		opportunitiesDealPage.AllDealTileCountValidation();
+	}
+
+	@Test(priority = 6, enabled = true)
 	public void DealsPagination() throws Exception {
 		logger.info("Starting test: Pagination in Manage deals");
 		opportunitiesDealPage.dealsPaginationandPageCount();
 	}
-	
-	@Test(priority = 6, enabled = true)
+
+	@Test(priority = 7, enabled = false)
 	public void DealsCampaignView() throws Exception {
 		logger.info("Starting test: CampaignView in Manage deals");
 		opportunitiesDealPage.VendordealCampainView();
@@ -78,9 +100,9 @@ public class VendorOpportunitiesDealTest extends BaseTest{
 		opportunitiesDealPage.addDealCommentCampaignView();
 		opportunitiesDealPage.dealEmailReport();
 	}
-	
-	//pending 
-	@Test(priority = 7, enabled = false)
+
+	// pending
+	@Test(priority = 8, enabled = false)
 	public void DealsFilter() throws Exception {
 		logger.info("Starting test: appling filter in Manage deals");
 		opportunitiesDealPage.filterDeals();

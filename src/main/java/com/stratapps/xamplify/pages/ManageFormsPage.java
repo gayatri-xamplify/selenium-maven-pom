@@ -153,6 +153,7 @@ public class ManageFormsPage {
 	
 	/*@CopyForm written by Ganesh ***/
 	public void CopyForm() throws InterruptedException {	
+		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, Copyform, 20);
 		driver.findElement(DesignFormPage.Regularformname).clear();
 		WaitUtil.waitAndSendKeys(driver, DesignFormPage.Regularformname, DesignFormPage.FormType + System.currentTimeMillis()+"(Copy)", 20);
