@@ -14,7 +14,7 @@ import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.DesignTemplatesPage;
 import com.stratapps.xamplify.pages.LoginPage;
 
-public class DesignTemplateTest extends BaseTest {
+public class DesignTemplatesTest extends BaseTest {
 	private DesignTemplatesPage designTemplatesPage;
 	private static final Logger logger = LogManager.getLogger(DesignTemplatesPage.class);
 	private WebDriverWait wait;
