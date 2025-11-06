@@ -18,10 +18,10 @@ import com.stratapps.xamplify.pages.ManageFormsPage;
 import com.stratapps.xamplify.pages.ManageTemplatesPage;
 
 
-public class ManageTemplatesTest1 extends BaseTest {
+public class ManageTemplatesTest extends BaseTest {
 	private ManageTemplatesPage manageTemplatesPage;
 	private DesignTemplatesPage designTemplatesPage;
-	private static final Logger logger = LogManager.getLogger(ManageTemplatesTest1.class);
+	private static final Logger logger = LogManager.getLogger(ManageTemplatesTest.class);
 	
 	private ManageFormsPage manageFormsPage;
 	private DesignFormPage designFormPage;
