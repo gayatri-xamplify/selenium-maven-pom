@@ -51,8 +51,11 @@ public class DesignTemplatesPage {
 	public static final By surveybutton = By.xpath("//div[@class=\"buttonwrapper editor-wrapper buttonmodule__wrapper buttonwrapper_item_5a846028-314d-47ca-8037-1888680f4913_c027130d-560d-4e56-96dd-0184da6846ca_be29e559-13cc-4260-98ac-b90aee21f836 item_5a846028-314d-47ca-8037-1888680f4913_c027130d-560d-4e56-96dd-0184da6846ca_be29e559-13cc-4260-98ac-b90aee21f836 module--selected\"]");
 	public static final By Pastesurveyformurl = By.xpath("(//p[text()='Button'])[1]");
 	public static final By surveyformpreviewX = By.xpath("//div[@id=\"form-background-image\"]/..//button[@class=\"close-circle\"]");
-	public static final By fwq = By.xpath("");
-	public static final By f32 = By.xpath("");
+	public static final By PreviousPage = By.xpath("//i[@data-original-title=\"Previous\"]");
+	public static final By firstPage = By.xpath("//i[@data-original-title=\"First\"]");
+	public static final By nextPage = By.xpath("data-original-title=\"Next\"");
+	public static final By lastPage = By.xpath("data-original-title=\"Last\"");
+	public static final By f3sAS2 = By.xpath("");
 
 	
 	// -------------------------------------------------------------------------------------------------------------
