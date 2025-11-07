@@ -190,12 +190,24 @@ public class UploadAssetTest extends BaseTest {
 		}
 	}
 	@Test(priority = 12, enabled = true)
-	public void uploadFromWebcamAsset() {
-		uploadAssetPage.openUploadAssetSection();
-		uploadAssetPage.uploadFromWebcam();
-//		uploadAssetPage.uploadFromDropBox("chmounika@stratapps.com", "Xamplify@11");
-//		uploadAssetPage.switchToNewWindow();
-//		 uploadAssetPage.enterDescription("This is an automated test asset upload from DropBox");
+	public void DesignPDFPublish() {
+		uploadAssetPage.openDesignPDFSection();
+		uploadAssetPage.selectPartnerPDF();
+		uploadAssetPage.backToHome();
+
+	}
+	@Test(priority = 13, enabled = true)
+	public void DesignPDFSave() {
+		uploadAssetPage.openDesignPDFSection();
+		uploadAssetPage.fillAssetDetailsAndSave();
+		uploadAssetPage.backToHome();
+
+	}
+	@Test(priority = 14, enabled = true)
+	public void DesignPDFDraft() {
+		uploadAssetPage.openDesignPDFSection();
+		uploadAssetPage.fillAssetDetailsAndSaveDraft();
+		uploadAssetPage.backToHome();
 
 	}
 
