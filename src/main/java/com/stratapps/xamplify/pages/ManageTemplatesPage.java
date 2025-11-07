@@ -97,7 +97,6 @@ public class ManageTemplatesPage {
 	public static final By firstPage = By.xpath("//i[@data-original-title=\"First\"]");
 	public static final By nextPage = By.xpath("data-original-title=\"Next\"");
 	public static final By lastPage = By.xpath("data-original-title=\"Last\"");
-	public static final By fsf2 = By.xpath("");
 	public static final By fsfs2 = By.xpath("");
 	public static final By fsfee2 = By.xpath("");
 	public static final By fswfs2 = By.xpath("");
@@ -188,14 +187,12 @@ public class ManageTemplatesPage {
 	/* @SpamCheck written by Ganesh ***/
 	public void pagination() throws InterruptedException {
 		Thread.sleep(8000);
-		WaitUtil.waitAndClick(driver, emailspamscore,20);
+		WaitUtil.waitAndClick(driver, nextPage,20);
 		Thread.sleep(8000);
-		WaitUtil.waitAndClick(driver, emailspamscore,20);
+		WaitUtil.waitAndClick(driver, lastPage,20);
 		Thread.sleep(8000);
-		WaitUtil.waitAndClick(driver, emailspamscore,20);
+		WaitUtil.waitAndClick(driver, PreviousPage,20);
 		Thread.sleep(8000);
-		WaitUtil.waitAndClick(driver, emailspamscore,20);
-
-
+		WaitUtil.waitAndClick(driver, firstPage,20);
 	}
 }
