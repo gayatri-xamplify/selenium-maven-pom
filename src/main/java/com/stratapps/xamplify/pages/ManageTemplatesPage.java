@@ -19,7 +19,6 @@ public class ManageTemplatesPage {
 		this.driver = driver;
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 	}
-
 	public static final By managetemplates = By.xpath("//span[@class='design-name']");
 	public static final By gridview = By.xpath("//i[@class='fa fa-th-large p10']");
 	public static final By Templatename = By.xpath("//input[@name='templateName']");
@@ -99,11 +98,9 @@ public class ManageTemplatesPage {
 	public static final By zf32 = By.xpath("");
 	public static final By fc32 = By.xpath("");
 	public static final By fsf2 = By.xpath("");
-	public static final By f34f2 = By.xpath("");	
-	public static final By zfr32 = By.xpath("");
-	public static final By fcr32 = By.xpath("");
-	public static final By fsfv2 = By.xpath("");
-	// ---------------------------------------------------------------
+	public static final By fsfs2 = By.xpath("");
+
+	// ---------------------------------------------
 
 	/* @NavigateToManageTempates written by Ganesh ***/
 	public void NavigateToManageTempates() throws InterruptedException {
