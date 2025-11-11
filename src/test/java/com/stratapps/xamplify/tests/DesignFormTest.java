@@ -42,11 +42,12 @@ public class DesignFormTest extends BaseTest {
 		}
 	}
 	
+	
+	
+	 
 	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	 * new LoginPage(driver); loginPage.loginAsVendor(); designFormPage = new
-	 * DesignFormPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60)); logger.info("DesignFormPage setup completed"); }
+	 * @BeforeClass public void setUpClass() { designFormPage = new
+	 * DesignFormPage(driver); }
 	 */
 
 	/*
