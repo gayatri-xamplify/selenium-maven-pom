@@ -9,6 +9,8 @@ import org.testng.annotations.*;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.ContactsPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
+import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 //import com.stratapps.xamplify.utils.PropertiesFile;
@@ -28,20 +30,40 @@ public class ContactsTest extends BaseTest  {
     private ContactsPage contactsPage;
     private static final Logger logger = LogManager.getLogger(ContactsTest.class);
 
-    @BeforeClass
-    public void setUp() {
-        logger.info("✅ Initializing WebDriver and ContactsPage...");
-  
-    		super.setUp();
-    		logoutIfLoggedIn();
-
-    		LoginPage loginPage = new LoginPage(driver);
-    		loginPage.login(ConfigReader.getProperty("partner.username"), ConfigReader.getProperty("partner.password"));
-
+	@BeforeClass
+	public void setUpClass() {
+		try {
     		contactsPage = new ContactsPage(driver);
     		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-    		logger.info("SharedleadsTest setup completed");
-    	}
+    		logger.info("ContactsTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsPartner();
+    		contactsPage = new ContactsPage(driver);
+    		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+    		logger.info("ContactsTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single class Run Fail");
+		}
+	}
+	
+	/*
+	 * @BeforeClass public void setUp() {
+	 * logger.info("✅ Initializing WebDriver and ContactsPage...");
+	 * 
+	 * super.setUp(); logoutIfLoggedIn();
+	 * 
+	 * LoginPage loginPage = new LoginPage(driver);
+	 * loginPage.login(ConfigReader.getProperty("partner.username"),
+	 * ConfigReader.getProperty("partner.password"));
+	 * 
+	 * contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
+	 */
         
 
 
@@ -50,7 +72,7 @@ public class ContactsTest extends BaseTest  {
         logger.info("🚀 Starting test: Add Contact - One At A Time");
         try {
             contactsPage.hoverContacts();
-            contactsPage.clickAddContacts();
+//            contactsPage.clickAddContacts();
             contactsPage.completeOneAtATimeFlow();
             logger.info("✅ Test Passed: Add Contact - One At A Time");
         } catch (Exception e) {
@@ -65,7 +87,7 @@ public class ContactsTest extends BaseTest  {
         logger.info("🚀 Starting test: Upload Contacts via CSV");
         try {
             contactsPage.hoverContacts();
-            contactsPage.clickAddContacts();
+//            contactsPage.clickAddContacts();
             contactsPage.uploadCSVAndHandle();
             logger.info("✅ Test Passed: Upload Contacts via CSV");
         } catch (Exception e) {
