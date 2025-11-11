@@ -93,14 +93,12 @@ public class ManageTemplatesPage {
 	public static final By ClickHere = By.xpath("//a[text()='click here']");	
 	public static final By Search = By.xpath("//input[@placeholder='search...']");
 	public static final By searchSubmit = By.xpath("(//button[@type='submit'])[2]");
-	public static final By PreviousPage = By.xpath("//i[@data-original-title=\"Previous\"]");
-	public static final By firstPage = By.xpath("//i[@data-original-title=\"First\"]");
-	public static final By nextPage = By.xpath("data-original-title=\"Next\"");
-	public static final By lastPage = By.xpath("data-original-title=\"Last\"");
-	public static final By fsfs2 = By.xpath("");
-	public static final By fsfee2 = By.xpath("");
-	public static final By fswfs2 = By.xpath("");
-	
+	public static final By PreviousPage = By.xpath("//span[text()='Previous']/../..");
+	public static final By firstPage = By.xpath("//span[text()='First']/../..");
+	public static final By nextPage = By.xpath("//i[@title='Next']/../..");
+	public static final By lastPage = By.xpath("//span[text()='Last']/../..");
+	public static final By updateAndClose = By.xpath("//span[contains(text(),'Update & Close')]/..");
+	public static final By SearchClear = By.xpath("//button[@class='glyphicon glyphicon-remove search-box-item-clear']");
 	
 	// ---------------------------------------------
 
@@ -157,14 +155,20 @@ public class ManageTemplatesPage {
 	public void editTemplate() throws InterruptedException {
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, Edittemplate, 20);
+		Thread.sleep(5000);
 		driver.switchTo().frame(0);	
 		//WaitUtil.dragAndDrop(driver, DragTextElement, DropTextBox, 20);
-		Thread.sleep(10000);
-		System.out.println("ch1");
+		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, DesignTemplatesPage.savebutton, 100);
 		driver.switchTo().defaultContent();
-		WaitUtil.waitAndClick(driver, DesignTemplatesPage.SaveAndClose, 20);
+		WaitUtil.waitAndClick(driver, updateAndClose, 20);
 		Thread.sleep(1000);
+	}
+	
+	/* @SearchTemplate written by Ganesh ***/
+	public void searchClear() throws InterruptedException {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, SearchClear, 20);
 	}
 	
 	/* @SearchTemplate written by Ganesh ***/

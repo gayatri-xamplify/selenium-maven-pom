@@ -45,56 +45,40 @@ public class ContactsPage {
 	private By companyName = By.id("name");
 	private By companyWebsite = By.id("website");
 	private By confirmCompanyAdd = By.xpath("//*[@id='addContactModal']/div//div[3]/button[2]/span");
-
-	
-	
 	private By saveButton = By.xpath("//button[@id='sample_editable_1_new']");
-	
 	private By Listname = By.xpath("//*[@id='contactListName']");
-
-	
 	private By existNameMsg = By.xpath("//p[contains(text(),'already exists')]");
 	private By acceptButton = By.xpath("//span[text()='Accept']");
-
 	private By uploadCSV = By.id("uploadCSV");
 	private By legalBasisCSV = By.xpath("//input[@id='legalCSV']");
 	private By csvSaveBtn = By.xpath("//button[@id='saveCSV']");
 	private By csvVerifyBtn = By.xpath("//button[@id='verifyCSV']");
 	private By csvErrorMsg = By.xpath("//span[contains(text(),'already exists')]");
 	private By csvListName = By.xpath("//input[@id='listName']");
-	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
 	// =================== METHODS ===================
+
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
 
 	public void hoverContacts() {
 		logger.info("Hovering over 'Contacts' menu.");
 		ActionUtil.hover(driver, hoverContacts);
-	}
-
-	public void backToHome() {
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
-	public void clickAddContacts() {
 		logger.info("Clicking 'Add Contacts' button.");
-		WaitUtil.waitAndClick(driver, addContactsBtn, 60);
+		ActionUtil.hoverAndClick(driver, addContactsBtn);
 	}
 
 	public void completeOneAtATimeFlow() throws Exception {
 		logger.info("Starting 'One at a Time' contact creation flow.");
-
 		WaitUtil.waitAndClick(driver, oneAtATimeOption, 60);
-
 		String uniqueEmail = "gayatri" + new Random().nextInt(1000) + "@gmail.com";
 		WaitUtil.waitAndSendKeys(driver, emailField, uniqueEmail, 60);
-
 		WaitUtil.waitAndSendKeys(driver, firstName, "GAYATRI", 60);
-		
-
 		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
-
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
-
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
 		}
 
@@ -104,18 +88,9 @@ public class ContactsPage {
 		WaitUtil.waitAndSendKeys(driver, cityField, "Hyderabad", 60);
 		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana", 60);
 		WaitUtil.waitAndSendKeys(driver, zipField, "500050", 60);
-
-		
-		
 		WaitUtil.waitAndClick(driver, confirmCompanyAdd, 30);
-		
-		
-		
-		
-		//WaitUtil.waitAndClick(driver, Listname, 30);
-		  WaitUtil.waitAndSendKeys(driver, Listname, "AutoTestCompany", 30);
+		WaitUtil.waitAndSendKeys(driver, Listname, "AutoTestCompany", 30);
 
-		 
 		/*
 		 * WaitUtil.waitAndSendKeys(driver, companyName, "AutoTestCompany", 30);
 		 * WaitUtil.waitAndSendKeys(driver, companyWebsite, "www.automate.com", 30);
@@ -133,7 +108,6 @@ public class ContactsPage {
 		 * 
 		 * WaitUtil.waitAndClick(driver, saveButton, 30);
 		 */
-
 		try {
 			WebElement errMsg = WaitUtil.waitForVisibility(driver, existNameMsg, 15);
 			if (errMsg.getText().contains("already exists")) {
