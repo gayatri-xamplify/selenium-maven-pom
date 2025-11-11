@@ -52,10 +52,6 @@ public class ManageTemplatesPage {
 	public static final By view = By
 			.xpath("//button[@class='fa fa-th-list btn btn-xs l-g-view mr_4 view_type mobile_view_type']");
 	public static final By videodiv = By.xpath("(//div[@class='bar gridIconCustomization'])[1]");
-	public static final By spamscoreofvideotemplate = By.xpath("(//a[@class='Iconhover custom-grid-icon'])[2]");
-	public static final By spamscoreofvideotemplatebutton = By
-			.xpath("//button[@class='button_blue pull-right mb10 bgcolor-unset']");
-	public static final By closespamscorepopup = By.xpath("(//a[@class='btn Btn-Gray'])[2]");
 	public static final By sendtestmailvideo = By.xpath("(//a[@class='Iconhover custom-grid-icon'])[4]");
 	public static final By submitandsend = By.xpath("(//button[@type='submit'])[3]");
 	public static final By sentandok = By.xpath("//button[@class='swal2-confirm styled']");
@@ -92,14 +88,18 @@ public class ManageTemplatesPage {
 	public static final By CopyIconFirstNameMergetag = By.xpath("(//i[@class='fa fa-copy IconCustomization campaignViewIcon'])[2]");
 	public static final By CopyIconLastNameMergetag = By.xpath("(//i[@class='fa fa-copy IconCustomization campaignViewIcon'])[2]");
 	public static final By mergetagPopupClose = By.xpath("//button[@id='bottom-right']");
-	public static final By DragTextTile = By.xpath("(//div[@role=\"listitem\"])[1]");
-	public static final By DropTextTile = By.xpath("(//div[@role=\"group\"])[7]");
+	public static final By DragTextElement = By.xpath("(//div[@role=\"listitem\"])[1]");
+	public static final By DropTextBox = By.xpath("(//div[@role=\"group\"])[7]");
 	public static final By ClickHere = By.xpath("//a[text()='click here']");	
-	public static final By zf32 = By.xpath("");
-	public static final By fc32 = By.xpath("");
-	public static final By fsf2 = By.xpath("");
-	public static final By fsfs2 = By.xpath("");
-
+	public static final By Search = By.xpath("//input[@placeholder='search...']");
+	public static final By searchSubmit = By.xpath("(//button[@type='submit'])[2]");
+	public static final By PreviousPage = By.xpath("//span[text()='Previous']/../..");
+	public static final By firstPage = By.xpath("//span[text()='First']/../..");
+	public static final By nextPage = By.xpath("//i[@title='Next']/../..");
+	public static final By lastPage = By.xpath("//span[text()='Last']/../..");
+	public static final By updateAndClose = By.xpath("//span[contains(text(),'Update & Close')]/..");
+	public static final By SearchClear = By.xpath("//button[@class='glyphicon glyphicon-remove search-box-item-clear']");
+	
 	// ---------------------------------------------
 
 	/* @NavigateToManageTempates written by Ganesh ***/
@@ -133,13 +133,11 @@ public class ManageTemplatesPage {
 		driver.close();
 		driver.switchTo().window(tabs.get(0));	
 		}
-	 
-
 	
 	/* @SendTestMail written by Ganesh ***/
 	public void SendTestMail() throws InterruptedException {
-		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, emailsendtestmail, 20);
+		Thread.sleep(3000);
+		WaitUtil.waitAndClick(driver, emailsendtestmail, 120);
 		WaitUtil.waitAndSendKeys(driver, emailsubjectline, "Test Mail For Template", 20);
 		WaitUtil.waitAndSendKeys(driver, EmailAddress, "automation.vendor2024@gmail.com", 20);
 		WaitUtil.waitAndClick(driver, ClickHere, 20);
@@ -157,8 +155,48 @@ public class ManageTemplatesPage {
 	public void editTemplate() throws InterruptedException {
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, Edittemplate, 20);
-			
+		Thread.sleep(5000);
+		driver.switchTo().frame(0);	
+		//WaitUtil.dragAndDrop(driver, DragTextElement, DropTextBox, 20);
+		Thread.sleep(3000);
+		WaitUtil.waitAndClick(driver, DesignTemplatesPage.savebutton, 100);
+		driver.switchTo().defaultContent();
+		WaitUtil.waitAndClick(driver, updateAndClose, 20);
+		Thread.sleep(1000);
 	}
 	
+	/* @SearchTemplate written by Ganesh ***/
+	public void searchClear() throws InterruptedException {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, SearchClear, 20);
+	}
 	
+	/* @SearchTemplate written by Ganesh ***/
+	public void SearchTemplate(String searchkeyword) throws InterruptedException {
+		Thread.sleep(2000);
+		WaitUtil.waitAndSendKeys(driver, searchbox, searchkeyword, 20);
+		WaitUtil.waitAndClick(driver, searchSubmit, 20);
+		Thread.sleep(3000);
+	}
+	
+	/* @SpamCheck written by Ganesh ***/
+	public void SpamCheck() throws InterruptedException {
+		WaitUtil.waitAndClick(driver, emailspamscore,20);
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, emailspamcheck, 20);
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, emailspamclose, 20);
+	}
+	
+	/* @SpamCheck written by Ganesh ***/
+	public void pagination() throws InterruptedException {
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, nextPage,20);
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, lastPage,20);
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, PreviousPage,20);
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, firstPage,20);
+	}
 }

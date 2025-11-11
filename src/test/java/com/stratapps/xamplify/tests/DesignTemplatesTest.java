@@ -54,7 +54,7 @@ public class DesignTemplatesTest extends BaseTest {
 		logger.info("Creating Email Co-Branding Template in Design Templates ");
 		designTemplatesPage.designDesignTemplate();
 		designTemplatesPage.selectTemplateTab("Email Co-Branding");
-		designTemplatesPage.createTemplate("Email Co-Branding");
+		designTemplatesPage.createTemplate("Email Co-Branding Template");
 		logger.info("Successfully Created Email Co-Branding Template in Design Templates");
 		System.out.println(" ");
 	}
@@ -74,7 +74,7 @@ public class DesignTemplatesTest extends BaseTest {
 		logger.info("Creating Video Co-Branding Template in Design Templates ");
 		designTemplatesPage.designDesignTemplate();
 		designTemplatesPage.selectTemplateTab("Video Co-Branding");
-		designTemplatesPage.createTemplate("Video Co-Branding");
+		designTemplatesPage.createTemplate("Video Co-Branding Template");
 		logger.info("Successfully Created Video Co-Branding Template in Design Templates");
 		System.out.println(" ");
 	}
@@ -94,7 +94,7 @@ public class DesignTemplatesTest extends BaseTest {
 		logger.info("Creating Video Co-Branding Template in Design Templates ");
 		designTemplatesPage.designDesignTemplate();
 		designTemplatesPage.selectTemplateTab("Event Co-Branding");
-		designTemplatesPage.createTemplate("Event Co-Branding");
+		designTemplatesPage.createTemplate("Event Co-Branding Template");
 		logger.info("Successfully Created Event Co-Branding Template in Design Templates");
 		System.out.println(" ");
 	}
@@ -107,26 +107,37 @@ public class DesignTemplatesTest extends BaseTest {
 		designTemplatesPage.createTemplate("SurveyTemplate");
 		logger.info("Successfully Created Survey Template in Design Templates");
 		System.out.println(" ");
-	}
-    //
+	} //
+
 	@Test(priority = 8, enabled = false)
 	public void CreateSurveyCobrandingTemplate() throws InterruptedException, UnsupportedFlavorException, IOException {
 		logger.info("Creating Survey Co-Branding Template in Design Templates ");
 		designTemplatesPage.designDesignTemplate();
 		designTemplatesPage.selectTemplateTab("Survey Co-Branding");
-		designTemplatesPage.createTemplate("Survey Co-Branding");
+		designTemplatesPage.createTemplate("Survey Co-Branding Template");
 		logger.info("Successfully Created Survey Co-Branding Template in Design Templates");
 		System.out.println(" ");
 	}
 
-	@Test(priority = 7, enabled = false)
+	@Test(priority = 9, enabled = true)
 	public void CreateCustomTemplate() throws InterruptedException, UnsupportedFlavorException, IOException {
-		logger.info("Creating Survey Template in Design Templates ");
+		logger.info("Creating Survey Co-Branding Template in Design Templates ");
 		designTemplatesPage.designDesignTemplate();
-		designTemplatesPage.selectTemplateTab("Survey");
-		designTemplatesPage.createTemplate("SurveyTemplate");
-		logger.info("Successfully Created Survey Template in Design Templates");
+		designTemplatesPage.selectTemplateTab("Upload Custom");
+		Thread.sleep(4000);
+		designTemplatesPage.CreateCustomRegularTemplate("Upload Custom Template");
+		logger.info("Successfully Created Create Custom Template in Design Templates");
 		System.out.println(" ");
 	}
 
+	@Test(priority = 10, enabled = true)
+	public void CreateCustomVideoTemplate() throws InterruptedException, UnsupportedFlavorException, IOException {
+		logger.info("Creating Survey Co-Branding Template in Design Templates ");
+		designTemplatesPage.designDesignTemplate();
+		designTemplatesPage.selectTemplateTab("Upload Custom");
+		Thread.sleep(4000);
+		designTemplatesPage.CreateCustomVideoTemplate("Upload Custom Template");
+		logger.info("Successfully Created Custom Video Template in Design Templates");
+		System.out.println(" ");
+	}
 }

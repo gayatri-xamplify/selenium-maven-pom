@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.EmailCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
+import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class EmailCampaignTest extends BaseTest {
@@ -20,17 +22,34 @@ public class EmailCampaignTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(EmailCampaignTest.class);
     private WebDriverWait wait;
 
-    
-      @BeforeClass
-      public void setUpClass() {
-//          super.setUp();
-//          LoginPage loginPage = new LoginPage(driver);
-//          loginPage.login(ConfigReader.getProperty("username"),
-//                         ConfigReader.getProperty("password"));
-          emailCampaignPage = new EmailCampaignPage(driver);
-          wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-          logger.info("EmailCampaignTest setup completed");
-      }
+	@BeforeClass
+	public void setUpClass() {
+		try {
+	          emailCampaignPage = new EmailCampaignPage(driver);
+	          wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+	          logger.info("EmailCampaignTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsVendor();
+	          emailCampaignPage = new EmailCampaignPage(driver);
+	          wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+	          logger.info("EmailCampaignTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single class Run Fail");
+		}
+	}
+	/*
+	 * @BeforeClass public void setUpClass() { // super.setUp(); // LoginPage
+	 * loginPage = new LoginPage(driver); //
+	 * loginPage.login(ConfigReader.getProperty("username"), //
+	 * ConfigReader.getProperty("password")); emailCampaignPage = new
+	 * EmailCampaignPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("EmailCampaignTest setup completed"); }
+	 */
      
 
    

@@ -93,57 +93,59 @@ public class DesignPages {
 	/* @designDesignPage written by Ganesh ***/
 	public void designDesignPage() throws InterruptedException {
 		Thread.sleep(3000);
-		WaitUtil.waitAndClick(driver, Designmodule, 20);
+		WaitUtil.waitAndClick(driver, Designmodule, 50);
 		WaitUtil.waitAndClick(driver, DesignPages, 20);
 	}
 
-	/* @RegularTab written by Ganesh ***/
-	public void RegularTab() {
-		WaitUtil.waitAndClick(driver, Regular, 20);
+	/* @clickPageTypeTab written by Ganesh ***/
+	public void clickPageTypeTab(String tabName) {
+		By tab = By.xpath("//ul[contains(@class,'mix-filter')]//li[normalize-space(text())='" + tabName + "']");
+		WaitUtil.waitAndClick(driver, tab, 60);
 	}
 
 	/* @createPage written by Ganesh ***/
-	public void createPage() throws InterruptedException {
-		// WebElement hoveringregularpage = WaitUtil.waitForElementVisible(driver,
-		// Templatediv, 20);
-		// action.moveToElement(hoveringregularpage).perform();
+	public void createPage(String pagetype) throws InterruptedException {
 		Thread.sleep(3000);
 		ActionUtil.hover(driver, Templatediv);
 		WaitUtil.waitAndClick(driver, creatediv, 20);
-		// ActionUtil.hoverAndClick(driver, creatediv);
 		Thread.sleep(3000);
-		// WaitUtil.waitAndClick(driver, creatediv, 20);
 		WaitUtil.waitAndClick(driver, Openlinkinnewtab, 20);
 		driver.switchTo().frame(0);
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, savebutton, 20);
 		driver.switchTo().defaultContent();
+		SaveandClose(pagetype);
 	}
 
 	/* @regularPrivatePageSaveandClose written by Ganesh ***/
-	public void regularPrivatePageSaveandClose() {
-		WaitUtil.waitAndSendKeys(driver, nameoftheregularpage, "Regularprivatepage" + timestamp, 20);
+	public void SaveandClose(String PageName) {
+		WaitUtil.waitAndSendKeys(driver, nameoftheregularpage, PageName + timestamp, 20);
 		WaitUtil.waitAndClick(driver, saveandclose, 20);
 	}
 
-	/* @regularpublicPageSaveandClose written by Ganesh ***/
-	public void regularpublicPageSaveandClose() {
-		WaitUtil.waitAndSendKeys(driver, nameoftheregularpage, "Regularpublicpage" + timestamp, 20);
-		DropdownUtil.selectByIndex(driver, pagetypedropdown, 1);
-		WaitUtil.waitAndClick(driver, saveandclose, 20);
-	}
+	/*
+	 * @regularPrivatePageSaveandClose written by Ganesh ** public void
+	 * regularPrivatePageSaveandClose() { WaitUtil.waitAndSendKeys(driver,
+	 * nameoftheregularpage, "Regularprivatepage" + timestamp, 20);
+	 * WaitUtil.waitAndClick(driver, saveandclose, 20); }
+	 * 
+	 * @regularpublicPageSaveandClose written by Ganesh ** public void
+	 * regularpublicPageSaveandClose() { WaitUtil.waitAndSendKeys(driver,
+	 * nameoftheregularpage, "Regularpublicpage" + timestamp, 20);
+	 * DropdownUtil.selectByIndex(driver, pagetypedropdown, 1);
+	 * WaitUtil.waitAndClick(driver, saveandclose, 20); }
+	 * 
+	 * @regularProtectedPageSaveandClose written by Ganesh ** public void
+	 * regularProtectedPageSaveandClose() { WaitUtil.waitAndSendKeys(driver,
+	 * nameoftheregularpage, "RegularProtectPage" + timestamp, 20);
+	 * DropdownUtil.selectByIndex(driver, pagetypedropdown, 2);
+	 * WaitUtil.waitAndClick(driver, saveandclose, 20); }
+	 */
 
-	/* @regularProtectedPageSaveandClose written by Ganesh ***/
-	public void regularProtectedPageSaveandClose() {
-		WaitUtil.waitAndSendKeys(driver, nameoftheregularpage, "RegularProtectPage" + timestamp, 20);
-		DropdownUtil.selectByIndex(driver, pagetypedropdown, 2);
-		WaitUtil.waitAndClick(driver, saveandclose, 20);
-	}
-
-	/* @cobrandedTab written by Ganesh ***/
-	public void cobrandedTab() {
-		WaitUtil.waitAndClick(driver, cobrandedtab, 20);
-	}
+	/*
+	 * @cobrandedTab written by Ganesh ** public void cobrandedTab() {
+	 * WaitUtil.waitAndClick(driver, cobrandedtab, 20); }
+	 */
 
 	/* @cobrandedprivatepagecreation written by Ganesh ***/
 	public void cobrandedprivatepagecreation() {
@@ -198,9 +200,8 @@ public class DesignPages {
 		WaitUtil.waitAndClick(driver, okbutton1, 20);
 	}
 
-	 
-	 /* @editpage written by Ganesh ***/
-	public void editpage() throws	InterruptedException { 
+	/* @editpage written by Ganesh ***/
+	public void editpage() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, Editregpublicpage, 20);
 		Thread.sleep(4000);
 		driver.switchTo().frame(0);
@@ -208,8 +209,8 @@ public class DesignPages {
 		WaitUtil.waitAndClick(driver, savebutton, 20);
 		Thread.sleep(2000);
 		driver.switchTo().defaultContent();
-	WaitUtil.waitAndClick(driver,editupdateandclose, 20);
-}
+		WaitUtil.waitAndClick(driver, editupdateandclose, 20);
+	}
 
 	/* @PreviewPage written by Ganesh ***/
 	public void PreviewPage() {
@@ -286,7 +287,7 @@ public class DesignPages {
 	public void ProtectPageAnalytics() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, searchSubmit, 20);
 		WaitUtil.waitAndClick(driver, pageAnalytics, 20);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		WaitUtil.waitAndClick(driver, AnalyticsExportReport, 20);
 		WaitUtil.waitAndClick(driver, managePageBreadcrumb, 20);
 	}
@@ -307,8 +308,8 @@ public class DesignPages {
 	}
 
 	/* @PageView written by Ganesh ***/
-	public void searchPage() {
-		WaitUtil.waitAndSendKeys(driver, pageSearch, "page", 20);
+	public void searchPage(String Page) {
+		WaitUtil.waitAndSendKeys(driver, pageSearch, Page, 20);
 		WaitUtil.waitAndClick(driver, searchSubmit, 20);
 	}
 
