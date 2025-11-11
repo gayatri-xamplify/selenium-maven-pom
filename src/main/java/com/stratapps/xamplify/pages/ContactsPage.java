@@ -1,8 +1,12 @@
 package com.stratapps.xamplify.pages;
 
 import com.stratapps.xamplify.utils.ActionUtil;
+import com.stratapps.xamplify.utils.CSVUtil;
+import com.stratapps.xamplify.utils.DropdownUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
+import com.stratapps.xamplify.utils.xamplifyUtil;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -10,16 +14,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class ContactsPage {
 
 	private WebDriver driver;
 	private static final Logger logger = LogManager.getLogger(ContactsPage.class);
-
+	String timestamp = String.valueOf(System.currentTimeMillis());
+	String uniqueEmail = "testContact_" + timestamp + new Random().nextInt(10) + "@mail.com";
 	public ContactsPage(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -56,24 +64,31 @@ public class ContactsPage {
 	private By csvErrorMsg = By.xpath("//span[contains(text(),'already exists')]");
 	private By csvListName = By.xpath("//input[@id='listName']");
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
-
+	private By ContactStatus = By.xpath("//div[@id='contactStatus']//select");
+	private By Private = By.xpath("//span[@class='bootstrap-switch-handle-off bootstrap-switch-danger']");
+	private By DownloadCSVTemp = By.xpath("//span[text()='Download CSV Template ']/..");
 	// =================== METHODS ===================
 
 	public void backToHome() {
 		WaitUtil.waitAndClick(driver, Gotohome, 60);
 	}
 
-	public void hoverContacts() {
+	public void hoverContacts() throws InterruptedException {
+		Thread.sleep(3000);
 		logger.info("Hovering over 'Contacts' menu.");
 		ActionUtil.hover(driver, hoverContacts);
 		logger.info("Clicking 'Add Contacts' button.");
 		ActionUtil.hoverAndClick(driver, addContactsBtn);
 	}
+	
+	public void addPrivateContact() {
+		
+	}
 
-	public void completeOneAtATimeFlow() throws Exception {
+	public void completeOneAtATimeFlow(String contactType) throws Exception {
 		logger.info("Starting 'One at a Time' contact creation flow.");
-		WaitUtil.waitAndClick(driver, oneAtATimeOption, 60);
-		String uniqueEmail = "gayatri" + new Random().nextInt(1000) + "@gmail.com";
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, oneAtATimeOption, 80);
 		WaitUtil.waitAndSendKeys(driver, emailField, uniqueEmail, 60);
 		WaitUtil.waitAndSendKeys(driver, firstName, "GAYATRI", 60);
 		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
@@ -81,16 +96,21 @@ public class ContactsPage {
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
 		}
-
 		WaitUtil.waitAndSendKeys(driver, lastName, "A", 60);
 		WaitUtil.waitAndSendKeys(driver, titleField, "sse", 60);
 		WaitUtil.waitAndSendKeys(driver, addressField, "Sri Maruthi Homes, Lingampally", 60);
 		WaitUtil.waitAndSendKeys(driver, cityField, "Hyderabad", 60);
 		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana", 60);
 		WaitUtil.waitAndSendKeys(driver, zipField, "500050", 60);
+		//DropdownUtil.selectByValue(driver, ContactStatus, "4");
 		WaitUtil.waitAndClick(driver, confirmCompanyAdd, 30);
-		WaitUtil.waitAndSendKeys(driver, Listname, "AutoTestCompany", 30);
-
+		WaitUtil.waitAndSendKeys(driver, Listname, "List_"+timestamp + new Random().nextInt(10), 30);
+		if(contactType == "Private") {
+			Thread.sleep(2000);
+			System.out.println("chh");
+			WaitUtil.waitAndClick(driver, Private, 20);
+		}
+		WaitUtil.waitAndClick(driver, saveButton, 30);
 		/*
 		 * WaitUtil.waitAndSendKeys(driver, companyName, "AutoTestCompany", 30);
 		 * WaitUtil.waitAndSendKeys(driver, companyWebsite, "www.automate.com", 30);
@@ -118,8 +138,11 @@ public class ContactsPage {
 		} catch (TimeoutException e) {
 			logger.info("No duplicate list name issue.");
 		}
-
 		WaitUtil.waitAndClick(driver, acceptButton, 30);
+	}
+	
+	public void downloadCSVTemplate() {
+		WaitUtil.waitAndClick(driver, DownloadCSVTemp, 20);
 	}
 
 	public void uploadCSVAndHandle() throws Exception {
@@ -150,4 +173,20 @@ public class ContactsPage {
 			logger.debug("No CSV duplicate error.");
 		}
 	}
-}
+	
+//	public static String CreateCSVFile() {
+//		String getMailId = "user" + System.currentTimeMillis() + "@gmail.com";
+//		String uniquecompany = "company" + System.nanoTime();
+//		List<String[]> ContactUserData = Arrays.asList(
+//				new String[] { "AutomationUser", "Test", uniquecompany, "Automation Tester", "us1" + getMailId,
+//						"Kondapur", "Hyderabad", "Telangana", "534350", "India", "+919999088099" },
+//				new String[] {  "AutomationUser2", "Test2", uniquecompany, "Automation Tester2", "us2" + getMailId,
+//						"Kondapur", "Hyderabad", "Telangana", "534350", "India", "+919999088099" });
+//		
+//// Step 3: Generate CSV dynamically and get the file path
+//		
+////		  String filePath = CSVUtil.generateCSV(ContactUserData);
+////		 		return filePath;}
+	}
+
+

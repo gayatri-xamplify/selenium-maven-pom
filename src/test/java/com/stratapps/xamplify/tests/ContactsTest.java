@@ -1,7 +1,5 @@
 package com.stratapps.xamplify.tests;
 
-
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -22,20 +20,20 @@ import java.time.Duration;
 
 import org.apache.logging.log4j.LogManager;
 
-public class ContactsTest extends BaseTest  {
+public class ContactsTest extends BaseTest {
 
-  //  private WebDriver driver;
+	// private WebDriver driver;
 	private WebDriverWait wait;
 
-    private ContactsPage contactsPage;
-    private static final Logger logger = LogManager.getLogger(ContactsTest.class);
+	private ContactsPage contactsPage;
+	private static final Logger logger = LogManager.getLogger(ContactsTest.class);
 
 	@BeforeClass
 	public void setUpClass() {
 		try {
-    		contactsPage = new ContactsPage(driver);
-    		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-    		logger.info("ContactsTest setup completed");
+			contactsPage = new ContactsPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("ContactsTest setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: Hide multiple classes Run");
 		}
@@ -43,14 +41,14 @@ public class ContactsTest extends BaseTest  {
 			super.setUp();
 			LoginPage loginPage = new LoginPage(driver);
 			loginPage.loginAsPartner();
-    		contactsPage = new ContactsPage(driver);
-    		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-    		logger.info("ContactsTest setup completed");
+			contactsPage = new ContactsPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("ContactsTest setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: single class Run Fail");
 		}
 	}
-	
+
 	/*
 	 * @BeforeClass public void setUp() {
 	 * logger.info("✅ Initializing WebDriver and ContactsPage...");
@@ -64,37 +62,30 @@ public class ContactsTest extends BaseTest  {
 	 * contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
 	 * Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
 	 */
-        
 
+	@Test(priority = 1, enabled = false)
+	public void AddPublicContact_OneAtATime() throws Exception {
+		logger.info("🚀 Starting test: Add Contact - One At A Time");
+		contactsPage.hoverContacts();
+		contactsPage.completeOneAtATimeFlow("Public");
+		logger.info("✅ Test Passed: Add Contact - One At A Time");
+	}
 
-    @Test(priority = 1, enabled = true)
-    public void testAddContact_OneAtATime() {
-        logger.info("🚀 Starting test: Add Contact - One At A Time");
-        try {
-            contactsPage.hoverContacts();
-//            contactsPage.clickAddContacts();
-            contactsPage.completeOneAtATimeFlow();
-            logger.info("✅ Test Passed: Add Contact - One At A Time");
-        } catch (Exception e) {
-            logger.error("❌ Test Failed: Add Contact - One At A Time", e);
-            throw new RuntimeException(e);
-        }
-        contactsPage.backToHome();
-    }
-
-    @Test(priority = 2, enabled = false)
-    public void testUploadContacts_CSV() {
-        logger.info("🚀 Starting test: Upload Contacts via CSV");
-        try {
-            contactsPage.hoverContacts();
-//            contactsPage.clickAddContacts();
-            contactsPage.uploadCSVAndHandle();
-            logger.info("✅ Test Passed: Upload Contacts via CSV");
-        } catch (Exception e) {
-            logger.error("❌ Test Failed: Upload Contacts via CSV", e);
-            throw new RuntimeException(e);
-        }
-    }
+	@Test(priority = 2, enabled = false)
+	public void AddPrivateContact_OneAtATime() throws Exception {
+		logger.info("🚀 Starting test: Add Contact - One At A Time");
+		contactsPage.hoverContacts();
+		contactsPage.completeOneAtATimeFlow("Private");
+		logger.info("✅ Test Passed: Add Contact - One At A Time");
+	}
+	
+	@Test(priority = 3, enabled = true)
+	public void testUploadContacts_CSV() throws Exception {
+		logger.info("🚀 Starting test: Upload Contacts via CSV");
+			contactsPage.hoverContacts();
+			contactsPage.uploadCSVAndHandle();
+			logger.info("✅ Test Passed: Upload Contacts via CSV");
+	}
 
 	/*
 	 * @AfterClass public void tearDown() { if (driver != null) {
