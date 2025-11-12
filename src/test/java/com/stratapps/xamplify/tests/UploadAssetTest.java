@@ -16,7 +16,7 @@ import com.stratapps.xamplify.utils.ConfigReader;
 public class UploadAssetTest extends BaseTest {
 
 	private UploadAssetPage uploadAssetPage;
-	private static final Logger logger = LogManager.getLogger(AddTracksTest.class);
+	private static final Logger logger = LogManager.getLogger(UploadAssetTest.class);
 	private WebDriverWait wait;
 
 	@BeforeClass
@@ -29,14 +29,13 @@ public class UploadAssetTest extends BaseTest {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 		logger.info("UploadAssetsTest setup completed");
 	}
-
-	@Test(priority = 1, enabled = false)
-	public void uploadAndSaveAsset() {
+	@Test(priority = 1, enabled = true)
+	public void uploadAndSaveAsset_docx() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-docx.docx");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-docx.docx");
 		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.selectDropdown("docx", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.saveAsset();
@@ -45,14 +44,14 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 2, enabled = false)
-	public void uploadAndsaveasDraft() {
+	@Test(priority = 2, enabled = true)
+	public void uploadAndsaveasDraft_mp3() {
 
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-mp3.mp3");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-mp3.mp3");
 		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.selectDropdown("mp3", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.saveAsDraftAsset();
@@ -60,11 +59,41 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 3, enabled = false)
-	public void uploadAndPublishAsset1() {
+	@Test(priority = 3, enabled = true)
+	public void uploadAndPublishAsset_mp4() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-mp4.mp4");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-mp4.mp4");
+		// Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("mp4", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+
+	}
+
+	@Test(priority = 4, enabled = true)
+	public void uploadAndPublishAsset_doc() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-doc.doc");
+		// Select folder, category, tags etc.
+		uploadAssetPage.selectDropdown("doc", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.enterDescription("This is an automated test asset upload");
+		uploadAssetPage.addTags("automation");
+		uploadAssetPage.selectPartner();
+		uploadAssetPage.getPublishConfirmationMessage();
+		uploadAssetPage.backToHome();
+
+	}
+
+	@Test(priority = 5, enabled = true)
+	public void uploadAndPublishAsset_jpg() {
+		uploadAssetPage.openUploadAssetSection();
+		// Start asset upload flow
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-image.jpg");
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -75,13 +104,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 4, enabled = false)
-	public void uploadAndPublishAsset2() {
+	@Test(priority = 6, enabled = true)
+	public void uploadAndPublishAsset_ppt() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-doc.doc");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-ppt.ppt");
 		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.selectDropdown("ppt", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
@@ -90,13 +119,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 5, enabled = false)
-	public void uploadAndPublishAsset3() {
+	@Test(priority = 7, enabled = true)
+	public void uploadAndPublishAsset_zip() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-image.jpg");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-zip.zip");
 		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.selectDropdown("zip", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
@@ -105,13 +134,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 6, enabled = false)
-	public void uploadAndPublishAsset4() {
+	@Test(priority = 8, enabled = true)
+	public void uploadAndPublishAsset_pdf() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-ppt.ppt");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-file.pdf");
 		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.selectDropdown("pdf", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
@@ -120,43 +149,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 7, enabled = false)
-	public void uploadAndPublishAsset5() {
+	@Test(priority = 9, enabled = true)
+	public void uploadAndPublishAsset_csv() {
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-zip.zip");
+		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-csv.csv");
 		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
-		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
-		uploadAssetPage.selectPartner();
-		uploadAssetPage.getPublishConfirmationMessage();
-		uploadAssetPage.backToHome();
-
-	}
-
-	@Test(priority = 8, enabled = false)
-	public void uploadAndPublishAsset6() {
-		uploadAssetPage.openUploadAssetSection();
-		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-file.pdf");
-		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
-		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
-		uploadAssetPage.selectPartner();
-		uploadAssetPage.getPublishConfirmationMessage();
-		uploadAssetPage.backToHome();
-
-	}
-
-	@Test(priority = 9, enabled = false)
-	public void uploadAndPublishAsset7() {
-		uploadAssetPage.openUploadAssetSection();
-		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\files\\test-csv.csv");
-		// Select folder, category, tags etc.
-		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
+		uploadAssetPage.selectDropdown("csv", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
 		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
@@ -169,42 +168,38 @@ public class UploadAssetTest extends BaseTest {
 	public void PublishConfirmationMessage() {
 
 		uploadAssetPage.getPublishConfirmationMessage();
-	}
-
-	@Test(priority = 10, enabled = false)
-	public void Home() {
-
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 11, enabled = false)
+	@Test(priority = 10, enabled = true)
 	public void uploadNewAsset_Box() {
 		{
 			uploadAssetPage.openUploadAssetSection();
 			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
 			uploadAssetPage.switchToNewWindow();
-		
 			uploadAssetPage.selectPartner();
 			uploadAssetPage.getPublishConfirmationMessage();
 			uploadAssetPage.backToHome();
 		}
 	}
-	@Test(priority = 12, enabled = true)
-	public void DesignPDFPublish() {
+
+	@Test(priority = 13, enabled = true)
+	public void DesignPDFPublish() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.selectPartnerPDF();
 		uploadAssetPage.backToHome();
-
 	}
-	@Test(priority = 13, enabled = true)
-	public void DesignPDFSave() {
+
+	@Test(priority = 12, enabled = true)
+	public void DesignPDFSave() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSave();
 		uploadAssetPage.backToHome();
 
 	}
-	@Test(priority = 14, enabled = true)
-	public void DesignPDFDraft() {
+
+	@Test(priority = 11, enabled = true)
+	public void DesignPDFDraft() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSaveDraft();
 		uploadAssetPage.backToHome();
