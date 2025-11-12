@@ -22,9 +22,7 @@ import org.apache.logging.log4j.LogManager;
 
 public class ContactsTest extends BaseTest {
 
-	// private WebDriver driver;
 	private WebDriverWait wait;
-
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ContactsTest.class);
 

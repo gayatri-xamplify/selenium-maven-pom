@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.AWTException;
@@ -109,6 +110,21 @@ public class xamplifyUtil {
 	    String numberOnly = newNumber.replace(countryCode + " ", "").replace(countryCode, "");
 	    phoneInput.sendKeys(numberOnly);
 	    Thread.sleep(500);
+	}
+	
+
+	public static void TileCountValidation(WebDriver driver, By tileLocator, By TileCountLocator, By TotalRecordCountLocator, int waittime) throws InterruptedException {
+	    WaitUtil.waitAndClick(driver, tileLocator, waittime);
+	    Thread.sleep(5000);
+	    String TileCountText = driver.findElement(TileCountLocator).getText();
+	    String TotalRecordText = driver.findElement(TotalRecordCountLocator).getText();
+	    // Convert to int
+	    int tileCount = Integer.parseInt(TileCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("Tile Count: " + tileCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(tileCount, totalRecordCount, "Mismatch between Tile count and Total record count!");    
 	}
 	
 }
