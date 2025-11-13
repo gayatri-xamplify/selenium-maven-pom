@@ -81,6 +81,8 @@ public class ManageContactsTest extends BaseTest {
     @Test(priority = 8, enabled = true)
 	public void ContactTilesvalidation() throws Exception {
 		manageContactsPage.SearchContact("Test");
+		manageContactsPage.ExportExcelReport();
+		  
 	}
     
     @Test(priority = 9, enabled = true)

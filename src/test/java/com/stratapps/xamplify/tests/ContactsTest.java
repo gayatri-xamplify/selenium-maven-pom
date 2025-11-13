@@ -28,7 +28,7 @@ public class ContactsTest extends BaseTest {
 
 	@BeforeClass
 	public void setUpClass() {
-		try {
+		try {  
 			contactsPage = new ContactsPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("ContactsTest setup completed");

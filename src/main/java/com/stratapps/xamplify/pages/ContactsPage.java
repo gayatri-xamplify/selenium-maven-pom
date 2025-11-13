@@ -27,7 +27,7 @@ public class ContactsPage {
 	public ContactsPage(WebDriver driver) {
 		this.driver = driver;
 	}
-
+  
 	// =================== LOCATORS ===================
 	public By hoverContacts = By.xpath("//a[@href='javascript:;']//span[@class='title'][contains(text(),'Contacts')]");
 	private By addContactsBtn = By.xpath("//span[contains(text(),'Add Contacts')]");
