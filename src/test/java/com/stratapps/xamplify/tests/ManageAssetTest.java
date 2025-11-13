@@ -30,7 +30,7 @@ public class ManageAssetTest extends BaseTest {
 		logger.info("ManageAssetsTest setup completed");
 	}
 	@Test(priority = 1, enabled = true)
-	public void Refresh() throws Exception {
+	public void manage_docx() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
 		manageAssetPage.sortAssets("Created On(ASC)");
@@ -40,16 +40,64 @@ public class ManageAssetTest extends BaseTest {
 		manageAssetPage.previewAsset("docx");
 		manageAssetPage.downloadAsset();
 		manageAssetPage.viewAnalytics();
-		//manageAssetPage.openFilterAndApply("Type" "mp4");
-	
 	
 	}
 	
 	
-	@Test(priority = 2, enabled = false)
+	@Test(priority = 2, enabled = true)
 	public void views() throws Exception {
 		manageAssetPage.openManageAssetSection();
-		manageAssetPage.openFilterAndApply("Asset name", "Contains", "mp4");
+		manageAssetPage.openFilterAndApply("Asset Name", "Contains", "docx");
+		manageAssetPage.searchAsset("mp4");
+		manageAssetPage.videoActions("D:\\git\\selenium-maven-pom\\files\\test-mp4.mp4");
 	
 }
+	
+	
+	@Test(priority = 3, enabled = true)
+	public void manage_csv() throws Exception {
+		manageAssetPage.openManageAssetSection();
+		manageAssetPage.refreshAssetsPage();
+		manageAssetPage.sortAssets("Created On(ASC)");
+		manageAssetPage.searchAsset("docx");
+		manageAssetPage.deleteAssetFile("csv");
+		manageAssetPage.previewAsset("csv");
+		manageAssetPage.downloadAsset();
+		manageAssetPage.viewAnalytics();
+	
+	}
+	
+	
+	
+	
+	
+	@Test(priority = 4, enabled = true)
+	public void manage_ppt() throws Exception {
+		manageAssetPage.openManageAssetSection();
+		manageAssetPage.refreshAssetsPage();
+		manageAssetPage.sortAssets("Created On(DESC)");
+		manageAssetPage.searchAsset("ppt");
+		manageAssetPage.deleteAssetFile("ppt");
+		manageAssetPage.previewAsset("ppt");
+		manageAssetPage.downloadAsset();
+		manageAssetPage.viewAnalytics();
+	
+	}
+	
+	
+	
+	
+	@Test(priority = 5, enabled = true)
+	public void manage_pdf() throws Exception {
+		manageAssetPage.openManageAssetSection();
+		manageAssetPage.refreshAssetsPage();
+		manageAssetPage.sortAssets("Created On(DESC)");
+		manageAssetPage.searchAsset("pdf");
+		manageAssetPage.pdfAssetActions("pdf");
+	
+	}
+	
+	
+	
+	
 }
