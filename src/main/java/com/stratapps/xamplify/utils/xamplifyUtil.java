@@ -114,10 +114,13 @@ public class xamplifyUtil {
 	
 
 	public static void TileCountValidation(WebDriver driver, By tileLocator, By TileCountLocator, By TotalRecordCountLocator, int waittime) throws InterruptedException {
-	    WaitUtil.waitAndClick(driver, tileLocator, waittime);
+	    Thread.sleep(5000);
+		//WaitUtil.waitAndClick(driver, tileLocator, waittime);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(tileLocator));
 	    Thread.sleep(5000);
 	    String TileCountText = driver.findElement(TileCountLocator).getText();
 	    String TotalRecordText = driver.findElement(TotalRecordCountLocator).getText();
+	    System.out.println(TotalRecordText +"  "+ TileCountText);
 	    // Convert to int
 	    int tileCount = Integer.parseInt(TileCountText.replaceAll("[^0-9]", ""));
 	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    

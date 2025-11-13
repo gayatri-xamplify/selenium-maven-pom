@@ -61,7 +61,7 @@ public class ContactsTest extends BaseTest {
 	 * Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
 	 */
 
-	@Test(priority = 1, enabled = false)
+	@Test(priority = 1, enabled = true)
 	public void AddPublicContact_OneAtATime() throws Exception {
 		logger.info("🚀 Starting test: Add Contact - One At A Time");
 		contactsPage.hoverContacts();
@@ -69,7 +69,7 @@ public class ContactsTest extends BaseTest {
 		logger.info("✅ Test Passed: Add Contact - One At A Time");
 	}
 
-	@Test(priority = 2, enabled = false)
+	@Test(priority = 2, enabled = true)
 	public void AddPrivateContact_OneAtATime() throws Exception {
 		logger.info("🚀 Starting test: Add Contact - One At A Time");
 		contactsPage.hoverContacts();
@@ -78,13 +78,21 @@ public class ContactsTest extends BaseTest {
 	}
 	
 	@Test(priority = 3, enabled = true)
-	public void testUploadContacts_CSV() throws Exception {
+	public void testUploadPublicContacts_CSV() throws Exception {
 		logger.info("🚀 Starting test: Upload Contacts via CSV");
 			contactsPage.hoverContacts();
-			contactsPage.uploadCSVAndHandle();
+			contactsPage.uploadCSVContacts("Public");
 			logger.info("✅ Test Passed: Upload Contacts via CSV");
 	}
 
+	@Test(priority = 4, enabled = true)
+	public void testUploadPrivateContacts_CSV() throws Exception {
+		logger.info("🚀 Starting test: Upload Contacts via CSV");
+			contactsPage.hoverContacts();
+			contactsPage.uploadCSVContacts("Private");
+			logger.info("✅ Test Passed: Upload Contacts via CSV");
+	}
+	
 	/*
 	 * @AfterClass public void tearDown() { if (driver != null) {
 	 * logger.info("🔚 Quitting WebDriver..."); // Instance.quitInstance(); } }

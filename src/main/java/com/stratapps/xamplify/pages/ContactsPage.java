@@ -31,7 +31,7 @@ public class ContactsPage {
 	// =================== LOCATORS ===================
 	public By hoverContacts = By.xpath("//a[@href='javascript:;']//span[@class='title'][contains(text(),'Contacts')]");
 	private By addContactsBtn = By.xpath("//span[contains(text(),'Add Contacts')]");
-	private By oneAtATimeOption = By.xpath("//button[@id='addContacts']/span/img");
+	private By oneAtATimeOption = By.xpath("//button[@id='add_contact' or @id='addContacts']");
 
 	private By emailField = By.xpath("//input[@id='email1']");
 	private By legalBasisField = By.xpath("//*[@id='multiselectelement']/div//span[3]/input");
@@ -99,7 +99,6 @@ public class ContactsPage {
 		WaitUtil.waitAndSendKeys(driver, Listname, "List_" + timestamp + new Random().nextInt(10), 30);
 		if (contactType == "Private") {
 			Thread.sleep(2000);
-			System.out.println("chh");
 			WaitUtil.waitAndClick(driver, Private, 20);
 		}
 		WaitUtil.waitAndClick(driver, saveButton, 30);
@@ -150,8 +149,8 @@ public class ContactsPage {
 		return filePath;
 	}
 
-	/// . @downloadCSVTemplate is updated by Ganesh ./
-	public void uploadCSVAndHandle() throws Exception {
+	/// . @uploadCSVContacts is updated by Ganesh ./
+	public void uploadCSVContacts(String contactType) throws Exception {
 		logger.info("Uploading contact via CSV...");
 		String CsvFilePath = CreateCSVFile();
 		Thread.sleep(5000);
@@ -177,8 +176,14 @@ public class ContactsPage {
 		ElementUtil.sendKey(legalBasisCSV, Keys.ENTER, driver);
 		WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
 		ElementUtil.sendKey(legalBasisCSV, Keys.ENTER, driver);
-		Thread.sleep(5000);
+		Thread.sleep(2000);
+		if (contactType == "Private") {
+			Thread.sleep(2000);
+			WaitUtil.waitAndClick(driver, Private, 20);
+			WaitUtil.waitAndClick(driver, Private, 20);
 
+		}
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, csvSaveBtn, 30);
 		WaitUtil.waitAndClick(driver, acceptButton, 30);
 

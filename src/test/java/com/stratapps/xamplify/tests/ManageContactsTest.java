@@ -18,6 +18,7 @@ public class ManageContactsTest extends BaseTest {
 	private ManageContactsPage manageContactsPage;
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ManageContactsTest.class);
+	
 
 	@BeforeClass
 	public void setUpClass() {
@@ -47,15 +48,47 @@ public class ManageContactsTest extends BaseTest {
 	
 	
     @Test(priority = 1, enabled = true)
-	public void NavigateToManageContacts() throws InterruptedException {
+	public void MyContactsActions() throws Exception {
 		Thread.sleep(3000);
 		manageContactsPage.hoverContacts_ManageContacts();
 //		manageContactsPage.clickContactsTab("All");
-//		manageContactsPage.DeleteContactList();
-//		manageContactsPage.CopyContactList();
-		Thread.sleep(4000);
+		manageContactsPage.DeleteContactList();
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList();
+		manageContactsPage.publishCampaign();
+	}
+    
+	
+    @Test(priority = 2, enabled = true)
+	public void FormContactsActions() throws Exception {
+		Thread.sleep(3000);
+		manageContactsPage.hoverContacts_ManageContacts();
+		manageContactsPage.clickContactsTab("Form");
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList();
+	}
+    
+    @Test(priority = 4, enabled = true)
+	public void CompanyContactsActions() throws Exception {
+		Thread.sleep(3000);
+		manageContactsPage.hoverContacts_ManageContacts();
+		manageContactsPage.clickContactsTab("Company");
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList();
+		manageContactsPage.publishCampaign();
+	}
+    
+    @Test(priority = 8, enabled = true)
+	public void ContactTilesvalidation() throws Exception {
+		manageContactsPage.SearchContact("Test");
+	}
+    
+    @Test(priority = 9, enabled = true)
+	public void searchSortandExportReport() throws Exception {
 		manageContactsPage.ManageContactsTilesCountValidation();
 	}
+    
+    
 }
 
 
