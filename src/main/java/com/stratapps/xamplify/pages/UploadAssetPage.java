@@ -38,7 +38,8 @@ public class UploadAssetPage {
 	private By folderSearchInput = By.xpath("//input[@id='myInput']");
 	private By folder_name = By.xpath("//div[@title='xamplify2024-Default-Folder']");
 	private By pickUpTag = By.xpath("//button[@class='btn btn-primary add-btn']");
-	private By addTagIcon = By.xpath("//button[normalize-space()='Add a tag']");
+	private By addTagIcon = By
+			.xpath("//div[@id='addTagModal']//button[contains(@class,'add-btn') and normalize-space()='Add a tag']");
 	private By tagInput = By.xpath("(//input[@placeholder='Add a tag & press Enter'])[2]");
 	private By tagInputField = By.xpath(
 			"(//div[contains(@class,'modal-dialog') and .//h4[contains(text(),'Enter Tag Details')]] //input[@aria-label='Add a tag & press Enter'])[2]");
@@ -49,6 +50,9 @@ public class UploadAssetPage {
 	private By addMoreTagsSelect = By.xpath("(//label[@class='checkbox-btn'])[1]");
 	private By addMoreTagsUpdate = By.xpath("//span[contains(text(),'update')]");
 	private By nextButton = By.xpath("//button[normalize-space()='Next']");
+
+	public By active_modal = By.xpath("//div[@id='addTagModal' and contains(@style,'display: block')]");
+
 	private By tagSaveBtn = By.xpath("//button[contains(text(),'Save Tag')]");
 	private By save = By.xpath("//span[@class='btn btn-primary transition'][normalize-space()='Save']");
 	private By saveasDraft = By.xpath("//span[normalize-space()='Save as Draft']");
@@ -91,66 +95,99 @@ public class UploadAssetPage {
 	private By WebCamstartrecordicon = By.xpath("//button[@title='Record']");
 	private By WebCamstoprecordicon = By.xpath("//button[@title='Record']");
 	private By WebCamuploadbutton = By.xpath("//button[normalize-space()='Upload']");
-	
-	
-	
+
 	private By designpdfLink = By.xpath("//span[@class='design-name'][normalize-space()='Design']");
-	private By designPdfSave = By.xpath("//button[.//span[text()='SAVE']]");
+	private By designPdfSave = By.xpath("//button[contains(.,'SAVE') or contains(@class,'Header_saveButton')]");
 	private By nameField = By.xpath("//input[@placeholder='Name' and @type='text']");
 	private By pdfSave = By.xpath("//button[@type='button'][normalize-space()='Save']");
 	private By pdfDraft = By.xpath("//button[normalize-space()='Save as Draft']");
 	private By saveAndPublishPDF = By.xpath("//button[normalize-space()='Save & Publish']");
 
-	
-	
 	// ================= METHODS ================= //
 
 	/** Navigate to Upload Asset Page */
 	public void openUploadAssetSection() {
-		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
+		WaitUtil.waitForElementVisible(driver, contentMenu, 90);
 		ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
-		WaitUtil.waitAndClick(driver, designUploadOption, 60);
-		WaitUtil.waitAndClick(driver, uploadAssetsLink, 60);
+		WaitUtil.waitAndClick(driver, designUploadOption, 90);
+		WaitUtil.waitForPageToLoad(driver, 30);
+		// WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitAndClick(driver, uploadAssetsLink, 90);
 	}
 
 	/** Upload Asset */
 	public void uploadFile(String filePath) {
 		try {
-			// Ensure the file actually exists before uploading
+			// 🕒 Step 1: Wait and cleanup any previous overlay or modal
+			WaitUtil.waitForPageToLoad(driver, 90);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			Thread.sleep(1500); // short pause to ensure prior state cleared
+
+			// 🧩 Step 2: Ensure file exists
 			File file = new File(filePath);
 			if (!file.exists()) {
 				throw new RuntimeException("❌ File not found at path: " + filePath);
 			}
 
-			// Locate the <input type="file"> element directly
+			// 🧱 Step 3: Locate a fresh <input type='file'> each time (React replaces old
+			// ones)
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 			WebElement uploadInput = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
 
-			// Avoid clicking any button that opens the native file picker
-			// Force visibility and enable the file input if it is hidden
+			// 🔧 Step 4: Force visibility & enable input (in case it's hidden)
 			((JavascriptExecutor) driver).executeScript(
-					"arguments[0].style.display='block'; " + "arguments[0].style.visibility='visible'; "
-							+ "arguments[0].style.opacity='1'; " + "arguments[0].removeAttribute('disabled');",
+					"arguments[0].style.display='block';" + "arguments[0].style.visibility='visible';"
+							+ "arguments[0].style.opacity='1';" + "arguments[0].removeAttribute('disabled');"
+							+ "arguments[0].value='';", // clear any residual value
 					uploadInput);
 
-			// Log debug info
-			System.out.println("Uploading file via input: " + uploadInput.getAttribute("outerHTML"));
-			System.out.println("Using file path: " + filePath);
+			System.out.println("📁 Upload element ready: " + uploadInput.getAttribute("outerHTML"));
+			System.out.println("📂 Uploading file: " + file.getAbsolutePath());
 
-			// Send file path directly to input (bypasses native dialog)
+			// 📤 Step 5: Upload file (direct sendKeys)
 			uploadInput.sendKeys(file.getAbsolutePath());
 
-			// Optional wait for upload completion if a loading overlay/backdrop appears
+			// ⏳ Step 6: Wait for backend / progress completion
 			try {
-				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+				WaitUtil.waitForPageToLoad(driver, 90);
 			} catch (Exception ignored) {
-				// In case the backdrop never appears — continue without failure
+				// Safe ignore if backdrop never appears
 			}
 
-			System.out.println("✅ File uploaded successfully! Path: " + filePath);
+			// 🩵 Step 7: Handle any Oops popup (app-level error)
+			handleOopsPopup();
+
+			// 🕒 Step 8: Optional cool-off (stabilize before next upload in queue)
+			Thread.sleep(1500);
+
+			System.out.println("✅ File uploaded successfully: " + filePath);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("❌ File upload failed. Check locator or file path! " + e.getMessage());
+			handleOopsPopup();
+			throw new RuntimeException("❌ File upload failed. Root cause: " + e.getMessage());
+		}
+	}
+
+	/** Handles the "Oops! There is some technical error" popup safely */
+	public void handleOopsPopup() {
+		try {
+			By popupMessage = By.xpath("//div[contains(text(),'Oops') or contains(.,'technical error')]");
+			By okButton = By.xpath("//button[normalize-space()='OK']");
+
+			System.out.println("⚠️ Oops popup detected — dismissing it...");
+			WebElement okBtn = driver.findElement(okButton);
+			ElementUtil.click(okButton, driver);
+			WaitUtil.waitForInvisibilityOfElement(popupMessage, driver, 10);
+
+			// Refresh to reset broken upload context
+			driver.navigate().refresh();
+			WaitUtil.waitForPageToLoad(driver, 90);
+			System.out.println("🔄 Page refreshed after Oops popup");
+
+		} catch (Exception ignored) {
+			// Popup not present — continue execution
 		}
 	}
 
@@ -158,13 +195,13 @@ public class UploadAssetPage {
 
 	public void selectDropdown(String asset_Type, String foldersearchip, String folderName) {
 
-		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForPageToLoad(driver, 90);
 		// Wait for backdrop (overlay/spinner) to disappear
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		// Wait for the tile to be visible
 		WaitUtil.waitForVisibility(driver, assetName, 60);
 		ElementUtil.sendText(assetName, asset_Type + System.currentTimeMillis(), driver);
-
+		WaitUtil.waitForPageToLoad(driver, 90);
 		// Scroll the dropdown into view
 		WebElement dropdownArrow = driver.findElement(folderDropdown);
 		ActionUtil.scrollToElement(driver, dropdownArrow);
@@ -172,6 +209,7 @@ public class UploadAssetPage {
 		// Try normal click first
 		try {
 			dropdownArrow.click();
+			WaitUtil.waitForPageToLoad(driver, 90);
 
 		} catch (Exception e) {
 			// If intercepted, try JS click
@@ -193,32 +231,41 @@ public class UploadAssetPage {
 	/** Add Tags to Asset */
 	public void addTags(String tagName) {
 		WaitUtil.waitForPageToLoad(driver, 90);
-		// ✅ Step 1: Wait for and click on 'Pick up Tag(s)'
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WaitUtil.waitForElementVisible(driver, pickUpTag, 30);
-		WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
-		WebElement pickUpButton = driver.findElement(pickUpTag);
 
+		// ✅ Step 1: Click on "Pick up Tag(s)"
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", pickUpButton);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", pickUpButton);
-
 		System.out.println("✅ Clicked on 'Pick up Tag(s)' successfully");
 
-		// ✅ Step 2: Click on + icon to add new tag
-		WaitUtil.waitAndClick(driver, addTagIcon, 30);
+		// ✅ Step 2: Wait for modal to appear
+		WaitUtil.waitForElementVisible(driver, active_modal, 20);
 
-		// ✅ Step 3: Enter new tag name
+		// ✅ Step 3: Click "+ Add a tag"
+
+		try {
+			WebElement addTagButton = WaitUtil.waitForElementClickable(driver, addTagIcon, 20);
+			addTagButton.click();
+		} catch (Exception e) {
+			WebElement addTagButton = driver.findElement(addTagIcon);
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", addTagButton);
+		}
+		System.out.println("✅ Clicked on '+ Add a tag' successfully");
+
+		// ✅ Step 4: Enter new tag name
+		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
 		String uniqueTag = tagName + "_" + System.currentTimeMillis();
 		ElementUtil.sendText(tagInputField, uniqueTag, driver);
 		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
 
-		// ✅ Step 4: Save and select tag
+		// ✅ Step 5: Save and select tag
 		WaitUtil.waitAndClick(driver, tagSaveButton, 30);
 		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 30);
 		ElementUtil.click(tagSaveButton, driver);
 
-		// ✅ Step 5: Add more tags
+		// ✅ Step 6: Add more tags
 		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 30);
 		ElementUtil.click(addMoreTagsLink, driver);
 		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
@@ -227,20 +274,9 @@ public class UploadAssetPage {
 		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 30);
 		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 30);
 		WaitUtil.waitForPageToLoad(driver, 60);
+
 		System.out.println("✅ Tags added successfully.");
 	}
-
-	/** Enter Asset Description */
-//	public void enterDescription(String text) {
-//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-//		WaitUtil.waitForElementVisible(driver, descriptionFrame, 60);
-//		driver.switchTo().frame(driver.findElement(descriptionFrame));
-//		WebElement descBox = driver.findElement(descriptionInput);
-//		descBox.clear();
-//		descBox.sendKeys(text);
-//		driver.switchTo().defaultContent();
-//
-//	}
 
 	/** Enters description text inside the asset description editor. */
 	public void enterDescription(String text) {
@@ -287,6 +323,7 @@ public class UploadAssetPage {
 		try {
 			ElementUtil.click(save, driver);
 			System.out.println("✅ Save button clicked successfully.");
+
 		} catch (Exception e) {
 			// fallback with JS click if normal click fails
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
@@ -306,6 +343,7 @@ public class UploadAssetPage {
 		try {
 			ElementUtil.click(saveasDraft, driver);
 			System.out.println("✅ SaveasDraft button clicked successfully.");
+
 		} catch (Exception e) {
 			// fallback with JS click if normal click fails
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", savedraftBtn);
@@ -327,20 +365,19 @@ public class UploadAssetPage {
 
 		WaitUtil.waitAndClick(driver, partnerSelectAsset, 70);
 		ElementUtil.click(saveAndPublishButton, driver);
+
 	}
 
 	public String getPublishConfirmationMessage() {
 		return WaitUtil.waitForElementVisible(driver, publishConfirmationMessage, 60).getText();
 	}
 
-	public void backToHome() {
-		WaitUtil.waitAndClick(driver, Gotohome, 60);
-	}
-
 	// ================= BOX Upload Flow ================= //
 
 	public void uploadFromBox(String email, String password) {
 		try {
+			WaitUtil.waitForPageToLoad(driver, 90);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 			// Click the Box icon and switch to new Box login window
 			WaitUtil.waitAndClick(driver, boxIcon, 60);
 			switchToNewWindow();
@@ -389,118 +426,222 @@ public class UploadAssetPage {
 		driver.switchTo().window(driver.getWindowHandles().iterator().next());
 	}
 
-	
-	
-			//==================== Design PDF ====================//	
-	
-	public void openDesignPDFSection() {
-	    WaitUtil.waitForElementVisible(driver, contentMenu, 60);
-	    ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
+	public void backToHome() {
+		try {
+			// Wait for the page and any overlay to settle
+			WaitUtil.waitForPageToLoad(driver, 60);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
 
-	    WaitUtil.waitAndClick(driver, designUploadOption, 60);
-	    WaitUtil.waitAndClick(driver, designpdfLink, 60);
+			// Always switch to main DOM in case we're inside an iframe
+			driver.switchTo().defaultContent();
 
-	    WaitUtil.waitForPageToLoad(driver, 90);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			// Retry up to 3 times in case element goes stale
+			for (int attempt = 1; attempt <= 3; attempt++) {
+				try {
+					// Wait for home icon to become clickable
+					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+					WebElement homeButton = wait.until(ExpectedConditions.elementToBeClickable(Gotohome));
 
-	    // 🔹 Switch to iFrame if SAVE button is inside editor frame
-	    List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-	    if (!frames.isEmpty()) {
-	        driver.switchTo().frame(frames.get(0));
-	    }
+					// Scroll into view (optional, prevents hidden element issues)
+					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});",
+							homeButton);
 
-	    // 🔹 Wait for SAVE button to be visible & clickable
-	    By designPdfSave = By.xpath("//button[.//span[normalize-space(text())='SAVE']]");
-	    WaitUtil.waitForElementClickable(driver, designPdfSave, 40);
+					// Try normal click first
+					try {
+						homeButton.click();
+					} catch (Exception e) {
+						// Fallback to JS click if intercepted or stale
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", homeButton);
+					}
 
-	    // 🔹 Use JavaScript click if normal click fails
-	    try {
-	        ElementUtil.click(designPdfSave, driver);
-	    } catch (Exception e) {
-	        JavascriptExecutor js = (JavascriptExecutor) driver;
-	        WebElement saveBtn = driver.findElement(designPdfSave);
-	        js.executeScript("arguments[0].click();", saveBtn);
-	    }
+					// Wait for navigation to complete
+					WaitUtil.waitForPageToLoad(driver, 60);
+					System.out.println("🏠 Navigated back to home page successfully!");
+					return;
+				} catch (StaleElementReferenceException e) {
+					System.out.println("⚠️ StaleElementReferenceException while clicking home, retry " + attempt);
+				} catch (TimeoutException e) {
+					System.out.println("⚠️ Home icon not clickable yet, retry " + attempt);
+				}
 
-	    // Switch back to main page after clicking SAVE
-	    driver.switchTo().defaultContent();
-	    
-	    WaitUtil.waitForVisibility(driver, nameField, 40);
+				// Small pause before retrying
+				Thread.sleep(1000);
+			}
 
-	    // Enter asset name
-	    String assetName = "Automation_Test_PDFDraft" + System.currentTimeMillis();
-	    ElementUtil.sendText(nameField, assetName, driver);
+			throw new RuntimeException("❌ Failed to navigate back to home after multiple retries.");
+
+		} catch (Exception e) {
+			throw new RuntimeException("❌ Error in backToHome(): " + e.getMessage(), e);
+		}
 	}
 
-	
-	
+	// ==================== Design PDF ====================//
+
+	public void openDesignPDFSection() throws InterruptedException {
+		try {
+			// 🔹 Step 1: Ensure previous overlay/backdrop gone
+			WaitUtil.waitForPageToLoad(driver, 90);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			Thread.sleep(1000);
+
+			// 🔹 Step 2: Refresh DOM to avoid stale references after upload
+			driver.navigate().refresh();
+			WaitUtil.waitForPageToLoad(driver, 90);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+			// 🔹 Step 3: Re-locate and click Content Menu
+			WaitUtil.waitForElementVisible(driver, contentMenu, 60);
+			WebElement content = driver.findElement(contentMenu);
+			ActionUtil.hover(driver, contentMenu);
+			WaitUtil.waitAndClick(driver, contentMenu, 30);
+			WaitUtil.waitForPageToLoad(driver, 60);
+
+			// 🔹 Step 4: Click Design Upload and then Design PDF
+			WaitUtil.waitAndClick(driver, designUploadOption, 40);
+			WaitUtil.waitAndClick(driver, designpdfLink, 40);
+			WaitUtil.waitForPageToLoad(driver, 90);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			Thread.sleep(2000); // Let the iframe load properly
+
+			// 🔹 Step 5: Switch to PDF iframe safely
+			List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+			if (!frames.isEmpty()) {
+				driver.switchTo().frame(frames.get(0));
+				System.out.println("🧩 Switched into Design PDF iframe");
+			} else {
+				throw new RuntimeException("❌ No iframe found for PDF editor.");
+			}
+
+			// 🔹 Step 6: Wait and click SAVE button with retry
+			WaitUtil.waitForElementClickable(driver, designPdfSave, 60);
+			clickWithStaleRetry(designPdfSave, driver, 3);
+			System.out.println("💾 Clicked SAVE inside PDF editor");
+
+			// 🔹 Step 7: Switch back to main content
+			driver.switchTo().defaultContent();
+			WaitUtil.waitForPageToLoad(driver, 90);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+			// 🔹 Step 8: Enter asset name safely
+			WaitUtil.waitForVisibility(driver, nameField, 40);
+			String assetName = "Automation_Test_PDFDraft_" + System.currentTimeMillis();
+			ElementUtil.sendText(nameField, assetName, driver);
+			System.out.println("📝 Entered PDF name: " + assetName);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("❌ Failed to open Design PDF section: " + e.getMessage());
+		}
+	}
+
+	// =========================
+	// SAVE ACTIONS
+	// =========================
 	public void fillAssetDetailsAndSave() {
+		try {
+			WaitUtil.waitForVisibility(driver, pdfSave, 60);
+			ActionUtil.hoverAndClick(driver, pdfSave);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			WaitUtil.waitForPageToLoad(driver, 60);
+			System.out.println("✅ PDF asset saved successfully.");
 
-	    try {
-	        ElementUtil.click(pdfSave, driver);
-	    } catch (Exception e) {
-	        JavascriptExecutor js = (JavascriptExecutor) driver;
-	        js.executeScript("arguments[0].click();", driver.findElement(pdfSave));
-	    }
-
-	    // Optional: wait for success or disappearance of popup
-	    WaitUtil.waitForInvisibilityOfElement(pdfSave, driver, 60);
+		} catch (Exception e) {
+			System.err.println("❌ Failed during SAVE action: " + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public void fillAssetDetailsAndSaveDraft() {
+		try {
+			WaitUtil.waitForVisibility(driver, pdfDraft, 60);
+			ActionUtil.hoverAndClick(driver, pdfDraft);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			WaitUtil.waitForPageToLoad(driver, 60);
+			System.out.println("✅ PDF asset saved as draft successfully.");
 
-	    try {
-	        ElementUtil.click(pdfDraft, driver);
-	    } catch (Exception e) {
-	        JavascriptExecutor js = (JavascriptExecutor) driver;
-	        js.executeScript("arguments[0].click();", driver.findElement(pdfDraft));
-	    }
-
-	    // Optional: wait for success or disappearance of popup
-	    WaitUtil.waitForInvisibilityOfElement(pdfDraft, driver, 60);
+		} catch (Exception e) {
+			System.err.println("❌ Failed during SAVE AS DRAFT action: " + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
+	public void fillAssetDetailsAndSaveAndPublish() {
+		try {
+			WaitUtil.waitForVisibility(driver, saveAndPublishPDF, 60);
+			ActionUtil.hoverAndClick(driver, saveAndPublishPDF);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			WaitUtil.waitForPageToLoad(driver, 60);
+			System.out.println("✅ PDF asset saved and published successfully.");
 
+		} catch (Exception e) {
+			System.err.println("❌ Failed during SAVE & PUBLISH action: " + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	// =========================
+	// PARTNER PDF SELECTION FLOW
+	// =========================
 	public void selectPartnerPDF() {
+		try {
+			WaitUtil.waitForPageToLoad(driver, 60);
+			WaitUtil.waitForVisibility(driver, searchPublishInput, 60);
 
-		WaitUtil.waitForPageToLoad(driver, 60);
-		// Scroll down slightly to bring the Team menu into view
-//	    ActionUtil.scrollToElement(driver, driver.findElement(searchPublishInput));
-		ElementUtil.sendText(searchPublishInput, "automate", driver);
-		ElementUtil.sendKey(searchPublishInput, Keys.ENTER, driver);
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForElementVisible(driver, arrowClickAsset, 60);
-		ElementUtil.clickWithRetry(arrowClickAsset, driver, 3); // Use robust click
-		// WaitUtil.waitAndClick(driver, arrowClickTrack, 70);
+			ElementUtil.sendText(searchPublishInput, "automate", driver);
+			ElementUtil.sendKey(searchPublishInput, Keys.ENTER, driver);
 
-		WaitUtil.waitAndClick(driver, partnerSelectAsset, 70);
-		ElementUtil.click(saveAndPublishPDF, driver);
+			WaitUtil.waitForPageToLoad(driver, 60);
+			WaitUtil.waitForVisibility(driver, arrowClickAsset, 60);
+
+			// 🔹 Click arrow with retry
+			ElementUtil.clickWithRetry(arrowClickAsset, driver, 3);
+
+			WaitUtil.waitAndClick(driver, partnerSelectAsset, 60);
+
+			// 🔹 Final publish click
+			ActionUtil.hoverAndClick(driver, saveAndPublishPDF);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+			WaitUtil.waitForPageToLoad(driver, 60);
+
+			System.out.println("✅ Partner PDF selected and published successfully.");
+		} catch (Exception e) {
+			System.err.println("❌ Failed during partner PDF selection: " + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// =========================
+	// RETRY LOGIC FOR STALE ELEMENTS
+	// =========================
+	private void clickWithStaleRetry(By locator, WebDriver driver, int maxRetries) throws InterruptedException {
+		int attempts = 0;
+		while (attempts < maxRetries) {
+			try {
+				WaitUtil.waitForElementClickable(driver, locator, 30);
+				WebElement element = driver.findElement(locator);
+				ActionUtil.hoverAndClick(driver, locator);
+				return;
+			} catch (StaleElementReferenceException e) {
+				attempts++;
+				System.out.println("Retrying click due to stale element (attempt " + attempts + ")");
+				Thread.sleep(1000);
+			} catch (ElementClickInterceptedException e) {
+				attempts++;
+				System.out.println("Retrying click due to intercepted element (attempt " + attempts + ")");
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				if (attempts == maxRetries - 1) {
+					throw new RuntimeException("Failed to click element after " + maxRetries + " retries: " + locator,
+							e);
+				}
+			}
+		}
+	}
+
 	// ================WebCamp Upload Flow ================= //
 	// public class WebcamUpload {
 
@@ -531,7 +672,7 @@ public class UploadAssetPage {
 
 			// Wait for the WebCam icon to be visible and clickable
 			WebDriverWait wait = new WebDriverWait(localDriver, Duration.ofSeconds(60));
-			WebElement webCamIcon = wait.until(ExpectedConditions.elementToBeClickable(By.id("WebCamIconId"))); 
+			WebElement webCamIcon = wait.until(ExpectedConditions.elementToBeClickable(By.id("WebCamIconId")));
 			// Update with actual Webcam icon locator
 			webCamIcon.click();
 
