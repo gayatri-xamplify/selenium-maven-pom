@@ -10,8 +10,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -68,11 +71,19 @@ public class AccessSharedAssetsPage {
 	private final By clickOnAssetDelete = By.xpath("(//i[contains(@class,'fa fa-trash')])[1]");
 	private final By clickOnYesDelete = By.xpath("(//button[contains(text(),'Yes, Delete')])");
 	private final By backdrop = By.id("backdrop");
-	private By previewButton = By.xpath("//table[@id='manage-assets-table']//tr[1]//td[5]//a[2]");
 	private By previewclose = By.xpath("//app-preview-content//a[1]/span");
 	private By folderUpArrow = By.xpath("//button[@title='Up']");
-	private By analyticsButton = By.xpath("//table[@id='manage-assets-table']//tr[1]//td[5]//a[3]");
+	private By analyticsButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[1]/i");
+	private By analyticsclose = By.xpath("//a[@class='close-circle ml5']//i[@class='fa fa-times']");
+	private By previewasset = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[2]/i");
+	private By viewAsset = By.xpath("//span[normalize-space()='View']");
+	private By downloadAsset = By.xpath("//span[normalize-space()='Download']");
+	private By ViewAssetclose = By.xpath("//a[@title='Close']//i[@class='fa fa-times']");
+	private By interactedTile = By.xpath("//i[contains(@title,'Total interacted assets')]");
+	private By nonInteractedTile = By.xpath("//i[@title='Total non interacted assets ']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
+	
 	/** Navigate to Upload Asset Page */
 	public void accesssharedAssetSection() {
 		WaitUtil.waitForElementVisible(driver, contentMenu, 90);
@@ -185,5 +196,112 @@ public class AccessSharedAssetsPage {
 			throw new RuntimeException("View Actions flow failed", e);
 		}
 	}
+	
+	
+	public void accessAssetViewandDownloadOptions(String fileName) {
+		
+		searchAsset(fileName);
+		try {
+			WaitUtil.waitForPageToLoad(driver, 30);
+			// Preview Asset
+			WaitUtil.waitAndClick(driver, previewasset, 30);
+			WaitUtil.waitForPageToLoad(driver, 30);
+			WaitUtil.waitAndClick(driver, viewAsset, 30);
+			try {
+				WebElement refresh = WaitUtil.waitForElementPresent(driver, refreshIcon, 5);
+				if (refresh != null) {
+					ElementUtil.click(refreshIcon, driver);
+					System.out.println("🔄 Refresh icon found and clicked successfully.");
+				} else {
+					System.out.println("⏭️ Refresh icon not present. Skipping refresh step.");
+				}
+			} catch (Exception e) {
+				System.out.println("⚠️ Could not click Refresh icon (safe skip). Cause: " + e.getMessage());
+			}
+
+			WaitUtil.waitForPageToLoad(driver, 90);
+
+			// Step 4: Close the preview
+			// Ensure close button is visible and clickable
+			WaitUtil.waitForVisibility(driver, previewclose, 60);
+			WaitUtil.waitForElementClickable(driver, previewclose, 60);
+			ElementUtil.clickWithRetry(previewclose, driver, 3);
+			WaitUtil.waitAndClick(driver, downloadAsset, 30);
+			WaitUtil.waitAndClick(driver, ViewAssetclose, 30);
+			// View Analytics
+			WaitUtil.waitAndClick(driver, analyticsButton, 30);
+			WaitUtil.waitForPageToLoad(driver, 30);
+			WaitUtil.waitAndClick(driver, analyticsclose, 30);
+
 
 }
+	
+		catch (Exception e) {
+			throw new RuntimeException("View and Download Actions flow failed", e);
+		}
+	}
+	
+	
+	
+	
+	public void tilesActions(String fileName) {
+		
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, interactedTile, backdrop, 30);
+		WaitUtil.waitAndClick(driver, nonInteractedTile, backdrop, 30);
+		searchAsset(fileName);
+		accessAssetViewandDownloadOptions(fileName);
+		
+	}
+	
+	public void backtohome() {
+		try {
+			// Wait for the page and any overlay to settle
+			WaitUtil.waitForPageToLoad(driver, 60);
+			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+
+			// Always switch to main DOM in case we're inside an iframe
+			driver.switchTo().defaultContent();
+
+			// Retry up to 3 times in case element goes stale
+			for (int attempt = 1; attempt <= 3; attempt++) {
+				try {
+					// Wait for home icon to become clickable
+					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+					WebElement homeButton = wait.until(ExpectedConditions.elementToBeClickable(Gotohome));
+
+					// Scroll into view (optional, prevents hidden element issues)
+					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});",
+							homeButton);
+
+					// Try normal click first
+					try {
+						homeButton.click();
+					} catch (Exception e) {
+						// Fallback to JS click if intercepted or stale
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", homeButton);
+					}
+
+					// Wait for navigation to complete
+					WaitUtil.waitForPageToLoad(driver, 60);
+					System.out.println("🏠 Navigated back to home page successfully!");
+					return;
+				} catch (StaleElementReferenceException e) {
+					System.out.println("⚠️ StaleElementReferenceException while clicking home, retry " + attempt);
+				} catch (TimeoutException e) {
+					System.out.println("⚠️ Home icon not clickable yet, retry " + attempt);
+				}
+
+				// Small pause before retrying
+				Thread.sleep(1000);
+			}
+
+			throw new RuntimeException("❌ Failed to navigate back to home after multiple retries.");
+
+		} catch (Exception e) {
+			throw new RuntimeException("❌ Error in backToHome(): " + e.getMessage(), e);
+		}
+	}
+		
+	}
+

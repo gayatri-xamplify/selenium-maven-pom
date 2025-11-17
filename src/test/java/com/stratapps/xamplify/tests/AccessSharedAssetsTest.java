@@ -47,6 +47,15 @@ import com.stratapps.xamplify.utils.ConfigReader;
         accessSharedAssetsPage.sortAssets("Published On(DESC)");
         accessSharedAssetsPage.searchAsset("docx");
         accessSharedAssetsPage.openFilterAndApply("Asset Name", "Contains", "docx");
-        accessSharedAssetsPage.viewActions();;
+        accessSharedAssetsPage.viewActions();
+        accessSharedAssetsPage.tilesActions("ppt");
+        accessSharedAssetsPage.backtohome();
     }
+    
+    @Test(priority = 2, enabled = true)
+    public void testAccessSharedAssetDetails() {
+		logger.info("Test 2: Access Shared Asset Details - STARTED");	
+		accessSharedAssetsPage.accesssharedAssetSection();
+		accessSharedAssetsPage.accessAssetViewandDownloadOptions("png");
+	}
 	}
