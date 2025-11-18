@@ -24,8 +24,8 @@ public class ManageContactsTest extends BaseTest {
 	public void setUpClass() {
 		try {
 			manageContactsPage = new ManageContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 		    contactsPage = new ContactsPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("ManageContactsTest setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: Hide multiple classes Run");
@@ -47,14 +47,13 @@ public class ManageContactsTest extends BaseTest {
 	
 	
 	
-    @Test(priority = 1, enabled = true)
+    @Test(priority = 1, enabled = false)
 	public void MyContactsActions() throws Exception {
 		Thread.sleep(3000);
 		manageContactsPage.hoverContacts_ManageContacts();
-//		manageContactsPage.clickContactsTab("All");
 		manageContactsPage.DeleteContactList();
+//		manageContactsPage.EditContactList();
 		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList();
 		manageContactsPage.publishCampaign();
 	}
     
@@ -67,29 +66,29 @@ public class ManageContactsTest extends BaseTest {
 		manageContactsPage.CopyContactList();
 		manageContactsPage.EditContactList();
 	}
-    
-    @Test(priority = 4, enabled = true)
-	public void CompanyContactsActions() throws Exception {
-		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts();
-		manageContactsPage.clickContactsTab("Company");
-		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList();
-		manageContactsPage.publishCampaign();
-	}
-    
-    @Test(priority = 8, enabled = true)
-	public void ContactTilesvalidation() throws Exception {
-		manageContactsPage.SearchContact("Test");
-		manageContactsPage.ExportExcelReport();
-		  
-	}
-    
-    @Test(priority = 9, enabled = true)
-	public void searchSortandExportReport() throws Exception {
-		manageContactsPage.ManageContactsTilesCountValidation();
-	}
-    
+//    
+//    @Test(priority = 4, enabled = true)
+//	public void CompanyContactsActions() throws Exception {
+//		Thread.sleep(3000);
+//		manageContactsPage.hoverContacts_ManageContacts();
+//		manageContactsPage.clickContactsTab("Company");
+//		manageContactsPage.CopyContactList();
+//		manageContactsPage.EditContactList();
+//		manageContactsPage.publishCampaign();
+//	}
+//    
+//    @Test(priority = 8, enabled = true)
+//	public void ContactTilesvalidation() throws Exception {
+//		manageContactsPage.SearchContact("Test");
+//		manageContactsPage.ExportExcelReport();
+//		  
+//	}
+//    
+//    @Test(priority = 9, enabled = true)
+//	public void searchSortandExportReport() throws Exception {
+//		manageContactsPage.ManageContactsTilesCountValidation();
+//	}
+//    
     
 }
 

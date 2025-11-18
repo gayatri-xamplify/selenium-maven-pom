@@ -31,7 +31,7 @@ public class ContactsPage {
 	// =================== LOCATORS ===================
 	public By hoverContacts = By.xpath("//a[@href='javascript:;']//span[@class='title'][contains(text(),'Contacts')]");
 	private By addContactsBtn = By.xpath("//span[contains(text(),'Add Contacts')]");
-	private By oneAtATimeOption = By.xpath("//button[@id='add_contact' or @id='addContacts']");
+	public By oneAtATimeOption = By.xpath("//button[@id='add_contact' or @id='addContacts']");
 
 	private By emailField = By.xpath("//input[@id='email1']");
 	private By legalBasisField = By.xpath("//*[@id='multiselectelement']/div//span[3]/input");

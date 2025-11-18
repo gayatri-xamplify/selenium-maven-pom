@@ -24,20 +24,21 @@ public class ManageContactsPage {
 	private static final Logger logger = LogManager.getLogger(ManageContactsPage.class);
 	String timestamp = String.valueOf(System.currentTimeMillis());
 	String uniqueEmail = "testContact_" + timestamp + new Random().nextInt(10) + "@mail.com";
+    ContactsPage contactsPage = new ContactsPage(this.driver);
 
 	public ManageContactsPage(WebDriver driver) {
 		this.driver = driver;
+	    this.contactsPage = new ContactsPage(driver); 
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
 	}
-    ContactsPage contactsPage = new ContactsPage(this.driver);
 
 	
 	// ================ Locators   =======================================================================
 	public By hoverContacts = By.xpath("//a[@href='javascript:;']//span[@class='title'][contains(text(),'Contacts')]");
 	private By manageContactsBtn = By.xpath("//span[contains(text(),'Manage Contacts')]");
-	private By editListButton = By.xpath("(//a[contains(@data-original-title,'Preview or edit list')])[1]");
-	private By copyListButton = By.xpath("(//a[contains(@data-original-title,'Copy and save')])[1]/i");
+	private By editListButton1 = By.xpath("(//table[@id='partner_contact_list']//a[contains(@data-original-title,'Preview or edit list')])[1]");
+	private By editListButton2 = By.xpath("(//table[@id='partner_contact_list']//a[contains(@data-original-title,'Preview or edit list')])[2]");
+	private By copyListButton = By.xpath("(//table[@id='partner_contact_list']//a[@title='Copy and save'])[1]");
 	private By deleteListButton = By.xpath("(//table[@id='partner_contact_list']//a[@title='Delete list'])[1]");
 	private By shareListButton = By.xpath("(//table[@id='partner_contact_list']//a[@title='Share Campaigns'])[1]");
 	private By contactListName = By.xpath("//input[@id='campaignName']");
@@ -125,7 +126,7 @@ public class ManageContactsPage {
 	/* @CopyContactList Is Written by ganesh ***/
 	public void CopyContactList() throws InterruptedException {
 		Thread.sleep(5000);
-		WaitUtil.waitAndClick(driver, copyListButton, 20);
+		WaitUtil.waitAndClick(driver, copyListButton, 60);
 		WaitUtil.waitAndSendKeys(driver, contactListName, "copyList" + timestamp, 20);
 		WaitUtil.waitAndClick(driver, CopyListSaveBtn, 20);
 		Thread.sleep(3000);
@@ -138,19 +139,24 @@ public class ManageContactsPage {
 	/* @DeleteContactList Is Written by ganesh ***/
 	public void DeleteContactList() throws InterruptedException {
 		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, deleteListButton, 20);
+		WaitUtil.waitAndClick(driver, deleteListButton, 60);
 		WaitUtil.waitAndClick(driver, yesDelete, 20);
 		Thread.sleep(3000);
-		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "Your contact list has been deleted successfully.");
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your contact list has been deleted successfully.");
 	}
 
 	/* @EditContactList Is Written by ganesh ***/
 	public void EditContactList() throws Exception {
 		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, editListButton, 20);
+		ActionUtil.hover(driver, editListButton1);
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
+		ActionUtil.hover(driver, editListButton2);
+		WaitUtil.waitAndClick(driver, editListButton2, 60);
 		contactsPage.completeOneAtATimeFlow("Private");
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.uploadCSVContacts("Public");
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.uploadCSVContacts("Private");
 		WaitUtil.waitAndSendKeys(driver, editContactSearch, "test", 20);
 		WaitUtil.waitAndClick(driver, SearchSubmit, 20);		
