@@ -79,11 +79,11 @@ public class AccessSharedAssetsPage {
 	private By viewAsset = By.xpath("//span[normalize-space()='View']");
 	private By downloadAsset = By.xpath("//span[normalize-space()='Download']");
 	private By ViewAssetclose = By.xpath("//a[@title='Close']//i[@class='fa fa-times']");
+	private By videoAssetClose = By.xpath("//div/div[2]/div/div/a/i");
 	private By interactedTile = By.xpath("//i[contains(@title,'Total interacted assets')]");
 	private By nonInteractedTile = By.xpath("//i[@title='Total non interacted assets ']");
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
-	
 	/** Navigate to Upload Asset Page */
 	public void accesssharedAssetSection() {
 		WaitUtil.waitForElementVisible(driver, contentMenu, 90);
@@ -185,7 +185,6 @@ public class AccessSharedAssetsPage {
 
 			WaitUtil.waitAndSendKeys(driver, clickOnSearchAssetFLV, "jpg", 20);
 			WaitUtil.waitAndClick(driver, clickOnSearchIconAssetFLV, backdrop, 30);
-			
 
 			// ---- Step 5: Back to List View ----
 			WaitUtil.waitAndClick(driver, clickOnFVUpArrow, backdrop, 30);
@@ -196,10 +195,9 @@ public class AccessSharedAssetsPage {
 			throw new RuntimeException("View Actions flow failed", e);
 		}
 	}
-	
-	
+
 	public void accessAssetViewandDownloadOptions(String fileName) {
-		
+
 		searchAsset(fileName);
 		try {
 			WaitUtil.waitForPageToLoad(driver, 30);
@@ -233,27 +231,36 @@ public class AccessSharedAssetsPage {
 			WaitUtil.waitForPageToLoad(driver, 30);
 			WaitUtil.waitAndClick(driver, analyticsclose, 30);
 
+		}
 
-}
-	
 		catch (Exception e) {
 			throw new RuntimeException("View and Download Actions flow failed", e);
 		}
 	}
+
 	
+	public void videoActions(String fileName) {
+		searchAsset(fileName);
 	
-	
-	
+			WaitUtil.waitForPageToLoad(driver, 30);
+			// Preview Asset
+			WaitUtil.waitAndClick(driver, previewasset, 30);
+			WaitUtil.waitForPageToLoad(driver, 30);
+			WaitUtil.waitForVisibility(driver, videoAssetClose, 60);
+			WaitUtil.waitForElementClickable(driver, videoAssetClose, 60);
+			ElementUtil.clickWithRetry(videoAssetClose, driver, 3);
+
+	}
 	public void tilesActions(String fileName) {
-		
+
 		WaitUtil.waitForPageToLoad(driver, 30);
 		WaitUtil.waitAndClick(driver, interactedTile, backdrop, 30);
 		WaitUtil.waitAndClick(driver, nonInteractedTile, backdrop, 30);
 		searchAsset(fileName);
 		accessAssetViewandDownloadOptions(fileName);
-		
+
 	}
-	
+
 	public void backtohome() {
 		try {
 			// Wait for the page and any overlay to settle
@@ -302,6 +309,5 @@ public class AccessSharedAssetsPage {
 			throw new RuntimeException("❌ Error in backToHome(): " + e.getMessage(), e);
 		}
 	}
-		
-	}
 
+}

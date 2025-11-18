@@ -57,5 +57,12 @@ import com.stratapps.xamplify.utils.ConfigReader;
 		logger.info("Test 2: Access Shared Asset Details - STARTED");	
 		accessSharedAssetsPage.accesssharedAssetSection();
 		accessSharedAssetsPage.accessAssetViewandDownloadOptions("png");
+		accessSharedAssetsPage.accessAssetViewandDownloadOptions("pdf");
+		accessSharedAssetsPage.accessAssetViewandDownloadOptions("ppt");
+		accessSharedAssetsPage.accessAssetViewandDownloadOptions("mp4");
+		accessSharedAssetsPage.videoActions("mp4");
+
+
+		accessSharedAssetsPage.backtohome();
 	}
 	}
