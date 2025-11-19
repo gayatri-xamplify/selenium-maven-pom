@@ -43,7 +43,7 @@ public class CSVUtil {
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(ContactFile))) {
             // Header
-            writer.println("FIRSTNAME,LASTNAME, COMPANY, JOBTITLE, EMAILID, ADDRESS	CITY, STATE, ZIP CODE, COUNTRY, MOBILE NUMBER, CONTACT STATUS");
+            writer.println("FIRSTNAME,LASTNAME, COMPANY, JOBTITLE, EMAILID, ADDRESS, CITY, STATE, ZIP CODE, COUNTRY, MOBILE NUMBER, CONTACT STATUS");
             // Data rows
             for (String[] row : contactUserData) {
                 writer.println(String.join(",", row));

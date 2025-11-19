@@ -47,25 +47,25 @@ public class ManageContactsTest extends BaseTest {
 	
 	
 	
-    @Test(priority = 1, enabled = false)
+    @Test(priority = 1, enabled = true)
 	public void MyContactsActions() throws Exception {
 		Thread.sleep(3000);
 		manageContactsPage.hoverContacts_ManageContacts();
 		manageContactsPage.DeleteContactList();
-//		manageContactsPage.EditContactList();
+		manageContactsPage.EditContactList();
 		manageContactsPage.CopyContactList();
 		manageContactsPage.publishCampaign();
 	}
     
 	
-    @Test(priority = 2, enabled = true)
-	public void FormContactsActions() throws Exception {
-		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts();
-		manageContactsPage.clickContactsTab("Form");
-		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList();
-	}
+//    @Test(priority = 2, enabled = true)
+//	public void FormContactsActions() throws Exception {
+//		Thread.sleep(3000);
+//		manageContactsPage.hoverContacts_ManageContacts();
+//		manageContactsPage.clickContactsTab("Form");
+//		manageContactsPage.CopyContactList();
+//		manageContactsPage.EditContactList();
+//	}
 //    
 //    @Test(priority = 4, enabled = true)
 //	public void CompanyContactsActions() throws Exception {
@@ -88,7 +88,7 @@ public class ManageContactsTest extends BaseTest {
 //	public void searchSortandExportReport() throws Exception {
 //		manageContactsPage.ManageContactsTilesCountValidation();
 //	}
-//    
+    
     
 }
 

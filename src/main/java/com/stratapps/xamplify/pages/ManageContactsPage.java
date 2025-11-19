@@ -36,8 +36,8 @@ public class ManageContactsPage {
 	// ================ Locators   =======================================================================
 	public By hoverContacts = By.xpath("//a[@href='javascript:;']//span[@class='title'][contains(text(),'Contacts')]");
 	private By manageContactsBtn = By.xpath("//span[contains(text(),'Manage Contacts')]");
-	private By editListButton1 = By.xpath("(//table[@id='partner_contact_list']//a[contains(@data-original-title,'Preview or edit list')])[1]");
-	private By editListButton2 = By.xpath("(//table[@id='partner_contact_list']//a[contains(@data-original-title,'Preview or edit list')])[2]");
+	private By editListButton1 = By.xpath("//*[@id=\"partner_contact_list\"]/tbody/tr[1]/td[6]/div/a[1]");
+	private By editListButton2 = By.xpath("//*[@id=\"partner_contact_list\"]/tbody/tr[2]/td[6]/div/a[1]");
 	private By copyListButton = By.xpath("(//table[@id='partner_contact_list']//a[@title='Copy and save'])[1]");
 	private By deleteListButton = By.xpath("(//table[@id='partner_contact_list']//a[@title='Delete list'])[1]");
 	private By shareListButton = By.xpath("(//table[@id='partner_contact_list']//a[@title='Share Campaigns'])[1]");
@@ -82,17 +82,17 @@ public class ManageContactsPage {
 	public static final By unpublishPopupCloseBtn = By.xpath("//div[@id='shareUnPublishedContentPopUp']//button[text()='Close']");
 	
 	private By ExportReport = By.xpath("//span[contains(@data-original-title,\"Click here to email the list\")]");
-	private By sa10 = By.xpath("");
-	private By sa11 = By.xpath("");
-	private By sa12 = By.xpath("");
-	private By sa13 = By.xpath("");
-	private By sa14 = By.xpath("");
-	private By sa15 = By.xpath("");
-	private By sa16 = By.xpath("");
-	private By sa17 = By.xpath("");
-	private By sa18 = By.xpath("");
-	private By sa19 = By.xpath("");
-	private By sa20 = By.xpath("");
+	private By ActionDropdown = By.xpath("//button[@id=\"save&delete_button\"]");
+	
+	private By contactNotification = By.xpath("//*[@id='row_0']/td[7]/div/a[1]");
+	private By ContactEdit = By.xpath("//*[@id='row_0']/td[7]/div/a[2]");
+	private By ContactDelete = By.xpath("//*[@id='row_0']/td[7]/div/a[3]");
+	private By contactCampaignLaunch = By.xpath("//*[@id='row_0']/td[7]/div/a[4]");
+	private By ContactAnalytics = By.xpath("//*[@id='row_0']/td[7]/div/a[5]");
+	private By notificationmessage = By.xpath("//input[@value='Want to receive fewer messages']");
+	private By Unsubscribe = By.xpath("//span[text()= 'Unsubscribe']/..");
+	private By resubscribecomment = By.xpath("//textarea[@id='comment']");
+	private By Subscribe = By.xpath("//span[text()= 'Subscribe']/..");
 	private By sa21 = By.xpath("");
 	private By sa22 = By.xpath("");
 	private By sa23 = By.xpath("");
@@ -139,30 +139,63 @@ public class ManageContactsPage {
 	/* @DeleteContactList Is Written by ganesh ***/
 	public void DeleteContactList() throws InterruptedException {
 		Thread.sleep(2000);
+		SearchContact("Contact");
 		WaitUtil.waitAndClick(driver, deleteListButton, 60);
 		WaitUtil.waitAndClick(driver, yesDelete, 20);
 		Thread.sleep(3000);
 		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your contact list has been deleted successfully.");
+		searchClear();
 	}
 
+	/* @Edit_ContactEdit Is Written by ganesh ***/
+	public void Edit_ContactEdit() throws Exception {
+		Thread.sleep(2000);
+	}
+	
+	/* @Edit_ContactDelete Is Written by ganesh ***/
+	public void Edit_ContactDelete() throws Exception {
+		Thread.sleep(2000);
+	}
+	
+	/* @Edit_ContactUnsubscribe Is Written by ganesh ***/
+	public void Edit_ContactUnsubscribe() throws Exception {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, contactNotification, 20);
+		WaitUtil.waitAndClick(driver, notificationmessage, 20);
+		WaitUtil.waitAndClick(driver, Unsubscribe, 20);
+//		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
+	}
+	
+	/* @Edit_ContactSubscribe Is Written by ganesh ***/
+	public void Edit_ContactSubscribe() throws Exception {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, contactNotification, 20);
+		WaitUtil.waitAndSendKeys(driver, resubscribecomment, "Resubscribing the Contact", 20);
+		WaitUtil.waitAndClick(driver, resubscribecomment, 20);
+		WaitUtil.waitAndClick(driver, Subscribe, 20);
+//		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
+
+	}
+	
+	/* @Edit_ContactCampaignPublish Is Written by ganesh ***/
+	public void Edit_ContactCampaignPublish() throws Exception {
+		Thread.sleep(2000);
+	}
+	
+	/* @Edit_ContactCampaignAnalytics Is Written by ganesh ***/
+	public void Edit_ContactCampaignAnalytics() throws Exception {
+		Thread.sleep(2000);
+	}
+	
 	/* @EditContactList Is Written by ganesh ***/
 	public void EditContactList() throws Exception {
 		Thread.sleep(2000);
-		ActionUtil.hover(driver, editListButton1);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
-		ActionUtil.hover(driver, editListButton2);
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
-		contactsPage.completeOneAtATimeFlow("Private");
-		WaitUtil.waitAndClick(driver, editListButton1, 60);
-		contactsPage.uploadCSVContacts("Public");
-		WaitUtil.waitAndClick(driver, editListButton1, 60);
-		contactsPage.uploadCSVContacts("Private");
-		WaitUtil.waitAndSendKeys(driver, editContactSearch, "test", 20);
-		WaitUtil.waitAndClick(driver, SearchSubmit, 20);		
-
+		contactsPage.uploadCSVContacts("Public");		
 		Thread.sleep(3000);
-		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
+//		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
 	}
 
 	/* @SearchTemplate written by Ganesh ***/

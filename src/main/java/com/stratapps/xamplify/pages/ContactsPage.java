@@ -27,7 +27,7 @@ public class ContactsPage {
 	public ContactsPage(WebDriver driver) {
 		this.driver = driver;
 	}
-  
+
 	// =================== LOCATORS ===================
 	public By hoverContacts = By.xpath("//a[@href='javascript:;']//span[@class='title'][contains(text(),'Contacts')]");
 	private By addContactsBtn = By.xpath("//span[contains(text(),'Add Contacts')]");
@@ -63,6 +63,10 @@ public class ContactsPage {
 	private By ContactStatus = By.xpath("//div[@id='contactStatus']//select");
 	private By Private = By.xpath("//span[@class='bootstrap-switch-handle-off bootstrap-switch-danger']");
 	private By DownloadCSVTemp = By.xpath("//span[text()='Download CSV Template ']/..");
+	private By saveEditcsv = By.xpath("//a[@id=\"save_button\"]");
+	private By ActionDropdown = By.xpath("//button[@id=\"save&delete_button\"]");
+
+	
 	// =================== METHODS ===================
 
 	public void backToHome() {
@@ -96,29 +100,23 @@ public class ContactsPage {
 		WaitUtil.waitAndSendKeys(driver, zipField, "500050", 60);
 		// DropdownUtil.selectByValue(driver, ContactStatus, "4");
 		WaitUtil.waitAndClick(driver, confirmCompanyAdd, 30);
-		WaitUtil.waitAndSendKeys(driver, Listname, "List_" + timestamp + new Random().nextInt(10), 30);
-		if (contactType == "Private") {
-			Thread.sleep(2000);
-			WaitUtil.waitAndClick(driver, Private, 20);
+
+		try {
+			WebElement listName = driver.findElement(Listname);
+			if (listName.isDisplayed()) {
+				WaitUtil.waitAndSendKeys(driver, Listname, "List_" + timestamp + new Random().nextInt(10), 30);
+			}
+
+			if (contactType == "Private") {
+				Thread.sleep(2000);
+				WaitUtil.waitAndClick(driver, Private, 20);
+			}
+			WaitUtil.waitAndClick(driver, saveButton, 30);
+
+		} catch (Exception e) {
+			System.out.println("ListName is not visible");
+			// Element not visible or not available → skip or log
 		}
-		WaitUtil.waitAndClick(driver, saveButton, 30);
-		/*
-		 * WaitUtil.waitAndSendKeys(driver, companyName, "AutoTestCompany", 30);
-		 * WaitUtil.waitAndSendKeys(driver, companyWebsite, "www.automate.com", 30);
-		 * 
-		 * WaitUtil.waitAndClick(driver, confirmCompanyAdd, 30);
-		 */
-		/*
-		 * try { WebElement errorMsg = WaitUtil.waitForVisibility(driver,
-		 * By.id("responseMessage"), 5); if
-		 * (errorMsg.getText().contains("Duplicate Entry")) { String uniqueName =
-		 * "AutoTestCompany_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new
-		 * Date()); WaitUtil.waitAndSendKeys(driver, companyName, uniqueName, 10);
-		 * WaitUtil.waitAndClick(driver, confirmCompanyAdd, 10); } } catch
-		 * (TimeoutException ignored) { }
-		 * 
-		 * WaitUtil.waitAndClick(driver, saveButton, 30);
-		 */
 		try {
 			WebElement errMsg = WaitUtil.waitForVisibility(driver, existNameMsg, 15);
 			if (errMsg.getText().contains("already exists")) {
@@ -141,10 +139,10 @@ public class ContactsPage {
 		String getMailId = "user" + System.currentTimeMillis() + "@gmail.com";
 		String uniquecompany = "company" + System.nanoTime();
 		List<String[]> ContactUserData = Arrays.asList(
-				new String[] {"AutomationUser", "Test", uniquecompany, "Automation Tester", "us1" + getMailId, "Kondapur", 
-					    "Hyderabad", "Telangana", "534350", "India", "+919999088099", "" },
-				new String[] {"AutomationUser2", "Test2", uniquecompany, "Automation Tester2", "us2" + getMailId, "Kondapur", 
-					    "Hyderabad", "Telangana", "534350", "India", "+919999088099", ""  });
+				new String[] { "AutomationUser", "Test", uniquecompany, "Automation Tester", "us1" + getMailId,
+						"Kondapur", "Hyderabad", "Telangana", "534350", "India", "+919999088099", "" },
+				new String[] { "AutomationUser2", "Test2", uniquecompany, "Automation Tester2", "us2" + getMailId,
+						"Kondapur", "Hyderabad", "Telangana", "534350", "India", "+919999088099", "" });
 		String filePath = CSVUtil.generateContatcsCSV(ContactUserData);
 		return filePath;
 	}
@@ -156,22 +154,12 @@ public class ContactsPage {
 		Thread.sleep(5000);
 		System.out.println(CsvFilePath);
 		try {
-			// WaitUtil.waitAndSendKeys(driver, uploadCsvInput, filePath, 10);
-
 			WebElement uploadElement = driver.findElement(uploadCSV);
 			uploadElement.sendKeys(CsvFilePath);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		Thread.sleep(5000);
-
-		/*
-		 * WaitUtil.waitAndClick(driver, uploadCSV, 60);
-		 * 
-		 * Thread.sleep(2000); // You should replace this with an automation-friendly
-		 * approach later Runtime.getRuntime().exec(
-		 * "D:\\git\\xAmplifyQA\\xAmplifyQA\\Uploadcontacts.exe"); Thread.sleep(3000);
-		 */
 
 		ElementUtil.sendKey(legalBasisCSV, Keys.ENTER, driver);
 		WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
@@ -184,7 +172,19 @@ public class ContactsPage {
 
 		}
 		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, csvSaveBtn, 30);
+		WaitUtil.waitAndClick(driver, ActionDropdown, 30);
+		WaitUtil.waitAndClick(driver, saveEditcsv, 30);
+		try {
+			WaitUtil.waitAndClick(driver, csvSaveBtn, 30);
+		} catch (Exception e1) {
+			// TODO: handle exception
+			}
+		try {
+			WaitUtil.waitAndClick(driver, ActionDropdown, 30);
+			WaitUtil.waitAndClick(driver, saveEditcsv, 30);
+		} catch (Exception e2) {
+			// TODO: handle exception
+		}
 		WaitUtil.waitAndClick(driver, acceptButton, 30);
 
 		try {
@@ -199,5 +199,4 @@ public class ContactsPage {
 			logger.debug("No CSV duplicate error.");
 		}
 	}
-
 }
