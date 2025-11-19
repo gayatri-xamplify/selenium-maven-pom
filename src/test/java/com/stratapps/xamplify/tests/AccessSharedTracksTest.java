@@ -37,16 +37,17 @@ import com.stratapps.xamplify.utils.ConfigReader;
 
 
     @Test(priority = 1, enabled = true)
-    public void testHoverTeam() {
+    public void testHoverTeam() throws Exception {
         logger.info("Test 1: Hover Team - STARTED");	
         accessSharedTracksPage.accesssharedTrackSection();
         accessSharedTracksPage.refreshTracksPage();
-        accessSharedTracksPage.sortTracks("Name(Z-A)");
-        accessSharedTracksPage.sortTracks("Published On(DESC)");
-        accessSharedTracksPage.searchTrack("Track");
+//        accessSharedTracksPage.sortTracks("Name(Z-A)");
+//        accessSharedTracksPage.sortTracks("Published On(DESC)");
+        //accessSharedTracksPage.searchTrack("Track");
+        accessSharedTracksPage.viewTrackAndClickAssets();
         //accessSharedTracksPage.openFilterAndApply("Asset Name", "Contains", "docx");
-        accessSharedTracksPage.viewActions();
-//        accessSharedTracksPage.tilesActions("ppt");
+        //accessSharedTracksPage.viewActions();
+        accessSharedTracksPage.fillAllMandatoryFieldsWithVerification();
 //        accessSharedTracksPage.backtohome();
     }
 }
