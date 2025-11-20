@@ -22,7 +22,7 @@ public class ContactsPage {
 	private WebDriver driver;
 	private static final Logger logger = LogManager.getLogger(ContactsPage.class);
 	String timestamp = String.valueOf(System.currentTimeMillis());
-	String uniqueEmail = "testContact_" + timestamp + new Random().nextInt(10) + "@mail.com";
+	String uniqueEmail = "CNT" + timestamp + new Random().nextInt(10) + "@mail.com";
 
 	public ContactsPage(WebDriver driver) {
 		this.driver = driver;
@@ -36,13 +36,14 @@ public class ContactsPage {
 	private By emailField = By.xpath("//input[@id='email1']");
 	private By legalBasisField = By.xpath("//*[@id='multiselectelement']/div//span[3]/input");
 
-	private By firstName = By.xpath("//input[@id='firstName']");
-	private By lastName = By.xpath("//input[@id='lastName']");
-	private By titleField = By.id("title");
-	private By addressField = By.id("address");
-	private By cityField = By.id("city");
-	private By stateField = By.id("state");
-	private By zipField = By.id("zip");
+	public static By firstName   = By.xpath("//input[@id='firstName']");
+	public static By lastName    = By.xpath("//input[@id='lastName']");
+	public static By titleField  = By.id("title");
+	public static By addressField = By.id("address");
+	public static By cityField    = By.id("city");
+	public static By stateField   = By.id("state");
+	public static By zipField     = By.id("zip");
+
 
 	private By addCompanyButton = By.xpath("//div[@id=\"addContactModal\"]//button[2]/span");
 	private By companyModal = By.id("addCompanyModal");
@@ -93,7 +94,7 @@ public class ContactsPage {
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
 		}
 		WaitUtil.waitAndSendKeys(driver, lastName, "A", 60);
-		WaitUtil.waitAndSendKeys(driver, titleField, "sse", 60);
+		WaitUtil.waitAndSendKeys(driver, titleField, "CMP", 60);
 		WaitUtil.waitAndSendKeys(driver, addressField, "Sri Maruthi Homes, Lingampally", 60);
 		WaitUtil.waitAndSendKeys(driver, cityField, "Hyderabad", 60);
 		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana", 60);
@@ -136,19 +137,19 @@ public class ContactsPage {
 	}
 
 	public static String CreateCSVFile() {
-		String getMailId = "user" + System.currentTimeMillis() + "@gmail.com";
+		String getMailId = "CNT" + System.currentTimeMillis() + "@gmail.com";
 		String uniquecompany = "company" + System.nanoTime();
 		List<String[]> ContactUserData = Arrays.asList(
-				new String[] { "AutomationUser", "Test", uniquecompany, "Automation Tester", "us1" + getMailId,
+				new String[] { "AutomationUser", "Test", uniquecompany, "Automation Tester", "C1" + getMailId,
 						"Kondapur", "Hyderabad", "Telangana", "534350", "India", "+919999088099", "" },
-				new String[] { "AutomationUser2", "Test2", uniquecompany, "Automation Tester2", "us2" + getMailId,
+				new String[] { "AutomationUser2", "Test2", uniquecompany, "Automation Tester2", "C2" + getMailId,
 						"Kondapur", "Hyderabad", "Telangana", "534350", "India", "+919999088099", "" });
 		String filePath = CSVUtil.generateContatcsCSV(ContactUserData);
 		return filePath;
 	}
 
 	/// . @uploadCSVContacts is updated by Ganesh ./
-	public void uploadCSVContacts(String contactType) throws Exception {
+	public void uploadCSVContacts(String contactType, String uploadIn) throws Exception {
 		logger.info("Uploading contact via CSV...");
 		String CsvFilePath = CreateCSVFile();
 		Thread.sleep(5000);
@@ -172,19 +173,15 @@ public class ContactsPage {
 
 		}
 		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, ActionDropdown, 30);
-		WaitUtil.waitAndClick(driver, saveEditcsv, 30);
-		try {
+//		WaitUtil.waitAndClick(driver, ActionDropdown, 30);
+//		WaitUtil.waitAndClick(driver, saveEditcsv, 30);
+		if(uploadIn == "AddContacts") {
 			WaitUtil.waitAndClick(driver, csvSaveBtn, 30);
-		} catch (Exception e1) {
-			// TODO: handle exception
-			}
-		try {
+		}
+		if (uploadIn == "EditList") {
 			WaitUtil.waitAndClick(driver, ActionDropdown, 30);
 			WaitUtil.waitAndClick(driver, saveEditcsv, 30);
-		} catch (Exception e2) {
-			// TODO: handle exception
-		}
+		} 
 		WaitUtil.waitAndClick(driver, acceptButton, 30);
 
 		try {
@@ -199,4 +196,5 @@ public class ContactsPage {
 			logger.debug("No CSV duplicate error.");
 		}
 	}
+
 }

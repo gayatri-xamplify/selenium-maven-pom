@@ -103,9 +103,7 @@ public class CompaniesPage {
 		WaitUtil.waitAndClick(driver, AddContact, 20);
 		Thread.sleep(3000);
 		contactsPage.completeOneAtATimeFlow("Public");
-		contactsPage.completeOneAtATimeFlow("Private");
-		contactsPage.uploadCSVContacts("Public");
-		contactsPage.uploadCSVContacts("Private");
+		contactsPage.uploadCSVContacts("Public", "\"EditList\"");
 		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, ManageCompanies, 20);
 	}

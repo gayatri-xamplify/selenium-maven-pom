@@ -7,12 +7,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.stratapps.xamplify.utils.ActionUtil;
+import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.ScreenshotUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.xamplifyUtil;
@@ -93,8 +95,17 @@ public class ManageContactsPage {
 	private By Unsubscribe = By.xpath("//span[text()= 'Unsubscribe']/..");
 	private By resubscribecomment = By.xpath("//textarea[@id='comment']");
 	private By Subscribe = By.xpath("//span[text()= 'Subscribe']/..");
-	private By sa21 = By.xpath("");
-	private By sa22 = By.xpath("");
+	private By contactMailId = By.xpath("(//b[text()= 'Email id:'])[1]/..");
+	
+	public static By firstName   = By.xpath("//input[@id='firstName']");
+	public static By lastName    = By.xpath("//input[@id='lastName']");
+	public static By titleField  = By.id("title");
+	public static By addressField = By.id("address");
+	public static By cityField    = By.id("city");
+	public static By stateField   = By.id("state");
+	public static By zipField     = By.id("zip");	
+	private By ContactUpdate = By.xpath("//span[contains(text(),'Update')]/..");
+	
 	private By sa23 = By.xpath("");
 	private By sa24 = By.xpath("");
 	private By sa25 = By.xpath("");
@@ -150,50 +161,100 @@ public class ManageContactsPage {
 	/* @Edit_ContactEdit Is Written by ganesh ***/
 	public void Edit_ContactEdit() throws Exception {
 		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, ContactEdit, 20);
+		Thread.sleep(2000);
+		WaitUtil.waitAndSendKeys(driver, firstName, "Contact_U", 60);
+		WaitUtil.waitAndSendKeys(driver, lastName, "A_U", 60);
+		WaitUtil.waitAndSendKeys(driver, titleField, "CMP_U", 60);
+		WaitUtil.waitAndSendKeys(driver, addressField, "Sri Maruthi Homes, Lingampally_U", 60);
+		WaitUtil.waitAndSendKeys(driver, cityField, "Hyderabad_U", 60);
+		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana_U", 60);
+		WaitUtil.waitAndSendKeys(driver, zipField, "500052", 60);
+		WaitUtil.waitAndClick(driver, ContactUpdate, 20);
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "Your contact has been updated successfully.");
 	}
 	
 	/* @Edit_ContactDelete Is Written by ganesh ***/
 	public void Edit_ContactDelete() throws Exception {
-		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, ContactDelete, 20);
+		WaitUtil.waitAndClick(driver, yesDelete, 20);
+		Thread.sleep(1000);
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contacts have been deleted successfully.");
 	}
 	
 	/* @Edit_ContactUnsubscribe Is Written by ganesh ***/
 	public void Edit_ContactUnsubscribe() throws Exception {
-		Thread.sleep(2000);
+		Thread.sleep(5000);
+		String mailId = driver.findElement(contactMailId).getText();
+		System.out.println(mailId);
 		WaitUtil.waitAndClick(driver, contactNotification, 20);
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, notificationmessage, 20);
 		WaitUtil.waitAndClick(driver, Unsubscribe, 20);
-//		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
+		Thread.sleep(5000);
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, mailId + " has been successfully unsubscribed for receiving the emails from the company: PartnerAuto");
 	}
 	
 	/* @Edit_ContactSubscribe Is Written by ganesh ***/
-	public void Edit_ContactSubscribe() throws Exception {
+	public void Edit_ContactSearch(String SearchKeyword) throws InterruptedException {
 		Thread.sleep(2000);
+		WaitUtil.waitAndSendKeys(driver, editContactSearch, SearchKeyword, 20);
+		WaitUtil.waitAndClick(driver, SearchSubmit, 20);
+	}
+	
+	/* @Edit_ContactSubscribe Is Written by ganesh ***/
+	public void Edit_ContactSubscribe() throws Exception {		
+		Thread.sleep(5000);
+		String mailId = driver.findElement(contactMailId).getText();
+		System.out.println(mailId);
 		WaitUtil.waitAndClick(driver, contactNotification, 20);
 		WaitUtil.waitAndSendKeys(driver, resubscribecomment, "Resubscribing the Contact", 20);
-		WaitUtil.waitAndClick(driver, resubscribecomment, 20);
 		WaitUtil.waitAndClick(driver, Subscribe, 20);
-//		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
+		
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, mailId +" has been successfully resubscribed for receiving the emails from the company: PartnerAuto");
 
 	}
 	
 	/* @Edit_ContactCampaignPublish Is Written by ganesh ***/
 	public void Edit_ContactCampaignPublish() throws Exception {
 		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, contactCampaignLaunch, 20);
+	    try {
+	        WaitUtil.waitAndClick(driver, entInfoCheckbox, 10);
+	        WaitUtil.waitAndClick(driver, shareContentBtn, 10);
+	        ScreenshotUtil.captureScreenshot(driver, "campaignlaunchMPartner");
+	        WaitUtil.waitAndClick(driver, closingBtn, 10);
+	    } catch (Exception e) {
+	        String msg = driver.findElement(noCampaignsMsg).getText();
+	        System.out.println(msg);
+	        ScreenshotUtil.captureScreenshot(driver, "NoCampaignlaunchMPartner");
+	        WaitUtil.waitAndClick(driver, unpublishPopupCloseBtn, 10);
+	    }
 	}
 	
 	/* @Edit_ContactCampaignAnalytics Is Written by ganesh ***/
 	public void Edit_ContactCampaignAnalytics() throws Exception {
 		Thread.sleep(2000);
+
 	}
 	
 	/* @EditContactList Is Written by ganesh ***/
 	public void EditContactList() throws Exception {
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
+		Edit_ContactSearch("CNT");
+		Edit_ContactUnsubscribe();
+		Edit_ContactSubscribe();
+		searchClear();
+		Edit_ContactDelete();
+		Edit_ContactCampaignPublish();
+		Edit_ContactEdit();
+		Edit_ContactCampaignAnalytics();
+		hoverContacts_ManageContacts();
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
-		contactsPage.uploadCSVContacts("Public");		
+		contactsPage.uploadCSVContacts("Public", "EditList");		
 		Thread.sleep(3000);
 //		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
 	}

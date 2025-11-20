@@ -81,7 +81,7 @@ public class ContactsTest extends BaseTest {
 	public void testUploadPublicContacts_CSV() throws Exception {
 		logger.info("🚀 Starting test: Upload Contacts via CSV");
 			contactsPage.hoverContacts();
-			contactsPage.uploadCSVContacts("Public");
+			contactsPage.uploadCSVContacts("Public", "AddContacts");
 			logger.info("✅ Test Passed: Upload Contacts via CSV");
 	}
 
@@ -89,7 +89,7 @@ public class ContactsTest extends BaseTest {
 	public void testUploadPrivateContacts_CSV() throws Exception {
 		logger.info("🚀 Starting test: Upload Contacts via CSV");
 			contactsPage.hoverContacts();
-			contactsPage.uploadCSVContacts("Private");
+			contactsPage.uploadCSVContacts("Private", "AddContacts");
 			logger.info("✅ Test Passed: Upload Contacts via CSV");
 	}
 	
