@@ -43,11 +43,11 @@ import com.stratapps.xamplify.utils.ConfigReader;
         accessSharedTracksPage.refreshTracksPage();
 //        accessSharedTracksPage.sortTracks("Name(Z-A)");
 //        accessSharedTracksPage.sortTracks("Published On(DESC)");
-        //accessSharedTracksPage.searchTrack("Track");
+        accessSharedTracksPage.searchTrack("Track");
         accessSharedTracksPage.viewTrackAndClickAssets();
         //accessSharedTracksPage.openFilterAndApply("Asset Name", "Contains", "docx");
         //accessSharedTracksPage.viewActions();
-        accessSharedTracksPage.fillAllMandatoryFieldsWithVerification();
+        //accessSharedTracksPage.fillMandatoryFieldsAndSubmit();
 //        accessSharedTracksPage.backtohome();
     }
 }

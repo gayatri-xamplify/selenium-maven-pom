@@ -18,17 +18,11 @@ import com.stratapps.xamplify.utils.ConfigReader;
 public class ManageTracksTest extends BaseTest {
 
     private ManageTracksPage manageTracksPage;
+    
     private static final Logger logger = LogManager.getLogger(ManageTracksTest.class);
     private WebDriverWait wait;
 
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	 * new LoginPage(driver); loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password")); manageTracksPage = new
-	 * ManageTracksPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60)); logger.info("ManageTracksTest setup completed"); }
-	 */
-
+	
     
     
     @BeforeClass public void setUpClass() {
@@ -88,7 +82,7 @@ public class ManageTracksTest extends BaseTest {
         manageTracksPage.backToHome();
         logger.info("Test 7: Sort and Delete Track - COMPLETED");
     }
-    @Test(priority = 8, enabled = false)
+    @Test(priority = 8, enabled = true)
     public void trackViewsTest() throws AWTException {
         logger.info("Test 8: Track Views - STARTED");
         manageTracksPage.trackViews("D:\\Track_img\\Thumbnail_file.jpg");

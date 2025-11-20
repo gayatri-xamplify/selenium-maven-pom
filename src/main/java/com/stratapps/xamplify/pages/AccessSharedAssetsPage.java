@@ -83,6 +83,7 @@ public class AccessSharedAssetsPage {
 	private By interactedTile = By.xpath("//i[contains(@title,'Total interacted assets')]");
 	private By nonInteractedTile = By.xpath("//i[@title='Total non interacted assets ']");
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
+	private By accessSharedBreadCrumb = By.xpath("//a[normalize-space()='Access Shared Assets']");
 
 	/** Navigate to Upload Asset Page */
 	public void accesssharedAssetSection() {
@@ -246,9 +247,11 @@ public class AccessSharedAssetsPage {
 			// Preview Asset
 			WaitUtil.waitAndClick(driver, previewasset, 30);
 			WaitUtil.waitForPageToLoad(driver, 30);
-			WaitUtil.waitForVisibility(driver, videoAssetClose, 60);
-			WaitUtil.waitForElementClickable(driver, videoAssetClose, 60);
-			ElementUtil.clickWithRetry(videoAssetClose, driver, 3);
+			WaitUtil.waitAndClick(driver, accessSharedBreadCrumb, backdrop, 90);
+//			WaitUtil.waitForPageToLoad(driver, 30);
+//			WaitUtil.waitForVisibility(driver, accessSharedBreadCrumb, 60);
+//			WaitUtil.waitForElementClickable(driver, accessSharedBreadCrumb, 60);
+//			ElementUtil.clickWithRetry(accessSharedBreadCrumb, driver, 3);
 
 	}
 	public void tilesActions(String fileName) {
