@@ -79,7 +79,7 @@ public class ManageContactsPage {
 	public static final By publishIconBtn = By.xpath("//*[@id='partner_contact_list']/tbody/tr/td[6]/div/a[4]/i");
 	public static final By entInfoCheckbox = By.xpath("//input[@name='all']");
 	public static final By shareContentBtn = By.xpath("(//button[@type='submit'])[7]");
-	public static final By closingBtn = By.xpath("(//button[@type='submit'])[6]");
+	public static final By closingBtn = By.xpath("(//button[@type='submit'])[8]");
 	public static final By noCampaignsMsg = By.xpath("//app-share-campaigns/div[2]/strong");
 	public static final By unpublishPopupCloseBtn = By.xpath("//div[@id='shareUnPublishedContentPopUp']//button[text()='Close']");
 	
@@ -106,17 +106,23 @@ public class ManageContactsPage {
 	public static By zipField     = By.id("zip");	
 	private By ContactUpdate = By.xpath("//span[contains(text(),'Update')]/..");
 	
-	private By sa23 = By.xpath("");
-	private By sa24 = By.xpath("");
-	private By sa25 = By.xpath("");
-	private By sa26 = By.xpath("");
-	private By sa27 = By.xpath("");
-	private By sa28 = By.xpath("");
-	private By sa29 = By.xpath("");
-	private By sa30 = By.xpath("");
-
-	// ================ Methods
-	// ========================================================================
+	private By CreateList = By.xpath("//a[@id='saveAs_button']");
+	private By Exportreport = By.xpath("//a[@id='exportToExcel']");
+	private By CSVtempDownload = By.xpath("//a[@id='download_empy_csv']");
+	private By DeleteCNT = By.xpath("//a[@id='delete_button']");
+	private By AllCheckbox = By.xpath("//input[@id='checkAllExistingContacts']");
+	private By legalBasisField = By.xpath("//*[@id='multiselectelement']/div//span[3]/input");
+	private By Private = By.xpath("//span[@class='bootstrap-switch-handle-off bootstrap-switch-danger']");
+	private By saveChanges = By.xpath("//span[text() = 'Save changes']");
+	private By CopyToList = By.xpath("//a[text() = 'Copy To List']");
+	private By MoveToList = By.xpath("//a[text() = 'Move To List']");
+	private By CopyOrMovecontactAllCheckbox = By.xpath("//input[@id='copy-group-users-header-checkbox-id']");
+	private By AddContacts = By.xpath("//span[text()='Add']");
+	private By Closebtn = By.xpath("(//button[text()='Close'])[3]");
+	private By sda30 = By.xpath("");	
+	private By sva29 = By.xpath("");
+	private By sad30 = By.xpath("");
+	// ================ Methods  =============================
 
 	/* @clickContactsTab Is Written by ganesh ***/
 	public void hoverContacts_ManageContacts() throws InterruptedException {
@@ -133,7 +139,6 @@ public class ManageContactsPage {
 		System.out.println("Clicked on tab: " + tabName);
 	}
 
-	
 	/* @CopyContactList Is Written by ganesh ***/
 	public void CopyContactList() throws InterruptedException {
 		Thread.sleep(5000);
@@ -179,13 +184,13 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, ContactDelete, 20);
 		WaitUtil.waitAndClick(driver, yesDelete, 20);
 		Thread.sleep(1000);
-		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contacts have been deleted successfully.");
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contact have been deleted successfully.");
 	}
 	
 	/* @Edit_ContactUnsubscribe Is Written by ganesh ***/
 	public void Edit_ContactUnsubscribe() throws Exception {
 		Thread.sleep(5000);
-		String mailId = driver.findElement(contactMailId).getText();
+		String mailId = driver.findElement(contactMailId).getAttribute("title");
 		System.out.println(mailId);
 		WaitUtil.waitAndClick(driver, contactNotification, 20);
 		Thread.sleep(2000);
@@ -205,13 +210,13 @@ public class ManageContactsPage {
 	/* @Edit_ContactSubscribe Is Written by ganesh ***/
 	public void Edit_ContactSubscribe() throws Exception {		
 		Thread.sleep(5000);
-		String mailId = driver.findElement(contactMailId).getText();
-		System.out.println(mailId);
+		String mailId2 = driver.findElement(contactMailId).getAttribute("title");
+		System.out.println(mailId2);
 		WaitUtil.waitAndClick(driver, contactNotification, 20);
 		WaitUtil.waitAndSendKeys(driver, resubscribecomment, "Resubscribing the Contact", 20);
 		WaitUtil.waitAndClick(driver, Subscribe, 20);
 		
-		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, mailId +" has been successfully resubscribed for receiving the emails from the company: PartnerAuto");
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, mailId2 +" has been successfully resubscribed for receiving the emails from the company: PartnerAuto");
 
 	}
 	
@@ -232,29 +237,88 @@ public class ManageContactsPage {
 	    }
 	}
 	
+	/* @Edit_CreateNewPrivateList Is Written by ganesh ***/
+	public void Edit_CreateNewPrivateList() throws Exception {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
+		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
+		WaitUtil.waitAndClick(driver, CreateList, 20);
+		WaitUtil.waitAndSendKeys(driver, titleField, "NewGP"+timestamp, 20);
+		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
+			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
+		}
+		WaitUtil.waitAndClick(driver, Private, 20);
+		WaitUtil.waitAndClick(driver, saveChanges, 20);
+	}
+	
+	/* @Edit_CreateNewPublicList Is Written by ganesh ***/
+	public void Edit_CreateNewPublicContactList() throws Exception {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
+		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
+		WaitUtil.waitAndClick(driver, CreateList, 20);
+		WaitUtil.waitAndSendKeys(driver, titleField, "NewGP"+timestamp, 20);
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
+			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
+		WaitUtil.waitAndClick(driver, saveChanges, 20);
+	}
+	
+	/* @Edit_exportToExcel Is Written by ganesh ***/
+	public void Edit_DownloadtempAndexportToExcel() throws Exception {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
+		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
+		WaitUtil.waitAndClick(driver, Exportreport, 20);
+	}
+	
+	/* @Edit_MultplecontactsDelete Is Written by ganesh ***/
+	public void Edit_MultplecontactsDelete() throws Exception {
+		Thread.sleep(2000);
+	}
+	
 	/* @Edit_ContactCampaignAnalytics Is Written by ganesh ***/
 	public void Edit_ContactCampaignAnalytics() throws Exception {
 		Thread.sleep(2000);
-
+	
+	}
+	
+	/* @Edit_MoveOrMoveToList Is Written by ganesh ***/
+	public void Edit_MoveOrMoveToList(By listAction) throws Exception {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
+		WaitUtil.waitAndClick(driver, listAction, 20);
+		WaitUtil.waitAndClick(driver, CopyOrMovecontactAllCheckbox, 20);
+		WaitUtil.waitAndClick(driver, AddContacts, 20);
+		WaitUtil.waitAndClick(driver, closingBtn, 20);
 	}
 	
 	/* @EditContactList Is Written by ganesh ***/
 	public void EditContactList() throws Exception {
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
-		Edit_ContactSearch("CNT");
+		Edit_ContactSearch("com");
 		Edit_ContactUnsubscribe();
 		Edit_ContactSubscribe();
 		searchClear();
+		Edit_DownloadtempAndexportToExcel();
+//		Edit_MoveOrMoveToList(CopyToList);
+//		Edit_MoveOrMoveToList(MoveToList);
 		Edit_ContactDelete();
 		Edit_ContactCampaignPublish();
 		Edit_ContactEdit();
-		Edit_ContactCampaignAnalytics();
+//		Edit_ContactCampaignAnalytics();
 		hoverContacts_ManageContacts();
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
 		contactsPage.uploadCSVContacts("Public", "EditList");		
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
+		Edit_CreateNewPublicContactList();
+		WaitUtil.waitAndClick(driver, editListButton2, 60);
+		Edit_CreateNewPrivateList();
 		Thread.sleep(3000);
 //		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
 	}
