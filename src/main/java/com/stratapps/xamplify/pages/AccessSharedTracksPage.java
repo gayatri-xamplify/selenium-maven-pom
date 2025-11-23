@@ -71,7 +71,8 @@ public class AccessSharedTracksPage {
 	private By previewTrack = By.xpath("//*[@id=\"actions-row\"]/div/a/i[1]");
 	private By viewTrack = By.xpath("//span[normalize-space()='View']");
 	private By downloadTrack = By.xpath("//span[normalize-space()='Download']");
-	private By ViewTrackclose = By.xpath("//a[@title='Close']//i[@class='fa fa-times']");
+	private By ViewTrackclose = By.xpath("//span[@class='glyphicon glyphicon-remove']");
+	private By viewVideoclose = By.xpath("//span[@class='glyphicon glyphicon-remove asset_cross_align']");
 	private By interactedTile = By.xpath("//i[contains(@title,'Total interacted Tracks')]");
 	private By nonInteractedTile = By.xpath("//i[@title='Total non interacted Tracks ']");
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
@@ -84,6 +85,14 @@ public class AccessSharedTracksPage {
 	private By submitButton = By.xpath("(//button[normalize-space()='Submit'])[1]");
 	private By emailField = By.xpath("//div[@class='panel-body border-fivepx padding-20px']//div[2]//div[1]//div[1]");
 	private By formclose = By.xpath("//span[@class='glyphicon glyphicon-remove']");
+	private By viewAssetTrack = By.xpath("//button[normalize-space()='View']");
+	private By downloadAssetTrack = By.xpath("//button[normalize-space()='Download']");
+	private By goToHome = By.xpath("//img[@class='cls-pointer']");
+	private By inProgressTile = By.xpath("//i[@title='Total in progress tracks']");
+	private By completedTile = By.xpath("//i[@title='Total completed tracks']");
+	private By notViewedTile = By.xpath("//i[@title='Total not viewed tracks']");
+	private By allTile = By.xpath("//i[@title='Total records of tracks']");
+	
 
 	/** Navigate to Upload Track Page */
 	public void accesssharedTrackSection() {
@@ -168,186 +177,173 @@ public class AccessSharedTracksPage {
 
 	public void viewTrackAndClickAssets() throws InterruptedException {
 
-	    try {
-	        WaitUtil.waitAndClick(driver, clickOnTrackPreview, backdrop, 30);
-	        WaitUtil.waitForPageToLoad(driver, 90);
-
-	        if (ElementUtil.isDisplayed(breadcrumbSharedTracks, driver)) {
-	            ElementUtil.click(breadcrumbSharedTracks, driver);
-	            WaitUtil.waitForPageToLoad(driver, 30);
-	            System.out.println("⚠️ Track expired → Navigated to Home.");
-	        }
-
-	    } catch (Exception e) {
-	        System.out.println("⚠️ Breadcrumb click failed: " + e.getMessage());
-	    }
-
-	    WaitUtil.waitForElementClickable(driver, clickOnTrackPreview1, 30);
-	    ElementUtil.clickWithRetry(clickOnTrackPreview1, driver, 3);
-	    WaitUtil.waitForPageToLoad(driver, 40);
-
-	    // Universal locator
-	    By allItems = By.xpath("//td//div[contains(@class,'thumbnail-wrapper')]");
-
-	    // ❗ Critical: get item count only once
-	    int totalItems = driver.findElements(allItems).size();
-	    System.out.println("🔍 Total items inside Track: " + totalItems);
-
-	    // Loop through items
-	    for (int i = 1; i <= totalItems; i++) {
-
-	        // ❗ CRITICAL FIX: Re-fetch item every time
-	        By item = By.xpath("(//td//div[contains(@class,'thumbnail-wrapper')])[" + i + "]");
-	        System.out.println("➡️ Opening item " + i);
-
-	        try {
-	            WaitUtil.waitForElementClickable(driver, item, 20);
-	            ElementUtil.clickWithRetry(item, driver, 3);
-	            WaitUtil.waitForPageToLoad(driver, 30);
-	            Thread.sleep(2000);
-
-	            // ---------------------------------------------------------------
-	            // Detect FORM via <app-form-preview>
-	            // ---------------------------------------------------------------
-	            boolean isForm = driver.findElements(By.xpath("//app-form-preview")).size() > 0;
-
-	            // =====================================================================
-	            //                            🟢 FORM HANDLING
-	            // =====================================================================
-	            if (isForm) {
-
-	                System.out.println("📝 Form detected.");
-
-	                // Check if form already submitted (submit button missing)
-	                boolean hasSubmitButton = driver.findElements(By.xpath("//button[@type='submit']")).size() > 0;
-	                boolean isAlreadySubmitted = !hasSubmitButton;
-
-	                if (isAlreadySubmitted) {
-
-	                    System.out.println("✔️ Form already submitted → Closing form.");
-
-	                    ElementUtil.clickWithRetry(formclose, driver, 2);
-	                    WaitUtil.waitForPageToLoad(driver, 20);
-	                }
-
-	                else {
-
-	                    System.out.println("📝 Form NOT submitted → Filling...");
-
-	                    try {
-	                        // Fill mobile number
-//	                        By mobileField = By.xpath("//input[contains(@placeholder,'Mobile')]");
-//	                        if (ElementUtil.isDisplayed(mobileField, driver)) {
-//	                            ElementUtil.type(mobileField, "9876543210", driver);
-//	                            System.out.println("✔️ Mobile Number filled");
-//	                        }
-
-	                        // Select radio Q1
-	                        By firstRadio = By.xpath("(//input[@type='radio'])[1]");
-	                        if (ElementUtil.isDisplayed(firstRadio, driver)) {
-	                            ElementUtil.click(firstRadio, driver);
-	                            System.out.println("✔️ Q1 option selected");
-	                        }
-
-	                        // Select radio Q2
-	                        By secondRadio = By.xpath("(//input[@type='radio'])[5]");
-	                        if (ElementUtil.isDisplayed(secondRadio, driver)) {
-	                            ElementUtil.click(secondRadio, driver);
-	                            System.out.println("✔️ Q2 option selected");
-	                        }
-
-	                        // Submit form
-	                        By submitButton = By.xpath("//button[@type='submit']");
-	                        WaitUtil.waitAndClick(driver, submitButton, 20);
-	                        WaitUtil.waitForPageToLoad(driver, 30);
-
-	                        System.out.println("✔️ Form submitted successfully!");
-
-	                    } catch (Exception ef) {
-	                        System.out.println("⚠️ Error while filling form → " + ef.getMessage());
-	                    }
-
-	                    // Close form popup
-	                    ElementUtil.clickWithRetry(formclose, driver, 2);
-	                    WaitUtil.waitForPageToLoad(driver, 20);
-	                    System.out.println("✔️ Form popup closed.");
-	                }
-	            }
-
-	            // =====================================================================
-	            //                             🔵 ASSET HANDLING
-	            // =====================================================================
-	            else if (ElementUtil.isDisplayed(previewclose, driver)) {
-
-	                System.out.println("📄 Asset preview detected → Closing...");
-	                ElementUtil.clickWithRetry(previewclose, driver, 2);
-	                WaitUtil.waitForPageToLoad(driver, 20);
-	                System.out.println("✔️ Asset closed.");
-	            }
-
-	        } catch (Exception ex) {
-	            System.out.println("⚠️ Skipped item " + i + " → " + ex.getMessage());
-	        }
-
-	        WaitUtil.waitForPageToLoad(driver, 20);
-	    }
-
-	    System.out.println("🎉 All assets & forms processed successfully!");
-	}
-
-	public void fillMandatoryFieldsAndSubmit() {
-
-		// 1) Skip email if prefilled
 		try {
-			WebElement email = driver.findElement(emailField);
-			String value = email.getAttribute("value");
-			System.out.println("Email already filled: " + value);
+			// 1️⃣ Click the View Track button
+			WaitUtil.waitAndClick(driver, clickOnTrackPreview, backdrop, 30);
+			WaitUtil.waitForPageToLoad(driver, 90);
+
+//	        // 2️⃣ Handle "Track Expired" → Breadcrumb
+//	        if (ElementUtil.isDisplayed(disabledText, driver)) {
+//	            ElementUtil.click(breadcrumbSharedTracks, driver);
+//	            System.out.println("⚠️ Track is expired. Returned to sharedTracks.");
+//	        }
+//	    	
 		} catch (Exception e) {
-			System.out.println("Email field not found or not visible");
+			throw new RuntimeException("View Track flow failed", e);
 		}
+		By clickOnTrackPreviewViewAsset = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[2]/div");
+		// Retry open Track Preview (2nd icon)
+		WaitUtil.waitForPageToLoad(driver, 90);
+		WaitUtil.waitForElementClickable(driver, clickOnTrackPreviewViewAsset, 30);
+		ElementUtil.clickWithRetry(clickOnTrackPreviewViewAsset, driver, 3);
+		WaitUtil.waitAndClick(driver, viewAssetTrack, 30);
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, ViewTrackclose, 60);
+		ElementUtil.click(downloadAssetTrack, driver);
+		WaitUtil.waitForPageToLoad(driver, 90);
+		ElementUtil.click(previewclose, driver);
+		WaitUtil.waitForPageToLoad(driver, 30);
 
-		// 2) All mandatory fields
-		List<WebElement> questions = driver.findElements(mandatoryQuestions);
-		System.out.println("Mandatory questions count: " + questions.size());
+		// Video Asset view
+		By clickOnTrackPreviewViewAsset2 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[2]/td[2]/div");
+		// Retry open Track Preview (2nd icon)
+		WaitUtil.waitForPageToLoad(driver, 90);
+		WaitUtil.waitForElementClickable(driver, clickOnTrackPreviewViewAsset2, 30);
+		ElementUtil.clickWithRetry(clickOnTrackPreviewViewAsset2, driver, 3);
+		WaitUtil.waitForPageToLoad(driver, 50);
+//		WaitUtil.waitForVisibility(driver, viewVideoclose, 50);
+//		WaitUtil.waitAndClick(driver, viewVideoclose, 60);
+		WaitUtil.waitAndClick(driver, viewAssetTrack, 30);
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, ViewTrackclose, 60);
+		ElementUtil.click(downloadAssetTrack, driver);
+		WaitUtil.waitForPageToLoad(driver, 90);
+		ElementUtil.click(previewclose, driver);
+		WaitUtil.waitForPageToLoad(driver, 30);
 
-		for (WebElement q : questions) {
+		// Asset # Viewed
+		By clickOnTrackPreviewViewAsset3 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[3]/td[2]/div");
+		// Retry open Track Preview (2nd icon)
+		WaitUtil.waitForPageToLoad(driver, 90);
+		WaitUtil.waitForElementClickable(driver, clickOnTrackPreviewViewAsset3, 30);
+		ElementUtil.clickWithRetry(clickOnTrackPreviewViewAsset3, driver, 3);
+		WaitUtil.waitAndClick(driver, viewAssetTrack, 30);
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, ViewTrackclose, 60);
+		ElementUtil.click(downloadAssetTrack, driver);
+		WaitUtil.waitForPageToLoad(driver, 90);
+		ElementUtil.click(previewclose, driver);
+		WaitUtil.waitForPageToLoad(driver, 20);
 
-			// TEXT INPUTS
-			List<WebElement> textInputs = q
-					.findElements(By.xpath(".//input[@type='text' or @type='number' or @type='email']"));
-			if (!textInputs.isEmpty()) {
-				WebElement tb = textInputs.get(0);
+// Form Submission
+		
+		
+		   By allItems = By.xpath("//td//div[contains(@class,'thumbnail-wrapper')]");
 
-				// skip email (already filled)
-				if ("email".equalsIgnoreCase(tb.getAttribute("id"))) {
-					System.out.println("Skipping email (prefilled)");
-					continue;
-				}
+		    WaitUtil.waitForVisibility(driver, allItems, 30);
+		    List<WebElement> items = driver.findElements(allItems);
 
-				tb.clear();
-				tb.sendKeys("Test Data");
-				continue;
+		    System.out.println("🔍 Total items inside Track: " + items.size());
+			
+			for (int i = 1; i <= items.size(); i++) {
+
+		        By item = By.xpath("(//td//div[contains(@class,'thumbnail-wrapper')])[" + i + "]");
+		        System.out.println("➡️ Opening item " + i);
+
+		        try {
+		            ElementUtil.clickWithRetry(item, driver, 3);
+		            WaitUtil.waitForPageToLoad(driver, 30);
+
+		            Thread.sleep(2000);
+
+
+		     if (ElementUtil.isDisplayed(formclose, driver)) {
+	             System.out.println("📝 Form detected – filling the form...");
+
+	             try {
+	                 // 1️⃣ Fill MOBILE NUMBER
+//	                 By mobileField = By.xpath("//input[contains(@placeholder,'Mobile')]");
+//	                 if (ElementUtil.isDisplayed(mobileField, driver)) {
+//	                     ElementUtil.type(mobileField, "9876543210", driver);
+//	                     System.out.println("✔️ Mobile number filled");
+//	                 }
+
+	                 // 2️⃣ Select mandatory radio buttons
+	                 // First question → pick first option
+	                 By firstMandatory = By.xpath("(//input[@type='radio'])[1]");
+	                 if (ElementUtil.isDisplayed(firstMandatory, driver)) {
+	                     ElementUtil.click(firstMandatory, driver);
+	                     System.out.println("✔️ Selected option for Q1");
+	                 }
+
+	                 // Second question → pick first option under Q2
+	                 By secondMandatory = By.xpath("(//input[@type='radio'])[5]");
+	                 if (ElementUtil.isDisplayed(secondMandatory, driver)) {
+	                     ElementUtil.click(secondMandatory, driver);
+	                     System.out.println("✔️ Selected option for Q2");
+	                 }
+
+	                 // 3️⃣ Submit the form
+	                // By submitButton = By.xpath("//button[@type='submit' or contains(text(),'Submit')]");
+	                 WaitUtil.waitAndClick(driver, submitButton, 20);
+	                 WaitUtil.waitForPageToLoad(driver, 20);
+
+	                 System.out.println("✔️ Form submitted successfully!");
+
+	             } catch (Exception ef) {
+	                 System.out.println("⚠️ Error while filling form: " + ef.getMessage());
+	             }
+
+	             // 4️⃣ Finally close the form popup
+	             ElementUtil.clickWithRetry(formclose, driver, 2);
+	             WaitUtil.waitForPageToLoad(driver, 20);
+	             System.out.println("✔️ Form popup closed.");
+	         }
+
+	         // ---------------------------
+	         //   🔵 ASSET PREVIEW POPUP
+	         // ---------------------------
+	         else if (ElementUtil.isDisplayed(previewclose, driver)) {
+	             ElementUtil.clickWithRetry(previewclose, driver, 2);
+	             WaitUtil.waitForPageToLoad(driver, 20);
+	            
+	         }
+		     
+		     
+		     WaitUtil.waitForPageToLoad(driver, 30);
+		     WaitUtil.waitAndClick(driver, breadcrumbSharedTracks, 50);
+
+	     	        } catch (Exception ex) {
+		            System.out.println("⚠️ Skipped item " + i + " – " + ex.getMessage());
+		        }
+		        
 			}
 
-			// RADIO BUTTONS
-			List<WebElement> radios = q.findElements(By.xpath(".//input[@type='radio']"));
-			if (!radios.isEmpty()) {
-				radios.get(0).click();
-				continue;
-			}
+			} 
+	
+	
+	public void tilesActions(String fileName) {
 
-			// DROPDOWN
-			List<WebElement> dropdowns = q.findElements(By.tagName("select"));
-			if (!dropdowns.isEmpty()) {
-				Select select = new Select(dropdowns.get(0));
-				select.selectByIndex(1);
-				continue;
-			}
-		}
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, inProgressTile, backdrop, 30);
+		WaitUtil.waitAndClick(driver, completedTile, backdrop, 30);
+		searchTrack(fileName);
+		WaitUtil.waitAndClick(driver, notViewedTile, backdrop, 30);
+		WaitUtil.waitAndClick(driver, allTile, backdrop, 30);
+		
 
-		// 3) Submit form
-		driver.findElement(submitButton).click();
-
-		System.out.println("Form filled & submitted successfully!");
 	}
-}
+	
+	
+	
+	
+	public void backtohome() {
+		WaitUtil.waitAndClick(driver, goToHome, 30);
+		
+	}
+			
+
+	}
+	
+	
+	

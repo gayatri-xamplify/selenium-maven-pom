@@ -112,7 +112,6 @@ public class ManageTracksPage {
 	        ElementUtil.sendText(endHourInput, "11", driver);
 	        ElementUtil.sendText(endMinuteInput, "59", driver);
 	    }
-
 	    // 💡 Scroll to 'Assets' tab before clicking
 	    WebElement assetsTab = driver.findElement(assetsSection);
 	    ElementUtil.scrollToElement(assetsTab, driver);  // centers the view

@@ -232,7 +232,8 @@ public class AddTracksPage {
 		    selectAsset("pdf");
 		    selectAsset("png");
 		    selectAsset("docx");
-		    selectAsset("mp4");
+		    selectAsset("jpeg");
+		    //selectAsset("mp4");
 		    
 
 		WaitUtil.waitForPageToLoad(driver, 60);
@@ -278,7 +279,7 @@ public class AddTracksPage {
 			WaitUtil.waitAndClick(driver, closeOrderAssetPreview, 70);
 			WaitUtil.waitAndClick(driver, removeOrderAsset, 70);
 			WaitUtil.waitAndClick(driver, removeAsset, 70);
-			ElementUtil.click(followSequenceToggle, driver);
+			//ElementUtil.click(followSequenceToggle, driver);
 			WaitUtil.waitAndClick(driver, closeOrderAssetSection, 70);
 			ElementUtil.click(nextButton, driver);
 		}

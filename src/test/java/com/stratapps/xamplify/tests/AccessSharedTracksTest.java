@@ -32,22 +32,24 @@ import com.stratapps.xamplify.utils.ConfigReader;
 		
 			accessSharedTracksPage = new AccessSharedTracksPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("TeamVendorTest setup completed");
+			logger.info("AccessSharedTracks setup completed");
 		}
 
 
     @Test(priority = 1, enabled = true)
-    public void testHoverTeam() throws Exception {
-        logger.info("Test 1: Hover Team - STARTED");	
+    public void AccessSharedTracks() throws Exception {
         accessSharedTracksPage.accesssharedTrackSection();
         accessSharedTracksPage.refreshTracksPage();
-//        accessSharedTracksPage.sortTracks("Name(Z-A)");
-//        accessSharedTracksPage.sortTracks("Published On(DESC)");
+       accessSharedTracksPage.sortTracks("Name(Z-A)");
+        accessSharedTracksPage.sortTracks("Published On(DESC)");
         accessSharedTracksPage.searchTrack("Track");
+    }
+
+        @Test(priority = 2, enabled = true)
+        public void AccessSharedTracks_Actions() throws Exception {
         accessSharedTracksPage.viewTrackAndClickAssets();
-        //accessSharedTracksPage.openFilterAndApply("Asset Name", "Contains", "docx");
-        //accessSharedTracksPage.viewActions();
-        //accessSharedTracksPage.fillMandatoryFieldsAndSubmit();
-//        accessSharedTracksPage.backtohome();
+        accessSharedTracksPage.tilesActions("Track");
+        accessSharedTracksPage.backtohome();
+     
     }
 }

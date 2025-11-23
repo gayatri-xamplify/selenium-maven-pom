@@ -23,11 +23,11 @@ public class AddTracksTest extends BaseTest {
 
     @BeforeClass
     public void setUpClass() {
-//        super.setUp();
-//		
-//		  LoginPage loginPage = new LoginPage(driver);
-//		  loginPage.login(ConfigReader.getProperty("username"),
-//		  ConfigReader.getProperty("password"));		 
+        super.setUp();
+		
+		  LoginPage loginPage = new LoginPage(driver);
+		  loginPage.login(ConfigReader.getProperty("username"),
+		  ConfigReader.getProperty("password"));		 
         addTracksPage = new AddTracksPage(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         logger.info("AddTracksTest setup completed");
@@ -83,8 +83,9 @@ public class AddTracksTest extends BaseTest {
     }
 
     @Test(priority = 8, enabled = true)
-    public void selectAssetsAndQuizTest() {
+    public void AssetsAndQuizTest() throws Exception {
         logger.info("Test 8: Select Assets and Quiz - STARTED");
+        addTracksPage.selectAsset("jpg");
         addTracksPage.selectAssetsAndQuiz();
         logger.info("Test 8: Select Assets and Quiz - COMPLETED");
     }

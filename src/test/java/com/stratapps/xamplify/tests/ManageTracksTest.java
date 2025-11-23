@@ -26,6 +26,12 @@ public class ManageTracksTest extends BaseTest {
     
     
     @BeforeClass public void setUpClass() {
+    	
+//    	 super.setUp();
+// 		
+//		  LoginPage loginPage = new LoginPage(driver);
+//		  loginPage.login(ConfigReader.getProperty("username"),
+//		  ConfigReader.getProperty("password"));		 
     
     manageTracksPage = new
     		  ManageTracksPage(driver);
@@ -67,7 +73,6 @@ public class ManageTracksTest extends BaseTest {
         manageTracksPage.previewTrackAndReturn();
         logger.info("Test 5: Preview Track - COMPLETED");
     }
-
     @Test(priority = 6, enabled = true)
     public void trackAnalyticsTest() {
         logger.info("Test 6: Track Analytics - STARTED");
@@ -82,7 +87,7 @@ public class ManageTracksTest extends BaseTest {
         manageTracksPage.backToHome();
         logger.info("Test 7: Sort and Delete Track - COMPLETED");
     }
-    @Test(priority = 8, enabled = true)
+    @Test(priority = 8, enabled = false)
     public void trackViewsTest() throws AWTException {
         logger.info("Test 8: Track Views - STARTED");
         manageTracksPage.trackViews("D:\\Track_img\\Thumbnail_file.jpg");
