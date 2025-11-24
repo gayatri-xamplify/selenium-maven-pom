@@ -41,7 +41,7 @@ public class SaveVideoCampaignTest extends BaseTest {
       
             "MounikaSaveVideoTest",
             "SaveVideoSubject",
-            "chmounika@stratapps.com",
+            "mounika@xamplify.com",
             "SaveVideoSub"
         );
 

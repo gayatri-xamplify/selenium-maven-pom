@@ -22,9 +22,9 @@ public class LaunchEmailCampaignTest extends BaseTest {
 
 	@BeforeClass
 	public void setUpClass() {
-//		super.setUp();
-//		LoginPage loginPage = new LoginPage(driver);
-//		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+		super.setUp();
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
 
 		emailCampaignPage = new EmailCampaignPage(driver);
 		launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
@@ -39,8 +39,8 @@ public class LaunchEmailCampaignTest extends BaseTest {
 		logger.info("Test 1: Create and Launch Email Campaign - STARTED");
 
 		// Step 1: Create campaign
-		emailCampaignPage.createEmailCampaign("mounika", "mounikatest", "mounisubject", "chmounika@stratapps.com",
-				"sub");
+		emailCampaignPage.createEmailCampaign("Email_Launch_Campaign", "Email_Launchtest", "Email_Launch_subject", "mounika@xamplify.com",
+				"Email_Launch_sub");
 
 		// Step 2: Select partner list
 		emailCampaignPage.selectPartnerList();

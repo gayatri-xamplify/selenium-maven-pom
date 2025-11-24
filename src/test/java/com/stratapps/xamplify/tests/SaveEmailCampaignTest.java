@@ -41,18 +41,18 @@ public class SaveEmailCampaignTest extends BaseTest {
 
         // Step 1: Create campaign
         emailCampaignPage.createEmailCampaign(
-            "mounika",
-            "mounikaSaveTest",
-            "saveSubject",
-            "chmounika@stratapps.com",
-            "saveSub"
+            "Email_Save_Campaign",
+            "EmailSaveTest",
+            "EmailsaveSubject",
+            "mounika@xamplify.com",
+            "EmailsaveSub"
         );
 
         // Step 2: Select partner list
         emailCampaignPage.selectPartnerList();
 
         // Step 3: Save campaign (single call to page class)
-        saveEmailCampaignPage.saveEmailCampaign("mounika@xamplify.com","SaveSubject");
+        saveEmailCampaignPage.saveEmailCampaign("mounika@xamplify.com","SaveEmailSubject");
 
         logger.info("✅ Test 1: Create and Save Email Campaign - COMPLETED");
     }

@@ -42,7 +42,7 @@ public class LaunchVideoCampaignTest extends BaseTest {
 		 videoCampaignPage.createVideoCampaign(
 	                "Demo launch Video Campaign", 
 	                "Test launch Video Campaign", 
-	                "chmounik@stratapps.com",
+	                "mounika@xamplify.com",
 	                "Launch Video Campaign Subject"
 	        );
 

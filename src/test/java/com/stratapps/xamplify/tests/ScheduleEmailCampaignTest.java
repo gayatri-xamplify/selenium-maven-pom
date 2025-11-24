@@ -40,11 +40,11 @@ public class ScheduleEmailCampaignTest extends BaseTest {
 
         // Step 1: Create campaign
         emailCampaignPage.createEmailCampaign(
-            "mounika",
-            "mounikaScheduleTest",
-            "scheduleSubject",
-            "chmounika@stratapps.com",
-            "scheduleSub"
+            "Email_Schedule_campaign",
+            "EmailScheduleTest",
+            "EmailscheduleSubject",
+            "mounika@xamplify.com",
+            "EmailscheduleSub"
         );
 
         // Step 2: Select partner list

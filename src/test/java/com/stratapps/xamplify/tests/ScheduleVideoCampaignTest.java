@@ -42,7 +42,7 @@ public class ScheduleVideoCampaignTest extends BaseTest {
         videoCampaignPage.createVideoCampaign(
             "mounikaVideoScheduleTest",
             "videoScheduleSubject",
-            "chmounika@stratapps.com",
+            "mounika@xamplify.com",
             "videoScheduleSub"
         );
 
