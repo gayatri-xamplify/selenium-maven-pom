@@ -43,10 +43,6 @@ public class ManageContactsTest extends BaseTest {
 		}  
 	}
 	
-	
-	
-	
-	
     @Test(priority = 1, enabled = true)
 	public void MyContactsActions() throws Exception {
 		Thread.sleep(3000);
@@ -58,36 +54,35 @@ public class ManageContactsTest extends BaseTest {
 	}
     
 	
-//    @Test(priority = 2, enabled = true)
-//	public void FormContactsActions() throws Exception {
-//		Thread.sleep(3000);
-//		manageContactsPage.hoverContacts_ManageContacts();
-//		manageContactsPage.clickContactsTab("Form");
-//		manageContactsPage.CopyContactList();
-//		manageContactsPage.EditContactList();
-//	}
-//    
-//    @Test(priority = 4, enabled = true)
-//	public void CompanyContactsActions() throws Exception {
-//		Thread.sleep(3000);
-//		manageContactsPage.hoverContacts_ManageContacts();
-//		manageContactsPage.clickContactsTab("Company");
-//		manageContactsPage.CopyContactList();
-//		manageContactsPage.EditContactList();
-//		manageContactsPage.publishCampaign();
-//	}
-//    
-//    @Test(priority = 8, enabled = true)
-//	public void ContactTilesvalidation() throws Exception {
-//		manageContactsPage.SearchContact("Test");
-//		manageContactsPage.ExportExcelReport();
-//		  
-//	}
-//    
-//    @Test(priority = 9, enabled = true)
-//	public void searchSortandExportReport() throws Exception {
-//		manageContactsPage.ManageContactsTilesCountValidation();
-//	}
+    @Test(priority = 2, enabled = false)
+	public void FormContactsActions() throws Exception {
+		Thread.sleep(3000);
+		manageContactsPage.hoverContacts_ManageContacts();
+		manageContactsPage.clickContactsTab("FormContact");
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList();
+	}
+   
+    @Test(priority = 4, enabled = true)
+	public void CompanyContactsActions() throws Exception {
+		Thread.sleep(3000);
+		manageContactsPage.hoverContacts_ManageContacts();
+		manageContactsPage.clickContactsTab("CompanyContact");
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList();
+		manageContactsPage.publishCampaign();
+	}
+    
+    @Test(priority = 8, enabled = true)
+	public void ContactTilesvalidation() throws Exception {
+		manageContactsPage.ManageContactsTilesCountValidation();		  
+	}
+    
+    @Test(priority = 9, enabled = true)
+	public void searchSortandExportReport() throws Exception {
+		manageContactsPage.SearchContact("List");
+		manageContactsPage.ExportExcelReport();
+	}
     
     
 }

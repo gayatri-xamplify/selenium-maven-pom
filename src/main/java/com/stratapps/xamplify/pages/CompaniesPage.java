@@ -52,12 +52,14 @@ public class CompaniesPage {
 	private By CountryDropdown = By.xpath("//label[contains(text(),'Select Country')]/following::select[1]");
 	private By Phone = By.xpath("//input[@placeholder=\"Enter your mobile no\"]");
 	private By Fax = By.xpath("//input[@id='fax']");
+	private By Website = By.xpath("//input[@placeholder='Website']");
 
+	
 	private By companyEditUpdate = By.xpath("//Span[text()= 'Update']");
 	private By Sync = By.xpath("//button[text() = 'Sync']");
 	private By SynchronizeCompaniesBtn = By.xpath("//span[contains(text(), 'Synchronize Companies')]");
 	private By AddCompaniesBtn = By.xpath("//span[contains(text() , 'Add a Company')]");
-	private By AddCMP = By.xpath("//Span[text()= 'Add']");
+	private By AddCMP = By.xpath("//Span[text()= 'Add']/..");
 	private By reponsemsg = By.xpath("//span[@id=\"responseMessage\"]");
 	private By sa25 = By.xpath("");
 	private By sa26 = By.xpath("");
@@ -67,27 +69,34 @@ public class CompaniesPage {
 	private By sa30 = By.xpath("");
 
 	// ========================= Methods ========================================
-
+	/* @NavigateToCompany Is Written by ganesh ***/
+	public void NavigateToCompany() throws InterruptedException {
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, Companies, 20);
+	}
+	
 	/* @editCompanyDetails Is Written by ganesh ***/
 	public void editCompanyDetails() {
-		WaitUtil.waitAndSendKeys(driver, AddContact, timestamp, 20);
+		WaitUtil.waitAndClick(driver, AddContact, 20);
 		WaitUtil.waitAndSendKeys(driver, CompanyName, "Auto_cmp", 20);
 		WaitUtil.waitAndSendKeys(driver, Email, "company321@gmail.com", 20);
 		WaitUtil.waitAndSendKeys(driver, Address, "Kondapur", 20);
 		WaitUtil.waitAndSendKeys(driver, City, "Hyderabad", 20);
 		WaitUtil.waitAndSendKeys(driver, ZipCode, "500085", 20);
 		WaitUtil.waitAndSendKeys(driver, Fax, "31413", 20);
-
 		WaitUtil.waitForElementClickable(driver, companyEditUpdate, 20);
-		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, "Company Updated Successfully");
+		WaitUtil.waitAndClick(driver, companyEditUpdate, 20);
+		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, "Company Updated Successfully");	
 	}
 	// check
 	
 	
 	
 	/* @PreviewCompany Is Written by ganesh ***/
-	public void PreviewCompany() {
+	public void PreviewCompany() throws InterruptedException {
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, ViewCompany, 20);
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, PreviewClose, 20);
 	}
 	
@@ -115,18 +124,24 @@ public class CompaniesPage {
 	}
 	
 	/* @AddCompany Is Written by ganesh ***/
-	public void AddCompany(String company_name) {
+	public void AddCompany(String company_name) throws InterruptedException {
 		WaitUtil.waitAndClick(driver, AddCompaniesBtn, 20);
-		WaitUtil.waitAndSendKeys(driver, AddContact, timestamp, 20);
-		WaitUtil.waitAndSendKeys(driver, CompanyName, company_name, 20);
+		WaitUtil.waitAndSendKeys(driver, CompanyName, company_name + timestamp, 20);
 		WaitUtil.waitAndSendKeys(driver, Email, "company321@gmail.com", 20);
 		WaitUtil.waitAndSendKeys(driver, Address, "Kondapur", 20);
 		WaitUtil.waitAndSendKeys(driver, City, "Hyderabad", 20);
 		WaitUtil.waitAndSendKeys(driver, ZipCode, "500085", 20);
+		WaitUtil.waitAndSendKeys(driver, Website, "www.CMP7756.com", 20);
 		WaitUtil.waitAndSendKeys(driver, Fax, "31413", 20);
-
-		WaitUtil.waitForElementClickable(driver, AddCMP, 20);	}
-
+		WaitUtil.waitForElementClickable(driver, AddCMP, 20);	
+		WaitUtil.waitAndClick(driver, AddCMP, 20);
+//		if(driver.findElement(reponsemsg).isDisplayed()) {
+//			WaitUtil.waitAndSendKeys(driver, CompanyName,  timestamp + company_name, 20);
+//			WaitUtil.waitForElementClickable(driver, AddCMP, 20);	
+//
+//		}
 	
+	}
+
 	
 }

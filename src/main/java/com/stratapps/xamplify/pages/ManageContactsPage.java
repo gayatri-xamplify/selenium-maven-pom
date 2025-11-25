@@ -83,7 +83,7 @@ public class ManageContactsPage {
 	public static final By noCampaignsMsg = By.xpath("//app-share-campaigns/div[2]/strong");
 	public static final By unpublishPopupCloseBtn = By.xpath("//div[@id='shareUnPublishedContentPopUp']//button[text()='Close']");
 	
-	private By ExportReport = By.xpath("//span[contains(@data-original-title,\"Click here to email the list\")]");
+	private By ExportReport = By.xpath("(//*[@id=\"manageContacts\"]//div[4]//div[3]/div[2]//button)[2]");
 	private By ActionDropdown = By.xpath("//button[@id=\"save&delete_button\"]");
 	
 	private By contactNotification = By.xpath("//*[@id='row_0']/td[7]/div/a[1]");
@@ -119,6 +119,9 @@ public class ManageContactsPage {
 	private By CopyOrMovecontactAllCheckbox = By.xpath("//input[@id='copy-group-users-header-checkbox-id']");
 	private By AddContacts = By.xpath("//span[text()='Add']");
 	private By Closebtn = By.xpath("(//button[text()='Close'])[3]");
+	
+	private By CompanyContactTab = By.xpath("//ul[contains(@class,'mix-filter')]//li[3]");	
+	private By FormContactTab = By.xpath("//ul[contains(@class,'mix-filter')]//li[2]");
 	private By sda30 = By.xpath("");	
 	private By sva29 = By.xpath("");
 	private By sad30 = By.xpath("");
@@ -132,10 +135,14 @@ public class ManageContactsPage {
 	}
 
 	/* @clickContactsTab Is Written by ganesh ***/
-	public void clickContactsTab(String tabName) {
-		By tab = By.xpath("//ul[contains(@class,'mix-filter')]//li[normalize-space(text())='" + tabName + "']");
-		WaitUtil.waitForElementClickable(driver, tab, 20);
-		WaitUtil.waitAndClick(driver, tab, 20);
+	public void clickContactsTab(String tabName) throws InterruptedException {
+		Thread.sleep(2000);
+		if(tabName == "FormContact") {
+			WaitUtil.waitAndClick(driver, FormContactTab, 20);
+		}
+		if(tabName == "CompanyContact") {
+			WaitUtil.waitAndClick(driver, CompanyContactTab, 20);
+		}
 		System.out.println("Clicked on tab: " + tabName);
 	}
 
@@ -183,8 +190,8 @@ public class ManageContactsPage {
 	public void Edit_ContactDelete() throws Exception {
 		WaitUtil.waitAndClick(driver, ContactDelete, 20);
 		WaitUtil.waitAndClick(driver, yesDelete, 20);
-		Thread.sleep(1000);
-		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contact have been deleted successfully.");
+		Thread.sleep(4000);
+		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contacts have been deleted successfully.");
 	}
 	
 	/* @Edit_ContactUnsubscribe Is Written by ganesh ***/
@@ -245,9 +252,8 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, CreateList, 20);
 		WaitUtil.waitAndSendKeys(driver, titleField, "NewGP"+timestamp, 20);
 		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
-			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
-			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
 		}
 		WaitUtil.waitAndClick(driver, Private, 20);
 		WaitUtil.waitAndClick(driver, saveChanges, 20);
@@ -259,8 +265,8 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
 		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
 		WaitUtil.waitAndClick(driver, CreateList, 20);
+		Thread.sleep(2000);
 		WaitUtil.waitAndSendKeys(driver, titleField, "NewGP"+timestamp, 20);
-			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
 		WaitUtil.waitAndClick(driver, saveChanges, 20);
@@ -272,6 +278,7 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
 		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
 		WaitUtil.waitAndClick(driver, Exportreport, 20);
+		Thread.sleep(2000);
 	}
 	
 	/* @Edit_MultplecontactsDelete Is Written by ganesh ***/
@@ -282,6 +289,8 @@ public class ManageContactsPage {
 	/* @Edit_ContactCampaignAnalytics Is Written by ganesh ***/
 	public void Edit_ContactCampaignAnalytics() throws Exception {
 		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, ContactAnalytics, 20);
+		
 	
 	}
 	
@@ -304,12 +313,12 @@ public class ManageContactsPage {
 		Edit_ContactSubscribe();
 		searchClear();
 		Edit_DownloadtempAndexportToExcel();
-//		Edit_MoveOrMoveToList(CopyToList);
+		Edit_MoveOrMoveToList(CopyToList);
 //		Edit_MoveOrMoveToList(MoveToList);
 		Edit_ContactDelete();
 		Edit_ContactCampaignPublish();
 		Edit_ContactEdit();
-//		Edit_ContactCampaignAnalytics();
+		Edit_ContactCampaignAnalytics();
 		hoverContacts_ManageContacts();
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
@@ -320,7 +329,6 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
 		Edit_CreateNewPrivateList();
 		Thread.sleep(3000);
-//		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "");
 	}
 
 	/* @SearchTemplate written by Ganesh ***/
@@ -331,7 +339,7 @@ public class ManageContactsPage {
 	
 	/* @ExportExcelReport written by Ganesh ***/
 	public void ExportExcelReport() throws InterruptedException {
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 		WaitUtil.waitAndClick(driver, ExportReport, 20);
 	} 
 
