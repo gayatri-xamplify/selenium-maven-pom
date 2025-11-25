@@ -30,7 +30,7 @@ public class CompaniesTest extends BaseTest{
 		try {
 			super.setUp();
 			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
+			loginPage.loginAsPartner();
 			companiesPage = new CompaniesPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("companiesPage setup completed");
@@ -43,6 +43,7 @@ public class CompaniesTest extends BaseTest{
 	public void AddCompany() throws InterruptedException {
 		System.out.println(" ");
 		logger.info("Create Company in Companies Pages");
+		companiesPage.NavigateToCompany();
 		companiesPage.AddCompany("CMP7664");
 		logger.info("Successfully Created Company in Companies Pages");
 		System.out.println(" ");
