@@ -16,7 +16,6 @@ public class AddPlaybooksPage {
 	public AddPlaybooksPage(WebDriver driver) {
 		this.driver = driver;
 	}
-
 	// Locators
 	private By contentMenu = By.xpath("//span[normalize-space()='Content']");
 	private By addPlaybooksButton = By.xpath("//span[normalize-space()='Add Playbooks']");
