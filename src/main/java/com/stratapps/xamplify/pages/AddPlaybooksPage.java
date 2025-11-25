@@ -34,7 +34,6 @@ public class AddPlaybooksPage {
 	private By addMoreTagsSelect = By.xpath("(//label[@class='checkbox-btn'])[1]");
 	private By addMoreTagsUpdate = By.xpath("//span[contains(text(),'update')]");
 	private By nextButton = By.xpath("//button[normalize-space()='Next']");
-
 	private By addMediaButton = By.xpath("(//span[contains(text(),'Add')])[2]");
 	private By firstAssetClick = By.xpath("(//input[@class='radioButton_shadow'])[1]");
 	private By displayTextField = By.xpath("//div[@id='media-link-title']//input");
