@@ -14,7 +14,6 @@ public class AccessSharedTracksPage {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
-
 	public AccessSharedTracksPage(WebDriver driver) {
 		this.driver = driver;
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));

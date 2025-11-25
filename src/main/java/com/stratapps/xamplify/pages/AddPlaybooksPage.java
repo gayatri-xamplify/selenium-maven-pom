@@ -13,7 +13,6 @@ import com.stratapps.xamplify.utils.DropdownUtil;
 
 public class AddPlaybooksPage {
 	private WebDriver driver;
-
 	public AddPlaybooksPage(WebDriver driver) {
 		this.driver = driver;
 	}

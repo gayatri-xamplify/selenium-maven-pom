@@ -14,7 +14,6 @@ import com.stratapps.xamplify.utils.DropdownUtil;
 
 public class ManagePlaybooksPage {
 	private WebDriver driver;
-
 	private By contentMenu = By.xpath("//span[normalize-space()='Content']");
 	private By managePlaybooks = By.xpath("//span[contains(text(),'Manage Playbooks')]");
 	private By editPlaybook = By.xpath(
