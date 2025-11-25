@@ -40,14 +40,14 @@
 <!--            <class name="com.stratapps.xamplify.tests.DesignPageTest" />
 -->
             
-          <!--		 <class name="com.stratapps.xamplify.tests.AddTracksTest" />
+          		 <class name="com.stratapps.xamplify.tests.AddTracksTest" />
 			 <class name="com.stratapps.xamplify.tests.ManageTracksTest" />
 				
 				
 				
-			<class name="com.stratapps.xamplify.tests.TeamVendorTest" />
+	<!--		<class name="com.stratapps.xamplify.tests.TeamVendorTest" />-->
 			
-			-->
+			
 <!--<class
 				name="com.stratapps.xamplify.tests.LogoutTest" />-->
 		
@@ -61,9 +61,9 @@
 	
 	✅ Partner block can remain separate <test name="Partner Account Tests">
 		<classes>
-		<class name="com.stratapps.xamplify.tests.ContactsTest" />
+		<!--<class name="com.stratapps.xamplify.tests.ContactsTest" />
 		<class name="com.stratapps.xamplify.tests.ManageContactsTest" />
-		
+		-->
 		
 		
 		<!--<class name="com.stratapps.xamplify.tests.CompaniesTest" />-->
