@@ -39,7 +39,6 @@ public class AddPlaybooksPage {
 	private By displayTextField = By.xpath("//div[@id='media-link-title']//input");
 	private By confirmButton = By.xpath("//span[normalize-space()='Confirm']");
 	private By closePopupMedia = By.xpath("//div[@id='media-asset-list']//i[@class='fa fa-times']");
-
 	private By addFormButton = By.xpath("(//span[contains(text(),'Add')])[3]");
 	private By firstFormClick = By.xpath("(//input[@class='radioButton_shadow'])[1]");
 	private By formPreview = By.xpath("(//i[@class='fa fa-eye IconCustomization'])[1]");
