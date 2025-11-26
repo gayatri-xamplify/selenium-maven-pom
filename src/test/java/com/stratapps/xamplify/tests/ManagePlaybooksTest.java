@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ManagePlaybooksPage;
-import com.stratapps.xamplify.pages.VideoCampaignPage;
 
 public class ManagePlaybooksTest extends BaseTest {
 

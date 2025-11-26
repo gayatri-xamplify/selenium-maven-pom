@@ -48,7 +48,7 @@ public class ScheduleEmailCampaignTest extends BaseTest {
 
 
     @Test(priority = 1, enabled = true)
-    public void createAndScheduleEmailCampaignTest() {
+    public void createAndScheduleEmailCampaignTest() throws InterruptedException {
         logger.info("Test 1: Create and Schedule Email Campaign - STARTED");
 
         // Step 1: Create campaign

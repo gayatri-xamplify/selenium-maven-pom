@@ -50,7 +50,7 @@ public class ScheduleSurveyCampaignTest extends BaseTest {
 	
 
 	@Test(priority = 1, enabled = true)
-	public void createAndScheduleSurveyCampaignTest() {
+	public void createAndScheduleSurveyCampaignTest() throws InterruptedException {
 		logger.info("Test 1: Create and Schedule Survey Campaign - STARTED");
 
 		// Step 1: Create campaign
