@@ -46,36 +46,21 @@ public class SaveEmailCampaignTest extends BaseTest {
 		}
 	}
 	
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); // logoutIfLoggedIn();
-	 * // LoginPage loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * emailCampaignPage = new EmailCampaignPage(driver); saveEmailCampaignPage =
-	 * new SaveEmailCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("SaveEmailCampaignTest setup completed"); }
-	 */
-
     @Test(priority = 1, enabled = true)
     public void createAndSaveEmailCampaignTest() {
         logger.info("Test 1: Create and Save Email Campaign - STARTED");
 
         // Step 1: Create campaign
         emailCampaignPage.createEmailCampaign(
-            "mounika",
-            "mounikaSaveTest",
-            "saveSubject",
-            "chmounika@stratapps.com",
-            "saveSub"
-        );
+        		"Email_Save_Campaign", "EmailSaveTest", "EmailsaveSubject",
+				"mounika@xamplify.com", "EmailsaveSub");
+      
 
         // Step 2: Select partner list
         emailCampaignPage.selectPartnerList();
 
         // Step 3: Save campaign (single call to page class)
-        saveEmailCampaignPage.saveEmailCampaign("mounika@xamplify.com","SaveSubject");
+        saveEmailCampaignPage.saveEmailCampaign("mounika@xamplify.com","SaveEmailSubject");
 
         logger.info("✅ Test 1: Create and Save Email Campaign - COMPLETED");
     }

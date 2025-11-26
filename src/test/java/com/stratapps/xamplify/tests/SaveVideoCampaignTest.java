@@ -44,17 +44,7 @@ public class SaveVideoCampaignTest extends BaseTest {
 		}
 	}
 	
-	/*
-	 * @BeforeClass public void setUpClass() { // If login is already handled in
-	 * BaseTest, skip below // LoginPage loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * videoCampaignPage = new VideoCampaignPage(driver); saveVideoCampaignPage =
-	 * new SaveVideoCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("SaveVideoCampaignTest setup completed"); }
-	 */
+
     @Test(priority = 1, enabled = true)
     public void createAndSaveVideoCampaignTest() {
         logger.info("Test 1: Create and Save Video Campaign - STARTED");
@@ -64,7 +54,7 @@ public class SaveVideoCampaignTest extends BaseTest {
       
             "MounikaSaveVideoTest",
             "SaveVideoSubject",
-            "chmounika@stratapps.com",
+            "mounika@xamplify.com",
             "SaveVideoSub"
         );
 
