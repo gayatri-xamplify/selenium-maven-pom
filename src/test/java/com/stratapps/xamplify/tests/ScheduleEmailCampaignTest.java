@@ -45,19 +45,7 @@ public class ScheduleEmailCampaignTest extends BaseTest {
 		}
 	}
 	
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp();
-	 * 
-	 * // LoginPage loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * emailCampaignPage = new EmailCampaignPage(driver); scheduleEmailCampaignPage
-	 * = new ScheduleEmailCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * 
-	 * logger.info("ScheduleEmailCampaignTest setup completed"); }
-	 */
+
 
     @Test(priority = 1, enabled = true)
     public void createAndScheduleEmailCampaignTest() {
@@ -65,11 +53,8 @@ public class ScheduleEmailCampaignTest extends BaseTest {
 
         // Step 1: Create campaign
         emailCampaignPage.createEmailCampaign(
-            "mounika",
-            "mounikaScheduleTest",
-            "scheduleSubject",
-            "chmounika@stratapps.com",
-            "scheduleSub"
+        		"Email_Schedule_campaign", "EmailScheduleTest", "EmailscheduleSubject",
+				"mounika@xamplify.com", "EmailscheduleSub"
         );
 
         // Step 2: Select partner list
