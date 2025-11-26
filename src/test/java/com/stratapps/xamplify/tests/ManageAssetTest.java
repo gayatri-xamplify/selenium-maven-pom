@@ -21,13 +21,22 @@ public class ManageAssetTest extends BaseTest {
 
 	@BeforeClass
 	public void setUpClass() {
-		super.setUp();
-
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+		/*
+		 * super.setUp();
+		 * 
+		 * LoginPage loginPage = new LoginPage(driver);
+		 * loginPage.login(ConfigReader.getProperty("username"),
+		 * ConfigReader.getProperty("password")); manageAssetPage = new
+		 * ManageAssetPage(driver); wait = new WebDriverWait(driver,
+		 * Duration.ofSeconds(60)); logger.info("ManageAssetsTest setup completed");
+		 */
+		
+		
+		
+		
+		
+		
 		manageAssetPage = new ManageAssetPage(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		logger.info("ManageAssetsTest setup completed");
 	}
 	@Test(priority = 1, enabled = true)
 	public void manage_docx() throws Exception {

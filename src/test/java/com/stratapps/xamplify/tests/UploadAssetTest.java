@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.OnboardingPartnerPage;
 import com.stratapps.xamplify.pages.UploadAssetPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
@@ -21,14 +22,39 @@ public class UploadAssetTest extends BaseTest {
 
 	@BeforeClass
 	public void setUpClass() {
-		super.setUp();
-
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
-		uploadAssetPage = new UploadAssetPage(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		logger.info("UploadAssetsTest setup completed");
+		try {
+			uploadAssetPage = new UploadAssetPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("OnboardingPartnerPage setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsVendor();
+			uploadAssetPage = new UploadAssetPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("OnboardingPartnerPage setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single class Run Fail");
+		}
 	}
+	
+	
+	
+	
+	
+	
+	/*
+	 * public void setUpClass() { super.setUp();
+	 * 
+	 * LoginPage loginPage = new LoginPage(driver);
+	 * loginPage.login(ConfigReader.getProperty("username"),
+	 * ConfigReader.getProperty("password")); uploadAssetPage = new
+	 * UploadAssetPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("UploadAssetsTest setup completed"); }
+	 */
 	@Test(priority = 1, enabled = true)
 	public void uploadAndSaveAsset_docx() {
 		uploadAssetPage.openUploadAssetSection();
