@@ -100,6 +100,7 @@ public class ContactsPage {
 		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana", 60);
 		WaitUtil.waitAndSendKeys(driver, zipField, "500050", 60);
 		// DropdownUtil.selectByValue(driver, ContactStatus, "4");
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, confirmCompanyAdd, 30);
 
 		try {
@@ -129,6 +130,7 @@ public class ContactsPage {
 			logger.info("No duplicate list name issue.");
 		}
 		WaitUtil.waitAndClick(driver, acceptButton, 30);
+		Thread.sleep(2000);
 	}
 
 	/// . @downloadCSVTemplate is written by Ganesh ./

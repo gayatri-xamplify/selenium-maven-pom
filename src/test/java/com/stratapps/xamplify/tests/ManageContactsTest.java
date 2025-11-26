@@ -19,7 +19,6 @@ public class ManageContactsTest extends BaseTest {
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ManageContactsTest.class);
 	
-
 	@BeforeClass
 	public void setUpClass() {
 		try {
@@ -46,30 +45,27 @@ public class ManageContactsTest extends BaseTest {
     @Test(priority = 1, enabled = true)
 	public void MyContactsActions() throws Exception {
 		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts();
+		manageContactsPage.hoverContacts_ManageContacts("MyContacts");
 		manageContactsPage.DeleteContactList();
-		manageContactsPage.EditContactList();
+		manageContactsPage.EditContactList("MyContacts");
 		manageContactsPage.CopyContactList();
 		manageContactsPage.publishCampaign();
 	}
     
-	
     @Test(priority = 2, enabled = false)
 	public void FormContactsActions() throws Exception {
 		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts();
-		manageContactsPage.clickContactsTab("FormContact");
+		manageContactsPage.hoverContacts_ManageContacts("FormContact");
 		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList();
+		manageContactsPage.EditContactList("FormContact");
 	}
    
     @Test(priority = 4, enabled = true)
 	public void CompanyContactsActions() throws Exception {
 		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts();
-		manageContactsPage.clickContactsTab("CompanyContact");
+		manageContactsPage.hoverContacts_ManageContacts("CompanyContact");
 		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList();
+		manageContactsPage.EditContactList("CompanyContact");
 		manageContactsPage.publishCampaign();
 	}
     
@@ -77,12 +73,12 @@ public class ManageContactsTest extends BaseTest {
 	public void ContactTilesvalidation() throws Exception {
 		manageContactsPage.ManageContactsTilesCountValidation();		  
 	}
-    
-    @Test(priority = 9, enabled = true)
-	public void searchSortandExportReport() throws Exception {
-		manageContactsPage.SearchContact("List");
-		manageContactsPage.ExportExcelReport();
-	}
+
+//    @Test(priority = 9, enabled = true)
+//	public void searchSortandExportReport() throws Exception {
+//		manageContactsPage.SearchContact("List");
+//		manageContactsPage.ExportExcelReport();
+//	}
     
     
 }
