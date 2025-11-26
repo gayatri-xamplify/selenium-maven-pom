@@ -43,18 +43,7 @@ public class LaunchVideoCampaignTest extends BaseTest {
 			System.out.println("Note: single class Run Fail");
 		}
 	}
-	/*@BeforeClass
-	 * public void setUpClass() { // If login is required, uncomment below //
-	 * super.setUp(); // LoginPage loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * videoCampaignPage = new VideoCampaignPage(driver); launchVideoCampaignPage =
-	 * new LaunchVideoCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("LaunchVideoCampaignTest setup completed"); }
-	 */
-
+	
 	@Test(priority = 1, enabled = true)
 	public void createAndLaunchVideoCampaignTest() {
 		logger.info("Test 1: Create and Launch Video Campaign - STARTED");
