@@ -49,7 +49,7 @@ public class ContactsPage {
 	private By companyModal = By.id("addCompanyModal");
 	private By companyName = By.id("name");
 	private By companyWebsite = By.id("website");
-	private By confirmCompanyAdd = By.xpath("//*[@id='addContactModal']/div//div[3]/button[2]/span");
+	private By confirmContactAdd = By.xpath("//*[@id='addContactModal']/div//div[3]/button[2]/span");
 	private By saveButton = By.xpath("//button[@id='sample_editable_1_new']");
 	private By Listname = By.xpath("//*[@id='contactListName']");
 	private By existNameMsg = By.xpath("//p[contains(text(),'already exists')]");
@@ -68,6 +68,27 @@ public class ContactsPage {
 	private By ActionDropdown = By.xpath("//button[@id=\"save&delete_button\"]");
 
 	
+	private By AddCompany = By.xpath("//button[@id='addContactuser']");
+	private By fgd = By.xpath("//button[@id=\"save&delete_button\"]");
+
+	private By CompanyName = By.xpath("//input[@id='name']");
+	private By Email = By.xpath("//input[@id='email']");
+	private By Address = By.xpath("//input[@id='address']");
+	private By City = By.xpath("//input[@id='city']");
+	private By State = By.xpath("//input[@id='state']");
+	private By ZipCode = By.xpath("//input[@id='zip']");
+	private By CountryDropdown = By.xpath("//label[contains(text(),'Select Country')]/following::select[1]");
+	private By Phone = By.xpath("//input[@placeholder=\"Enter your mobile no\"]");
+	private By Fax = By.xpath("//input[@id='fax']");
+	private By Website = By.xpath("//input[@placeholder='Website']");
+
+	
+	private By companyEditUpdate = By.xpath("//Span[text()= 'Update']");
+	private By Sync = By.xpath("//button[text() = 'Sync']");
+	private By SynchronizeCompaniesBtn = By.xpath("//span[contains(text(), 'Synchronize Companies')]");
+	private By AddCompaniesBtn = By.xpath("//span[contains(text() , 'Add a Company')]");
+	private By AddCMP = By.xpath("(//Span[text()= 'Add']/..)[2]");
+	private By reponsemsg = By.xpath("//span[@id=\"responseMessage\"]");
 	// =================== METHODS ===================
 
 	public void backToHome() {
@@ -81,8 +102,25 @@ public class ContactsPage {
 		logger.info("Clicking 'Add Contacts' button.");
 		ActionUtil.hoverAndClick(driver, addContactsBtn);
 	}
+	
+	/* @AddCompany Is Written by ganesh ***/
+	public void AddCompany(String company_name) throws InterruptedException {
+		WaitUtil.waitAndClick(driver, AddCompany, 20);
+		String timestamp1 = String.valueOf(System.currentTimeMillis());
 
-	public void completeOneAtATimeFlow(String contactType) throws Exception {
+		WaitUtil.waitAndSendKeys(driver, CompanyName, company_name + timestamp1, 20);
+		WaitUtil.waitAndSendKeys(driver, Email, "company321@gmail.com", 20);
+		WaitUtil.waitAndSendKeys(driver, Address, "Kondapur", 20);
+		WaitUtil.waitAndSendKeys(driver, City, "Hyderabad", 20);
+		WaitUtil.waitAndSendKeys(driver, ZipCode, "500085", 20);
+		WaitUtil.waitAndSendKeys(driver, Website, "www.CMP7756.com", 20);
+		WaitUtil.waitAndSendKeys(driver, Fax, "31413", 20);
+		WaitUtil.waitForElementClickable(driver, AddCMP, 20);	
+		WaitUtil.waitAndClick(driver, AddCMP, 20);
+	
+	}
+	
+	public void OneAtATimeContactAndAddCompany(String contactType) throws Exception {
 		logger.info("Starting 'One at a Time' contact creation flow.");
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, oneAtATimeOption, 80);
@@ -100,7 +138,8 @@ public class ContactsPage {
 		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana", 60);
 		WaitUtil.waitAndSendKeys(driver, zipField, "500050", 60);
 		// DropdownUtil.selectByValue(driver, ContactStatus, "4");
-		WaitUtil.waitAndClick(driver, confirmCompanyAdd, 30);
+		Thread.sleep(3000);
+		WaitUtil.waitAndClick(driver, confirmContactAdd, 30);
 
 		try {
 			WebElement listName = driver.findElement(Listname);
@@ -129,6 +168,58 @@ public class ContactsPage {
 			logger.info("No duplicate list name issue.");
 		}
 		WaitUtil.waitAndClick(driver, acceptButton, 30);
+		Thread.sleep(2000);
+	}
+
+	public void completeOneAtATimeFlow(String contactType) throws Exception {
+		logger.info("Starting 'One at a Time' contact creation flow.");
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, oneAtATimeOption, 80);
+		WaitUtil.waitAndSendKeys(driver, emailField, uniqueEmail, 60);
+		WaitUtil.waitAndSendKeys(driver, firstName, "GAYATRI", 60);
+		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
+			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
+			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
+		}
+		WaitUtil.waitAndSendKeys(driver, lastName, "A", 60);
+		WaitUtil.waitAndSendKeys(driver, titleField, "CMP", 60);
+		WaitUtil.waitAndSendKeys(driver, addressField, "Sri Maruthi Homes, Lingampally", 60);
+		WaitUtil.waitAndSendKeys(driver, cityField, "Hyderabad", 60);
+		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana", 60);
+		WaitUtil.waitAndSendKeys(driver, zipField, "500050", 60);
+		// DropdownUtil.selectByValue(driver, ContactStatus, "4");
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, confirmContactAdd, 30);
+
+		try {
+			WebElement listName = driver.findElement(Listname);
+			if (listName.isDisplayed()) {
+				WaitUtil.waitAndSendKeys(driver, Listname, "List_" + timestamp + new Random().nextInt(10), 30);
+			}
+
+			if (contactType == "Private") {
+				Thread.sleep(2000);
+				WaitUtil.waitAndClick(driver, Private, 20);
+			}
+			WaitUtil.waitAndClick(driver, saveButton, 30);
+
+		} catch (Exception e) {
+			System.out.println("ListName is not visible");
+			// Element not visible or not available → skip or log
+		}
+		try {
+			WebElement errMsg = WaitUtil.waitForVisibility(driver, existNameMsg, 15);
+			if (errMsg.getText().contains("already exists")) {
+				WebElement listField = WaitUtil.waitForVisibility(driver, By.xpath("//*[@id='contactListName']"), 30);
+				listField.sendKeys("_A1_" + System.currentTimeMillis());
+				WaitUtil.waitAndClick(driver, saveButton, 10);
+			}
+		} catch (TimeoutException e) {
+			logger.info("No duplicate list name issue.");
+		}
+		WaitUtil.waitAndClick(driver, acceptButton, 30);
+		Thread.sleep(2000);
 	}
 
 	/// . @downloadCSVTemplate is written by Ganesh ./
