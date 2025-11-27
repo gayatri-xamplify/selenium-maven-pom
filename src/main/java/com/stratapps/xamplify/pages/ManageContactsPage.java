@@ -228,6 +228,7 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, contactNotification, 20);
 		WaitUtil.waitAndSendKeys(driver, resubscribecomment, "Resubscribing the Contact", 20);
 		WaitUtil.waitAndClick(driver, Subscribe, 20);
+		Thread.sleep(3000);
 		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, mailId2 +" has been successfully resubscribed for receiving the emails from the company: PartnerAuto");
 
 	}
@@ -329,6 +330,7 @@ public class ManageContactsPage {
 		hoverContacts_ManageContacts(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
+		contactsPage.OneAtATimeContactAndAddCompany("public");
 		Thread.sleep(4000);
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton2, 60);

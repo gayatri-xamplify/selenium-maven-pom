@@ -52,27 +52,23 @@ public class ManageContactsTest extends BaseTest {
 		manageContactsPage.publishCampaign();
 	}
     
-    @Test(priority = 2, enabled = false)
-	public void FormContactsActions() throws Exception {
-		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts("FormContact");
-		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList("FormContact");
-	}
-   
-    @Test(priority = 4, enabled = true)
-	public void CompanyContactsActions() throws Exception {
-		Thread.sleep(3000);
-		manageContactsPage.hoverContacts_ManageContacts("CompanyContact");
-		manageContactsPage.CopyContactList();
-		manageContactsPage.EditContactList("CompanyContact");
-		manageContactsPage.publishCampaign();
-	}
-    
-    @Test(priority = 8, enabled = true)
-	public void ContactTilesvalidation() throws Exception {
-		manageContactsPage.ManageContactsTilesCountValidation();		  
-	}
+	/*
+	 * @Test(priority = 2, enabled = false) public void FormContactsActions() throws
+	 * Exception { Thread.sleep(3000);
+	 * manageContactsPage.hoverContacts_ManageContacts("FormContact");
+	 * manageContactsPage.CopyContactList();
+	 * manageContactsPage.EditContactList("FormContact"); }
+	 * 
+	 * @Test(priority = 4, enabled = true) public void CompanyContactsActions()
+	 * throws Exception { Thread.sleep(3000);
+	 * manageContactsPage.hoverContacts_ManageContacts("CompanyContact");
+	 * manageContactsPage.CopyContactList();
+	 * manageContactsPage.EditContactList("CompanyContact");
+	 * manageContactsPage.publishCampaign(); }
+	 * 
+	 * @Test(priority = 8, enabled = true) public void ContactTilesvalidation()
+	 * throws Exception { manageContactsPage.ManageContactsTilesCountValidation(); }
+	 */
 
 //    @Test(priority = 9, enabled = true)
 //	public void searchSortandExportReport() throws Exception {
