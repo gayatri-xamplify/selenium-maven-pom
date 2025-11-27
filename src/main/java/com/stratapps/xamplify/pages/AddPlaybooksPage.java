@@ -175,10 +175,10 @@ public class AddPlaybooksPage {
 		// Scroll and pause to let it settle
 		WebElement nextBtnElement = driver.findElement(nextButton);
 		ElementUtil.scrollToElement(nextBtnElement, driver);
-		// Optional hard scroll up in case button is covered
-		//((JavascriptExecutor) driver).executeScript("window.scrollBy(0, -150);");
-
-		ElementUtil.click(nextButton, driver);
+		 //Optional hard scroll up in case button is covered
+		((JavascriptExecutor) driver).executeScript("window.scrollBy(0, -150);");
+		WaitUtil.waitAndClick(driver, nextButton, 40);
+		//ElementUtil.click(nextButton, driver);
 	}
 
 	public void selectAsset(String type) throws Exception {
@@ -216,10 +216,10 @@ public class AddPlaybooksPage {
 	public void selectAssetslist() throws Exception {
 
 		WaitUtil.waitForPageToLoad(driver, 10); // small wait to stabilize
-		selectAsset("pdf");
+		selectAsset("jpeg");
 		selectAsset("png");
 		selectAsset("docx");
-		selectAsset("jpeg");
+		selectAsset("pdf");
 		// selectAsset("mp4");
 
 		WaitUtil.waitForPageToLoad(driver, 60);

@@ -84,9 +84,10 @@ public class ScheduleSurveyCampaignPage {
 
 	// Clicks the "Schedule Launch" button.
 
-	public void clickScheduleLaunch() {
+	public void clickScheduleLaunch() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 60);
 
+		Thread.sleep(2000); // brief wait to ensure button is clickable
 		WaitUtil.waitForElementVisible(driver, scheduleLaunchBtn, 60);
 		WaitUtil.waitAndClick(driver, scheduleLaunchBtn, 90);
 		// ElementUtil.click(scheduleLaunchBtn, driver);
@@ -105,7 +106,7 @@ public class ScheduleSurveyCampaignPage {
 		WaitUtil.waitAndClick(driver, Gotohome, 60);
 	}
 
-	public void scheduleSurveyCampaign(String countryName) {
+	public void scheduleSurveyCampaign(String countryName) throws InterruptedException {
 		clickScheduleSurveyCampaign();
 		openDatePicker();
 		selectTodayDate();
