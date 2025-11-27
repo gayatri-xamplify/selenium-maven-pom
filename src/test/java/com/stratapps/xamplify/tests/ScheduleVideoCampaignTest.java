@@ -47,7 +47,7 @@ public class ScheduleVideoCampaignTest extends BaseTest {
 
 
     @Test(priority = 1, enabled = true)
-    public void createAndScheduleVideoCampaignTest() {
+    public void createAndScheduleVideoCampaignTest() throws InterruptedException {
         logger.info("Test 1: Create and Schedule Video Campaign - STARTED");
 
         // Step 1: Create video campaign

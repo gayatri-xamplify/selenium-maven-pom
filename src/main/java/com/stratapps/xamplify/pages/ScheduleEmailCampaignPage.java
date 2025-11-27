@@ -23,7 +23,8 @@ public class ScheduleEmailCampaignPage {
 	private By scheduleHour = By.xpath("//div[contains(@class,'open')]//input[@class='numInput flatpickr-hour']");
 	private By scheduleMinute = By.xpath("//div[contains(@class,'open')]//input[@class='numInput flatpickr-minute']");
 	private By responseMessage = By.xpath("//span[@id='responseMessage']");
-	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
+
 	public void clickScheduleEmailCampaign() {
 		WaitUtil.waitForElementVisible(driver, scheduleEmailCampaignBtn, 60);
 		ElementUtil.click(scheduleEmailCampaignBtn, driver);
@@ -83,9 +84,9 @@ public class ScheduleEmailCampaignPage {
 
 	// Clicks the "Schedule Launch" button.
 
-	public void clickScheduleLaunch() {
+	public void clickScheduleLaunch() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 60);
-
+		Thread.sleep(2000); // Adding a brief wait to ensure stability
 		WaitUtil.waitForElementVisible(driver, scheduleLaunchBtn, 60);
 		WaitUtil.waitAndClick(driver, scheduleLaunchBtn, 90);
 		// ElementUtil.click(scheduleLaunchBtn, driver);
@@ -100,11 +101,11 @@ public class ScheduleEmailCampaignPage {
 
 	// Full flow: Schedules the email campaign using dynamic time and validates
 	// success message.
-	 public void backToHome() {
-	        WaitUtil.waitAndClick(driver, Gotohome, 60);
-	    }
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
 
-	public void scheduleEmailCampaign(String countryName) {
+	public void scheduleEmailCampaign(String countryName) throws InterruptedException {
 		clickScheduleEmailCampaign();
 		openDatePicker();
 		selectTodayDate();
