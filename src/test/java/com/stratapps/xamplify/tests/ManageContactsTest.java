@@ -18,12 +18,12 @@ public class ManageContactsTest extends BaseTest {
 	private ManageContactsPage manageContactsPage;
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ManageContactsTest.class);
-	
+
 	@BeforeClass
 	public void setUpClass() {
 		try {
 			manageContactsPage = new ManageContactsPage(driver);
-		    contactsPage = new ContactsPage(driver);
+			contactsPage = new ContactsPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("ManageContactsTest setup completed");
 		} catch (Exception e) {
@@ -33,16 +33,16 @@ public class ManageContactsTest extends BaseTest {
 			super.setUp();
 			LoginPage loginPage = new LoginPage(driver);
 			loginPage.loginAsPartner();
-			contactsPage = new ContactsPage(driver);  
+			contactsPage = new ContactsPage(driver);
 			manageContactsPage = new ManageContactsPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("ManageContactsTest setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: single class Run Fail");
-		}  
+		}
 	}
-	
-    @Test(priority = 1, enabled = true)
+
+	@Test(priority = 1, enabled = true)
 	public void MyContactsActions() throws Exception {
 		Thread.sleep(3000);
 		manageContactsPage.hoverContacts_ManageContacts("MyContacts");
@@ -51,34 +51,34 @@ public class ManageContactsTest extends BaseTest {
 		manageContactsPage.CopyContactList();
 		manageContactsPage.publishCampaign();
 	}
-    
-	/*
-	 * @Test(priority = 2, enabled = false) public void FormContactsActions() throws
-	 * Exception { Thread.sleep(3000);
-	 * manageContactsPage.hoverContacts_ManageContacts("FormContact");
-	 * manageContactsPage.CopyContactList();
-	 * manageContactsPage.EditContactList("FormContact"); }
-	 * 
-	 * @Test(priority = 4, enabled = true) public void CompanyContactsActions()
-	 * throws Exception { Thread.sleep(3000);
-	 * manageContactsPage.hoverContacts_ManageContacts("CompanyContact");
-	 * manageContactsPage.CopyContactList();
-	 * manageContactsPage.EditContactList("CompanyContact");
-	 * manageContactsPage.publishCampaign(); }
-	 * 
-	 * @Test(priority = 8, enabled = true) public void ContactTilesvalidation()
-	 * throws Exception { manageContactsPage.ManageContactsTilesCountValidation(); }
-	 */
 
-//    @Test(priority = 9, enabled = true)
-//	public void searchSortandExportReport() throws Exception {
-//		manageContactsPage.SearchContact("List");
-//		manageContactsPage.ExportExcelReport();
-//	}
-    
-    
+	@Test(priority = 2, enabled = true)
+	public void FormContactsActions() throws Exception {
+		Thread.sleep(3000);
+		manageContactsPage.hoverContacts_ManageContacts("FormContact");
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList("FormContact");
+	}
+
+	@Test(priority = 4, enabled = true)
+	public void CompanyContactsActions() throws Exception {
+		Thread.sleep(3000);
+		manageContactsPage.hoverContacts_ManageContacts("CompanyContact");
+		manageContactsPage.CopyContactList();
+		manageContactsPage.EditContactList("CompanyContact");
+		manageContactsPage.publishCampaign();
+	}
+
+	@Test(priority = 5, enabled = true)
+	public void ContactTilesvalidation() throws Exception {
+		manageContactsPage.hoverContacts_ManageContacts("MyContacts");
+		manageContactsPage.ManageContactsTilesCountValidation();
+		manageContactsPage.ExportExcelReport();
+	}
+
+    @Test(priority = 6, enabled = true)
+	public void ManageContactPagination() throws Exception {
+    	manageContactsPage.ManageContactPagination();
+    }
+
 }
-
-
-
-
