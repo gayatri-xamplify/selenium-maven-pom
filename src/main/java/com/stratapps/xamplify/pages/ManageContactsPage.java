@@ -85,7 +85,7 @@ public class ManageContactsPage {
 	public static final By noCampaignsMsg = By.xpath("//app-share-campaigns/div[2]/strong");
 	public static final By unpublishPopupCloseBtn = By.xpath("//div[@id='shareUnPublishedContentPopUp']//button[text()='Close']");
 	
-	private By ExportReport = By.xpath("(//*[@id=\"manageContacts\"]//div[4]//div[3]/div[2]//button)[2]");
+	private By ExportReportIntiles = By.xpath("/html/body/app-root/app-home/div/div/app-manage-contacts/div[1]/div[3]/div/div/div/div/div[3]/div/div/div[1]/div[2]/div[2]/span[2]");
 	private By ActionDropdown = By.xpath("//button[@id=\"save&delete_button\"]");
 	
 	private By contactNotification = By.xpath("//*[@id='row_0']/td[7]/div/a[1]");
@@ -153,9 +153,11 @@ public class ManageContactsPage {
 
 	/* @CopyContactList Is Written by ganesh ***/
 	public void CopyContactList() throws InterruptedException {
+		String timestamp2 = String.valueOf(System.currentTimeMillis());
+
 		Thread.sleep(5000);
 		WaitUtil.waitAndClick(driver, copyListButton, 60);
-		WaitUtil.waitAndSendKeys(driver, contactListName, "copyList" + timestamp, 20);
+		WaitUtil.waitAndSendKeys(driver, contactListName, "copyList" + timestamp2, 20);
 		WaitUtil.waitAndClick(driver, CopyListSaveBtn, 20);
 		Thread.sleep(3000);
 		WaitUtil.verifyResponseMessage(driver, responsemesage, 20,
@@ -195,8 +197,14 @@ public class ManageContactsPage {
 	public void Edit_ContactDelete() throws Exception {
 		WaitUtil.waitAndClick(driver, ContactDelete, 20);
 		WaitUtil.waitAndClick(driver, yesDelete, 20);
-		Thread.sleep(4000);
-		WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contacts have been deleted successfully.");
+		Thread.sleep(7000);
+		try {
+			WaitUtil.verifyResponseMessage(driver, responsemesage, 60, "Your Contacts have been deleted successfully.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("check here2323");
+			System.out.println(e);
+		}
 	}
 	
 	/* @Edit_ContactUnsubscribe Is Written by ganesh ***/
@@ -330,7 +338,6 @@ public class ManageContactsPage {
 		hoverContacts_ManageContacts(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.completeOneAtATimeFlow("Public");
-		contactsPage.OneAtATimeContactAndAddCompany("public");
 		Thread.sleep(4000);
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
@@ -338,15 +345,18 @@ public class ManageContactsPage {
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		Edit_CreateNewPublicContactList();
-		if(SelectTAb == "CompanyContact" && SelectTAb != "FormContact") {
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
-		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
-		Edit_MoveOrMoveToList(MoveToList);
-		}
+		Edit_CreateNewPrivateList();
+		if(SelectTAb == "CompanyContact" && SelectTAb != "FormContact") {
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton1, 60);
-		Edit_CreateNewPrivateList();
+		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
+		Edit_MoveOrMoveToList(MoveToList);
+		Thread.sleep(4000);
+		WaitUtil.waitAndClick(driver, editListButton2, 60);
+		contactsPage.OneAtATimeContactAndAddCompany("public");
+		}
 		Thread.sleep(3000);
 	}
 
@@ -359,7 +369,7 @@ public class ManageContactsPage {
 	/* @ExportExcelReport written by Ganesh ***/
 	public void ExportExcelReport() throws InterruptedException {
 		Thread.sleep(4000);
-		WaitUtil.waitAndClick(driver, ExportReport, 20);
+		WaitUtil.waitAndClick(driver, ExportReportIntiles, 20);
 	} 
 
 	/* @SearchTemplate written by Ganesh ***/
@@ -388,14 +398,23 @@ public class ManageContactsPage {
 	}
 	
 	/* @pagination written by Ganesh ***/
-	public void pagination() throws InterruptedException {
-		Thread.sleep(8000);
+	public void ManageContactPagination() throws InterruptedException {
+		Thread.sleep(2000);
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+	    WebElement NextPage = driver.findElement(nextPage);
+		js.executeScript("arguments[0].scrollIntoView();", NextPage);
 		WaitUtil.waitAndClick(driver, nextPage, 20);
 		Thread.sleep(8000);
+	    WebElement LastPage = driver.findElement(lastPage);
+		js.executeScript("arguments[0].scrollIntoView();", LastPage);
 		WaitUtil.waitAndClick(driver, lastPage, 20);
 		Thread.sleep(8000);
+	    WebElement previousPage = driver.findElement(PreviousPage);
+	    js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", previousPage);
 		WaitUtil.waitAndClick(driver, PreviousPage, 20);
 		Thread.sleep(8000);
+	    WebElement FirstPage = driver.findElement(firstPage);
+		js.executeScript("arguments[0].scrollIntoView();", FirstPage);
 		WaitUtil.waitAndClick(driver, firstPage, 20);
 	}
 

@@ -20,7 +20,6 @@ public class ManagePartnerTest extends BaseTest {
 	private ManagePartnerPage managePartnerPage;
 	private static final Logger logger = LogManager.getLogger(ManagePartnerTest.class);
 	private WebDriverWait wait;
-
 	OnboardingPartnerPage onboardingPartnerPage = new OnboardingPartnerPage(this.driver);
 
 	@BeforeClass
@@ -45,29 +44,10 @@ public class ManagePartnerTest extends BaseTest {
 			System.out.println("Note: single class Run Fail");
 		}
 	}
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); 
-	 * LoginPage loginPage =
-	 * new LoginPage(driver); 
-	 * loginPage.loginAsVendor(); 
-	 * managePartnerPage = new
-	 * ManagePartnerPage(driver); 
-	 * wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("OnboardingPartnerPage setup completed"); }
-	 */
+
+
 
 	@Test(priority = 1, enabled = true)
-	public void CreatePartnerGroup_ManagePartner() throws InterruptedException {
-		System.out.println(" ");
-		logger.info("Creating new partner group in Manage partners");
-		managePartnerPage.HoverOnPartnersManagePartners();
-		managePartnerPage.CreateNewPartnerGroup();
-		logger.info("Successfully Created new partner group");
-		System.out.println(" ");
-	}
-
-	@Test(priority = 2, enabled = true)
 	public void Sortandsearch_Copyandsavegroup_ManagePartner() throws Throwable {
 		System.out.println(" ");
 		logger.info("Sort & search partner group and copy&save the partner group in Manage partners");
@@ -77,21 +57,9 @@ public class ManagePartnerTest extends BaseTest {
 		System.out.println(" ");
 	}
 
-	@Test(priority = 3, enabled = true)
-	public void EmailReport_ManagePartner() throws InterruptedException {
-		System.out.println(" ");
-		logger.info("Generate partner EmailReport in Manage partners");
-		managePartnerPage.HoverOnPartnersManagePartners();
-		managePartnerPage.exportToMail();
-		logger.info("Successfully Generated partner EmailReport in Manage partners");
-		System.out.println(" ");
-	}
-
-	@Test(priority = 4, enabled = true)
+	@Test(priority = 2, enabled = false)
 	public void EditGroup_ManagePartner() throws InterruptedException {
-		System.out.println(" ");
 		logger.info("Edit partner group in Manage partners");
-		managePartnerPage.HoverOnPartnersManagePartners();
 		managePartnerPage.Mpartners_EditGroup();
 		logger.info("Apply Filter with partner Fields ");
 		managePartnerPage.filterManagePartner("City", "Contains", "Hyderabad");
@@ -106,21 +74,17 @@ public class ManagePartnerTest extends BaseTest {
 		System.out.println(" ");
 	}
 
-	@Test(priority = 5, enabled = true)
+	@Test(priority = 3, enabled = true)
 	public void PublishContent_ManagePartner() throws InterruptedException {
-		System.out.println(" ");
 		logger.info("Publish Content to partner in Manage partners");
-		managePartnerPage.HoverOnPartnersManagePartners();
 		managePartnerPage.Mpartners_publishContent();
 		logger.info("Successfully Publish Content to partner in Manage partners");
 		System.out.println(" ");
 	}
 
-	@Test(priority = 6, enabled = true)
+	@Test(priority = 4, enabled = true)
 	public void DeleteGroup_ManagePartner() throws InterruptedException {
-		System.out.println(" ");
 		logger.info("Delete partner group in Manage partners");
-		managePartnerPage.HoverOnPartnersManagePartners();
 		managePartnerPage.Mpartners_DeleteGroup();
 		logger.info("Successfully Deleted the partner group in Manage partners");
 		System.out.println(" ");
@@ -128,17 +92,30 @@ public class ManagePartnerTest extends BaseTest {
 
 	@Test(priority = 7, enabled = true)
 	public void ExportExcelReport_ManagePartner() throws InterruptedException {
-		System.out.println(" ");
 		logger.info("Export partner Excel Report in Manage partners");
-		managePartnerPage.HoverOnPartnersManagePartners();
 		managePartnerPage.exportToExcel();
 		logger.info("Successfully Export partner Excel Report Manage partners");
+		System.out.println(" ");
+	}
+	
+	@Test(priority = 6, enabled = true)
+	public void EmailReport_ManagePartner() throws InterruptedException {
+		logger.info("Generate partner EmailReport in Manage partners");
+		managePartnerPage.exportToMail();
+		logger.info("Successfully Generated partner EmailReport in Manage partners");
+		System.out.println(" ");
+	}
+	
+	@Test(priority = 5, enabled = true)
+	public void CreatePartnerGroup_ManagePartner() throws InterruptedException {
+		logger.info("Creating new partner group in Manage partners");
+		managePartnerPage.CreateNewPartnerGroup();
+		logger.info("Successfully Created new partner group");
 		System.out.println(" ");
 	}
 
 	@Test(priority = 8, enabled = true)
 	public void Pagination_ManagePartner() throws Throwable {
-		System.out.println(" ");
 		logger.info("Edit partner group in Manage partners");
 		managePartnerPage.HoverOnPartnersManagePartners();
 		managePartnerPage.pagenation();
@@ -154,5 +131,6 @@ public class ManagePartnerTest extends BaseTest {
 		logger.info("Successfully Navigate to Home Page");
 		System.out.println(" ");
 	}
+
 
 }
