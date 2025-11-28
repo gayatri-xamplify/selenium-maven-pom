@@ -20,12 +20,13 @@ public class ManagePartnerPage {
 	WebDriver driver;
 	private WebDriverWait wait;
 	long timestamp = System.currentTimeMillis();
+    OnboardingPartnerPage onboardingPartnerPage = new OnboardingPartnerPage(this.driver);
 
 	public ManagePartnerPage(WebDriver driver) {
 		this.driver = driver;
+	    this.onboardingPartnerPage = new OnboardingPartnerPage(driver); 
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 	}
-    OnboardingPartnerPage onboardingPartnerPage = new OnboardingPartnerPage(this.driver);
 
 	
 	public static final By managepartner = By.xpath("//div/div/ul/li[2]/ul/li[2]/a/span");
@@ -38,7 +39,7 @@ public class ManagePartnerPage {
 	public static final By groupName = By.xpath("//input[@id='campaignName']");
 	public static final By legalInGroup = By.xpath("//div[@id='multiselect-sample']//input[@placeholder='Select Legal Basis']");
 	public static final By savechanges = By.xpath("//*[@id='saveAsModal']/div/div/div[3]/button[2]");
-	public static final By exportemail = By.xpath("//app-manage-contacts/div[1]/div[3]/div/div/div/div/div[3]/div/div/div[1]/div[2]/div[2]/span[2]/i");
+	public static final By exportemail = By.xpath("//span[@title=\"Click here to email the group\"]");
 	public static final By editGroup = By.xpath("(//table[@id='partner_contact_list']//tr)[2]/td/div/a");
 	public static final By entinfo = By.xpath("//input[@name='all']");
 	public static final By shareContent = By.xpath("(//button[@type='submit'])[7]");
@@ -60,6 +61,9 @@ public class ManagePartnerPage {
 	public static final By editpartner = By.xpath("//tr[@id='row_0']/td[9]/div/a[1]/i");
 	public static final By updatepartner = By.xpath("//button//span[text()='Update']");
 	public static final By search = By.xpath("//input[@placeholder='Search']");
+	public static final By searchClear = By.xpath("(//input[@placeholder=\"Search for a group\"]/../button)[1]");
+
+
 	public static final By publishIcon = By.xpath("//*[@id='partner_contact_list']/tbody/tr/td[6]/div/a[4]/i");
 	public static final By managePartner_filter = By.xpath("//*[@id='manageContacts']//span/i[@class='fa fa-filter p10']");
 
@@ -145,23 +149,24 @@ public class ManagePartnerPage {
 	}
 
 	public void Mpartners_Sortandsearch_Copyandsavegroup() throws InterruptedException {
-	    Select sortby1 = new Select(WaitUtil.waitForElementVisible(driver, sortDropdown, 10));
+	    Select sortby1 = new Select(WaitUtil.waitForElementVisible(driver, sortDropdown, 20));
 	    sortby1.selectByIndex(2);
 	    ScreenshotUtil.captureScreenshot(driver, "sortManagePartner");
 	    // Search for Partner Group
-	    WaitUtil.waitForElementClickable(driver, searchInput, 10).click();
-	    WaitUtil.waitAndSendKeys(driver, searchInput, "group", 10);
+	    WaitUtil.waitForElementClickable(driver, searchInput, 20).click();
+	    WaitUtil.waitAndSendKeys(driver, searchInput, "group", 20);
 	    driver.findElement(searchInput).sendKeys(Keys.ENTER);
 	    ScreenshotUtil.captureScreenshot(driver, "SearchManagePartner");
 	    // Sort again by index 4
 	    sortby1.selectByIndex(4);
 	    // Copy and Save Partner Group
-	    WaitUtil.waitForElementClickable(driver, copyAndSaveButton, 10).click();
-	    WebElement nameField = WaitUtil.waitForElementVisible(driver, copyAndSaveNameField, 10);
+	    WaitUtil.waitForElementClickable(driver, copyAndSaveButton, 20).click();
+	    WebElement nameField = WaitUtil.waitForElementVisible(driver, copyAndSaveNameField, 20);
 	    nameField.clear();
 	    WaitUtil.waitAndSendKeys(driver, copyAndSaveNameField, "automated list_" + System.currentTimeMillis(), 10);
-	    WaitUtil.waitForElementClickable(driver, saveNameChangesButton, 10).click();
+	    WaitUtil.waitForElementClickable(driver, saveNameChangesButton, 20).click();
 	    ScreenshotUtil.captureScreenshot(driver, "CopyandsaveGroup");
+	    WaitUtil.waitForElementClickable(driver, searchClear, 20).click();
 	}
 
 	public  void oneAtATime_EditGroup() throws InterruptedException {
@@ -299,34 +304,28 @@ public class ManagePartnerPage {
 	}
 	
 	public void Mpartners_DeleteGroup() throws InterruptedException {
-	    WaitUtil.waitAndClick(driver, searchManageInput, 10);
-	    WaitUtil.waitAndSendKeys(driver, searchManageInput, "groupName", 10);
+	    WaitUtil.waitAndClick(driver, searchManageInput, 20);
+	    WaitUtil.waitAndSendKeys(driver, searchManageInput, "NewGroup", 20);
 	    driver.findElement(searchManageInput).sendKeys(Keys.ENTER);
-	    WaitUtil.waitAndClick(driver, deleteManageBtn, 15);
-	    WaitUtil.waitAndClick(driver, deleteManageListConfirmBtn, 10);
+	    WaitUtil.waitAndClick(driver, deleteManageBtn, 30);
+	    WaitUtil.waitAndClick(driver, deleteManageListConfirmBtn, 20);
 	    ScreenshotUtil.captureScreenshot(driver, "DeleteManagePartner");
 	}
 
 	public void exportToExcel() throws InterruptedException {
-	    // Click All Tile
+		Thread.sleep(3000);
 	    WebElement allTileElement = wait.until(ExpectedConditions.elementToBeClickable(allTile));
 	    allTileElement.click();
-	    // Search for the partner using email
 	    WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInputAlltile));
 	    searchBox.click();
 	    searchBox.sendKeys("user");
-	    //searchBox.sendKeys(OnboardingPartnerPage.getMailId);
 	    searchBox.sendKeys(Keys.ENTER);
-	    // Click 'Check All'
 	    WebElement checkAllElement = wait.until(ExpectedConditions.elementToBeClickable(checkAll));
 	    checkAllElement.click();
-	    // Click 'Action' Button
 	    WebElement actionElement = wait.until(ExpectedConditions.elementToBeClickable(actionBtn));
 	    actionElement.click();
-	    // Click 'Export to Excel'
 	    WebElement exportExcelElement = wait.until(ExpectedConditions.elementToBeClickable(exportExcel));
 	    exportExcelElement.click();
-	    // Capture screenshot
 	    ScreenshotUtil.captureScreenshot(driver, "exportExcelManagePartner");
 	}
 
