@@ -190,6 +190,7 @@ public class ManageContactsPage {
 		WaitUtil.waitAndSendKeys(driver, stateField, "Telangana_U", 60);
 		WaitUtil.waitAndSendKeys(driver, zipField, "500052", 60);
 		WaitUtil.waitAndClick(driver, ContactUpdate, 20);
+		Thread.sleep(2000);
 		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, "Your contact has been updated successfully.");
 	}
 	
@@ -243,8 +244,8 @@ public class ManageContactsPage {
 	
 	/* @Edit_ContactCampaignPublish Is Written by ganesh ***/
 	public void Edit_ContactCampaignPublish() throws Exception {
-		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, contactCampaignLaunch, 20);
+		Thread.sleep(6000);
+		WaitUtil.waitAndClick(driver, contactCampaignLaunch, 60);
 	    try {
 	        WaitUtil.waitAndClick(driver, entInfoCheckbox, 10);
 	        WaitUtil.waitAndClick(driver, shareContentBtn, 10);
@@ -261,10 +262,11 @@ public class ManageContactsPage {
 	/* @Edit_CreateNewPrivateList Is Written by ganesh ***/
 	public void Edit_CreateNewPrivateList() throws Exception {
 		Thread.sleep(2000);
+		String timestamp2 = String.valueOf(System.currentTimeMillis());
 		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
 		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
 		WaitUtil.waitAndClick(driver, CreateList, 20);
-		WaitUtil.waitAndSendKeys(driver, titleField, "PrivateGroupP"+timestamp, 20);
+		WaitUtil.waitAndSendKeys(driver, titleField, "PrivateGroupP"+timestamp2, 20);
 		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
@@ -275,12 +277,13 @@ public class ManageContactsPage {
 	
 	/* @Edit_CreateNewPublicList Is Written by ganesh ***/
 	public void Edit_CreateNewPublicContactList() throws Exception {
-		Thread.sleep(2000);
+		Thread.sleep(5000);
+		String timestamp2 = String.valueOf(System.currentTimeMillis());
 		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
 		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
 		WaitUtil.waitAndClick(driver, CreateList, 20);
 		Thread.sleep(2000);
-		WaitUtil.waitAndSendKeys(driver, titleField, "PublicGroup"+timestamp, 20);
+		WaitUtil.waitAndSendKeys(driver, titleField, "PublicGroup"+timestamp2, 20);
 		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
@@ -331,7 +334,6 @@ public class ManageContactsPage {
 		searchClear();
 		Edit_DownloadtempAndexportToExcel();
 		Edit_MoveOrMoveToList(CopyToList);
-		Edit_ContactDelete();
 		Edit_ContactCampaignPublish();
 		Edit_ContactEdit();
 		Edit_ContactCampaignAnalytics();		
@@ -341,20 +343,25 @@ public class ManageContactsPage {
 		Thread.sleep(4000);
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
+		Edit_ContactDelete();
+		hoverContacts_ManageContacts(SelectTAb);
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.uploadCSVContacts("Public", "EditList");
 		clickContactsTab(SelectTAb);
-		WaitUtil.waitAndClick(driver, editListButton1, 60);
+		Thread.sleep(5000);
+		WaitUtil.waitAndClick(driver, editListButton2, 60);
 		Edit_CreateNewPublicContactList();
+		hoverContacts_ManageContacts(SelectTAb);
+		Thread.sleep(7000);
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
+		Edit_CreateNewPrivateList();
+		if(SelectTAb != "CompanyContact" && SelectTAb != "FormContact") {
 		clickContactsTab(SelectTAb);
 		WaitUtil.waitAndClick(driver, editListButton2, 60);
-		Edit_CreateNewPrivateList();
-		if(SelectTAb == "CompanyContact" && SelectTAb != "FormContact") {
-		clickContactsTab(SelectTAb);
-		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
 		Edit_MoveOrMoveToList(MoveToList);
 		Thread.sleep(4000);
-		WaitUtil.waitAndClick(driver, editListButton2, 60);
+		WaitUtil.waitAndClick(driver, editListButton1, 60);
 		contactsPage.OneAtATimeContactAndAddCompany("public");
 		}
 		Thread.sleep(3000);
