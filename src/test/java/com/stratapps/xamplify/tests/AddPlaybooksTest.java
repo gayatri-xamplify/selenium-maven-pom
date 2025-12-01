@@ -3,7 +3,6 @@ package com.stratapps.xamplify.tests;
 
 import java.awt.AWTException;
 import java.time.Duration;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,7 +12,6 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.AddPlaybooksPage;
 import com.stratapps.xamplify.pages.LoginPage;
-import com.stratapps.xamplify.utils.ConfigReader;
 
 public class AddPlaybooksTest extends BaseTest {
 
@@ -22,16 +20,30 @@ public class AddPlaybooksTest extends BaseTest {
     private WebDriverWait wait;
 
     @BeforeClass
-    public void setUpClass() {
-//        super.setUp();
-//		
-//		  LoginPage loginPage = new LoginPage(driver);
-//		  loginPage.login(ConfigReader.getProperty("username"),
-//		  ConfigReader.getProperty("password"));		 
-        addPlaybooksPage = new AddPlaybooksPage(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-        logger.info("AddPlaybooksTest setup completed");
-    }
+    
+    
+	public void setUpClass() {
+		try {
+			 addPlaybooksPage = new AddPlaybooksPage(driver);
+		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		        logger.info("AddPlaybooksTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsVendor();
+			 addPlaybooksPage = new AddPlaybooksPage(driver);
+		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		        logger.info("AddPlaybooksTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single class Run Fail");
+		}
+	}
+	
+    
+    
 
     @Test(priority = 1, enabled = true)
     public void openContentMenuTest() {
