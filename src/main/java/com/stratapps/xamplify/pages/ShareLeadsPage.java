@@ -123,7 +123,10 @@ public class ShareLeadsPage {
 	private final By unsubscribeTile = By.xpath("//button[@class='btn-block dashboard-stat red']");
 
 	private final By geariconAlltile = By.xpath("(//i[contains(@class,'fa-angle-down')])[2]");
+	private final By DownloadSL = By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]");
 
+	
+//	===================================================
 	public void hoverOnShareLeads() throws Exception {
 		Thread.sleep(3000);
 
@@ -224,47 +227,36 @@ public class ShareLeadsPage {
 	}
 
 	public void publishAndDownloadShareLeadFlow() throws InterruptedException {
-
-		WaitUtil.waitAndClick(driver, FIRST_PUBLISH_ICON, backdrop, 150);
-
-		// Now click safely
-		// ElementUtil.click(FIRST_PUBLISH_ICON, driver);
-
-		// Wait and input text
+		WaitUtil.waitAndClick(driver, FIRST_PUBLISH_ICON, backdrop, 250);
 		WebDriverWait inputWait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		By searchInput = By.xpath("(//input[@id='sort-text'])[1]");
 		inputWait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
-
 		ElementUtil.sendText(searchInput, "PartnerAuto", driver);
 		Thread.sleep(1000);
 		ElementUtil.sendKey(searchInput, Keys.ENTER, driver);
 		Thread.sleep(1000);
-
 		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//table//i[@class='fa fa-angle-right']"), driver);
 		Thread.sleep(1000);
 		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//table//th[1]//input"), driver);
 		Thread.sleep(1000);
 		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//button//span"), driver);
 		Thread.sleep(1000);
-
 		ScreenshotUtil.captureScreenshot(driver, "Published_Shareleads");
 		Thread.sleep(1000);
 		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),\"Close\")]"), driver);
 
 		// Thread.sleep(58000);
 
-		WaitUtil.waitAndClick(driver, PUBLISH_viewicon, backdrop, 80);
+//		WaitUtil.waitAndClick(driver, PUBLISH_viewicon, backdrop, 80);
 
 		// Now click safely
 		// ElementUtil.click(PUBLISH_viewicon, driver);
 
-		Thread.sleep(2000);
-		ElementUtil.click(By.xpath(
-				"//div[contains(@class,'d-flex') and contains(@class,'justify-content-between')] //a[contains(@class,'close-circle')]"),
-				driver);
-		Thread.sleep(3000);
-
-		ElementUtil.click(By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]"), driver);
+		Thread.sleep(20000);
+		ElementUtil.click(By.xpath("//div[contains(@class,'d-flex') and contains(@class,'justify-content-between')] //a[contains(@class,'close-circle')]"), driver);
+		Thread.sleep(8000);
+		WaitUtil.waitAndClick(driver, DownloadSL, 40);
+//		ElementUtil.click(By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]"), driver);
 		Thread.sleep(2000);
 	}
 
@@ -283,12 +275,9 @@ public class ShareLeadsPage {
 
 	public void clickCopyIcon() {
 
-		WaitUtil.waitAndClick(driver, copyIcon, backdrop, 80);
-
-	}
-
-	public void clickSaveAsButton() {
+		WaitUtil.waitAndClick(driver, copyIcon, backdrop, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(saveChangesButton)).click();
+
 	}
 
 	public void confirmDelete() {
@@ -562,23 +551,13 @@ public class ShareLeadsPage {
 
 	public void sortAllOptions(WebDriver driver) throws Exception {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
-
-		// Ensure dropdown is visible
 		wait.until(ExpectedConditions.visibilityOfElementLocated(sortByDropdown));
-
 		Select dropdown = new Select(driver.findElement(sortByDropdown));
 		List<WebElement> options = dropdown.getOptions();
-
 		for (int i = 1; i < options.size(); i++) {
 			dropdown.selectByIndex(i);
-
-			// Wait for loader to disappear after each sort
+			System.out.println(i);
 			WaitUtil.waitForLoaderToDisappear(driver, 80);
-
-			// Wait for first publish icon as an indicator of loaded result
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("(//i[@class='fa fa-trash-o trashIconCustomization'])[1]")));
-
 			System.out.println("Selected: " + dropdown.getFirstSelectedOption().getText());
 			Thread.sleep(1000); // Optional short wait for UI animation
 		}
