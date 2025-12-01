@@ -126,6 +126,7 @@ public class ManagePartnerPage {
 	}
 
 	public void CreateNewPartnerGroup() throws InterruptedException {
+		Thread.sleep(4000);
 	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 10);
 	    WaitUtil.waitForElementClickable(driver, Alltile, 10).click();
 	    WaitUtil.waitForElementClickable(driver, checkAll, 10).click();
@@ -140,6 +141,7 @@ public class ManagePartnerPage {
 	}
 	
 	public void exportToMail() throws InterruptedException {
+		Thread.sleep(30000);
 	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 10);
 	    WaitUtil.waitForElementClickable(driver, Alltile, 10).click();
 	    WaitUtil.waitForElementClickable(driver, checkAll, 10).click();
@@ -152,6 +154,7 @@ public class ManagePartnerPage {
 	    Select sortby1 = new Select(WaitUtil.waitForElementVisible(driver, sortDropdown, 20));
 	    sortby1.selectByIndex(2);
 	    ScreenshotUtil.captureScreenshot(driver, "sortManagePartner");
+	    Thread.sleep(6000);
 	    // Search for Partner Group
 	    WaitUtil.waitForElementClickable(driver, searchInput, 20).click();
 	    WaitUtil.waitAndSendKeys(driver, searchInput, "group", 20);

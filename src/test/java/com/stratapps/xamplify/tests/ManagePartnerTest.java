@@ -56,7 +56,7 @@ public class ManagePartnerTest extends BaseTest {
 		logger.info("Successfully Sort & search partner group and copy&save the partner group in Manage partners");
 		System.out.println(" ");
 	}
-
+ 
 	@Test(priority = 2, enabled = false)
 	public void EditGroup_ManagePartner() throws InterruptedException {
 		logger.info("Edit partner group in Manage partners");

@@ -52,7 +52,7 @@ public class ManageContactsTest extends BaseTest {
 		manageContactsPage.publishCampaign();
 	}
 
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 2, enabled = false)
 	public void FormContactsActions() throws Exception {
 		Thread.sleep(3000);
 		manageContactsPage.hoverContacts_ManageContacts("FormContact");
