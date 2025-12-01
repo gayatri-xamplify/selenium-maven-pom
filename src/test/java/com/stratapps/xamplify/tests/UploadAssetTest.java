@@ -25,7 +25,7 @@ public class UploadAssetTest extends BaseTest {
 		try {
 			uploadAssetPage = new UploadAssetPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("OnboardingPartnerPage setup completed");
+			logger.info("UploadAsset setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: Hide multiple classes Run");
 		}
@@ -35,7 +35,7 @@ public class UploadAssetTest extends BaseTest {
 			loginPage.loginAsVendor();
 			uploadAssetPage = new UploadAssetPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("OnboardingPartnerPage setup completed");
+			logger.info("Upload Asset setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: single class Run Fail");
 		}

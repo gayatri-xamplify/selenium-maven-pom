@@ -228,10 +228,10 @@ public class AddTracksPage {
 	public void selectAssetsAndQuiz() throws Exception {
 
 		WaitUtil.waitForPageToLoad(driver, 10); // small wait to stabilize
-		selectAsset("pdf");
+		selectAsset("jpeg");
 		selectAsset("png");
 		selectAsset("docx");
-		selectAsset("jpeg");
+		selectAsset("pdf");
 		// selectAsset("mp4");
 
 		WaitUtil.waitForPageToLoad(driver, 60);

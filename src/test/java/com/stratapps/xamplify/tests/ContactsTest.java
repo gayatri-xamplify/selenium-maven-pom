@@ -47,50 +47,60 @@ public class ContactsTest extends BaseTest {
 		}
 	}
 
-	/*
-	 * @BeforeClass public void setUp() {
-	 * logger.info("✅ Initializing WebDriver and ContactsPage...");
-	 * 
-	 * super.setUp(); logoutIfLoggedIn();
-	 * 
-	 * LoginPage loginPage = new LoginPage(driver);
-	 * loginPage.login(ConfigReader.getProperty("partner.username"),
-	 * ConfigReader.getProperty("partner.password"));
-	 * 
-	 * contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
-	 */
+	
+	  @BeforeClass public void setUp() {
+	  logger.info("✅ Initializing WebDriver and ContactsPage...");
+	  
+	  super.setUp(); logoutIfLoggedIn();
+	  
+	  LoginPage loginPage = new LoginPage(driver);
+	  loginPage.login(ConfigReader.getProperty("partner.username"),
+	  ConfigReader.getProperty("partner.password"));
+	  
+	  contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
+	  Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
+	 
 
-	@Test(priority = 1, enabled = true)
-	public void AddPublicContact_OneAtATime() throws Exception {
+	
+	  @Test(priority = 1, enabled = true) public void AddPublicContact_OneAtATime()
+	  throws Exception {
+	  logger.info("🚀 Starting test: Add Contact - One At A Time");
+	  contactsPage.hoverContacts(); contactsPage.completeOneAtATimeFlow("Public");
+	  logger.info("✅ Test Passed: Add Contact - One At A Time"); }
+	  
+	  @Test(priority = 2, enabled = true) public void
+	  AddPrivateContact_OneAtATime() throws Exception {
+	  logger.info("🚀 Starting test: Add Contact - One At A Time");
+	  contactsPage.hoverContacts(); contactsPage.completeOneAtATimeFlow("Private");
+	  logger.info("✅ Test Passed: Add Contact - One At A Time"); }
+	  
+	  @Test(priority = 3, enabled = true) public void
+	  testUploadPublicContacts_CSV() throws Exception {
+	  logger.info("🚀 Starting test: Upload Contacts via CSV");
+	  contactsPage.hoverContacts(); contactsPage.uploadCSVContacts("Public",
+	  "AddContacts"); logger.info("✅ Test Passed: Upload Contacts via CSV"); }
+	  
+	  @Test(priority = 4, enabled = true) public void
+	  testUploadPrivateContacts_CSV() throws Exception {
+	  logger.info("🚀 Starting test: Upload Contacts via CSV");
+	  contactsPage.hoverContacts(); contactsPage.uploadCSVContacts("Private",
+	  "AddContacts"); logger.info("✅ Test Passed: Upload Contacts via CSV"); }
+	 
+	
+	@Test(priority = 5, enabled = true)
+	public void AddCompanyInPublicContact_OneAtATime() throws Exception {
 		logger.info("🚀 Starting test: Add Contact - One At A Time");
 		contactsPage.hoverContacts();
-		contactsPage.completeOneAtATimeFlow("Public");
-		logger.info("✅ Test Passed: Add Contact - One At A Time");
-	}
-
-	@Test(priority = 2, enabled = true)
-	public void AddPrivateContact_OneAtATime() throws Exception {
-		logger.info("🚀 Starting test: Add Contact - One At A Time");
-		contactsPage.hoverContacts();
-		contactsPage.completeOneAtATimeFlow("Private");
+		contactsPage.OneAtATimeContactAndAddCompany("Public");
 		logger.info("✅ Test Passed: Add Contact - One At A Time");
 	}
 	
-	@Test(priority = 3, enabled = true)
-	public void testUploadPublicContacts_CSV() throws Exception {
-		logger.info("🚀 Starting test: Upload Contacts via CSV");
-			contactsPage.hoverContacts();
-			contactsPage.uploadCSVContacts("Public", "AddContacts");
-			logger.info("✅ Test Passed: Upload Contacts via CSV");
-	}
-
-	@Test(priority = 4, enabled = true)
-	public void testUploadPrivateContacts_CSV() throws Exception {
-		logger.info("🚀 Starting test: Upload Contacts via CSV");
-			contactsPage.hoverContacts();
-			contactsPage.uploadCSVContacts("Private", "AddContacts");
-			logger.info("✅ Test Passed: Upload Contacts via CSV");
+	@Test(priority = 6, enabled = true)
+	public void AddCompanyInPraviteContact_OneAtATime() throws Exception {
+		logger.info("🚀 Starting test: Add Contact - One At A Time");
+		contactsPage.hoverContacts();
+		contactsPage.OneAtATimeContactAndAddCompany("Private");
+		logger.info("✅ Test Passed: Add Contact - One At A Time");
 	}
 	
 	/*
