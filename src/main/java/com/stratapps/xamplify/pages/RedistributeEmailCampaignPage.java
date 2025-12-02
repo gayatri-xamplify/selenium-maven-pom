@@ -64,6 +64,8 @@ public class RedistributeEmailCampaignPage {
         ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
         WaitUtil.waitAndClick(driver, redistributeCampaign, 60);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
         WaitUtil.waitAndClick(driver, emailTab, 60);
     }
 
