@@ -12,9 +12,11 @@ import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.CompaniesPage;
 import com.stratapps.xamplify.pages.DesignFormPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageContactsPage;
 
 public class CompaniesTest extends BaseTest{
 	private CompaniesPage companiesPage;
+	private ManageContactsPage manageContactsPage;
 	private static final Logger logger = LogManager.getLogger(CompaniesTest.class);
 	private WebDriverWait wait;
   
@@ -22,6 +24,7 @@ public class CompaniesTest extends BaseTest{
 	public void setUpClass() {  
 		try {
 			companiesPage = new CompaniesPage(driver);
+			manageContactsPage = new ManageContactsPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("CompaniesPage setup completed");
 		} catch (Exception e) {
@@ -32,6 +35,7 @@ public class CompaniesTest extends BaseTest{
 			LoginPage loginPage = new LoginPage(driver);
 			loginPage.loginAsPartner();
 			companiesPage = new CompaniesPage(driver);
+			manageContactsPage = new ManageContactsPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("companiesPage setup completed");
 		} catch (Exception e) {
@@ -46,19 +50,28 @@ public class CompaniesTest extends BaseTest{
 		companiesPage.NavigateToCompany();
 		companiesPage.AddCompany("CMP7664");
 		logger.info("Successfully Created Company in Companies Pages");
-		System.out.println(" ");
+		System.out.println("check1 ");
 	}
 	
 	@Test(priority = 2, enabled = true)
 	public void CompanyActions() throws Exception {
 		logger.info("perform Company actions in Companies Pages");
-		companiesPage.PreviewCompany();
-		companiesPage.DeleteCompany();
+		System.out.println("check3 ");
 		companiesPage.editCompanyDetails();
 		companiesPage.AddContactUnderCompany();
+		companiesPage.SearchCompany("Cmp");
+		companiesPage.DeleteCompany();
+		companiesPage.SearchClear();
+		companiesPage.PreviewCompany();
+		companiesPage.SynchronizeCompanies();
 		logger.info("Successfully perform Company action in Companies Pages");
 		System.out.println(" ");
 	}
-	//   
+	
+    @Test(priority = 3, enabled = true)
+	public void CompanyCountValidationAndPagination() throws Exception {
+    	companiesPage.TileCountValidation();
+    	manageContactsPage.ManageContactPagination();
+    }
 	
 }

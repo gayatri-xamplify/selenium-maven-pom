@@ -144,30 +144,18 @@ public class ShareLeadsPage {
 		ElementUtil.sendText(SH_COMPANY, "Xamplify", driver);
 		ElementUtil.sendText(SH_LEGAL_BASIS, "Legitimate interest - prospect/lead", driver);
 		ElementUtil.sendKey(SH_LEGAL_BASIS, Keys.ENTER, driver);
-
 		ElementUtil.sendText(By.id("title"), "QA Engineer", driver);
-
 		ElementUtil.sendText(By.id("address"), "123 Street", driver);
-
 		ElementUtil.sendText(By.id("city"), "Hyderabad", driver);
-
 		ElementUtil.sendText(By.id("state"), "Telangana", driver);
-
 		ElementUtil.sendText(By.id("zip"), "500001", driver);
-
 		WebElement scrollableDiv = driver.findElement(SH_SCROLL);
 		ActionUtil.scrollInsideElement(driver, scrollableDiv, 500);
-
 		ElementUtil.click(SH_FLAG, driver);
-
 		ElementUtil.sendText(SH_FLAG_CODE, "+91", driver);
-
 		ElementUtil.click(SH_FLAG_CODE_SELECT, driver);
-
 		ElementUtil.sendText(SH_MOBILE_NO, "9876543210", driver);
-
 		ElementUtil.click(SHARE_LEADS_ADD, driver);
-
 	}
 
 	public void uploadCSVLeads() throws Exception {
@@ -187,7 +175,7 @@ public class ShareLeadsPage {
 	public void clickSaveAndAccept() throws InterruptedException {
 		ElementUtil.click(SHARE_LEADS_SAVE, driver);
 
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		ElementUtil.click(SHARE_LEADS_ACCEPT, driver);
 		Thread.sleep(500);
 	}
@@ -245,7 +233,7 @@ public class ShareLeadsPage {
 		Thread.sleep(1000);
 		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),\"Close\")]"), driver);
 
-		// Thread.sleep(58000);
+		 Thread.sleep(58000);
 
 //		WaitUtil.waitAndClick(driver, PUBLISH_viewicon, backdrop, 80);
 
@@ -253,7 +241,7 @@ public class ShareLeadsPage {
 		// ElementUtil.click(PUBLISH_viewicon, driver);
 
 		Thread.sleep(20000);
-		ElementUtil.click(By.xpath("//div[contains(@class,'d-flex') and contains(@class,'justify-content-between')] //a[contains(@class,'close-circle')]"), driver);
+//		ElementUtil.click(By.xpath("//div[contains(@class,'d-flex') and contains(@class,'justify-content-between')] //a[contains(@class,'close-circle')]"), driver);
 		Thread.sleep(8000);
 		WaitUtil.waitAndClick(driver, DownloadSL, 40);
 //		ElementUtil.click(By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]"), driver);
@@ -559,7 +547,7 @@ public class ShareLeadsPage {
 			System.out.println(i);
 			WaitUtil.waitForLoaderToDisappear(driver, 80);
 			System.out.println("Selected: " + dropdown.getFirstSelectedOption().getText());
-			Thread.sleep(1000); // Optional short wait for UI animation
+			Thread.sleep(10000); // Optional short wait for UI animation
 		}
 	}
 
