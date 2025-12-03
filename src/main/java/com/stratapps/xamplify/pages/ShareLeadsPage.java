@@ -37,7 +37,7 @@ public class ShareLeadsPage {
 	private final By HOVER_SHARE_LEADS = By.xpath("//span[@class='title' and normalize-space()='Share Leads']");
 	private final By ADD_SHARE_LEADS = By.xpath("//span[normalize-space()='Add Share Leads']");
 	private final By MANAGE_SHARE_LEADS = By.xpath("//span[normalize-space()='Manage Share Leads']");
-	private final By SH_ONE_AT_TIME = By.xpath("//span[normalize-space()=\"One at a Time\"]");
+	private final By SH_ONE_AT_TIME = By.xpath("//button[@id='add_contact' or @id='addContacts']");
 	private final By SH_EMAIL_ID = By.xpath("//input[@id='email1']");
 	private final By SH_FIRST_NAME = By.xpath("//input[@id='firstName']");
 	private final By SH_LAST_NAME = By.xpath("//input[@id='lastName']");
@@ -127,12 +127,12 @@ public class ShareLeadsPage {
 
 	
 //	===================================================
+	
+	
 	public void hoverOnShareLeads() throws Exception {
 		Thread.sleep(3000);
-
 		ActionUtil.hover(driver, HOVER_SHARE_LEADS); // hover only
 		ActionUtil.hoverAndClick(driver, ADD_SHARE_LEADS); // click after hover
-
 		ElementUtil.sendText(By.id("contactListName"), "AutoSlist" + System.currentTimeMillis(), driver);
 	}
 
@@ -173,31 +173,32 @@ public class ShareLeadsPage {
 	}
 
 	public void clickSaveAndAccept() throws InterruptedException {
-		ElementUtil.click(SHARE_LEADS_SAVE, driver);
-
 		Thread.sleep(3000);
+	    if (driver.findElements(SHARE_LEADS_SAVE).size() > 0) {
+	        ElementUtil.click(SHARE_LEADS_SAVE, driver);
+	    }	
+		Thread.sleep(2000);
 		ElementUtil.click(SHARE_LEADS_ACCEPT, driver);
 		Thread.sleep(500);
 	}
 
 	public void navigateToManageShareLeads() throws Exception {
-		Thread.sleep(1000);
-
+		Thread.sleep(2000);
 		ActionUtil.hover(driver, HOVER_SHARE_LEADS); // hover only
+		Thread.sleep(500);
 		ActionUtil.hoverAndClick(driver, MANAGE_SHARE_LEADS); // click after hover
-
+	}
+	
+	public void editShareLeadbutton() throws InterruptedException {
+	WaitUtil.waitAndClick(driver, EDIT_BUTTON, backdrop, 200);
+	Thread.sleep(2000);
 	}
 
+
 	public void editShareLeadDetails() throws InterruptedException {
-
-		WaitUtil.waitAndClick(driver, EDIT_BUTTON, backdrop, 120);
-
-		/*
-		 * // Now click safely ElementUtil.click(EDIT_BUTTON, driver);
-		 */
+		WaitUtil.waitAndClick(driver, EDIT_BUTTON, backdrop, 200);
 		Thread.sleep(2000);
 		ElementUtil.click(EDIT_ICON, driver);
-
 		ElementUtil.getById(driver, "lastName").sendKeys("L1");
 		WebElement mobileField = driver.findElement(SH_MOBILE_NO);
 		mobileField.clear();
@@ -214,7 +215,7 @@ public class ShareLeadsPage {
 		Thread.sleep(1000);
 	}
 
-	public void publishAndDownloadShareLeadFlow() throws InterruptedException {
+	public void publishShareLeadFlow() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, FIRST_PUBLISH_ICON, backdrop, 250);
 		WebDriverWait inputWait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		By searchInput = By.xpath("(//input[@id='sort-text'])[1]");
@@ -232,18 +233,21 @@ public class ShareLeadsPage {
 		ScreenshotUtil.captureScreenshot(driver, "Published_Shareleads");
 		Thread.sleep(1000);
 		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),\"Close\")]"), driver);
-
 		 Thread.sleep(58000);
-
 //		WaitUtil.waitAndClick(driver, PUBLISH_viewicon, backdrop, 80);
-
 		// Now click safely
 		// ElementUtil.click(PUBLISH_viewicon, driver);
-
 		Thread.sleep(20000);
 //		ElementUtil.click(By.xpath("//div[contains(@class,'d-flex') and contains(@class,'justify-content-between')] //a[contains(@class,'close-circle')]"), driver);
+	}
+
+		public void DownloadShareLead() throws InterruptedException {
 		Thread.sleep(8000);
-		WaitUtil.waitAndClick(driver, DownloadSL, 40);
+		try {
+			WaitUtil.waitAndClick(driver, DownloadSL, backdrop, 250);
+		} catch (Exception e) {
+			System.out.println(e);		}
+//		WaitUtil.waitAndClick(driver, DownloadSL, 40);
 //		ElementUtil.click(By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]"), driver);
 		Thread.sleep(2000);
 	}
@@ -256,16 +260,9 @@ public class ShareLeadsPage {
 		Thread.sleep(3000);
 	}
 
-	public void publishAndDownloadShareLead() throws InterruptedException {
-		ElementUtil.click(FIRST_PUBLISH_ICON, driver);
-		Thread.sleep(2000);
-	}
-
 	public void clickCopyIcon() {
-
 		WaitUtil.waitAndClick(driver, copyIcon, backdrop, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(saveChangesButton)).click();
-
 	}
 
 	public void confirmDelete() {
@@ -275,9 +272,7 @@ public class ShareLeadsPage {
 	public void clickDeleteIcon() {
 		WaitUtil.waitAndClick(driver, DELETE_ICON, backdrop, 120);
 		ElementUtil.click(DELETE_CONFIRM, driver);
-
-		// ActionUtil.clickWithRetry(driver, DELETE_ICON, 3);
-
+	 ActionUtil.clickWithRetry(driver, DELETE_ICON, 3);
 	}
 
 	private void sleep(long millis) {

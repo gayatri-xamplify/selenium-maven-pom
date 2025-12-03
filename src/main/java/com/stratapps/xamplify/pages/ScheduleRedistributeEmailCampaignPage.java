@@ -39,45 +39,52 @@ public class ScheduleRedistributeEmailCampaignPage {
         // 1️⃣ Click Schedule Option
         WaitUtil.waitAndClick(driver, scheduleOption, 40);
 
-        // 2️⃣ Open calendar and pick today
-        WaitUtil.waitAndClick(driver, launchTimeInput, 40);
-        WaitUtil.waitAndClick(driver, todayDate, 40);
+     // 2️⃣ Open calendar and pick today
+     		WaitUtil.waitAndClick(driver, launchTimeInput, 40);
+     		Thread.sleep(500);
+     		WaitUtil.waitAndClick(driver, todayDate, 40);
+     		Thread.sleep(300);
+     		// 3️⃣ Fill time
+     		Calendar calendar = Calendar.getInstance();
+     		int currentHr = calendar.get(Calendar.HOUR_OF_DAY);
 
-        // 3️⃣ Fill time
-        Calendar calendar = Calendar.getInstance();
-        int currentHr = calendar.get(Calendar.HOUR_OF_DAY);
 
-        if (currentHr < 12) {
+             if (currentHr < 12) {
 
-            //ElementUtil.clear(hourInput, driver);
-            ElementUtil.sendText(hourInput, "1", driver);
+                 //ElementUtil.clear(hourInput, driver);
+                 ElementUtil.sendText(hourInput, "1", driver);
 
-            //ElementUtil.clear(minuteInput, driver);
-            ElementUtil.sendText(minuteInput, "11", driver);
+                 //ElementUtil.clear(minuteInput, driver);
+                 ElementUtil.sendText(minuteInput, "11", driver);
 
-        } else {
+             } else {
 
-            //ElementUtil.clear(hourInput, driver);
-            ElementUtil.sendText(hourInput, "11", driver);
+                 //ElementUtil.clear(hourInput, driver);
+                 ElementUtil.sendText(hourInput, "11", driver);
 
-           // ElementUtil.clear(minuteInput, driver);
-            ElementUtil.sendText(minuteInput, "59", driver);
-        }
+                // ElementUtil.clear(minuteInput, driver);
+                 ElementUtil.sendText(minuteInput, "59", driver);
+             }
 
-        // 4️⃣ Select country
-        DropdownUtil.selectByValue(driver, countrySelect, countryValue);
 
-        Thread.sleep(2000);
-        // 5️⃣ Click Schedule button
-        WaitUtil.waitAndClick(driver, scheduleBtn, 40);
 
-        // 6️⃣ Validate message
-        String actual = WaitUtil.waitForElementVisible(driver, responseMsg, 50).getText();
-        String expected = "Campaign scheduled successfully";
+     		
+     		Thread.sleep(2000);
+     		// 4️⃣ Select country
+     		DropdownUtil.selectByValue(driver, countrySelect, countryValue);
 
-        return actual.equalsIgnoreCase(expected);
-    }
-    
+     		Thread.sleep(2000);
+     		// 5️⃣ Click Schedule button
+     		WaitUtil.waitAndClick(driver, scheduleBtn, 40);
+
+     		// 6️⃣ Validate message
+     		String actual = WaitUtil.waitForElementVisible(driver, responseMsg, 50).getText();
+     		String expected = "Campaign scheduled successfully";
+
+     		return actual.equalsIgnoreCase(expected);
+     	}
+
+        
     public void backToHome() {
         WaitUtil.waitAndClick(driver, Gotohome, 60);
     }

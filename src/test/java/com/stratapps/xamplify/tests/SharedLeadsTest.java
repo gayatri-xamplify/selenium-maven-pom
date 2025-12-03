@@ -32,7 +32,7 @@ public class SharedLeadsTest extends BaseTest {
 		try {
 			super.setUp();
 			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
+			loginPage.loginAsPartner();
 			sharedleadsPage = new SharedLeadsPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 			logger.info("SharedleadsTest setup completed");
@@ -40,18 +40,6 @@ public class SharedLeadsTest extends BaseTest {
 			System.out.println("Note: single classes Run Fail");
 		}
 	}
-	
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); logoutIfLoggedIn();
-	 * 
-	 * LoginPage loginPage = new LoginPage(driver);
-	 * loginPage.login(ConfigReader.getProperty("partner.username"),
-	 * ConfigReader.getProperty("partner.password"));
-	 * 
-	 * sharedleadsPage = new SharedLeadsPage(driver); wait = new
-	 * WebDriverWait(driver, Duration.ofSeconds(60));
-	 * logger.info("SharedleadsTest setup completed"); }
-	 */
 
 	@Test(priority = 0, enabled = true)
 	public void testSharedleadsListviewActionsAllTile() throws Exception {
