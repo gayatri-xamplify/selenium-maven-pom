@@ -22,6 +22,7 @@ public class LaunchRedistributeEmailCampaignPage {
     private By launchButton = By.xpath("//button[contains(text(),'Launch')]");
     private By responseMsg = By.xpath("//span[@id='responseMessage']");
 	private By backdrop = By.cssSelector("div.backdrop");
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
    
 
@@ -47,10 +48,14 @@ public class LaunchRedistributeEmailCampaignPage {
 
         String actual = WaitUtil.waitForElementVisible(driver, responseMsg, 60).getText();
 
-        String expected = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner.";
+        String expected = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner."
+        		+ "";
 
         return actual.equals(expected);
     }
 
+    public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
 
 }
