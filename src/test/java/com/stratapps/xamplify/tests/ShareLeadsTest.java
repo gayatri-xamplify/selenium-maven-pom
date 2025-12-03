@@ -47,7 +47,6 @@ public class ShareLeadsTest extends BaseTest {
 			System.out.println("Note: single classes Run Fail");
 		}
 	}
-	
 
 	@Test(priority = 1, enabled = true)
 	public void testCreateOneAtATimeShareLead() throws Exception {
@@ -62,7 +61,6 @@ public class ShareLeadsTest extends BaseTest {
 	public void testUploadCSVShareLead() throws Exception {
 		logger.info("Starting test: Upload CSV for share leads");
 			shareleadsPage.hoverOnShareLeads();
-			shareleadsPage.createOneAtATimeLead();
 			shareleadsPage.uploadCSVLeads();
 			shareleadsPage.clickSaveAndAccept();
 			ScreenshotUtil.captureScreenshot(driver, "UploadCSV_ShareLead");
@@ -75,6 +73,10 @@ public class ShareLeadsTest extends BaseTest {
 		shareleadsPage.uploadCSVLeads();
 		shareleadsPage.saveEditedLeadAndConfirm();
 		logger.debug("Done creation sharelead using edit option through csv");
+		shareleadsPage.editShareLeadbutton();
+		shareleadsPage.createOneAtATimeLead();
+		shareleadsPage.clickSaveAndAccept();
+		logger.debug("Done creation sharelead using edit option through One At a Time");
 	}
 
 	@Test(priority = 4, enabled = true)
@@ -93,13 +95,16 @@ public class ShareLeadsTest extends BaseTest {
 	@Test(priority = 6, enabled = true)
 	public void manageShareleadsPublish() throws Exception {
 		shareleadsPage.navigateToManageShareLeads();
-		shareleadsPage.publishAndDownloadShareLeadFlow();
+		logger.info("Clicking 'PublishShareLeads' icon.");
+		shareleadsPage.publishShareLeadFlow();
 	}
 
 	@Test(priority = 7, enabled = true)
-	public void manageShareleadsCopy() throws InterruptedException, AWTException, IOException {
+	public void manageShareleadsCopyAndDownload() throws InterruptedException, AWTException, IOException {
 		logger.info("Clicking 'Copy' icon.");
 		shareleadsPage.clickCopyIcon();
+		logger.info("Clicking 'DownloadSharelead' icon.");
+		shareleadsPage.DownloadShareLead();
 	}
 
 	@Test(priority = 8, enabled = true)
@@ -153,7 +158,6 @@ public class ShareLeadsTest extends BaseTest {
 	public void manageShareleadsExcludetiles() throws Exception {
 		// Navigate to Manage Share Leads and wait for page to load
 		shareleadsPage.navigateToManageShareLeads();
-
 		// Attempt to click the Exclude tile only if it's enabled
 		if (shareleadsPage.isExcludeTileEnabled()) {
 			shareleadsPage.clickExcludeTile();
@@ -196,17 +200,6 @@ public class ShareLeadsTest extends BaseTest {
 		} else {
 			System.out.println("Unsubscribetile count is 0 & button is disabled, cannot click.");
 		}
-
 	}
-
-	/*
-	 * @AfterClass public void tearDownClass() { super.tearDown(); //
-	 * logoutIfLoggedIn();
-	 * 
-	 * logger.info("ShareleadsTest teardown completed");
-	 * 
-	 * }
-	 */
-	
 	
 }
