@@ -81,7 +81,6 @@ public class SharedLeadsPage {
 	  ElementUtil.click(sharedLeadsMenu, driver);
 	  
 	  }
-	 
 
 		/*
 		 * public void navigateToSharedLeads() {
@@ -242,9 +241,6 @@ public class SharedLeadsPage {
 	}
 
 	/*
-	 * 
-	 * 
-	 * 
 	 * public void clickMoreLessButton() { try { By moreLessButtonLocator =
 	 * buttonid; // assuming buttonid is a By object
 	 * 
@@ -259,10 +255,7 @@ public class SharedLeadsPage {
 	 * 
 	 * logger.info("Clicked on More/Less button successfully."); } catch (Exception
 	 * e) { logger.error("Failed to click on More/Less button.", e); throw e; } }
-	 * 
-	 * 
-	 * 
-	 * 
+
 	 */
 
 	// ✅ 7. Click Unsubscribe icon flow with multi-step retry
