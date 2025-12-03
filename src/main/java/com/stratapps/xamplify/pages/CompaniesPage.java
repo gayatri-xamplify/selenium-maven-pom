@@ -6,14 +6,17 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import com.stratapps.xamplify.utils.WaitUtil;
 
 public class CompaniesPage {
 
-	private WebDriver driver;
+	private static WebDriver driver;
 	private WebDriverWait wait;
 
 	private static final Logger logger = LogManager.getLogger(CompaniesPage.class);
@@ -22,6 +25,7 @@ public class CompaniesPage {
 
 	public CompaniesPage(WebDriver driver) {
 		this.driver = driver;
+	    this.contactsPage = new ContactsPage(driver); 
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 	}
 	
@@ -32,7 +36,7 @@ public class CompaniesPage {
 	private By ViewCompany = By.xpath("(//a[@id=\"company\"])[1]");
 	private By EditCompany = By.xpath("(//a[@id=\"company\"])[2]");
 	private By DeleteCompany = By.xpath("(//a[@id=\"company\"])[3]");
-	private By AddContact = By.xpath("(//a[@id=\"company\"])[4]");
+	private By AddContact = By.xpath("(//a[@id='company'])[4]");
 	private By CompaniesTileCount = By.xpath("//div[text() = 'Companies']/..//span");
 	private By ContactsTileCount = By.xpath("//div[text() = 'Contacts']/..//span");
 
@@ -58,14 +62,14 @@ public class CompaniesPage {
 	private By companyEditUpdate = By.xpath("//Span[text()= 'Update']");
 	private By Sync = By.xpath("//button[text() = 'Sync']");
 	private By SynchronizeCompaniesBtn = By.xpath("//span[contains(text(), 'Synchronize Companies')]");
-	private By AddCompaniesBtn = By.xpath("//span[contains(text() , 'Add a Company')]");
+	private By AddCompaniesBtn = By.xpath("//span[contains(text() , 'Add a Company')]/..");
 	private By AddCMP = By.xpath("//Span[text()= 'Add']/..");
 	private By reponsemsg = By.xpath("//span[@id=\"responseMessage\"]");
-	private By sa25 = By.xpath("");
-	private By sa26 = By.xpath("");
-	private By sa27 = By.xpath("");
-	private By sa28 = By.xpath("");
-	private By sa29 = By.xpath("");
+	private static By CompanyTileCount = By.xpath("(//*[@id=\"deals-page-content-div\"]//div[1]/span)[1]");
+	private static By TotalCompaniesCount = By.xpath("(//span[text() = 'Total Records :'])[1]/..");
+	private By Searchcompany = By.xpath("//input[@placeholder=\"Search\"]");
+	private By searchSubmt = By.xpath("(//button[@type='submit'])[2]");
+	private By SearchClear = By.xpath("//button[contains(@class,'remove search-box-item-clear')]");
 	private By sa30 = By.xpath("");
 
 	// ========================= Methods ========================================
@@ -76,21 +80,20 @@ public class CompaniesPage {
 	}
 	
 	/* @editCompanyDetails Is Written by ganesh ***/
-	public void editCompanyDetails() {
-		WaitUtil.waitAndClick(driver, AddContact, 20);
-		WaitUtil.waitAndSendKeys(driver, CompanyName, "Auto_cmp", 20);
-		WaitUtil.waitAndSendKeys(driver, Email, "company321@gmail.com", 20);
+	public void editCompanyDetails() throws InterruptedException {
+		String CmpName = "Cmp_update"+ timestamp;
+		WaitUtil.waitAndClick(driver, EditCompany, 20);
+		WaitUtil.waitAndSendKeys(driver, CompanyName, CmpName, 20);
+		WaitUtil.waitAndSendKeys(driver, Email, CmpName+"@gmail.com", 20);
 		WaitUtil.waitAndSendKeys(driver, Address, "Kondapur", 20);
 		WaitUtil.waitAndSendKeys(driver, City, "Hyderabad", 20);
 		WaitUtil.waitAndSendKeys(driver, ZipCode, "500085", 20);
 		WaitUtil.waitAndSendKeys(driver, Fax, "31413", 20);
 		WaitUtil.waitForElementClickable(driver, companyEditUpdate, 20);
 		WaitUtil.waitAndClick(driver, companyEditUpdate, 20);
+		Thread.sleep(2000);
 		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, "Company Updated Successfully");	
 	}
-	// check
-	
-	
 	
 	/* @PreviewCompany Is Written by ganesh ***/
 	public void PreviewCompany() throws InterruptedException {
@@ -105,26 +108,47 @@ public class CompaniesPage {
 		WaitUtil.waitAndClick(driver, DeleteCompany, 20);
 		WaitUtil.waitAndClick(driver, YesDelete, 20);
 		Thread.sleep(2000);
+		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, "Company Deleted Successfully");	
+	}
+	
+	/* @SearchCompany Is Written by ganesh ***/
+	public void SearchCompany(String searchKeyword) throws InterruptedException  {
+		WaitUtil.waitAndSendKeys(driver, Searchcompany, searchKeyword, 20);
+		Thread.sleep(1000);
+		WaitUtil.waitAndClick(driver, searchSubmt, 20);
+		Thread.sleep(3000);
+	}
+	
+	/* @SearchClear Is Written by ganesh ***/
+	public void SearchClear() throws InterruptedException  {
+		WaitUtil.waitAndClick(driver, SearchClear, 20);
+		Thread.sleep(3000);
 	}
 	
 	/* @AddContactUnderCompany Is Written by ganesh ***/
 	public void AddContactUnderCompany() throws Exception {
+		Thread.sleep(4000);
 		WaitUtil.waitAndClick(driver, AddContact, 20);
 		Thread.sleep(3000);
 		contactsPage.completeOneAtATimeFlow("Public");
-		contactsPage.uploadCSVContacts("Public", "\"EditList\"");
+		Thread.sleep(4000);
+		WaitUtil.waitAndClick(driver, AddContact, 20);
+		contactsPage.uploadCSVContacts("Public", "EditList");
 		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, ManageCompanies, 20);
 	}
 	
 	/* @SynchronizeCompanies Is Written by ganesh ***/
 	public void SynchronizeCompanies() throws InterruptedException {
+		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, SynchronizeCompaniesBtn, 20);
+		WaitUtil.waitAndClick(driver, Sync, 20);
 		Thread.sleep(3000);
 	}
 	
 	/* @AddCompany Is Written by ganesh ***/
 	public void AddCompany(String company_name) throws InterruptedException {
+		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, AddCompaniesBtn, 20);
 		WaitUtil.waitAndSendKeys(driver, CompanyName, company_name + timestamp, 20);
 		WaitUtil.waitAndSendKeys(driver, Email, "company321@gmail.com", 20);
@@ -135,12 +159,33 @@ public class CompaniesPage {
 		WaitUtil.waitAndSendKeys(driver, Fax, "31413", 20);
 		WaitUtil.waitForElementClickable(driver, AddCMP, 20);	
 		WaitUtil.waitAndClick(driver, AddCMP, 20);
+		Thread.sleep(2000);
+		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, "Company Added Successfully");	
+
 //		if(driver.findElement(reponsemsg).isDisplayed()) {
 //			WaitUtil.waitAndSendKeys(driver, CompanyName,  timestamp + company_name, 20);
 //			WaitUtil.waitForElementClickable(driver, AddCMP, 20);	
 //
 //		}
 	
+	}
+	
+	/* @TileCountValidation Is Written by ganesh ***/
+	public static void TileCountValidation() throws InterruptedException {
+	    Thread.sleep(3000);
+	    String TileCountText = driver.findElement(CompanyTileCount).getText();
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+	    WebElement totalCompaniesCount = driver.findElement(TotalCompaniesCount);
+		js.executeScript("arguments[0].scrollIntoView();", totalCompaniesCount);
+	    String TotalRecordText = driver.findElement(TotalCompaniesCount).getText();
+	    System.out.println(TotalRecordText +"  "+ TileCountText);
+	    // Convert to int
+	    int tileCount = Integer.parseInt(TileCountText.replaceAll("[^0-9]", ""));
+	    int totalRecordCount = Integer.parseInt(TotalRecordText.replaceAll("[^0-9]", ""));    
+	    System.out.println("Tile Count: " + tileCount);
+	    System.out.println("Total Records: " + totalRecordCount);	    
+	    // Assertion to compare both values
+	    Assert.assertEquals(tileCount, totalRecordCount, "Mismatch between Tile count and Total record count!");    
 	}
 
 	
