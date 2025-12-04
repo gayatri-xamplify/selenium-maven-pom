@@ -41,75 +41,78 @@ public class SharedLeadsTest extends BaseTest {
 		}
 	}
 
-	@Test(priority = 0, enabled = true)
+	@Test(priority = 1, enabled = true)
 	public void testSharedleadsListviewActionsAllTile() throws Exception {
 		logger.info("Starting Shared Leads Listview Actions on All Tile.");
 		sharedleadsPage.navigateToSharedLeads();
 		sharedleadsPage.waitForCountsToLoad();
 		sharedleadsPage.clickFirstInfoIcon();
 		sharedleadsPage.applyAllEditTileSortOptions();
+		sharedleadsPage.clickMoreLessButton();
+		sharedleadsPage.applyFilter("City", "Contains", "Hyderabad");
 		sharedleadsPage.manageSharedleadsTilesEmailreports();
 		sharedleadsPage.clickMoreLessButton();
 		sharedleadsPage.clickUnsubscribeIcon();
-		sharedleadsPage.applyFilter("City", "Contains", "Hyderabad");
+		sharedleadsPage.clicksubscribeIcon();
+		sharedleadsPage.clickUnsubscribeIcon();
 		logger.info("Completed Shared Leads Listview Actions on All Tile.");
 	}
 
-	@Test(priority = 1, enabled = true)
+	@Test(priority = 2, enabled = true)
 	public void testSharedLeadsListUnsubscribeTile() throws Exception {
-		sharedleadsPage.sharedLeadsListUnsubscribeTile();
+		sharedleadsPage.sharedLeadsListUnsubscribeTile("e");
 	}
 
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 3, enabled = true)
 	public void testSharedLeadsValidTileClick() throws Exception {
 		int validTileCount = sharedleadsPage.getValidTileCount();
 		sharedleadsPage.sharedLeadsEditListValidTile(validTileCount);
 	}
 
-	@Test(priority = 3, enabled = true)
+	@Test(priority = 4, enabled = true)
 	public void testSharedLeadsExcludeTileClick() throws Exception {
 		int excludeTileCount = sharedleadsPage.getExcludeTileCount();
 		sharedleadsPage.sharedLeadsEditListExcludeTile(excludeTileCount);
 	}
 
-	@Test(priority = 4, enabled = true)
+	@Test(priority = 5, enabled = true)
 	public void testSharedLeadsUndeliverableTileClick() throws Exception {
 		int undeliverableTileCount = sharedleadsPage.getUndeliverableTileCount();
 		sharedleadsPage.sharedLeadsEditListUndeliverableTile(undeliverableTileCount);
 	}
 
-	@Test(priority = 5, enabled = true)
+	@Test(priority = 6, enabled = true)
 	public void testManageAllSharedLeadsTileActions() throws Exception {
 		sharedleadsPage.manageAllSharedLeadsTileActions();
 	}
 
-	@Test(priority = 6, enabled = true)
+	@Test(priority = 7, enabled = true)
 	public void testManageValidSharedLeadsTileActions() throws Exception {
 		sharedleadsPage.manageValidSharedLeadsTileActions();
 	}
 
-	@Test(priority = 7, enabled = true)
+	@Test(priority = 8, enabled = true)
 	public void testManageExcludeSharedLeadsTileActions() throws Exception {
 		sharedleadsPage.manageExcludeSharedLeadsTileActions();
 	}
 
-	@Test(priority = 8, enabled = true)
+	@Test(priority = 9, enabled = true)
 	public void testManageUndeliverableSharedLeadsTileActions() throws Exception {
 		sharedleadsPage.manageUndeliverableSharedLeadsTileActions();
 	}
 
-	@Test(priority = 9, enabled = true)
+	@Test(priority = 10, enabled = true)
 	public void testManageUnsubscribeSharedLeadsTileActions() throws Exception {
 		sharedleadsPage.manageUnsubscribeSharedLeadsTileActions();
 	}
 
-	@Test(priority = 10, enabled = true)
+	@Test(priority = 11, enabled = true)
 	public void testManageSharedLeadsSort() throws Exception {
 		sharedleadsPage.navigateToSharedLeads();
 		sharedleadsPage.manageSharedLeadsSort();
 	}
 
-	@Test(priority = 11, enabled = true)
+	@Test(priority = 12, enabled = true)
 	public void testManageSharedLeadsGrid() throws Exception {
 		sharedleadsPage.manageSharedLeadsGrid();
 	}

@@ -1,6 +1,7 @@
 package com.stratapps.xamplify.pages;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
+import com.stratapps.xamplify.utils.xamplifyUtil;
 
 public class SharedLeadsPage {
 	WebDriver driver;
@@ -72,74 +74,61 @@ public class SharedLeadsPage {
 	private By manageSharedGrid = By.xpath("//i[contains(@class, 'fa-th-large') and contains(@class, 'p10')]");
 	private By manageSharedGridInfoicon = By.xpath("(//a[@class='Iconhover custom-grid-icon'])[1]");
 
-	// --------------------- Navigation ---------------------
-	
-	  public void navigateToSharedLeads() { //
-	  wait.until(ExpectedConditions.elementToBeClickable(sharedLeadsMenu)).click();
-	  
-	  WaitUtil.waitForDropdownToBeReady(driver, sharedLeadsMenu, 60);
-	  ElementUtil.click(sharedLeadsMenu, driver);
-	  
-	  }
+	private By SORT_BY_DROPDOWN = By.xpath("//div[@id='manageContacts']//select");
+	private By reponsemsg = By.xpath("//span[@id=\"responseMessage\"]");
+	public By SharedLeadMailId = By.xpath("(//b[text()= 'Email id:'])[1]/..");
 
-		/*
-		 * public void navigateToSharedLeads() {
-		 * logger.info("Navigating to Shared Leads page");
-		 * WaitUtil.waitForPageToLoad(driver, 60);
-		 * ElementUtil.clickWithRetry(sharedLeadsMenu, driver, 3); // ✅ safe click
-		 * WaitUtil.waitForLoaderToDisappear(driver, 60); }
-		 */
+	public String Sharedleadmail;
+
+	// --------------------- Navigation ---------------------
+
+	public void navigateToSharedLeads() { //
+		wait.until(ExpectedConditions.elementToBeClickable(sharedLeadsMenu)).click();
+		WaitUtil.waitForDropdownToBeReady(driver, sharedLeadsMenu, 60);
+		ElementUtil.click(sharedLeadsMenu, driver);
+
+	}
 
 	public void waitForCountsToLoad() {
 		logger.info("Waiting for tile counts to load");
 		WaitUtil.waitForVisibility(driver, allCountBox, 60); // ✅ generic tile count visibility
 	}
 
-	/*
-	 * public void waitForCountsToLoad() { WaitUtil.waitForElementVisible(driver,
-	 * allCountBox, 60); WaitUtil.waitForElementVisible(driver, validCountBox, 60);
-	 * WaitUtil.waitForElementVisible(driver, excludedCountBox, 60);
-	 * WaitUtil.waitForElementVisible(driver, undeliverableCountBox, 60);
-	 * WaitUtil.waitForElementVisible(driver, unsubscribedCountBox, 60);
-	 * 
-	 * }
-	 */
-
-	// ✅ 3. Click on first info icon with retry logic
 	public void clickFirstInfoIcon() {
 		logger.info("Clicking on first info icon");
 		WaitUtil.waitForVisibility(driver, firstInfoIcon, 60);
 		ElementUtil.clickWithRetry(firstInfoIcon, driver, 3); // ✅ retry-safe click
 	}
 
-	/*
-	 * public void clickFirstInfoIcon() {
-	 * 
-	 * WaitUtil.waitForDropdownToBeReady(driver, firstInfoIcon, 60);
-	 * ElementUtil.click(firstInfoIcon, driver);
-	 * 
-	 * }
-	 */
-
-	// ✅ 4. Sort dropdown using safe retry in loop
-	public void applyAllEditTileSortOptions() {
-		logger.info("Applying all tile sort options");
-		for (int i = 1; i <= 6; i++) {
-			By option = By.xpath("//select[@id='sortDropdown']/option[" + i + "]");
-			WaitUtil.waitForElementClickable(driver, sortDropdown, 30);
-			ElementUtil.clickWithRetry(sortDropdown, driver, 3); // open dropdown
-			ElementUtil.clickWithRetry(option, driver, 3); // ✅ retry for each dropdown option
-			WaitUtil.waitForLoaderToDisappear(driver, 30); // wait after sort
+	public void loopSortByValues() throws InterruptedException {
+		WaitUtil.waitForElementVisible(driver, SORT_BY_DROPDOWN, 20);
+		WebElement dropdown = driver.findElement(SORT_BY_DROPDOWN);
+		Select select = new Select(dropdown);
+		List<WebElement> options = select.getOptions();
+		for (int i = 0; i < options.size(); i++) {
+			dropdown = driver.findElement(SORT_BY_DROPDOWN);
+			select = new Select(dropdown);
+			select.selectByIndex(i);
+			System.out.println("Selected Sort By option: " + options.get(i).getText());
+			Thread.sleep(1000);
 		}
 	}
 
-	/*
-	 * // --------------------- Sorting --------------------- public void
-	 * applyAllEditTileSortOptions() { for (int i = 1; i <= 6; i++) {
-	 * selectDropdownValueWithRetry(sortDropdown, i + ": Object"); } }
-	 */
+	public void applyAllEditTileSortOptions() throws InterruptedException {
+		WaitUtil.waitForDropdownToBeReady(driver, SORT_BY_DROPDOWN, 20);
+		Select selectsort = new Select(driver.findElement(SORT_BY_DROPDOWN));
+		List<WebElement> options = selectsort.getOptions();
+		for (WebElement option : options) {
+			String value = option.getAttribute("Value");
+			WaitUtil.waitForDropdownToBeReady(driver, SORT_BY_DROPDOWN, 20);
+			ElementUtil.selectDropdownByValue(SORT_BY_DROPDOWN, value, driver);
+			System.out.println("Sorted by Value: " + value);
+			Thread.sleep(1000);
+		}
+		Thread.sleep(1000);
 
-	// --------------------- Tile Count ---------------------
+	}
+
 	private int extractTileCount(By locator) {
 		try {
 			String text = driver.findElement(locator).getText().replaceAll("[^0-9]", "");
@@ -178,22 +167,17 @@ public class SharedLeadsPage {
 	// --------------------- Filtering ---------------------
 	public void applyFilter(String field, String operator, String value) {
 		try {
-
 			WaitUtil.waitForDropdownToBeReady(driver, filterIcon, 60);
 			ElementUtil.click(filterIcon, driver);
-
 			Select fieldDropdown = new Select(
 					wait.until(ExpectedConditions.visibilityOfElementLocated(filterFieldDropdown)));
 			fieldDropdown.selectByVisibleText(field);
-
 			Select operatorDropdown = new Select(
 					wait.until(ExpectedConditions.visibilityOfElementLocated(filterOperatorDropdown)));
 			operatorDropdown.selectByVisibleText(operator);
-
 			WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(filterInputField));
 			inputField.clear();
 			inputField.sendKeys(value);
-
 			WaitUtil.waitForDropdownToBeReady(driver, filterSubmitBtn, 60);
 			ElementUtil.click(filterSubmitBtn, driver);
 			WaitUtil.waitForDropdownToBeReady(driver, filterCloseIcon, 60);
@@ -206,100 +190,64 @@ public class SharedLeadsPage {
 		}
 	}
 
-	private void filterSearch() {
+	public void filterSearch(String Searchkey) {
 		WebElement search = wait.until(ExpectedConditions.elementToBeClickable(filterSearchBox));
-		search.sendKeys("e");
+		search.sendKeys(Searchkey);
 		search.sendKeys(Keys.ENTER);
 	}
 
 	// --------------------- Tile Actions ---------------------
-	public void manageSharedleadsTilesEmailreports() {
-
+	public void manageSharedleadsTilesEmailreports() throws InterruptedException {
 		WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon, 60);
 		ElementUtil.click(emailReportIcon, driver);
-
+		Thread.sleep(3000);
+		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
+				"We are processing your list(s) reports. We will send it over an email when the report is ready");
 	}
 
-	/*
-	 * public void clickMoreLessButton() { try {
-	 * 
-	 * WaitUtil.waitForPresence(driver, buttonid, 60);
-	 * 
-	 * WaitUtil.waitForDropdownToBeReady(driver, buttonid, 60);
-	 * ElementUtil.click(buttonid, driver);
-	 * 
-	 * logger.info("Clicked on More/Less button successfully."); } catch (Exception
-	 * e) { logger.error("Failed to click on More/Less button.", e); throw e; } }
-	 */
-
-	// ✅ 6. Click More/Less button with wait and retry
-	public void clickMoreLessButton() {
+	public void clickMoreLessButton() throws InterruptedException {
 		logger.info("Clicking More/Less button");
-		WaitUtil.waitForPresence(driver, buttonid, 60);
-		WaitUtil.waitForDropdownToBeReady(driver, buttonid, 60);
-		ElementUtil.clickWithRetry(buttonid, driver, 3); // ✅ retry for flaky click
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, buttonid, 60);
+		WaitUtil.waitAndClick(driver, buttonid, 60);
 	}
+	// -----------------------
 
-	/*
-	 * public void clickMoreLessButton() { try { By moreLessButtonLocator =
-	 * buttonid; // assuming buttonid is a By object
-	 * 
-	 * WaitUtil.waitForPresence(driver, moreLessButtonLocator, 80);
-	 * WaitUtil.waitForDropdownToBeReady(driver, moreLessButtonLocator, 80);
-	 * 
-	 * // Retry logic try { ElementUtil.click(moreLessButtonLocator, driver); }
-	 * catch (StaleElementReferenceException stale) {
-	 * logger.warn("StaleElementReferenceException caught, retrying click...");
-	 * WaitUtil.waitForPresence(driver, moreLessButtonLocator, 80);
-	 * ElementUtil.click(moreLessButtonLocator, driver); }
-	 * 
-	 * logger.info("Clicked on More/Less button successfully."); } catch (Exception
-	 * e) { logger.error("Failed to click on More/Less button.", e); throw e; } }
-
-	 */
-
-	// ✅ 7. Click Unsubscribe icon flow with multi-step retry
-	public void clickUnsubscribeIcon() {
+	public void clickUnsubscribeIcon() throws InterruptedException {
 		logger.info("Starting unsubscribe action");
-
+		Sharedleadmail = driver.findElement(SharedLeadMailId).getAttribute("title");
+		System.out.println(Sharedleadmail);
 		WaitUtil.waitForDropdownToBeReady(driver, unsubIcon, 60);
-		ElementUtil.clickWithRetry(unsubIcon, driver, 3); // ✅ open unsubscribe dialog
-
+		ElementUtil.clickWithRetry(unsubIcon, driver, 3);
 		WaitUtil.waitForDropdownToBeReady(driver, unsubReason, 60);
-		ElementUtil.clickWithRetry(unsubReason, driver, 3); // ✅ choose reason
-
+		ElementUtil.clickWithRetry(unsubReason, driver, 3);
 		WaitUtil.waitForDropdownToBeReady(driver, unsubSubmit, 60);
-		ElementUtil.clickWithRetry(unsubSubmit, driver, 3); // ✅ submit
+		ElementUtil.clickWithRetry(unsubSubmit, driver, 3);
+		Thread.sleep(3000);
+		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, Sharedleadmail
+				+ " has been successfully unsubscribed for receiving the emails from the company: PartnerAuto");
+	}
+	// -----------------------------
+
+	public void clicksubscribeIcon() throws InterruptedException {
+		filterSearch(Sharedleadmail);
+		WaitUtil.waitForDropdownToBeReady(driver, resubscribeButton, 80);
+		ElementUtil.click(resubscribeButton, driver);
+		driver.findElement(By.id("comment")).sendKeys("Resubscribe sharedlead 123");
+		ElementUtil.click(resubscribeSubmit, driver);
+		Thread.sleep(2000);
+		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, Sharedleadmail
+				+ " has been successfully resubscribed for receiving the emails from the company: PartnerAuto");
 	}
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * public void clickUnsubscribeIcon() {
-	 * 
-	 * WaitUtil.waitForDropdownToBeReady(driver, unsubIcon, 60);
-	 * ElementUtil.click(unsubIcon, driver);
-	 * WaitUtil.waitForDropdownToBeReady(driver, unsubReason, 60);
-	 * ElementUtil.click(unsubReason, driver);
-	 * WaitUtil.waitForDropdownToBeReady(driver, unsubSubmit, 60);
-	 * ElementUtil.click(unsubSubmit, driver);
-	 * 
-	 * 
-	 * }
-	 */
-
-	public void sharedLeadsListUnsubscribeTile() {
+	public void sharedLeadsListUnsubscribeTile(String Searchkeyword) throws InterruptedException {
 
 		WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
 		ElementUtil.click(unsubscribedTile, driver);
-
-		filterSearch();
+		filterSearch(Searchkeyword);
 		manageSharedleadsTilesEmailreports();
-
 		WaitUtil.waitForDropdownToBeReady(driver, resubscribeButton, 80);
 		ElementUtil.click(resubscribeButton, driver);
-
 		driver.findElement(By.id("comment")).sendKeys("Resubscribe sharedlead 123");
 		ElementUtil.click(resubscribeSubmit, driver);
 
@@ -330,18 +278,18 @@ public class SharedLeadsPage {
 	}
 
 	// --------------------- Full Tile Flow ---------------------
-	public void manageAllSharedLeadsTileActions() {
+	public void manageAllSharedLeadsTileActions() throws InterruptedException {
 
 		WaitUtil.waitForDropdownToBeReady(driver, sharedleadsAllBtn, 80);
 		ElementUtil.click(sharedleadsAllBtn, driver);
 
 		applyFilter("City", "Contains", "Hyderabad");
 
-		filterSearch();
+		filterSearch("e");
 		manageSharedleadsTilesEmailreports();
 	}
 
-	public void manageValidSharedLeadsTileActions() {
+	public void manageValidSharedLeadsTileActions() throws InterruptedException {
 
 		WaitUtil.waitForDropdownToBeReady(driver, validTile, 80);
 		ElementUtil.click(validTile, driver);
@@ -351,7 +299,7 @@ public class SharedLeadsPage {
 		manageSharedleadsTilesEmailreports();
 	}
 
-	public void manageExcludeSharedLeadsTileActions() {
+	public void manageExcludeSharedLeadsTileActions() throws InterruptedException {
 		if (getExcludeTileCount() > 0) {
 
 			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 80);
@@ -363,7 +311,7 @@ public class SharedLeadsPage {
 		}
 	}
 
-	public void manageUndeliverableSharedLeadsTileActions() {
+	public void manageUndeliverableSharedLeadsTileActions() throws InterruptedException {
 		if (getUndeliverableTileCount() > 0) {
 
 			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 80);
@@ -375,7 +323,7 @@ public class SharedLeadsPage {
 		}
 	}
 
-	public void manageUnsubscribeSharedLeadsTileActions() {
+	public void manageUnsubscribeSharedLeadsTileActions() throws InterruptedException {
 		if (extractTileCount(unsubscribedTile) > 0) {
 			WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
 			ElementUtil.click(unsubscribedTile, driver);
