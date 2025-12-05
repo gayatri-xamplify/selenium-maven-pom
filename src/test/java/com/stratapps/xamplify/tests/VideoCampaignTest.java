@@ -41,20 +41,6 @@ public class VideoCampaignTest extends BaseTest {
 		}
 	}
 	
-	/*
-	 * @BeforeClass public void setUpClass() { super.setUp(); LoginPage loginPage =
-	 * new LoginPage(driver); loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password")); videoCampaignPage = new
-	 * VideoCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60)); logger.info("VideoCampaignTest setup completed"); }
-	 */
-
-//    @Test(priority = 1, enabled = true)
-//    public void navigateToVideoCampaignTest() {
-//        logger.info("Test 1: Navigate to Video Campaign - STARTED");
-//        videoCampaignPage.createVideoCampaign();
-//        logger.info("Test 1: Navigate to Video Campaign - COMPLETED");
-//    }
 
     @Test(priority = 1, enabled = true)
     public void createVideoCampaignTest() {

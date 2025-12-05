@@ -188,7 +188,7 @@ public class ManageTemplatesPage {
 		WaitUtil.waitAndClick(driver, emailspamclose, 20);
 	}
 	
-	/* @SpamCheck written by Ganesh ***/
+	/* @pagination written by Ganesh ***/
 	public void pagination() throws InterruptedException {
 		Thread.sleep(8000);
 		WaitUtil.waitAndClick(driver, nextPage,20);

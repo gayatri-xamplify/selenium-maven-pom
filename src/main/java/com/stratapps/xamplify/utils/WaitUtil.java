@@ -134,8 +134,7 @@ public class WaitUtil {
 
 
     public static void waitForDropdownToBeReady(WebDriver driver, By locator, int timeoutSeconds) {
-        new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
-            .until(ExpectedConditions.elementToBeClickable(locator));
+        new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds)).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
 
@@ -237,5 +236,17 @@ public class WaitUtil {
         }
 
     }
+    
+	public static void verifyResponseMessage(WebDriver driver, By locator, int timeoutInSeconds, String expectedMessage) {
+
+		WebElement responseMsg = driver.findElement(locator);
+	    String actualMessage = responseMsg.getText().trim();
+
+	    if (actualMessage.equalsIgnoreCase(expectedMessage)) {
+	        System.out.println("✅ Message Verified: " + actualMessage);
+	    } else {
+	        System.out.println("❌ Message Mismatch: Expected [" + expectedMessage + "] but found [" + actualMessage + "]");
+	    }
+	}
 }
 

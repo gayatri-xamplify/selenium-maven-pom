@@ -10,8 +10,8 @@ import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.EmailCampaignPage;
 import com.stratapps.xamplify.pages.LaunchEmailCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
-import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
-import com.stratapps.xamplify.pages.VideoCampaignPage;
+import com.stratapps.xamplify.pages.SaveSurveyCampaignPage;
+import com.stratapps.xamplify.pages.SurveyCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class LaunchEmailCampaignTest extends BaseTest {
@@ -22,13 +22,14 @@ public class LaunchEmailCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(LaunchEmailCampaignTest.class);
 
+
 	@BeforeClass
 	public void setUpClass() {
 		try {
 			emailCampaignPage = new EmailCampaignPage(driver);
 			launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchEmailCampaignTest setup completed");
+			logger.info("Launch Email Campaign setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: Hide multiple classes Run");
 		}
@@ -39,31 +40,23 @@ public class LaunchEmailCampaignTest extends BaseTest {
 			emailCampaignPage = new EmailCampaignPage(driver);
 			launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchEmailCampaignTest setup completed");
+			logger.info("Launch EMail Campaign setup completed");
 		} catch (Exception e) {
 			System.out.println("Note: single class Run Fail");
 		}
 	}
-
-	/*
-	 * @BeforeClass public void setUpClass() { // super.setUp(); // LoginPage
-	 * loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * emailCampaignPage = new EmailCampaignPage(driver); launchEmailCampaignPage =
-	 * new LaunchEmailCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("LaunchEmailCampaignTest setup completed"); }
-	 */
-
+	
+	
+	
+	
+	
 	@Test(priority = 1, enabled = true)
 	public void createAndLaunchEmailCampaignTest() {
 		logger.info("Test 1: Create and Launch Email Campaign - STARTED");
 
 		// Step 1: Create campaign
-		emailCampaignPage.createEmailCampaign("mounika", "mounikatest", "mounisubject", "chmounika@stratapps.com",
-				"sub");
+		emailCampaignPage.createEmailCampaign("Email_Launch_Campaign", "Email_Launchtest", "Email_Launch_subject",
+				"mounika@xamplify.com", "Email_Launch_sub");
 
 		// Step 2: Select partner list
 		emailCampaignPage.selectPartnerList();
