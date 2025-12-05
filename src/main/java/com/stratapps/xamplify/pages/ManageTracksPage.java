@@ -1,13 +1,10 @@
 package com.stratapps.xamplify.pages;
 
-import java.awt.AWTException;
 import java.util.Calendar;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
@@ -76,6 +73,7 @@ public class ManageTracksPage {
 	private By listViewBtn = By.xpath("//span[@class='btn btn-xs l-g-view']");
 	private By homeLink = By.xpath("//a[normalize-space()='Home']");
 	private By backdrop = By.cssSelector("div.backdrop");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
 	public ManageTracksPage(WebDriver driver) {
 		this.driver = driver;
@@ -87,52 +85,51 @@ public class ManageTracksPage {
 		WaitUtil.waitAndClick(driver, manageTracks, 60);
 	}
 
-		public void editTrackDetails() {
-	    WaitUtil.waitForPageToLoad(driver, 70);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	public void editTrackDetails() {
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-	    WaitUtil.waitForVisibility(driver, editTrack, 60);
-	    ElementUtil.click(editTrack, driver);
+		WaitUtil.waitForVisibility(driver, editTrack, 60);
+		ElementUtil.click(editTrack, driver);
 
-	    // Clear & select end date
-	    WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
-	    ElementUtil.clickWithRetry(clearEndDate, driver, 3);
+		// Clear & select end date
+		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
+		ElementUtil.clickWithRetry(clearEndDate, driver, 3);
 
-	    WaitUtil.waitAndClick(driver, endDateInput, 60);
-	    ElementUtil.click(selectEndDate, driver);
+		WaitUtil.waitAndClick(driver, endDateInput, 60);
+		ElementUtil.click(selectEndDate, driver);
 
-	    // Set hour/minute based on time
-	    Calendar calendar = Calendar.getInstance();
-	    int hours = calendar.get(Calendar.HOUR_OF_DAY);
+		// Set hour/minute based on time
+		Calendar calendar = Calendar.getInstance();
+		int hours = calendar.get(Calendar.HOUR_OF_DAY);
 
-	    if (hours < 12) {
-	        ElementUtil.sendText(endHourInput, "1", driver);
-	        ElementUtil.sendText(endMinuteInput, "11", driver);
-	    } else {
-	        ElementUtil.sendText(endHourInput, "11", driver);
-	        ElementUtil.sendText(endMinuteInput, "59", driver);
-	    }
+		if (hours < 12) {
+			ElementUtil.sendText(endHourInput, "1", driver);
+			ElementUtil.sendText(endMinuteInput, "11", driver);
+		} else {
+			ElementUtil.sendText(endHourInput, "11", driver);
+			ElementUtil.sendText(endMinuteInput, "59", driver);
+		}
+		// 💡 Scroll to 'Assets' tab before clicking
+		WebElement assetsTab = driver.findElement(assetsSection);
+		ElementUtil.scrollToElement(assetsTab, driver); // centers the view
+		// WaitUtil.sleep(500); // allow scroll to settle
+		WaitUtil.waitForElementClickable(driver, assetsSection, 30);
+		// ElementUtil.clickWithRetry(driver, assetsSection, 3); // robust click
+		ElementUtil.clickWithRetry(assetsSection, driver, 3);
 
-	    // 💡 Scroll to 'Assets' tab before clicking
-	    WebElement assetsTab = driver.findElement(assetsSection);
-	    ElementUtil.scrollToElement(assetsTab, driver);  // centers the view
-	    //WaitUtil.sleep(500); // allow scroll to settle
-	    WaitUtil.waitForElementClickable(driver, assetsSection, 30);
-	   //ElementUtil.clickWithRetry(driver, assetsSection, 3);  // robust click
-	   ElementUtil.clickWithRetry(assetsSection, driver, 3);
+		// Wait for Add on Asset section and proceed
+		WaitUtil.waitAndClick(driver, addOnAsset, 60);
 
-	    // Wait for Add on Asset section and proceed
-	    WaitUtil.waitAndClick(driver, addOnAsset, 60);
+		// Click Share tab
+		WaitUtil.waitAndClick(driver, shareSection, 60);
 
-	    // Click Share tab
-	    WaitUtil.waitAndClick(driver, shareSection, 60);
+		// Click update
+		ElementUtil.click(updateTrack, driver);
+		WaitUtil.waitForPageToLoad(driver, 60);
 
-	    // Click update
-	    ElementUtil.click(updateTrack, driver);
-	    WaitUtil.waitForPageToLoad(driver, 60);
-
-	    // Refresh
-	    WaitUtil.waitAndClick(driver, refreshButton, 60);
+		// Refresh
+		WaitUtil.waitAndClick(driver, refreshButton, 60);
 	}
 
 	public void unpublishTrack() {
@@ -216,76 +213,60 @@ public class ManageTracksPage {
 		ElementUtil.click(gridAsset, driver);
 		ElementUtil.click(editGridTrack, driver);
 		WaitUtil.waitForElementVisible(driver, thumbnailIcon, 60);
+		ElementUtil.clickWhenReady(driver, thumbnailIcon, 30);
+		WaitUtil.waitForVisibility(driver, uploadButton, 70);
 
+		// ✅ Upload thumbnail file directly
+		uploadThumbnail(localFilePath);
 
-//		WaitUtil.waitForVisibility(driver, editGridTrack, 60);
-//
-//		// Scroll directly to the element
-//		WebElement editIcon = driver.findElement(editGridTrack);
-//		ElementUtil.scrollToElement(editIcon, driver);
-//
-//		// Additional scroll to handle sticky headers if needed
-//		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", editIcon);
-//		//Thread.sleep(500); // Give time for scroll animation if needed
-//
-//		// Ensure clickable and then click
-//		WaitUtil.waitForElementClickable(driver, editGridTrack, 30);
-//		ElementUtil.click(editGridTrack, driver);
-	    
-	    WaitUtil.waitForElementVisible(driver, thumbnailIcon, 60);
+		ElementUtil.clickWhenReady(driver, cropImageSave, 30);
+		ElementUtil.clickWhenReady(driver, shareSection, 30);
+		ElementUtil.clickWhenReady(driver, updateTrack, 30);
 
-	    ElementUtil.clickWhenReady(driver, thumbnailIcon, 30);
-	    WaitUtil.waitForVisibility(driver, uploadButton, 70);
+		WaitUtil.waitForVisibility(driver, refreshButton, 70);
+		ElementUtil.clickWhenReady(driver, refreshButton, 30);
 
-	    // ✅ Upload thumbnail file directly
-	    uploadThumbnail(localFilePath);
+		ElementUtil.clickWhenReady(driver, trackGroupDropdown, 30);
+		ElementUtil.clickWhenReady(driver, gridViewBtn, 30);
 
-	    ElementUtil.clickWhenReady(driver, cropImageSave, 30);
-	    ElementUtil.clickWhenReady(driver, shareSection, 30);
-	    ElementUtil.clickWhenReady(driver, updateTrack, 30);
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitForVisibility(driver, folderView, 70);
 
-	    WaitUtil.waitForVisibility(driver, refreshButton, 70);
-	    ElementUtil.clickWhenReady(driver, refreshButton, 30);
+		ElementUtil.clickWhenReady(driver, folderView, 30);
+		ElementUtil.clickWhenReady(driver, viewFolderTracks, 30);
 
-	    ElementUtil.clickWhenReady(driver, trackGroupDropdown, 30);
-	    ElementUtil.clickWhenReady(driver, gridViewBtn, 30);
+		WaitUtil.waitAndClick(driver, goBackArrow, 60);
+		WaitUtil.waitForPageToLoad(driver, 70);
 
-	    WaitUtil.waitForPageToLoad(driver, 70);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-	    WaitUtil.waitForVisibility(driver, folderView, 70);
+		WaitUtil.waitAndClick(driver, trackGroupDropdown, 60);
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitForVisibility(driver, folderView, 70);
+		WaitUtil.waitForVisibility(driver, folderGridDropdown, 70);
 
-	    ElementUtil.clickWhenReady(driver, folderView, 30);
-	    ElementUtil.clickWhenReady(driver, viewFolderTracks, 30);
+		ElementUtil.clickWhenReady(driver, folderGridDropdown, 30);
+		WaitUtil.waitForPageToLoad(driver, 70);
 
-	    WaitUtil.waitAndClick(driver, goBackArrow, 60);
-	    WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitAndClick(driver, folderSortDropdown, 60);
+		DropdownUtil.selectByVisibleText(driver, folderSortDropdown, "Name(Z-A)");
 
-	    WaitUtil.waitAndClick(driver, trackGroupDropdown, 60);
-	    WaitUtil.waitForPageToLoad(driver, 70);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-	    WaitUtil.waitForVisibility(driver, folderView, 70);
-	    WaitUtil.waitForVisibility(driver, folderGridDropdown, 70);
+		WaitUtil.waitAndClick(driver, folderSearchTypeDropdown, 60);
+		DropdownUtil.selectByVisibleText(driver, folderSearchTypeDropdown, "Search In Folder");
 
-	    ElementUtil.clickWhenReady(driver, folderGridDropdown, 30);
-	    WaitUtil.waitForPageToLoad(driver, 70);
+		ElementUtil.sendText(folderSearchInput, "default", driver);
+		ElementUtil.sendKey(folderSearchInput, Keys.ENTER, driver);
 
-	    WaitUtil.waitAndClick(driver, folderSortDropdown, 60);
-	    DropdownUtil.selectByVisibleText(driver, folderSortDropdown, "Name(Z-A)");
+		WaitUtil.waitAndClick(driver, goBackArrow, 80);
+		WaitUtil.waitAndClick(driver, folderArrowIcon, 80);
+		WaitUtil.waitAndClick(driver, trackGroupDropdown, 80);
 
-	    WaitUtil.waitAndClick(driver, folderSearchTypeDropdown, 60);
-	    DropdownUtil.selectByVisibleText(driver, folderSearchTypeDropdown, "Search In Folder");
-
-	    ElementUtil.sendText(folderSearchInput, "default", driver);
-	    ElementUtil.sendKey(folderSearchInput, Keys.ENTER, driver);
-
-	    WaitUtil.waitAndClick(driver, goBackArrow, 80);
-	    WaitUtil.waitAndClick(driver, folderArrowIcon, 80);
-	    WaitUtil.waitAndClick(driver, trackGroupDropdown, 80);
-
-	    ElementUtil.clickWhenReady(driver, listViewBtn, 30);
-	    WaitUtil.waitAndClick(driver, homeLink, 80);
+		ElementUtil.clickWhenReady(driver, listViewBtn, 30);
+		WaitUtil.waitAndClick(driver, homeLink, 80);
 	}
 
-
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
 
 }

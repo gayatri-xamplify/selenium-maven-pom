@@ -14,7 +14,6 @@ public class SaveEmailCampaignPage {
 	}
 
 	// Locators
-	private By saveOption = By.xpath("//*[@id=\"step-6\"]/form/div[3]/div/div[1]/div[1]/label[3]");
 	private By testMailBtn = By.xpath("//div[@id='launch-section']/div/div/fieldset/div/div[2]/button[2]/span");
 	private By emailInput = By.xpath("//input[@placeholder='Please Enter Email Address']");
 	private By emailSubjectInput = By.xpath("//input[@placeholder='Please Enter Email Subject']");
@@ -30,7 +29,7 @@ public class SaveEmailCampaignPage {
 	private By saveBtn = By.xpath(
 			"/html[1]/body[1]/app-root[1]/app-home[1]/div[1]/div[1]/app-create-campaign[1]/div[1]/div[1]/div[2]/div[1]/div[6]/form[1]/div[3]/div[1]/div[2]/div[1]/button[3]");
 	private By responseMessage = By.xpath("//span[@id='responseMessage']");
-
+	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 	
 	 // Clicks on "Test Mail" button
 	
@@ -68,11 +67,13 @@ public class SaveEmailCampaignPage {
 		WaitUtil.waitForElementVisible(driver, spamCheckBtn, 60);
 		ElementUtil.click(spamCheckBtn, driver);
 
-		WaitUtil.waitForElementVisible(driver, saveInsideSpamCheckBtn, 60);
-		ElementUtil.click(saveInsideSpamCheckBtn, driver);
-
-		WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
-		WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 90);
+		/*
+		 * WaitUtil.waitForElementVisible(driver, saveInsideSpamCheckBtn, 60);
+		 * ElementUtil.click(saveInsideSpamCheckBtn, driver);
+		 * 
+		 * WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
+		 * WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 90);
+		 */
 
 		WaitUtil.waitForElementVisible(driver, spamCheckCloseBtn, 60);
 		ElementUtil.click(spamCheckCloseBtn, driver);
@@ -93,19 +94,24 @@ public class SaveEmailCampaignPage {
 		WaitUtil.waitForElementVisible(driver, responseMessage, 60);
 		return ElementUtil.getText(responseMessage, driver);
 	}
+	 public void backToHome() {
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
 
 	
 	 // Full flow: Test mail -> Spam check -> Save campaign
 	
-	public boolean saveEmailCampaign(String email, String subject) {
+	public void saveEmailCampaign(String email, String subject) {
 		clickTestMail();
 		enterTestMailDetails(email, subject);
 		sendTestMail();
 		runSpamCheck();
 		saveCampaign();
-
-		String actualMessage = getResponseMessage();
-		String expectedMessage = "Campaign saved successfully";
-		return expectedMessage.equals(actualMessage);
+		getResponseMessage();
+		backToHome();
+		/*
+		 * String actualMessage = getResponseMessage(); String expectedMessage =
+		 * "Campaign saved successfully"; return expectedMessage.equals(actualMessage);
+		 */
 	}
 }

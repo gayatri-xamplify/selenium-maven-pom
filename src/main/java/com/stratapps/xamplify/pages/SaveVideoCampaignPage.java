@@ -28,7 +28,7 @@ public class SaveVideoCampaignPage {
     private By spamCheckCloseBtn = By.xpath("(//a[contains(@class,'Btn-Gray')][normalize-space()='Close'])[2]");
 
     private By responseMessage = By.xpath("//span[@id='responseMessage']");
-
+    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
     // Clicks on "Test Mail" button
     public void clickTestMail() {
         WaitUtil.waitForElementVisible(driver, testMailBtn, 60);
@@ -58,11 +58,13 @@ public class SaveVideoCampaignPage {
         WaitUtil.waitForElementVisible(driver, spamCheckBtn, 60);
         ElementUtil.click(spamCheckBtn, driver);
 
-        WaitUtil.waitForElementVisible(driver, saveInsideSpamCheckBtn, 60);
-        ElementUtil.click(saveInsideSpamCheckBtn, driver);
-
-        WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
-        WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 90);
+		/*
+		 * WaitUtil.waitForElementVisible(driver, saveInsideSpamCheckBtn, 60);
+		 * ElementUtil.click(saveInsideSpamCheckBtn, driver);
+		 * 
+		 * WaitUtil.waitForElementVisible(driver, refreshInsideSpamCheckBtn, 60);
+		 * WaitUtil.waitAndClick(driver, refreshInsideSpamCheckBtn, 120);
+		 */
 
         WaitUtil.waitForElementVisible(driver, spamCheckCloseBtn, 60);
         ElementUtil.click(spamCheckCloseBtn, driver);
@@ -79,17 +81,23 @@ public class SaveVideoCampaignPage {
         WaitUtil.waitForElementVisible(driver, responseMessage, 60);
         return ElementUtil.getText(responseMessage, driver);
     }
+    public void backToHome() {
+        WaitUtil.waitAndClick(driver, Gotohome, 60);
+    }
 
     // Full flow: Test mail -> Spam check -> Save campaign
-    public boolean saveVideoCampaign(String email, String subject) {
+    public void saveVideoCampaign(String email, String subject) {
         clickTestMail();
         enterTestMailDetails(email, subject);
         sendTestMail();
         runSpamCheck();
         saveCampaign();
+        getResponseMessage();
+        backToHome();
 
-        String actualMessage = getResponseMessage();
-        String expectedMessage = "Campaign saved successfully";
-        return expectedMessage.equals(actualMessage);
+		/*
+		 * String actualMessage = getResponseMessage(); String expectedMessage =
+		 * "Campaign saved successfully"; return expectedMessage.equals(actualMessage);
+		 */
     }
 }

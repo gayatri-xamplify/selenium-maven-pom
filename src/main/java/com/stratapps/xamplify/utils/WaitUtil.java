@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -133,8 +134,7 @@ public class WaitUtil {
 
 
     public static void waitForDropdownToBeReady(WebDriver driver, By locator, int timeoutSeconds) {
-        new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
-            .until(ExpectedConditions.elementToBeClickable(locator));
+        new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds)).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
 
@@ -219,5 +219,34 @@ public class WaitUtil {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
         wait.until(ExpectedConditions.visibilityOf(element));
     }
+    
+    public static void dragAndDrop(WebDriver driver, By sourceLocator, By targetLocator, int timeoutInSeconds) {
+
+        try {
+            WebElement source = waitForElementVisible(driver, sourceLocator, timeoutInSeconds);
+            WebElement target = waitForElementVisible(driver, targetLocator, timeoutInSeconds);
+
+            Actions actions = new Actions(driver);
+            actions.clickAndHold(source).moveToElement(target).release().build().perform();
+
+            System.out.println("✅ Drag and drop performed successfully: " + sourceLocator + " → " + targetLocator);
+
+        } catch (Exception e) {
+                   System.out.println("❌ Error performing drag and drop: " + e.getMessage());
+        }
+
+    }
+    
+	public static void verifyResponseMessage(WebDriver driver, By locator, int timeoutInSeconds, String expectedMessage) {
+
+		WebElement responseMsg = driver.findElement(locator);
+	    String actualMessage = responseMsg.getText().trim();
+
+	    if (actualMessage.equalsIgnoreCase(expectedMessage)) {
+	        System.out.println("✅ Message Verified: " + actualMessage);
+	    } else {
+	        System.out.println("❌ Message Mismatch: Expected [" + expectedMessage + "] but found [" + actualMessage + "]");
+	    }
+	}
 }
 

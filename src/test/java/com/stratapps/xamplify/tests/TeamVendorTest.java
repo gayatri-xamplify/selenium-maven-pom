@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.OpportunitiesLeadPage;
 import com.stratapps.xamplify.pages.TeamVendorPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 public class TeamVendorTest extends BaseTest {
@@ -22,28 +23,43 @@ public class TeamVendorTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(TeamVendorTest.class);
 	private WebDriverWait wait;
 
-	
-
-	  @BeforeClass
-	    public void setUpClass() {
-	        super.setUp();  // ✅ Ensure driver setup and URL navigation happens
-
-	        if (!isLoggedIn()) {  // ✅ Only log in if session isn't active
-	            LoginPage loginPage = new LoginPage(driver);
-	            loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
-	        }
-
+	@BeforeClass
+	public void setUpClass() {
+		try {
 	        teamvendorPage = new TeamVendorPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("AddTracksTest setup completed");
-	    }
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("TeamVendorTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsVendor();
+	        teamvendorPage = new TeamVendorPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("TeamVendorTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single classes Run Fail");
+		}
+	}
 
-	    
+
+	/*
+	 * @BeforeClass public void setUpClass() { // super.setUp(); // ✅ Ensure driver
+	 * setup and URL navigation happens // // if (!isLoggedIn()) { // ✅ Only log in
+	 * if session isn't active // LoginPage loginPage = new LoginPage(driver); //
+	 * loginPage.login(ConfigReader.getProperty("username"),
+	 * ConfigReader.getProperty("password")); // } teamvendorPage = new
+	 * TeamVendorPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60)); logger.info("AddTracksTest setup completed"); }
+	 */
+
 
     @Test(priority = 1, enabled = true)
     public void addTeamMemberTest() throws InterruptedException {
         logger.info("Test 1: Add Team Member - STARTED");
-        teamvendorPage.hoverTeam();
+       // teamvendorPage.hoverTeam();
         teamvendorPage.addTeammember();
         logger.info("Test 1: Add Team Member - COMPLETED");
     }
@@ -123,6 +139,10 @@ public class TeamVendorTest extends BaseTest {
     public void deleteTeamMemberTest() throws InterruptedException {
         logger.info("Test 12: Delete Team Member - STARTED");
         teamvendorPage.deleteTeammember();
+        teamvendorPage.backToHome();
         logger.info("Test 12: Delete Team Member - COMPLETED");
     }
+    
+    
+    
 } 

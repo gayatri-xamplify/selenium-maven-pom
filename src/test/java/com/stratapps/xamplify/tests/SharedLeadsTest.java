@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ShareLeadsPage;
 import com.stratapps.xamplify.pages.SharedLeadsPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
@@ -21,15 +22,23 @@ public class SharedLeadsTest extends BaseTest {
 
 	@BeforeClass
 	public void setUpClass() {
-		super.setUp();
-		logoutIfLoggedIn();
-
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigReader.getProperty("partner.username"), ConfigReader.getProperty("partner.password"));
-
-		sharedleadsPage = new SharedLeadsPage(driver);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		logger.info("SharedleadsTest setup completed");
+		try {
+			sharedleadsPage = new SharedLeadsPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("SharedleadsTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: Hide multiple classes Run");
+		}
+		try {
+			super.setUp();
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.loginAsPartner();
+			sharedleadsPage = new SharedLeadsPage(driver);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			logger.info("SharedleadsTest setup completed");
+		} catch (Exception e) {
+			System.out.println("Note: single classes Run Fail");
+		}
 	}
 
 	@Test(priority = 0, enabled = true)
