@@ -2,6 +2,7 @@ package com.stratapps.xamplify.pages;
 
 import java.util.Calendar;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -91,8 +92,14 @@ public class ManagePlaybooksPage {
 
 		WaitUtil.waitForVisibility(driver, editPlaybook, 60);
 		ElementUtil.click(editPlaybook, driver);
+		//WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+//		    JavascriptExecutor js = (JavascriptExecutor) driver;
+//		    js.executeScript("window.scrollTo(0, document.body.scrollHeight / 2);");
+//	
 
 		// Clear & select end date
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
 		ElementUtil.clickWithRetry(clearEndDate, driver, 3);
 
@@ -195,6 +202,7 @@ public class ManagePlaybooksPage {
 		DropdownUtil.selectByValue(driver, sortByDropdown, "1: Object");
 		ElementUtil.sendText(searchPlaybook, "Playbook", driver);
 		ElementUtil.sendKey(searchPlaybook, Keys.ENTER, driver);
+		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitAndClick(driver, deletePlaybook, 70);
 		WaitUtil.waitForVisibility(driver, confirmDelete, 60);
 		WaitUtil.waitAndClick(driver, confirmDelete, 70);

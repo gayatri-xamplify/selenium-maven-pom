@@ -87,45 +87,99 @@ public class RedistributeEmailCampaignPage {
 
 	public void previewEmailTemplate() throws Exception {
 
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WaitUtil.waitAndClick(driver, previewIcon, 90);
-		Thread.sleep(3000); // Wait for new tab to open
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-		String original = driver.getWindowHandle();
+		  // 1️⃣ Wait until the entire page is loaded
+	    WaitUtil.waitForPageToLoad(driver, 120);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
-		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 
-		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
-		driver.close();
-		driver.switchTo().window(original);
+	    // 2️⃣ Wait until preview icon EXISTS in DOM
+	    wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
+
+	    // 3️⃣ Scroll preview icon into view (mandatory)
+	    WebElement preview = driver.findElement(previewIcon);
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
+	    Thread.sleep(800);
+
+	    // 4️⃣ Wait until preview is CLICKABLE
+	    wait.until(ExpectedConditions.elementToBeClickable(previewIcon));
+
+	    // 5️⃣ Click using JS (Selenium click often fails with heavy DOM)
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
+
+	    // 6️⃣ Now wait for NEW TAB to open
+	    String originalWindow = driver.getWindowHandle();
+	    wait.until(driver1 -> driver.getWindowHandles().size() > 1);
+
+	    // 7️⃣ Switch to new tab
+	    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+	    driver.switchTo().window(tabs.get(1));
+
+	    // 8️⃣ Wait for the preview page to load completely
+	    WaitUtil.waitForPageToLoad(driver, 60);
+
+	    Thread.sleep(1500);
+
+	    // 9️⃣ Close the preview tab
+	    driver.close();
+
+	    // 🔟 Switch back to original tab
+	    driver.switchTo().window(originalWindow);
+
+	    WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
 	// =========================================================
 	// DOWNLOAD HTML / IMAGE / HISTORY
 	// =========================================================
 
+	
+	  private void jsClick(WebElement element) {
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+	    }
 	public void downloadEmailTemplate() throws Exception {
 
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// HTML
-		WaitUtil.waitAndClick(driver, downloadMenu, 40);
-		WaitUtil.waitAndClick(driver, downloadHtml, 40);
 
-//        // PDF
-//        WaitUtil.waitAndClick(driver, downloadMenu, 40);
-//        WaitUtil.waitAndClick(driver, downloadPdf, 40);
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		// IMAGE
-		WaitUtil.waitAndClick(driver, downloadMenu, 40);
-		WaitUtil.waitAndClick(driver, downloadImage, 40);
+		    WaitUtil.waitForPageToLoad(driver, 60);
+		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-		Thread.sleep(3000);
-		WaitUtil.waitForPageToLoad(driver, 80);
-		WaitUtil.waitAndClick(driver, downloadHistory, 40);
-		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
+		    // Locate download menu
+		    WebElement menu = wait.until(ExpectedConditions.presenceOfElementLocated(downloadMenu));
+
+		    // Scroll to center to avoid top-bar overlap
+		    ((JavascriptExecutor) driver)
+		            .executeScript("arguments[0].scrollIntoView({block:'center'});", menu);
+		    Thread.sleep(600);
+		  
+
+		    // ⭐ 1) CLICK MENU (JS prevents intercepted errors)
+		    jsClick(menu);
+
+		    // ⭐ 2) DOWNLOAD HTML
+		    WebElement html = wait.until(ExpectedConditions.elementToBeClickable(downloadHtml));
+		    jsClick(html);
+		    Thread.sleep(800);
+
+		    // ⭐ 3) DOWNLOAD IMAGE
+		    jsClick(menu);  // reopen dropdown
+		    WebElement image = wait.until(ExpectedConditions.elementToBeClickable(downloadImage));
+		    jsClick(image);
+		    Thread.sleep(800);
+
+		    // ⭐ 4) DOWNLOAD HISTORY → OPEN
+		    WebElement history = wait.until(ExpectedConditions.elementToBeClickable(downloadHistory));
+		    jsClick(history);
+		    Thread.sleep(600);
+
+		    // ⭐ 5) CLOSE HISTORY POPUP
+		    WebElement close = wait.until(ExpectedConditions.elementToBeClickable(downloadHistoryClose));
+		    jsClick(close);
+
+		    Thread.sleep(800);
+		
+
 	}
 
 
