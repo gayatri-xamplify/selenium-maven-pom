@@ -82,43 +82,65 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	public void previewEventTemplate() throws Exception {
 
-		// Wait until data fully loads (2 minutes is fine)
-		//WaitUtil.waitForLoader(driver, 120);
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// Now safe to click preview
-		WebElement preview = WaitUtil.waitForElementVisible(driver, previewIcon, 60);
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
 
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
+	    // 1️⃣ Ensure the page is fully loaded
+	    WaitUtil.waitForPageToLoad(driver, 120);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
-		Thread.sleep(3000); // Wait for new tab to open
-		// Handle new tab
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		String original = driver.getWindowHandle();
+	    // 2️⃣ Wait until table rows are rendered (important)
+	    By firstRow = By.xpath("//*[@id='redistribute-campaign-list']/tbody/tr");
+	    wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(firstRow, 0));
 
-		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    // 3️⃣ CLICK the preview icon safely 
+	    for (int attempt = 1; attempt <= 5; attempt++) {
 
-		var tabs = new ArrayList<>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
-		driver.close();
-		driver.switchTo().window(original);
+	        try {
+	            // Fetch fresh element EACH attempt (prevents stale)
+	            WebElement preview = wait.until(ExpectedConditions.visibilityOfElementLocated(previewIcon));
+
+	            // Scroll into center — avoids header blocking click
+	            ((JavascriptExecutor) driver)
+	                    .executeScript("arguments[0].scrollIntoView({block:'center'});", preview);
+	            Thread.sleep(400);
+
+	            // Ensure clickable
+	            wait.until(ExpectedConditions.elementToBeClickable(preview));
+
+	            // JS click — strongest and safest
+	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
+
+	            break; // success → exit retry loop
+
+	        } catch (Exception e) {
+	            if (attempt == 5) {
+	                throw new RuntimeException("Failed to click preview icon after retries", e);
+	            }
+	            Thread.sleep(700);
+	        }
+	    }
+
+
+	    // 4️⃣ Handle tab switching
+	    String originalWindow = driver.getWindowHandle();
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+	    // Switch to new tab
+	    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+	    driver.switchTo().window(tabs.get(1));
+
+	    // 5️⃣ Load preview completely
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    Thread.sleep(1500);
+
+	    // Close preview
+	    driver.close();
+
+	    // Move back to original tab
+	    driver.switchTo().window(originalWindow);
+	    WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
-//        WaitUtil.waitForPageToLoad(driver, 90);
-//        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
-//
-//        WaitUtil.waitAndClick(driver, previewIcon, 90);
-//
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-//        String original = driver.getWindowHandle();
-//
-//        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-//
-//        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-//        driver.switchTo().window(tabs.get(1));
-//        driver.close();
-//        driver.switchTo().window(original);
 
 	// =========================================================
 	// DOWNLOAD HISTORY ONLY
