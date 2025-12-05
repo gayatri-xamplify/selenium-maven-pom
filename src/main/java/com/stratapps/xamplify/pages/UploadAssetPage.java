@@ -39,20 +39,18 @@ public class UploadAssetPage {
 	private By folder_name = By.xpath("//div[@title='xamplify2024-Default-Folder']");
 	private By pickUpTag = By.xpath("//button[@class='btn btn-primary add-btn']");
 	private By addTagIcon = By
-			.xpath("//div[@id='addTagModal']//button[contains(@class,'add-btn') and normalize-space()='Add a tag']");
-	private By tagInput = By.xpath("(//input[@placeholder='Add a tag & press Enter'])[2]");
+			.xpath("//div[@id='addTagModal']//button[contains(@class,'add-btn')]");
+	private By tagInput = By.xpath("//div[@id='addTagModal']//input[@placeholder='Add a tag & press Enter']");
 	private By tagInputField = By.xpath(
 			"(//div[contains(@class,'modal-dialog') and .//h4[contains(text(),'Enter Tag Details')]] //input[@aria-label='Add a tag & press Enter'])[2]");
-	private By tagSaveButton = By.xpath("//span[contains(text(),'save')]");
+	private By tagSaveButton = By.xpath("//button[.//span[text()='save']]");
 	private By tagSelectCheckbox = By.xpath("//label[@class='checkbox-btn']");
 	private By addMoreTagsLink = By.xpath("//a[normalize-space()='+ Add more tags']");
 	private By addMoreTagsSearch = By.xpath("(//input[@placeholder='Search...'])[3]");
 	private By addMoreTagsSelect = By.xpath("(//label[@class='checkbox-btn'])[1]");
 	private By addMoreTagsUpdate = By.xpath("//span[contains(text(),'update')]");
 	private By nextButton = By.xpath("//button[normalize-space()='Next']");
-
 	public By active_modal = By.xpath("//div[@id='addTagModal' and contains(@style,'display: block')]");
-
 	private By tagSaveBtn = By.xpath("//button[contains(text(),'Save Tag')]");
 	private By save = By.xpath("//span[@class='btn btn-primary transition'][normalize-space()='Save']");
 	private By saveasDraft = By.xpath("//span[normalize-space()='Save as Draft']");
@@ -68,7 +66,6 @@ public class UploadAssetPage {
 	private By boxthirdDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[1]/div/div[2]/div/input");
 	private By boxfirstDoc_Select = By.xpath("//ul[@id=\"box-select-item-list\"]/li[5]/div/div[2]/div/input");
 	private By boxsecDoc_Select = By.xpath("//*[@id=\"box-select-item-list\"]/li[6]/div/div[2]/div/input");
-
 	private By boxChooseBtn = By.xpath("//button[@id='popup_button_select']//span[@class='button_val']");
 	private By searchPublishInput = By.xpath("(//input[@id='sort-text'])[1]");
 	private By arrowClickAsset = By.xpath("//i[@class='fa IconCustomization fa-angle-right']");
@@ -76,7 +73,6 @@ public class UploadAssetPage {
 	private By saveAndPublishButton = By.xpath("(//span[contains(text(),'Save & Publish')])");
 	private By publishConfirmationMessage = By.xpath("//div[@role='alert']//h4");
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
-
 	private By dropBoxIcon = By.xpath("//img[@alt='Dropbox']");
 	private By dropBoxEmail = By.xpath("//input[@type='email']");
 	private By dropBoxContinueBtn = By
@@ -107,13 +103,36 @@ public class UploadAssetPage {
 
 	/** Navigate to Upload Asset Page */
 	public void openUploadAssetSection() {
-		WaitUtil.waitForElementVisible(driver, contentMenu, 90);
-		ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
-		WaitUtil.waitAndClick(driver, designUploadOption, 90);
-		WaitUtil.waitForPageToLoad(driver, 30);
-		// WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WaitUtil.waitAndClick(driver, uploadAssetsLink, 90);
+	    // Wait for Content menu
+	    WaitUtil.waitForElementVisible(driver, contentMenu, 90);
+	    ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
+
+	    // Click Design Upload
+	    WaitUtil.waitAndClick(driver, designUploadOption, 90);
+
+	    // Wait for page load
+	    WaitUtil.waitForPageToLoad(driver, 60);
+
+	    // 🔥 Extra: wait for backdrop, if present, to be gone
+	    try {
+	        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+	    } catch (Exception ignored) {}
+
+	    // Wait for uploadAssetsLink to be clickable
+	    WebElement uploadBtn = WaitUtil.waitForElementClickable(driver, uploadAssetsLink, 40);
+
+	    // Scroll into view (important for hidden elements)
+	    ((JavascriptExecutor) driver).executeScript(
+	            "arguments[0].scrollIntoView({block: 'center'});", uploadBtn);
+
+	    // 🔥 Final: safe click with fallback
+	    try {
+	        uploadBtn.click();
+	    } catch (Exception e) {
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", uploadBtn);
+	    }
 	}
+
 
 	/** Upload Asset */
 	public void uploadFile(String filePath) {

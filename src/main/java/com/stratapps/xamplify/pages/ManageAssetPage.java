@@ -80,7 +80,7 @@ public class ManageAssetPage {
 	private By downloadpdfAssetButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[4]/i");
 	private By analyticspdfAssetButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[5]/i");
 	private By deletepdfAssetButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[6]/i");
-	
+	private By loader   = By.xpath("//*[contains(@class,'spinner') or contains(@class,'loader')]");
 
 	// ================= ACTION METHODS =================
 	public void openManageAssetSection() {
@@ -141,51 +141,79 @@ public class ManageAssetPage {
 	}
 
 	public void previewAsset(String fileName) throws Exception {
-		try {
-			// Step 1: Refresh and wait for table load
-			WaitUtil.waitAndClick(driver, refreshIcon, 30);
-			WaitUtil.waitForPageToLoad(driver, 60);
+	    try {
 
-			// Step 2: Wait for and click preview button
-			WaitUtil.waitForVisibility(driver, previewButton, 60);
-			WaitUtil.waitForElementClickable(driver, previewButton, 60);
-			ElementUtil.clickWithRetry(previewButton, driver, 3);
+	        // ================================
+	        // STEP 1 → SAFE REFRESH
+	        // ================================
+	        WaitUtil.waitForPageToLoad(driver, 60);
 
-			// Step 3: Verify preview opened
-			// Give buffer time for full render
-			Thread.sleep(2000);
-			// WaitUtil.waitAndClick(driver, refreshIcon, 30);
+	        try { WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 20); } catch (Exception ignore) {}
+	        try { WaitUtil.waitForInvisibilityOfElement(loader, driver, 20); } catch (Exception ignore) {}
 
-			try {
-				WebElement refresh = WaitUtil.waitForElementPresent(driver, refreshIcon, 5);
-				if (refresh != null) {
-					ElementUtil.click(refreshIcon, driver);
-					System.out.println("🔄 Refresh icon found and clicked successfully.");
-				} else {
-					System.out.println("⏭️ Refresh icon not present. Skipping refresh step.");
-				}
-			} catch (Exception e) {
-				System.out.println("⚠️ Could not click Refresh icon (safe skip). Cause: " + e.getMessage());
-			}
+	        WebElement refreshBtn = WaitUtil.waitForElementVisible(driver, refreshIcon, 40);
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", refreshBtn);
 
-			WaitUtil.waitForPageToLoad(driver, 90);
+	        try {
+	            WaitUtil.waitForElementClickable(driver, refreshIcon, 20).click();
+	        } catch (Exception e) {
+	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", refreshBtn);
+	        }
 
-			// Step 4: Close the preview
-			// Ensure close button is visible and clickable
-			WaitUtil.waitForVisibility(driver, previewclose, 60);
-			WaitUtil.waitForElementClickable(driver, previewclose, 60);
-			ElementUtil.clickWithRetry(previewclose, driver, 3);
+	        WaitUtil.waitForPageToLoad(driver, 60);
+	        Thread.sleep(700);  // Angular reflow buffer
 
-			// Step 5: Verify preview closed
-			// WaitUtil.waitForInvisibilityOfElement(fileViewer, driver, 30);
 
-			System.out.println("✅ Preview opened and closed successfully for asset: " + fileName);
+	        // ================================
+	        // STEP 2 → SAFE PREVIEW CLICK
+	        // ================================
+	        try { WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 20); } catch (Exception ignore) {}
+	        try { WaitUtil.waitForInvisibilityOfElement(loader, driver, 20); } catch (Exception ignore) {}
 
-		} catch (Exception e) {
-			System.err.println("❌ Failed to preview asset '" + fileName + "': " + e.getMessage());
-			throw e;
-		}
+	        WebElement previewBtn = WaitUtil.waitForElementVisible(driver, previewButton, 40);
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", previewBtn);
+
+	        try {
+	            WaitUtil.waitForElementClickable(driver, previewButton, 20).click();
+	        } catch (Exception e) {
+	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", previewBtn);
+	        }
+
+	        Thread.sleep(1500);  // Let preview open fully
+
+
+	        // ================================
+	        // STEP 3 → OPTIONAL REFRESH AFTER PREVIEW
+	        // ================================
+	        try {
+	            WebElement refresh = WaitUtil.waitForElementPresent(driver, refreshIcon, 3);
+	            if (refresh != null) {
+	                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", refresh);
+	                System.out.println("🔄 Refresh icon found and clicked successfully.");
+	            }
+	        } catch (Exception ignore) {}
+
+
+	        // ================================
+	        // STEP 4 → SAFE CLOSE PREVIEW
+	        // ================================
+	        WebElement closeBtn = WaitUtil.waitForElementVisible(driver, previewclose, 40);
+	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", closeBtn);
+
+	        try {
+	            WaitUtil.waitForElementClickable(driver, previewclose, 20).click();
+	        } catch (Exception e) {
+	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", closeBtn);
+	        }
+
+	        System.out.println("✅ Preview opened and closed successfully for asset: " + fileName);
+
+	    } catch (Exception e) {
+	        System.err.println("❌ Failed to preview asset '" + fileName + "': " + e.getMessage());
+	        throw e;
+	    }
 	}
+
 
 	public void downloadAsset() {
 
