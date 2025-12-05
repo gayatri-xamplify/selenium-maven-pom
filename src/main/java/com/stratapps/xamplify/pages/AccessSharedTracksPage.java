@@ -185,7 +185,8 @@ public class AccessSharedTracksPage {
 		WaitUtil.waitAndClick(driver, ViewTrackclose, 60);
 		ElementUtil.click(downloadAssetTrack, driver);
 		WaitUtil.waitForPageToLoad(driver, 90);
-		ElementUtil.click(previewclose, driver);
+		WaitUtil.waitAndClick(driver, previewclose, 60);
+		//ElementUtil.click(previewclose, driver);
 		WaitUtil.waitForPageToLoad(driver, 30);
 
 		// Video Asset view
@@ -308,15 +309,20 @@ public class AccessSharedTracksPage {
 	
 	public void tilesActions(String fileName) {
 
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitAndClick(driver, inProgressTile, backdrop, 30);
-		WaitUtil.waitAndClick(driver, completedTile, backdrop, 30);
-		searchTrack(fileName);
-		WaitUtil.waitAndClick(driver, notViewedTile, backdrop, 30);
-		WaitUtil.waitAndClick(driver, allTile, backdrop, 30);
-		
+	    WaitUtil.waitForPageToLoad(driver, 30);
 
+	    // 🔥 NEW IMPORTANT WAIT
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+
+	    WaitUtil.waitAndClick(driver, inProgressTile, backdrop, 30);
+	    WaitUtil.waitAndClick(driver, completedTile, backdrop, 30);
+
+	    searchTrack(fileName);
+
+	    WaitUtil.waitAndClick(driver, notViewedTile, backdrop, 30);
+	    WaitUtil.waitAndClick(driver, allTile, backdrop, 30);
 	}
+
 	
 	
 	

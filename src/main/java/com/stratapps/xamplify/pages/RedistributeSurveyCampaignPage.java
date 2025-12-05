@@ -128,19 +128,7 @@ public class RedistributeSurveyCampaignPage {
 		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
 	}
 
-	// =====================================================
-	// View DOWNLOAD HISTORY
-	// =====================================================
-
-	public void viewDownloadHistory() throws Exception {
-
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// HTML
-		WaitUtil.waitAndClick(driver, downloadHistory, 40);
-		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
-	}
-
+	
 	// =========================================================
 	// REDISTRIBUTE ACTION
 	// =========================================================

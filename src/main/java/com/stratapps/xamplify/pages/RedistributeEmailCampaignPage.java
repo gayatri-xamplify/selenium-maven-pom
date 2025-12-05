@@ -60,12 +60,24 @@ public class RedistributeEmailCampaignPage {
 	// =========================================================
 
 	public void openRedistributeEmailCampaign() {
-		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
-		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+		 WaitUtil.waitForElementVisible(driver, campaignHover, 60);
+		    ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
-		WaitUtil.waitAndClick(driver, redistributeCampaign, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WaitUtil.waitForPageToLoad(driver, 60);
+		    WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+
+		    WebElement redisElement = driver.findElement(redistributeCampaign);
+		    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
+		    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+
+		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+		    WaitUtil.waitForPageToLoad(driver, 90);
+
+		    // ⭐ NEW IMPORTANT WAIT ⭐
+		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+
+		// 7️⃣ Click email tab
+
 		WaitUtil.waitAndClick(driver, emailTab, 60);
 	}
 
@@ -116,18 +128,6 @@ public class RedistributeEmailCampaignPage {
 		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
 	}
 
-	// =====================================================
-	// View DOWNLOAD HISTORY
-	// =====================================================
-
-	public void viewDownloadHistory() throws Exception {
-
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		// HTML
-		WaitUtil.waitAndClick(driver, downloadHistory, 40);
-		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
-	}
 
 	// =========================================================
 	// REDISTRIBUTE ACTION

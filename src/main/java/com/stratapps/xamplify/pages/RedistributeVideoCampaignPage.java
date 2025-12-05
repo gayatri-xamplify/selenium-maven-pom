@@ -55,12 +55,23 @@ public class RedistributeVideoCampaignPage {
 
 	/** Navigate → Click Redistribute → Video Tab */
 	public void openRedistributeVideoCampaign() {
-		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
-		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+		 WaitUtil.waitForElementVisible(driver, campaignHover, 60);
+		    ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
-		WaitUtil.waitAndClick(driver, redistributeCampaign, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WaitUtil.waitForPageToLoad(driver, 60);
+		    WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+
+		    WebElement redisElement = driver.findElement(redistributeCampaign);
+		    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
+		    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+
+		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+		    WaitUtil.waitForPageToLoad(driver, 90);
+
+		    // ⭐ NEW IMPORTANT WAIT ⭐
+		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+
+		// 7️⃣ Click video tab
 		WaitUtil.waitAndClick(driver, videoTab, 60);
 	}
 
@@ -113,19 +124,7 @@ public class RedistributeVideoCampaignPage {
 		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
 	}
 
-	// =====================================================
-	// View DOWNLOAD HISTORY
-	// =====================================================
-
-	public void viewDownloadHistory() throws Exception {
-
-		WaitUtil.waitForPageToLoad(driver, 80);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-
-		WaitUtil.waitAndClick(driver, downloadHistory, 40);
-		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
-		Thread.sleep(3000);
-	}
+	
 
 	// =========================================================
 	// FILL DETAILS
