@@ -41,26 +41,48 @@ public class SharedLeadsTest extends BaseTest {
 		}
 	}
 
+	/*
+	 * @Test(priority = 1, enabled = false) public void SharedleadsListviewActions()
+	 * throws Exception {
+	 * logger.info("Starting Shared Leads Listview Actions on All Tile.");
+	 * sharedleadsPage.navigateToSharedLeads();
+	 * sharedleadsPage.waitForCountsToLoad(); sharedleadsPage.clickFirstInfoIcon();
+	 * sharedleadsPage.applyAllEditTileSortOptions();
+	 * sharedleadsPage.clickMoreLessButton(); sharedleadsPage.applyFilter("City",
+	 * "Contains", "Hyderabad");
+	 * sharedleadsPage.manageSharedleadsTilesEmailreports();
+	 * sharedleadsPage.clickUnsubscribeIcon(); sharedleadsPage.clicksubscribeIcon();
+	 * sharedleadsPage.clickUnsubscribeIcon();
+	 * logger.info("Completed Shared Leads Listview Actions on All Tile."); }
+	 * 
+	 * @Test(priority = 2, enabled = false) public void
+	 * SharedleadsListviewActionsValidTile() throws Exception {
+	 * logger.info("Starting Shared Leads Listview Actions on Valid Tile.");
+	 * sharedleadsPage.manageAllSharedLeadsTileActions();
+	 * sharedleadsPage.manageValidSharedLeadsTileActions();
+	 * sharedleadsPage.applyAllEditTileSortOptions();
+	 * sharedleadsPage.clickMoreLessButton(); sharedleadsPage.applyFilter("City",
+	 * "Contains", "Hyderabad");
+	 * sharedleadsPage.manageSharedleadsTilesEmailreports();
+	 * sharedleadsPage.clickMoreLessButton();
+	 * logger.info("Completed Shared Leads Listview Actions on Valid Tile."); }
+	 */
 	@Test(priority = 1, enabled = true)
-	public void testSharedleadsListviewActionsAllTile() throws Exception {
-		logger.info("Starting Shared Leads Listview Actions on All Tile.");
-		sharedleadsPage.navigateToSharedLeads();
-		sharedleadsPage.waitForCountsToLoad();
-		sharedleadsPage.clickFirstInfoIcon();
-		sharedleadsPage.applyAllEditTileSortOptions();
-		sharedleadsPage.clickMoreLessButton();
-		sharedleadsPage.applyFilter("City", "Contains", "Hyderabad");
-		sharedleadsPage.manageSharedleadsTilesEmailreports();
-		sharedleadsPage.clickMoreLessButton();
-		sharedleadsPage.clickUnsubscribeIcon();
-		sharedleadsPage.clicksubscribeIcon();
-		sharedleadsPage.clickUnsubscribeIcon();
-		logger.info("Completed Shared Leads Listview Actions on All Tile.");
+	public void SharedleadsListviewActionsValidTile1() throws Exception {
+		sharedleadsPage.manageAllSharedLeadsTileActions();
+		sharedleadsPage.manageUnsubscribeSharedLeadsTileActions();
+		sharedleadsPage.manageValidSharedLeadsTileActions();
+		sharedleadsPage.manageUndeliverableSharedLeadsTileActions();
+		sharedleadsPage.manageExcludeSharedLeadsTileActions();
+		
+		
 	}
 
 	@Test(priority = 2, enabled = true)
 	public void testSharedLeadsListUnsubscribeTile() throws Exception {
-		sharedleadsPage.sharedLeadsListUnsubscribeTile("e");
+		sharedleadsPage.navigateToSharedLeads();
+		sharedleadsPage.waitForCountsToLoad();
+		sharedleadsPage.sharedLeadsListUnsubscribeTile(sharedleadsPage.Sharedleadmail);
 	}
 
 	@Test(priority = 3, enabled = true)

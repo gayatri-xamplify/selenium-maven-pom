@@ -50,7 +50,7 @@ public class SharedLeadsPage {
 	private By sortDropdown = By.xpath("//*[@id='manageContacts']//div[@class='inputs']//select");
 	private By emailReportIcon = By.xpath("//i[contains(@class,'fa-file-export')]/ancestor::button");
 	private By buttonid = By.xpath("(//button[starts-with(@id, 'more_less_button')])[1]");
-	private By unsubIcon = By.xpath("(//i[contains(@class,'fa fa-bell')])[2]");
+	private By unsubIcon = By.xpath("(//i[contains(@class,'fa fa-bell')])[1]");
 	private By unsubReason = By.xpath("//input[@value='Want to receive fewer messages']");
 	private By unsubSubmit = By.xpath("//span[contains(text(),'Unsubscribe')]");
 	private By filterIcon = By.xpath("//i[contains(@class, 'fa-filter')]");
@@ -62,11 +62,11 @@ public class SharedLeadsPage {
 	private By filterCloseIcon = By.xpath("//div[contains(@class, 'd-flex')]//a[contains(@class, 'close-circle')]");
 	private By filterSearchBox = By.xpath("(//app-manage-contacts//div/input)[1]");
 
-	private By validTile = By.xpath("//button//div[contains(text(),'Valid')]");
-	private By excludeTile = By.xpath("//button//div[contains(text(),'Excluded')]");
-	private By undeliverableTile = By.xpath("//button//div[contains(text(),'Undeliverable')]");
-	private By unsubscribedTile = By.xpath("//button//div[contains(text(),'Unsubscribed')]");
-	private By resubscribeButton = By.xpath("(//button[@class='btn-primary'])[1]");
+	private By validTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Valid')]]");
+	private By excludeTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Excluded')]]");
+	private By undeliverableTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Undeliverable')]]");
+	private By unsubscribedTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Unsubscribed')]]");
+	private By resubscribeButton = By.xpath("(//i[contains(@class,'fa fa-bell')])[1]");
 	private By resubscribeSubmit = By.xpath("//span[contains(text(),'Subscribe')]");
 	private By sharedleadsAllBtn = By
 			.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'All')]]");
@@ -77,6 +77,9 @@ public class SharedLeadsPage {
 	private By SORT_BY_DROPDOWN = By.xpath("//div[@id='manageContacts']//select");
 	private By reponsemsg = By.xpath("//span[@id=\"responseMessage\"]");
 	public By SharedLeadMailId = By.xpath("(//b[text()= 'Email id:'])[1]/..");
+	public By SubscribeBtn = By.xpath("(//button[contains(text(),'Subscribe')])[1]");
+	private By SearchClear = By.xpath("//button[contains(@class,'remove search-box-item-clear')]");
+
 
 	public String Sharedleadmail;
 
@@ -119,7 +122,7 @@ public class SharedLeadsPage {
 		Select selectsort = new Select(driver.findElement(SORT_BY_DROPDOWN));
 		List<WebElement> options = selectsort.getOptions();
 		for (WebElement option : options) {
-			String value = option.getAttribute("Value");
+			String value = option.getText();
 			WaitUtil.waitForDropdownToBeReady(driver, SORT_BY_DROPDOWN, 20);
 			ElementUtil.selectDropdownByValue(SORT_BY_DROPDOWN, value, driver);
 			System.out.println("Sorted by Value: " + value);
@@ -241,9 +244,9 @@ public class SharedLeadsPage {
 	}
 
 	public void sharedLeadsListUnsubscribeTile(String Searchkeyword) throws InterruptedException {
-
+		Thread.sleep(10000);
 		WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
-		ElementUtil.click(unsubscribedTile, driver);
+		WaitUtil.waitAndClick(driver, unsubscribedTile, 60);
 		filterSearch(Searchkeyword);
 		manageSharedleadsTilesEmailreports();
 		WaitUtil.waitForDropdownToBeReady(driver, resubscribeButton, 80);
@@ -279,47 +282,57 @@ public class SharedLeadsPage {
 
 	// --------------------- Full Tile Flow ---------------------
 	public void manageAllSharedLeadsTileActions() throws InterruptedException {
-
-		WaitUtil.waitForDropdownToBeReady(driver, sharedleadsAllBtn, 80);
-		ElementUtil.click(sharedleadsAllBtn, driver);
-
+		logger.info("Starting Shared Leads Listview Actions on All Tile.");
+		navigateToSharedLeads();
+		waitForCountsToLoad();
+		clickFirstInfoIcon();
+		applyAllEditTileSortOptions();
+		clickMoreLessButton();
 		applyFilter("City", "Contains", "Hyderabad");
-
-		filterSearch("e");
 		manageSharedleadsTilesEmailreports();
+		clickUnsubscribeIcon();
+		clicksubscribeIcon();
+		clickUnsubscribeIcon();
+		logger.info("Completed Shared Leads Listview Actions on All Tile.");
 	}
 
 	public void manageValidSharedLeadsTileActions() throws InterruptedException {
-
+		if (extractTileCount(validTile) > 0) {
 		WaitUtil.waitForDropdownToBeReady(driver, validTile, 80);
 		ElementUtil.click(validTile, driver);
-
+		applyAllEditTileSortOptions();
 		applyFilter("City", "Contains", "Hyderabad");
-
+		filterSearch(Sharedleadmail);
 		manageSharedleadsTilesEmailreports();
+		}
+		else{
+			System.out.println("'Valid SharedLead' Tile count is " + extractTileCount(validTile)+ ", So Unable to click on Valid Tile");
+		}
 	}
 
 	public void manageExcludeSharedLeadsTileActions() throws InterruptedException {
 		if (getExcludeTileCount() > 0) {
-
 			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 80);
 			ElementUtil.click(excludeTile, driver);
-
+			applyAllEditTileSortOptions();
 			applyFilter("City", "Contains", "Hyderabad");
-
 			manageSharedleadsTilesEmailreports();
+		}
+		else{
+			System.out.println("Excluded SharedLead Tile count is " + getExcludeTileCount()+ ", So Unable to click on Excluded Tile");
 		}
 	}
 
 	public void manageUndeliverableSharedLeadsTileActions() throws InterruptedException {
 		if (getUndeliverableTileCount() > 0) {
-
 			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 80);
 			ElementUtil.click(undeliverableTile, driver);
-
+			applyAllEditTileSortOptions();
 			applyFilter("City", "Contains", "Hyderabad");
-
 			manageSharedleadsTilesEmailreports();
+		}
+		else{
+			System.out.println("Undeliverable SharedLead Tile count is " + getUndeliverableTileCount()+ ", So Unable to click on Undeliverable Tile");
 		}
 	}
 
@@ -327,11 +340,17 @@ public class SharedLeadsPage {
 		if (extractTileCount(unsubscribedTile) > 0) {
 			WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
 			ElementUtil.click(unsubscribedTile, driver);
-
-			// wait.until(ExpectedConditions.elementToBeClickable(unsubscribedTile)).click();
+			applyAllEditTileSortOptions();
 			applyFilter("City", "Contains", "Hyderabad");
-
 			manageSharedleadsTilesEmailreports();
+			filterSearch(Sharedleadmail);
+			Thread.sleep(1000);
+			WaitUtil.waitForDropdownToBeReady(driver, SubscribeBtn, 80);
+			WaitUtil.waitAndClick(driver, SearchClear, 20);
+			Thread.sleep(1000);
+		}
+		else{
+			System.out.println("Unsubscribed SharedLead Tile count is " + extractTileCount(unsubscribedTile)+ ", So Unable to click on Valid Tile");
 		}
 	}
 
