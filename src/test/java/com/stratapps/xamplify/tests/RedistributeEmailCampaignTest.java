@@ -50,6 +50,7 @@ public class RedistributeEmailCampaignTest extends BaseTest {
         redistributeEmailCampaignPage.openRedistributeEmailCampaign();
         redistributeEmailCampaignPage.previewEmailTemplate();
         redistributeEmailCampaignPage.downloadEmailTemplate();
+        //redistributeEmailCampaignPage.viewDownloadHistory();
         redistributeEmailCampaignPage.fillCampaignDetails("redistribute_email_campaign");
         redistributeEmailCampaignPage.selectContacts();
 
@@ -60,7 +61,7 @@ public class RedistributeEmailCampaignTest extends BaseTest {
     //      TEST 2: FILL DETAILS
     // ================================
     @Test(priority = 2, enabled = false)
-    public void fillCampaignDetailsTest() {
+    public void fillCampaignDetailsTest() throws InterruptedException {
         logger.info("Test 2: Fill Redistribute Email Campaign Details - STARTED");
 
         redistributeEmailCampaignPage.fillCampaignDetails("redistribute_email_campaign");

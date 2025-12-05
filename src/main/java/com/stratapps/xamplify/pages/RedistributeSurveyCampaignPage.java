@@ -16,11 +16,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
 
-public class RedistributeEmailCampaignPage {
+public class RedistributeSurveyCampaignPage {
 
 	private WebDriver driver;
 
-	public RedistributeEmailCampaignPage(WebDriver driver) {
+	public RedistributeSurveyCampaignPage(WebDriver driver) {
 		this.driver = driver;
 	}
 
@@ -29,7 +29,7 @@ public class RedistributeEmailCampaignPage {
 	// =========================================================
 	private By campaignHover = By.xpath("//span[text()='Campaign']");
 	private By redistributeCampaign = By.xpath("//span[text()='Redistribute Campaign']");
-	private By emailTab = By.xpath("//li[contains(text(),'Email')]");
+	private By SurveyTab = By.xpath("//li[contains(text(),'Survey')]");
 
 	// Preview
 	private By previewIcon = By.xpath("//*[@id='redistribute-campaign-list']/tbody/tr[1]/td[5]/div/a[1]/i");
@@ -59,7 +59,8 @@ public class RedistributeEmailCampaignPage {
 	// MAIN ACTIONS
 	// =========================================================
 
-	public void openRedistributeEmailCampaign() {
+	public void openRedistributeSurveyCampaign() {
+
 		 WaitUtil.waitForElementVisible(driver, campaignHover, 60);
 		    ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
@@ -75,17 +76,16 @@ public class RedistributeEmailCampaignPage {
 		    // ⭐ NEW IMPORTANT WAIT ⭐
 		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
+		// 7️⃣ Click survey tab
 
-		// 7️⃣ Click email tab
-
-		WaitUtil.waitAndClick(driver, emailTab, 60);
+		WaitUtil.waitAndClick(driver, SurveyTab, 60);
 	}
 
 	// =========================================================
 	// PREVIEW TEMPLATE
 	// =========================================================
 
-	public void previewEmailTemplate() throws Exception {
+	public void previewSurveyTemplate() throws Exception {
 
 		  // 1️⃣ Wait until the entire page is loaded
 	    WaitUtil.waitForPageToLoad(driver, 120);
@@ -133,11 +133,10 @@ public class RedistributeEmailCampaignPage {
 	// DOWNLOAD HTML / IMAGE / HISTORY
 	// =========================================================
 
-	
-	  private void jsClick(WebElement element) {
+	 private void jsClick(WebElement element) {
 	        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 	    }
-	public void downloadEmailTemplate() throws Exception {
+	public void downloadSurveyTemplate() throws Exception {
 
 
 		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -181,8 +180,6 @@ public class RedistributeEmailCampaignPage {
 		
 
 	}
-
-
 	// =========================================================
 	// REDISTRIBUTE ACTION
 	// =========================================================
@@ -210,7 +207,7 @@ public class RedistributeEmailCampaignPage {
 
 		WebElement subject = WaitUtil.waitForElementVisible(driver, subjectLine, 60);
 		subject.clear();
-		subject.sendKeys("subject for redistributed email campaign");
+		subject.sendKeys("subject for redistributed Survey campaign");
 	}
 
 	// =========================================================

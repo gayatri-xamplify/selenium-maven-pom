@@ -7,11 +7,12 @@ import org.openqa.selenium.WebDriver;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
 
-public class LaunchRedistributeEmailCampaignPage {
+
+public class LaunchRedistributeVideoCampaignPage {
 
     private WebDriver driver;
 
-    public LaunchRedistributeEmailCampaignPage(WebDriver driver) {
+    public LaunchRedistributeVideoCampaignPage(WebDriver driver) {
         this.driver = driver;
     }
 

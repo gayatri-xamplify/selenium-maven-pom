@@ -7,11 +7,10 @@ import org.openqa.selenium.WebDriver;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
 
-public class LaunchRedistributeEmailCampaignPage {
+public class LaunchRedistributeEventCampaignPage {
 
     private WebDriver driver;
-
-    public LaunchRedistributeEmailCampaignPage(WebDriver driver) {
+    public LaunchRedistributeEventCampaignPage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -48,7 +47,7 @@ public class LaunchRedistributeEmailCampaignPage {
 
         String actual = WaitUtil.waitForElementVisible(driver, responseMsg, 60).getText();
 
-        String expected = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner."
+        String expected = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you Event updates in timely manner."
         		+ "";
 
         return actual.equals(expected);
