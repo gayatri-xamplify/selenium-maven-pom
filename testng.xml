@@ -130,7 +130,7 @@
 			<class
 				name="com.stratapps.xamplify.tests.SaveRedistributeSurveyCampaignTest" />
 			<class
-				name="com.stratapps.xamplify.tests.ScheduleRedistributeSurveyCampaignTesth" />
+				name="com.stratapps.xamplify.tests.ScheduleRedistributeSurveyCampaignTest" />
 
 
 			<class
