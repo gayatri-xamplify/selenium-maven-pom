@@ -73,7 +73,7 @@ public class LaunchRedistributeEventCampaignTest extends BaseTest {
 			logger.error("Event Campaign Redistribution Launch Failed");
 		}
 
-		launchRedistributeEventCampaignPage.backToHome();
+		redistributeEventCampaignPage.backToHome();
 
 	}
 }

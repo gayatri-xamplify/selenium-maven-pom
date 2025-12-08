@@ -72,7 +72,7 @@ public class ScheduleRedistributeEventCampaignTest extends BaseTest {
 			logger.error("Event Campaign Redistribution Schedule Failed");
 		}
 
-		scheduleRedistributeEventCampaignPage.backToHome();
+		redistributeEventCampaignPage.backToHome();
 
 	}
 

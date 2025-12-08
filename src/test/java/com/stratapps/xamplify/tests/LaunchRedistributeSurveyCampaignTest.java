@@ -71,7 +71,7 @@ public class LaunchRedistributeSurveyCampaignTest extends BaseTest {
             logger.error("Survey Campaign Redistribution Launch Failed");
         }
         
-        launchRedistributeSurveyCampaignPage.backToHome();
+        redistributeSurveyPage.backToHome();
 
     }
 }

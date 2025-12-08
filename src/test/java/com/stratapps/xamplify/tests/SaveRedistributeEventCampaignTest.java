@@ -73,7 +73,7 @@ public class SaveRedistributeEventCampaignTest extends BaseTest {
 		}
 
 		assert result : "Redistribution Save failed!";
-		saveRedistributeEventCampaignPage.backToHome();
+		redistributeEventCampaignPage.backToHome();
 
 	}
 }

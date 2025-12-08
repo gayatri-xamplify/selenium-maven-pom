@@ -69,7 +69,7 @@ public class ScheduleRedistributeEmailCampaignTest extends BaseTest {
             logger.error("Email Campaign Redistribution Schedule Failed");
         }
         
-        scheduleRedistributeEmailCampaignPage.backToHome();
+        redistributeemailPage.backToHome();
 
     }
     

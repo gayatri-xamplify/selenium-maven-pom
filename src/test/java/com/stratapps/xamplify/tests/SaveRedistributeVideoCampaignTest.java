@@ -84,7 +84,7 @@ public class SaveRedistributeVideoCampaignTest extends BaseTest {
         }
 
         assert result : "Redistribution Save failed!";
-        saveRedistributeVideoCampaignPage.backToHome();
+        redistributeVideoPage.backToHome();
         
     }
 }
