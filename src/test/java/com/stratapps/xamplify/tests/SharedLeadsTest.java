@@ -41,54 +41,25 @@ public class SharedLeadsTest extends BaseTest {
 		}
 	}
 
-	/*
-	 * @Test(priority = 1, enabled = false) public void SharedleadsListviewActions()
-	 * throws Exception {
-	 * logger.info("Starting Shared Leads Listview Actions on All Tile.");
-	 * sharedleadsPage.navigateToSharedLeads();
-	 * sharedleadsPage.waitForCountsToLoad(); sharedleadsPage.clickFirstInfoIcon();
-	 * sharedleadsPage.applyAllEditTileSortOptions();
-	 * sharedleadsPage.clickMoreLessButton(); sharedleadsPage.applyFilter("City",
-	 * "Contains", "Hyderabad");
-	 * sharedleadsPage.manageSharedleadsTilesEmailreports();
-	 * sharedleadsPage.clickUnsubscribeIcon(); sharedleadsPage.clicksubscribeIcon();
-	 * sharedleadsPage.clickUnsubscribeIcon();
-	 * logger.info("Completed Shared Leads Listview Actions on All Tile."); }
-	 * 
-	 * @Test(priority = 2, enabled = false) public void
-	 * SharedleadsListviewActionsValidTile() throws Exception {
-	 * logger.info("Starting Shared Leads Listview Actions on Valid Tile.");
-	 * sharedleadsPage.manageAllSharedLeadsTileActions();
-	 * sharedleadsPage.manageValidSharedLeadsTileActions();
-	 * sharedleadsPage.applyAllEditTileSortOptions();
-	 * sharedleadsPage.clickMoreLessButton(); sharedleadsPage.applyFilter("City",
-	 * "Contains", "Hyderabad");
-	 * sharedleadsPage.manageSharedleadsTilesEmailreports();
-	 * sharedleadsPage.clickMoreLessButton();
-	 * logger.info("Completed Shared Leads Listview Actions on Valid Tile."); }
-	 */
 	@Test(priority = 1, enabled = true)
 	public void SharedleadsListviewActionsValidTile1() throws Exception {
 		sharedleadsPage.manageAllSharedLeadsTileActions();
 		sharedleadsPage.manageUnsubscribeSharedLeadsTileActions();
 		sharedleadsPage.manageValidSharedLeadsTileActions();
 		sharedleadsPage.manageUndeliverableSharedLeadsTileActions();
-		sharedleadsPage.manageExcludeSharedLeadsTileActions();
-		
-		
+		sharedleadsPage.manageExcludeSharedLeadsTileActions();		
 	}
 
 	@Test(priority = 2, enabled = true)
 	public void testSharedLeadsListUnsubscribeTile() throws Exception {
 		sharedleadsPage.navigateToSharedLeads();
 		sharedleadsPage.waitForCountsToLoad();
-		sharedleadsPage.sharedLeadsListUnsubscribeTile(sharedleadsPage.Sharedleadmail);
+		sharedleadsPage.UnsubscribeTileManageShareleads("com");
 	}
 
 	@Test(priority = 3, enabled = true)
-	public void testSharedLeadsValidTileClick() throws Exception {
-		int validTileCount = sharedleadsPage.getValidTileCount();
-		sharedleadsPage.sharedLeadsEditListValidTile(validTileCount);
+	public void testSharedLeadsListValidTile() throws Exception {
+		sharedleadsPage.ValidTileManageShareleads("");
 	}
 
 	@Test(priority = 4, enabled = true)
@@ -104,37 +75,6 @@ public class SharedLeadsTest extends BaseTest {
 	}
 
 	@Test(priority = 6, enabled = true)
-	public void testManageAllSharedLeadsTileActions() throws Exception {
-		sharedleadsPage.manageAllSharedLeadsTileActions();
-	}
-
-	@Test(priority = 7, enabled = true)
-	public void testManageValidSharedLeadsTileActions() throws Exception {
-		sharedleadsPage.manageValidSharedLeadsTileActions();
-	}
-
-	@Test(priority = 8, enabled = true)
-	public void testManageExcludeSharedLeadsTileActions() throws Exception {
-		sharedleadsPage.manageExcludeSharedLeadsTileActions();
-	}
-
-	@Test(priority = 9, enabled = true)
-	public void testManageUndeliverableSharedLeadsTileActions() throws Exception {
-		sharedleadsPage.manageUndeliverableSharedLeadsTileActions();
-	}
-
-	@Test(priority = 10, enabled = true)
-	public void testManageUnsubscribeSharedLeadsTileActions() throws Exception {
-		sharedleadsPage.manageUnsubscribeSharedLeadsTileActions();
-	}
-
-	@Test(priority = 11, enabled = true)
-	public void testManageSharedLeadsSort() throws Exception {
-		sharedleadsPage.navigateToSharedLeads();
-		sharedleadsPage.manageSharedLeadsSort();
-	}
-
-	@Test(priority = 12, enabled = true)
 	public void testManageSharedLeadsGrid() throws Exception {
 		sharedleadsPage.manageSharedLeadsGrid();
 	}

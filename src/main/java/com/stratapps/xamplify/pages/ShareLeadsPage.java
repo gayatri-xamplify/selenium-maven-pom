@@ -137,6 +137,7 @@ public class ShareLeadsPage {
 	}
 
 	public void createOneAtATimeLead() throws Exception {
+		Thread.sleep(3000);
 		ElementUtil.click(SH_ONE_AT_TIME, driver);
 		ElementUtil.sendText(SH_EMAIL_ID, "AutoLead" + System.currentTimeMillis() + "@test.com", driver);
 		ElementUtil.sendText(SH_FIRST_NAME, "Auto", driver);
