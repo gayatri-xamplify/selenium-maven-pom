@@ -82,45 +82,40 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	public void previewEventTemplate() throws Exception {
 
-		  // 1️⃣ Wait until the entire page is loaded
 	    WaitUtil.waitForPageToLoad(driver, 120);
 	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 
-	    // 2️⃣ Wait until preview icon EXISTS in DOM
+	    // Wait for icon to appear in DOM
 	    wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
 
-	    // 3️⃣ Scroll preview icon into view (mandatory)
-	    WebElement preview = driver.findElement(previewIcon);
+	    // Scroll into view
+	    WebElement preview = wait.until(ExpectedConditions.visibilityOfElementLocated(previewIcon));
 	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
-	    Thread.sleep(800);
+	    Thread.sleep(500);
 
-	    // 4️⃣ Wait until preview is CLICKABLE
-	    wait.until(ExpectedConditions.elementToBeClickable(previewIcon));
+	    // 👉 Re-locate fresh element before click (AVOIDS STALE)
+	    preview = wait.until(ExpectedConditions.refreshed(
+	            ExpectedConditions.elementToBeClickable(previewIcon)
+	    ));
 
-	    // 5️⃣ Click using JS (Selenium click often fails with heavy DOM)
+	    // JS Click
 	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
 
-	    // 6️⃣ Now wait for NEW TAB to open
+	    // NEW TAB HANDLING
 	    String originalWindow = driver.getWindowHandle();
 	    wait.until(driver1 -> driver.getWindowHandles().size() > 1);
 
-	    // 7️⃣ Switch to new tab
 	    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 	    driver.switchTo().window(tabs.get(1));
 
-	    // 8️⃣ Wait for the preview page to load completely
 	    WaitUtil.waitForPageToLoad(driver, 60);
 
-	    Thread.sleep(1500);
+	    Thread.sleep(800);
 
-	    // 9️⃣ Close the preview tab
 	    driver.close();
-
-	    // 🔟 Switch back to original tab
 	    driver.switchTo().window(originalWindow);
-
 	    WaitUtil.waitForPageToLoad(driver, 60);
 	}
 

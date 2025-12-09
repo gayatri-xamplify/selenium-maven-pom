@@ -65,14 +65,10 @@ public class ScheduleRedistributeEventCampaignTest extends BaseTest {
 		logger.info("Event Redistribution Test Completed Successfully");
 		
 		logger.info("Step 3: Schedule Campaign");
-		boolean result = scheduleRedistributeEventCampaignPage.scheduleRedistributionEvent("103"); // India
-		if (result) {
-			logger.info("Event Campaign Redistributed & Scheduled Successfully");
-		} else {
-			logger.error("Event Campaign Redistribution Schedule Failed");
-		}
-
+		scheduleRedistributeEventCampaignPage.scheduleRedistributionEvent("103"); // India
 		redistributeEventCampaignPage.backToHome();
+
+		
 
 	}
 

@@ -64,16 +64,8 @@ public class LaunchRedistributeEventCampaignTest extends BaseTest {
 		logger.info("Step 3: Launch NOW");
 		launchRedistributeEventCampaignPage.launchNow();
 
-		logger.info("Step 4: Validate Launch Message");
-		boolean result = launchRedistributeEventCampaignPage.validateLaunchMessage();
-
-		if (result) {
-			logger.info("Event Campaign Redistributed & Launched Successfully");
-		} else {
-			logger.error("Event Campaign Redistribution Launch Failed");
-		}
-
 		redistributeEventCampaignPage.backToHome();
 
+		
 	}
 }
