@@ -248,5 +248,44 @@ public class WaitUtil {
 	        System.out.println("❌ Message Mismatch: Expected [" + expectedMessage + "] but found [" + actualMessage + "]");
 	    }
 	}
+
+//      mounika - safeJsClick
+
+    public static void safeJsClick(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // 1️⃣ Wait for element to be visible (fresh reference)
+            WebElement element = wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.visibilityOfElementLocated(locator)
+            ));
+
+            // 2️⃣ Scroll element into center view
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block:'center', inline:'nearest'});", 
+                    element
+            );
+            Thread.sleep(300);
+
+            // 3️⃣ Wait again for clickability (fresh lookup)
+            element = wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.elementToBeClickable(locator)
+            ));
+
+            // 4️⃣ Try normal click first
+            try {
+                element.click();
+            } catch (Exception e) {
+                // 5️⃣ Fallback to JS click
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("❌ safeJsClick FAILED for locator: " + locator + "\n" + e.getMessage(), e);
+        }
+    }
+    
+    
+    
 }
 
