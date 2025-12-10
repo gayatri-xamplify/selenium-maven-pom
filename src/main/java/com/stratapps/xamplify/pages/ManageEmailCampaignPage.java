@@ -266,63 +266,113 @@ public class ManageEmailCampaignPage {
 	private By homeLink = By.xpath("//a[normalize-space()='Home']");
 
 	// (XamplifyUtil uses raw xpath String)
-	private static final String VIEW_ANALYTICS_XPATH = "(//span[@class='actions-block float-none'])[1]";
-	private static final String HIDE_ANALYTICS_XPATH = "//i[@class=\"down-arrow fa fa-angle-up\"]";
+	private By View_Analytics_arrow = By.xpath("//*[@id=\"manage-campaign-list\"]/tbody/tr[1]/td[3]/div/div/div/button/span/a/i");
+	private By Hide_Analytics_arrow =  By.xpath("//*[@id=\"manage-campaign-list\"]/tbody/tr[1]/td[3]/div/div[2]/div/button/span/a/i");
 
 	// ===================== UTILITIES =====================
 
-	private static void sleep(long ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
+		private static void sleep(long ms) {
+			try {
+				Thread.sleep(ms);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
 		}
-	}
 
-	private void scrollToTop() {
-		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
-	}
+		private void scrollToTop() {
+			((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+		}
 
-	private void scrollToBottom() {
-		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-	}
+		private void scrollToBottom() {
+			((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+		}
 
-	// ===================== MAIN PUBLIC FLOW =====================
+		// ✅ Common helper: scroll down by given pixels
+		private void scrollDown(int px) {
+			((JavascriptExecutor) driver).executeScript("window.scrollBy(0, arguments[0]);", px);
+		}
 
-	public void manageEmailCampaignFullFlow() throws Exception {
+		// ✅ Common helper: wait+scroll element into center and return it
+		private WebElement scrollIntoCenter(By locator) {
+			WebElement el = WaitUtil.waitForElementVisible(driver, locator, 60);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", el);
+			sleep(300);
+			return el;
+		}
 
-		navigateToManageCampaigns();
-		openEmailTab();
+		// ✅ Common helper: refreshed clickable (stale-safe)
+		private WebElement waitRefreshedClickable(By locator) {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			return wait.until(ExpectedConditions.refreshed(
+					ExpectedConditions.elementToBeClickable(locator)));
+		}
 
-		editEmailCampaign();
-		copyEmailCampaign();
-		updateCampaignEndDate();
+		// ✅ Common helper: safe click with JS fallback
+		private void safeClick(By locator) {
+			WebElement el = WaitUtil.waitForElementVisible(driver, locator, 60);
+			try {
+				el.click();
+			} catch (Exception e) {
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+			}
+		}
 
-		previewAndDeleteView();
-		previewOnlyView();
-		archiveAndUnarchiveCampaign();
-		deleteEmailCampaign();
+		// ✅ Common helper: retry click using scrollIntoCenter + JS click
+		private void retryClick(By locator, int attempts) {
+			for (int i = 1; i <= attempts; i++) {
+				try {
+					WebElement element = scrollIntoCenter(locator);
+					((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+					logger.info("Clicked successfully on attempt " + i);
+					return; // EXIT after success
+				} catch (Exception e) {
+					logger.warn("Attempt " + i + " failed for locator: " + locator + " | " + e.getMessage());
+					sleep(500); // small wait before retry
+				}
+			}
+			throw new RuntimeException("Failed to click element after " + attempts + " attempts: " + locator);
+		}
 
-		openCampaignAnalytics();
-		handleRecipientsTile();
-		handleTotalEmailSentTile();
-		handleDeliverabilityTile();
-		handleActiveRecipientsTile();
-		handleOpenRateTile();
-		handleClickedURLTile();
-		handleClickedThroughRateTile();
-		handleBounceTiles();
-		handleLeadsTile();
-		handleDealsTile();
-		handleCampaignAnalyticsSearchAndExport();
+		
+		
+		
+		// ✅ Open a tile only if enabled; returns false if skipped
+		private boolean openTileIfEnabled(By tileLocator, String tileName) {
+			WebElement tile = driver.findElement(tileLocator);
+			if (!tile.isEnabled()) {
+				logger.info(tileName + " count is zero. Skipping tile.");
+				return false;
+			}
+			tile.click();
+			WaitUtil.waitForPageToLoad(driver, 60);
+			return true;
+		}
 
-		handleOpenHistoryByTemplate();
-		handleShowDownloadHistory();
-		// handleRedistributionAnalytics();
+		// ✅ Common helper: select 4 time range options (1–4: Object)
+		private void selectTimeRangesForFourOptions(By dropdownLocator) {
+			WebElement timeDrop = WaitUtil.waitForElementVisible(driver, dropdownLocator, 60);
+			Select sel = new Select(timeDrop);
+			sel.selectByValue("1: Object");
+			sel.selectByValue("2: Object");
+			sel.selectByValue("3: Object");
+			sel.selectByValue("4: Object");
+		}
 
-		goToHome();
-		logger.info("Manage Email Campaign full flow completed successfully.");
-	}
+		// ✅ Open tile and close its modal if enabled
+		private void openAndCloseIfEnabled(By tileLocator, By closeLocator, String tileName) {
+			WebElement tile = driver.findElement(tileLocator);
+			if (tile.isEnabled()) {
+				logger.info(tileName + " tile enabled. Opening...");
+				tile.click();
+				WaitUtil.waitAndClick(driver, closeLocator, 60);
+			} else {
+				logger.info(tileName + " count is zero. Skipping tile.");
+			}
+		}
+
+
+	
+	
 
 	// ===================== SECTION 1: Navigation =====================
 
@@ -340,15 +390,10 @@ public class ManageEmailCampaignPage {
 		new Actions(driver).moveToElement(campaignMenu).pause(Duration.ofMillis(600)).perform();
 
 		// 3️⃣ Wait until Manage Campaigns becomes clickable (fresh lookup)
-		WebElement manageMenu = wait
-				.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(manageCampaigns)));
+		waitRefreshedClickable(manageCampaigns);
 
-		// 4️⃣ Try normal click, fallback to JS if needed
-		try {
-			manageMenu.click();
-		} catch (Exception e) {
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();", manageMenu);
-		}
+		// 4️⃣ Try normal click, fallback to JS if needed (via helper)
+		safeClick(manageCampaigns);
 
 		// 5️⃣ Ensure target page loads
 		WaitUtil.waitForPageToLoad(driver, 60);
@@ -361,36 +406,25 @@ public class ManageEmailCampaignPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
+
 	// ===================== SECTION 2: Edit Campaign =====================
 
 	public void clickGearIconRow1() throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
 		WaitUtil.waitForPageToLoad(driver, 60);
+
 		// 1️⃣ Wait for icon to exist & scroll to center
-		WebElement gear = wait.until(ExpectedConditions.visibilityOfElementLocated(gearIconRow1));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", gear);
-		Thread.sleep(300);
+		scrollIntoCenter(gearIconRow1);
 
-		// 2️⃣ Refind fresh element (avoid stale)
-		gear = wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(gearIconRow1)));
-
-		// 3️⃣ Click safely
-		try {
-			gear.click();
-		} catch (Exception e) {
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();", gear);
-		}
+		// 2️⃣ Click safely (helper uses normal + JS fallback)
+		safeClick(gearIconRow1);
 	}
 
 	public void editEmailCampaign() throws InterruptedException {
 		logger.info("Editing first email campaign...");
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
 		// 1️⃣ Scroll page slightly down to avoid sticky header overlap
-		js.executeScript("window.scrollBy(0, 400);");
+		scrollDown(400);
+
 		clickGearIconRow1();
 		WaitUtil.waitForPageToLoad(driver, 60);
 
@@ -413,22 +447,6 @@ public class ManageEmailCampaignPage {
 
 	// ===================== SECTION 3: Copy Campaign =====================
 
-	public static void retryClick(By locator, int attempts) {
-		for (int i = 1; i <= attempts; i++) {
-			try {
-				WebElement element = driver.findElement(locator);
-				((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-				((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-				logger.info("Clicked successfully on attempt " + i);
-				return; // EXIT after success
-			} catch (Exception e) {
-				logger.warn("Attempt " + i + " failed for locator: " + locator + " | " + e.getMessage());
-				sleep(500); // small wait before retry
-			}
-		}
-		throw new RuntimeException("Failed to click element after " + attempts + " attempts: " + locator);
-	}
-
 	public void copyEmailCampaign() throws Exception {
 		logger.info("Copying first email campaign...");
 
@@ -436,7 +454,7 @@ public class ManageEmailCampaignPage {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
 		// 1️⃣ Ensure ACTIONS area is fully visible
-		js.executeScript("window.scrollBy(0, 400);");
+		scrollDown(400);
 		Thread.sleep(400);
 
 		// 2️⃣ Scroll the row to center (avoid overlap issues)
@@ -449,24 +467,12 @@ public class ManageEmailCampaignPage {
 		clickGearIconRow1();
 		Thread.sleep(500);
 
-		// 4️⃣ Click Copy
-		WebElement copyBtn = wait
-				.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(emailCopy)));
-		try {
-			copyBtn.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", copyBtn);
-		}
+		// 4️⃣ Click Copy using helper
+		safeClick(emailCopy);
 		Thread.sleep(600);
 
-		// 5️⃣ Click Save Changes
-		WebElement saveBtn = wait
-				.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(emailCopySaveChanges)));
-		try {
-			saveBtn.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", saveBtn);
-		}
+		// 5️⃣ Click Save Changes using helper
+		safeClick(emailCopySaveChanges);
 
 		// 6️⃣ Wait for reload
 		WaitUtil.waitForPageToLoad(driver, 60);
@@ -475,25 +481,27 @@ public class ManageEmailCampaignPage {
 		logger.info("COPY completed successfully.");
 	}
 
+
 	// ===================== SECTION 4: Update End Date =====================
+
 	public void updateCampaignEndDate() {
 		logger.info("Updating campaign end date...");
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
 		// 1️⃣ Scroll page slightly down to avoid sticky header overlap
-		js.executeScript("window.scrollBy(0, 400);");
+		scrollDown(400);
+
 		retryClick(gearIconRow2, 2);
 		retryClick(updateEndDateMenu, 2);
+
 		WaitUtil.waitForElementVisible(driver, endDateInput, 60);
 		WaitUtil.waitAndClick(driver, endDateInput, 60);
-		retryClick(endDateSelectedDate, 2);
 
+		retryClick(endDateSelectedDate, 2);
 		retryClick(endDateSaveChanges, 2);
 
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
+
 
 	// ===================== SECTION 5: Preview & Delete View =====================
 
@@ -501,12 +509,11 @@ public class ManageEmailCampaignPage {
 		logger.info("Opening Preview & Delete view (without deleting)...");
 
 		Thread.sleep(1000);
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
 
 		// 1️⃣ Scroll page slightly down to avoid sticky header overlap
-		js.executeScript("window.scrollBy(0, 400);");
+		scrollDown(400);
 		Thread.sleep(400);
+
 		WaitUtil.waitAndClick(driver, gearIconRow2Again, 60);
 		WaitUtil.waitAndClick(driver, previewAndDeleteMenu, 60);
 
@@ -535,6 +542,7 @@ public class ManageEmailCampaignPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
+
 	// ===================== SECTION 6: Preview Only =====================
 
 	public void previewOnlyView() throws Exception {
@@ -545,7 +553,7 @@ public class ManageEmailCampaignPage {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
 		// 1️⃣ Scroll page slightly down to avoid sticky header overlap
-		js.executeScript("window.scrollBy(0, 400);");
+		scrollDown(400);
 		Thread.sleep(400);
 
 		// 2️⃣ Scroll row 2 into center view (MANDATORY)
@@ -554,42 +562,25 @@ public class ManageEmailCampaignPage {
 		js.executeScript("arguments[0].scrollIntoView({block:'center'});", row2);
 		Thread.sleep(300);
 
-		// 3️⃣ Click gear icon (refreshed, stale-safe)
-		WebElement gear = wait
-				.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(gearIconRow2Again)));
-
-		try {
-			gear.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", gear);
-		}
+		// 3️⃣ Click gear icon (refreshed, stale-safe) using helper
+		waitRefreshedClickable(gearIconRow2Again);
+		safeClick(gearIconRow2Again);
 		Thread.sleep(400);
 
-		// 4️⃣ Click preview option
-		WebElement preview = wait
-				.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(previewMenu)));
-
-		try {
-			preview.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", preview);
-		}
+		// 4️⃣ Click preview option using helper
+		waitRefreshedClickable(previewMenu);
+		safeClick(previewMenu);
 
 		// 5️⃣ Wait for preview modal to open
 		Thread.sleep(2000);
 
-		// 6️⃣ Close preview modal
-		WebElement closeBtn = wait
-				.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(previewCloseIcon)));
-
-		try {
-			closeBtn.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", closeBtn);
-		}
+		// 6️⃣ Close preview modal using helper
+		waitRefreshedClickable(previewCloseIcon);
+		safeClick(previewCloseIcon);
 
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
+
 
 	// ===================== SECTION 7: Archive / Unarchive =====================
 
@@ -599,12 +590,19 @@ public class ManageEmailCampaignPage {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		// Avoid sticky header / tiles overlap BEFORE clicking gear icon
-		js.executeScript("window.scrollBy(0, 300);");
-		Thread.sleep(300);
+		// 1️⃣ Scroll gear icon into center view to avoid top menu overlap
+		WebElement gear = wait.until(ExpectedConditions.visibilityOfElementLocated(gearIconRow2Again));
+		js.executeScript("arguments[0].scrollIntoView({block: 'center'});", gear);
+		Thread.sleep(500);
 
-		// 1️⃣ Archive
-		WaitUtil.waitAndClick(driver, gearIconRow2Again, 60);
+		// 2️⃣ Try normal click first, fallback to JS
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(gear)).click();
+		} catch (Exception e) {
+			logger.warn("Normal click failed, using JS click due to overlap...");
+			js.executeScript("arguments[0].click();", gear);
+		}
+
 		WaitUtil.waitAndClick(driver, archiveMenu, 60);
 		Thread.sleep(2000);
 
@@ -618,22 +616,16 @@ public class ManageEmailCampaignPage {
 		WaitUtil.waitAndClick(driver, allCampaignsTile, 60);
 
 		// 4️⃣ BEFORE clicking Email tab — fix overlap issue
-		js.executeScript("window.scrollBy(0, 300);");
+		scrollDown(300);
 		Thread.sleep(300);
 
-		// 5️⃣ Click Email tab using JS-safe method
-		WebElement emailTabElement = wait.until(ExpectedConditions.visibilityOfElementLocated(emailTab));
-		js.executeScript("arguments[0].scrollIntoView({block:'center'});", emailTabElement);
-		Thread.sleep(300);
-
-		try {
-			emailTabElement.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", emailTabElement);
-		}
+		// 5️⃣ Click Email tab using helper
+		scrollIntoCenter(emailTab);
+		safeClick(emailTab);
 
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
+
 
 	// ===================== SECTION 8: Delete Campaign =====================
 
@@ -641,12 +633,10 @@ public class ManageEmailCampaignPage {
 		logger.info("Deleting first email campaign...");
 		Thread.sleep(1000);
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
 		// 1️⃣ Scroll page slightly down to avoid sticky header overlap
-		js.executeScript("window.scrollBy(0, 400);");
+		scrollDown(400);
 		Thread.sleep(400);
+
 		WaitUtil.waitAndClick(driver, gearIconRow1, 60);
 		WaitUtil.waitAndClick(driver, deleteCampaignMenu, 60);
 		WaitUtil.waitAndClick(driver, deleteCampaignYes, 60);
@@ -655,47 +645,41 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ===================== SECTION 9: Open Analytics =====================
+
 	public void openCampaignAnalytics() throws InterruptedException {
 		logger.info("Opening email campaign analytics...");
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
 		// 1️⃣ Scroll the page to ensure icons are in view
-		js.executeScript("window.scrollBy(0, 300);");
-		Thread.sleep(300);
-		// 2️⃣ Scroll the analytics icon ROW into CENTER (MANDATORY)
-		WebElement analyticsIconEl = wait.until(ExpectedConditions.visibilityOfElementLocated(analyticsIcon));
-		js.executeScript("arguments[0].scrollIntoView({block:'center'});", analyticsIconEl);
+		scrollDown(300);
 		Thread.sleep(300);
 
-		// 3️⃣ Click analytics icon with fallback to JS
-		try {
-			analyticsIconEl.click();
-		} catch (Exception e) {
-			js.executeScript("arguments[0].click();", analyticsIconEl);
-		}
+		// 2️⃣ Scroll the analytics icon ROW into CENTER (MANDATORY)
+		scrollIntoCenter(analyticsIcon);
+
+		// 3️⃣ Click analytics icon with fallback to JS (via safeClick)
+		safeClick(analyticsIcon);
 
 		// 4️⃣ Wait for analytics page
 		WaitUtil.waitForPageToLoad(driver, 60);
 		scrollToTop();
 	}
 
-	By modal = By.xpath("//div[contains(@class,'modal') and contains(@class,'right') and contains(@class,'show')]");
 	// ---------- 9.1 Recipients ----------
+
+	By modal = By.xpath("//div[contains(@class,'modal') and contains(@class,'right') and contains(@class,'show')]");
 	private By backdrop = By.cssSelector("div.backdrop");
 
 	public void handleRecipientsTile() {
 		logger.info("Handling Recipients tile...");
-		WaitUtil.waitForPageToLoad(driver, 60);
 
+		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
 		WaitUtil.waitAndClick(driver, recipientsTile, 60);
-
 		WaitUtil.waitForPageToLoad(driver, 60);
-		// wait.until(ExpectedConditions.visibilityOfElementLocated(modal));
+
 		wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsSearchBox));
+
 		ElementUtil.sendText(recipientsSearchBox, "mounika", driver);
 		WaitUtil.waitAndClick(driver, recipientsSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, recipientsSearchClear, 60);
@@ -707,10 +691,13 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ---------- 9.2 Total Email Sent ----------
+
 	public void handleTotalEmailSentTile() {
 		logger.info("Handling Total Email Sent tile...");
+
 		WaitUtil.waitAndClick(driver, totalEmailSentTile, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
+
 		wait.until(ExpectedConditions.visibilityOfElementLocated(totalEmailSentSearchBox));
 
 		ElementUtil.sendText(totalEmailSentSearchBox, "mounika", driver);
@@ -724,14 +711,12 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ---------- 9.3 Deliverability ----------
+
 	public void handleDeliverabilityTile() {
 		logger.info("Handling Deliverability tile...");
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
 		// 1️⃣ Open tile
 		WaitUtil.waitAndClick(driver, deliverabilityTile, 60);
-
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		// 3️⃣ Wait for inside elements
@@ -747,91 +732,70 @@ public class ManageEmailCampaignPage {
 		WaitUtil.waitAndClick(driver, deliverabilityExportDropdown, 60);
 		WaitUtil.waitAndClick(driver, deliverabilityExportExcel, 60);
 
-		// 6️⃣ Close modal using updated locator
+		// 6️⃣ Close modal
 		WaitUtil.waitAndClick(driver, deliverabilityCloseModal, 60);
 	}
 
 	// ---------- 9.4 Active Recipients ----------
+
 	public void handleActiveRecipientsTile() {
 		logger.info("Handling Active Recipients tile...");
-		WebElement tile = driver.findElement(activeRecipientsTile);
-		if (!tile.isEnabled()) {
-			logger.info("Active Recipients count is zero. Skipping tile.");
+
+		if (!openTileIfEnabled(activeRecipientsTile, "Active Recipients")) {
 			return;
 		}
 
-		tile.click();
-		WaitUtil.waitForPageToLoad(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(activeRecipientsSearchBox));
+
 		ElementUtil.sendText(activeRecipientsSearchBox, "automated", driver);
 		WaitUtil.waitAndClick(driver, activeRecipientsSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, activeRecipientsSearchClear, 60);
 
-		WebElement timeDrop = WaitUtil.waitForElementVisible(driver, timeDropdownActive, 60);
-		Select sel = new Select(timeDrop);
-		sel.selectByValue("1: Object");
-		sel.selectByValue("2: Object");
-		sel.selectByValue("3: Object");
-		sel.selectByValue("4: Object");
+		selectTimeRangesForFourOptions(timeDropdownActive);
 
 		WaitUtil.safeJsClick(driver, activeRecipientsExportDropdown);
-		// WaitUtil.waitAndClick(driver, activeRecipientsExportDropdown, 60);
 		// WaitUtil.waitAndClick(driver, activeRecipientsExportExcel, 60);
 		WaitUtil.waitAndClick(driver, activeRecipientsCloseModal, 60);
 	}
 
 	// ---------- 9.5 Open Rate ----------
+
 	public void handleOpenRateTile() {
 		logger.info("Handling Open Rate tile...");
-		WebElement tile = driver.findElement(openRateTile);
-		if (!tile.isEnabled()) {
-			logger.info("Open Rate is zero. Skipping tile.");
+
+		if (!openTileIfEnabled(openRateTile, "Open Rate")) {
 			return;
 		}
 
-		tile.click();
-		WaitUtil.waitForPageToLoad(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(openRateSearchBox));
+
 		ElementUtil.sendText(openRateSearchBox, "automated", driver);
 		WaitUtil.waitAndClick(driver, openRateSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, openRateSearchClear, 60);
 
-		WebElement timeDrop = WaitUtil.waitForElementVisible(driver, timeDropdownOpenRate, 60);
-		Select sel = new Select(timeDrop);
-		sel.selectByValue("1: Object");
-		sel.selectByValue("2: Object");
-		sel.selectByValue("3: Object");
-		sel.selectByValue("4: Object");
+		selectTimeRangesForFourOptions(timeDropdownOpenRate);
 
 		WaitUtil.safeJsClick(driver, openRateExportDropdown);
-
-		// WaitUtil.waitAndClick(driver, openRateExportDropdown, 60);
 		// WaitUtil.waitAndClick(driver, openRateExportExcel, 60);
 		WaitUtil.waitAndClick(driver, openRateCloseModal, 60);
 	}
 
 	// ---------- 9.6 Clicked URL ----------
+
 	public void handleClickedURLTile() {
 		logger.info("Handling Clicked URL tile...");
-		WebElement tile = driver.findElement(clickedURLTile);
-		if (!tile.isEnabled()) {
-			logger.info("Clicked URL count is zero. Skipping tile.");
+
+		if (!openTileIfEnabled(clickedURLTile, "Clicked URL")) {
 			return;
 		}
 
-		tile.click();
-		WaitUtil.waitForPageToLoad(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(clickedURLSearchBox));
+
 		ElementUtil.sendText(clickedURLSearchBox, "automated", driver);
 		WaitUtil.waitAndClick(driver, clickedURLSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, clickedURLSearchClear, 60);
 
-		WebElement timeDrop = WaitUtil.waitForElementVisible(driver, timeDropdownClickedURL, 60);
-		Select sel = new Select(timeDrop);
-		sel.selectByValue("1: Object");
-		sel.selectByValue("2: Object");
-		sel.selectByValue("3: Object");
-		sel.selectByValue("4: Object");
+		selectTimeRangesForFourOptions(timeDropdownClickedURL);
 
 		WaitUtil.waitAndClick(driver, clickedURLExportDropdown, 60);
 		// WaitUtil.waitAndClick(driver, clickedURLExportExcel, 60);
@@ -839,27 +803,21 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ---------- 9.7 Clicked Through Rate ----------
+
 	public void handleClickedThroughRateTile() {
 		logger.info("Handling Clicked Through Rate tile...");
-		WebElement tile = driver.findElement(clickedThroughRateTile);
-		if (!tile.isEnabled()) {
-			logger.info("Clicked Through Rate count is zero. Skipping tile.");
+
+		if (!openTileIfEnabled(clickedThroughRateTile, "Clicked Through Rate")) {
 			return;
 		}
 
-		tile.click();
-		WaitUtil.waitForPageToLoad(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(clickedThroughRateSearchBox));
+
 		ElementUtil.sendText(clickedThroughRateSearchBox, "automated", driver);
 		WaitUtil.waitAndClick(driver, clickedThroughRateSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, clickedThroughRateSearchClear, 60);
 
-		WebElement timeDrop = WaitUtil.waitForElementVisible(driver, timeDropdownClickedThrough, 60);
-		Select sel = new Select(timeDrop);
-		sel.selectByValue("1: Object");
-		sel.selectByValue("2: Object");
-		sel.selectByValue("3: Object");
-		sel.selectByValue("4: Object");
+		selectTimeRangesForFourOptions(timeDropdownClickedThrough);
 
 		WaitUtil.waitAndClick(driver, clickedThroughRateExportDropdown, 60);
 		WaitUtil.waitAndClick(driver, clickedThroughRateExportExcel, 60);
@@ -867,38 +825,24 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ---------- 9.8 Hard & Soft Bounce + Unsubscribe ----------
+
 	public void handleBounceTiles() {
 		logger.info("Handling Hard Bounce / Soft Bounce / Unsubscribe tiles...");
 
-		WebElement hard = driver.findElement(hardBounceTile);
-		if (hard.isEnabled()) {
-			hard.click();
-			WaitUtil.waitAndClick(driver, hardBounceClose, 60);
-		}
-
-		WebElement soft = driver.findElement(softBounceTile);
-		if (soft.isEnabled()) {
-			soft.click();
-			WaitUtil.waitAndClick(driver, softBounceClose, 60);
-		}
-
-		WebElement unsub = driver.findElement(unsubscribeTile);
-		if (unsub.isEnabled()) {
-			unsub.click();
-			WaitUtil.waitAndClick(driver, unsubscribeClose, 60);
-		}
+		openAndCloseIfEnabled(hardBounceTile, hardBounceClose, "Hard Bounce");
+		openAndCloseIfEnabled(softBounceTile, softBounceClose, "Soft Bounce");
+		openAndCloseIfEnabled(unsubscribeTile, unsubscribeClose, "Unsubscribe");
 	}
 
 	// ---------- 9.9 Leads ----------
+
 	public void handleLeadsTile() {
 		logger.info("Handling Leads tile...");
-		WebElement tile = driver.findElement(leadsTile);
-		if (!tile.isEnabled()) {
-			logger.info("Leads count is zero. Skipping tile.");
+
+		if (!openTileIfEnabled(leadsTile, "Leads")) {
 			return;
 		}
 
-		tile.click();
 		ElementUtil.sendText(leadsSearchBox, "auto_lead", driver);
 		WaitUtil.waitAndClick(driver, leadsSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, leadsSearchClose, 60);
@@ -919,15 +863,14 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ---------- 9.10 Deals ----------
+
 	public void handleDealsTile() {
 		logger.info("Handling Deals tile...");
-		WebElement tile = driver.findElement(dealsTile);
-		if (!tile.isEnabled()) {
-			logger.info("Deals count is zero. Skipping tile.");
+
+		if (!openTileIfEnabled(dealsTile, "Deals")) {
 			return;
 		}
 
-		tile.click();
 		ElementUtil.sendText(dealsSearchBox, "auto_deal", driver);
 		WaitUtil.waitAndClick(driver, dealsSearchIcon, 60);
 		WaitUtil.waitAndClick(driver, dealsSearchClose, 60);
@@ -948,8 +891,10 @@ public class ManageEmailCampaignPage {
 	}
 
 	// ---------- 9.11 Campaign Analytics Search & Export ----------
+
 	public void handleCampaignAnalyticsSearchAndExport() {
 		logger.info("Handling Campaign-based analytics search and export...");
+
 		scrollToBottom();
 		sleep(2000);
 
@@ -963,15 +908,17 @@ public class ManageEmailCampaignPage {
 		sleep(2000);
 	}
 
-	// ===================== SECTION 10: Open History By Template
-	// =====================
+
+	// ===================== SECTION 10: Open History By Template =====================
 
 	public void handleOpenHistoryByTemplate() throws InterruptedException {
 		logger.info("Handling Open History By Template...");
+
 		WaitUtil.waitForPageToLoad(driver, 60);
 
-		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+		scrollToTop();
 		Thread.sleep(300);
+
 		WaitUtil.waitAndClick(driver, manageCampaignsLink, 60);
 		WaitUtil.waitAndClick(driver, emailTab, 60);
 
@@ -990,6 +937,7 @@ public class ManageEmailCampaignPage {
 				By.xpath("/html/body/app-root/app-home/div/div/app-preview-partners/div/div[1]/ul/li[2]/a"), 60);
 		WaitUtil.waitAndClick(driver, emailTab, 60);
 	}
+
 
 	// ===================== SECTION 11: Show Download History =====================
 
@@ -1013,29 +961,106 @@ public class ManageEmailCampaignPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
-	// ===================== SECTION 12: Redistribution Analytics
-	// =====================
-
-//    public void handleRedistributionAnalytics() {
-//        logger.info("Handling redistribution analytics and view/hide analytics toggles...");
-//
-//        // Using XamplifyUtil for JS-based click, same as your old code idea
-//       // xamplifyUtil.callClickEvent(VIEW_ANALYTICS_XPATH);
-//        WaitUtil.waitAndClick(driver, VIEW_ANALYTICS_XPATH, 60);
-//        sleep(4000);
-//
-//        WaitUtil.waitAndClick(driver, redistributionCountIcon, 60);
-//        sleep(3000);
-//
-//        xamplifyUtil.callClickEvent(HIDE_ANALYTICS_XPATH);
-//        sleep(3000);
-//    }
 
 	// ===================== SECTION 13: Go To Home =====================
 
 	public void goToHome() {
 		logger.info("Navigating back to HOME...");
+		scrollToTop();
 		WaitUtil.waitAndClick(driver, homeLink, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
+	 //===================== SECTION 12: Redistribution Analytics  =====================
+	 //=====================										=====================
+
+	public void handleRedistributionAnalytics() {
+	    logger.info("Handling redistribution analytics and view/hide analytics toggles...");
+
+	    sleep(1000);
+	    // ⭐ Scroll DOWN so the View Analytics arrow becomes fully clickable
+	    WebElement arrowl = WaitUtil.waitForElementVisible(driver, View_Analytics_arrow, 60);
+        ElementUtil.scrollToElement(arrowl, driver);
+        sleep(400);
+	   
+
+	    // 1️⃣ Expand analytics section
+	    WaitUtil.safeJsClick(driver, View_Analytics_arrow);
+	    sleep(1500);
+
+	    // 2️⃣ Read count
+	    String countText = ElementUtil.getText(redistributionCountIcon, driver).trim();
+	    int count = 0;
+
+	    try {
+	        count = Integer.parseInt(countText);
+	    } catch (Exception e) {
+	        logger.warn("Cannot parse redistribution count. Treating as 0.");
+	    }
+
+	    logger.info("Redistribution Count: " + count);
+
+	    if (count > 0) {
+
+	        logger.info("Count > 0. Clicking redistribution icon...");
+
+	        WebElement iconEl = WaitUtil.waitForElementVisible(driver, redistributionCountIcon, 60);
+	        ElementUtil.scrollToElement(iconEl, driver);
+	        sleep(400);
+
+	        WaitUtil.safeJsClick(driver, redistributionCountIcon);
+	        sleep(2000);
+
+	        // ⭐ Hide analytics
+	        WaitUtil.safeJsClick(driver, Hide_Analytics_arrow);
+
+	    } else {
+
+	        logger.info("Count is 0 → No redistributed campaigns. Hiding analytics only.");
+
+	        // ⭐ Scroll UP before clicking hide arrow (avoids overlap)
+	        scrollToTop();
+	        sleep(500);
+
+	        WaitUtil.safeJsClick(driver, Hide_Analytics_arrow);
+	    }
+	}
+
+
+	// ===================== MAIN PUBLIC FLOW =====================
+
+		public void manageEmailCampaignFullFlow() throws Exception {
+
+			navigateToManageCampaigns();
+			openEmailTab();
+
+			editEmailCampaign();
+			copyEmailCampaign();
+			updateCampaignEndDate();
+
+			previewAndDeleteView();
+			previewOnlyView();
+			archiveAndUnarchiveCampaign();
+			deleteEmailCampaign();
+
+			openCampaignAnalytics();
+			handleRecipientsTile();
+			handleTotalEmailSentTile();
+			handleDeliverabilityTile();
+			handleActiveRecipientsTile();
+			handleOpenRateTile();
+			handleClickedURLTile();
+			handleClickedThroughRateTile();
+			handleBounceTiles();
+			handleLeadsTile();
+			handleDealsTile();
+			handleCampaignAnalyticsSearchAndExport();
+
+			handleOpenHistoryByTemplate();
+			handleShowDownloadHistory();
+			handleRedistributionAnalytics();
+
+			goToHome();
+			logger.info("Manage Email Campaign full flow completed successfully.");
+		}
+
 }
