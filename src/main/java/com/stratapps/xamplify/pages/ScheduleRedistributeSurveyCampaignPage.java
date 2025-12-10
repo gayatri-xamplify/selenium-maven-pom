@@ -85,7 +85,5 @@ public class ScheduleRedistributeSurveyCampaignPage {
      	}
 
         
-    public void backToHome() {
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
+  
 }

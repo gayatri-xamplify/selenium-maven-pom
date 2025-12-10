@@ -67,7 +67,5 @@ public class SaveRedistributeSurveyCampaignPage {
         return actual.equalsIgnoreCase(expected);
     }
     
-    public void backToHome() {
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
+   
 }

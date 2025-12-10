@@ -81,7 +81,7 @@ public class ScheduleRedistributeVideoCampaignTest extends BaseTest {
             logger.error("Video Campaign Redistribution Schedule Failed");
         }
         
-        scheduleRedistributeVideoCampaignPage.backToHome();
+        redistributeVideoPage.backToHome();
 
     }
     
