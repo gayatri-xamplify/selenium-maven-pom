@@ -86,7 +86,7 @@ public class LaunchRedistributeVideoCampaignTest extends BaseTest {
             logger.error("Video Campaign Redistribution Launch Failed");
         }
         
-        launchRedistributeVideoCampaignPage.backToHome();
+        redistributeVideoPage.backToHome();
 
     }
 }

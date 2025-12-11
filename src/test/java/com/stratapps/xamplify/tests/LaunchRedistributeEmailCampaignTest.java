@@ -71,7 +71,7 @@ public class LaunchRedistributeEmailCampaignTest extends BaseTest {
             logger.error("Email Campaign Redistribution Launch Failed");
         }
         
-        launchRedistributeEmailCampaignPage.backToHome();
+        redistributeemailPage.backToHome();
 
     }
 }

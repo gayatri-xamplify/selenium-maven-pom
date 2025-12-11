@@ -238,7 +238,7 @@ public class AddTracksPage {
 
 		// Asset Type Dropdown - ppt
 		WaitUtil.waitForDropdownToBeReady(driver, assetTypeDropdown, 60);
-		DropdownUtil.selectByValue(driver, assetTypeDropdown, "12: ppt");
+		DropdownUtil.selectByVisibleText(driver, assetTypeDropdown, "ppt");
 		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		ElementUtil.safeClickFirstAsset(firstAssetSelect, driver);

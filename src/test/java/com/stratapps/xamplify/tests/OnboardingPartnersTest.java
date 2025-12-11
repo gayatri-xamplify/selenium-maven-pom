@@ -141,8 +141,6 @@ public class OnboardingPartnersTest extends BaseTest {
 		logger.info("Starting test: Deleted the partner");
 		onboardingPartnerPage.HoverPartners_OnboardingPartner();
 		onboardingPartnerPage.deletePartner();
-//  onboardingPartnerPage.HoverPartners_OnboardingPartner();
-//  onboardingPartnerPage.deletePartners();
 		logger.info("Successfully Deleted the partner");
 		System.out.println(" ");
 	}
