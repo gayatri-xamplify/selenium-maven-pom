@@ -82,65 +82,42 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	public void previewEventTemplate() throws Exception {
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
-
-	    // 1️⃣ Ensure the page is fully loaded
 	    WaitUtil.waitForPageToLoad(driver, 120);
 	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
-	    // 2️⃣ Wait until table rows are rendered (important)
-	    By firstRow = By.xpath("//*[@id='redistribute-campaign-list']/tbody/tr");
-	    wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(firstRow, 0));
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 
-	    // 3️⃣ CLICK the preview icon safely 
-	    for (int attempt = 1; attempt <= 5; attempt++) {
+	    // Wait for icon to appear in DOM
+	    wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
 
-	        try {
-	            // Fetch fresh element EACH attempt (prevents stale)
-	            WebElement preview = wait.until(ExpectedConditions.visibilityOfElementLocated(previewIcon));
+	    // Scroll into view
+	    WebElement preview = wait.until(ExpectedConditions.visibilityOfElementLocated(previewIcon));
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
+	    Thread.sleep(500);
 
-	            // Scroll into center — avoids header blocking click
-	            ((JavascriptExecutor) driver)
-	                    .executeScript("arguments[0].scrollIntoView({block:'center'});", preview);
-	            Thread.sleep(400);
+	    // 👉 Re-locate fresh element before click (AVOIDS STALE)
+	    preview = wait.until(ExpectedConditions.refreshed(
+	            ExpectedConditions.elementToBeClickable(previewIcon)
+	    ));
 
-	            // Ensure clickable
-	            wait.until(ExpectedConditions.elementToBeClickable(preview));
+	    // JS Click
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
 
-	            // JS click — strongest and safest
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
-
-	            break; // success → exit retry loop
-
-	        } catch (Exception e) {
-	            if (attempt == 5) {
-	                throw new RuntimeException("Failed to click preview icon after retries", e);
-	            }
-	            Thread.sleep(700);
-	        }
-	    }
-
-
-	    // 4️⃣ Handle tab switching
+	    // NEW TAB HANDLING
 	    String originalWindow = driver.getWindowHandle();
-	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    wait.until(driver1 -> driver.getWindowHandles().size() > 1);
 
-	    // Switch to new tab
 	    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 	    driver.switchTo().window(tabs.get(1));
 
-	    // 5️⃣ Load preview completely
 	    WaitUtil.waitForPageToLoad(driver, 60);
-	    Thread.sleep(1500);
 
-	    // Close preview
+	    Thread.sleep(800);
+
 	    driver.close();
-
-	    // Move back to original tab
 	    driver.switchTo().window(originalWindow);
 	    WaitUtil.waitForPageToLoad(driver, 60);
 	}
-
 
 	// =========================================================
 	// DOWNLOAD HISTORY ONLY
@@ -195,4 +172,18 @@ public class RedistributeEventCampaignPage {
 
 		WaitUtil.waitAndClick(driver, selectAllContacts, 60);
 	}
+	
+	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	    public void backToHome() throws Exception {
+	        By overlay = By.cssSelector(".swal2-overlay");
+
+	        // Wait for page load
+	        WaitUtil.waitForPageToLoad(driver, 60);
+
+	        // Wait for SweetAlert overlay to disappear
+	        WaitUtil.waitForInvisibilityOfElement(overlay, driver, 60);
+
+	        // Now safely click home button
+	        WaitUtil.waitAndClick(driver, Gotohome, 60);
+	    }
 }
