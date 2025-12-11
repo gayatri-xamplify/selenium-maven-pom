@@ -75,13 +75,14 @@ public class CompaniesPage {
 	// ========================= Methods ========================================
 	/* @NavigateToCompany Is Written by ganesh ***/
 	public void NavigateToCompany() throws InterruptedException {
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		WaitUtil.waitAndClick(driver, Companies, 20);
 	}
 	
 	/* @editCompanyDetails Is Written by ganesh ***/
 	public void editCompanyDetails() throws InterruptedException {
 		String CmpName = "Cmp_update"+ timestamp;
+		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, EditCompany, 20);
 		WaitUtil.waitAndSendKeys(driver, CompanyName, CmpName, 20);
 		WaitUtil.waitAndSendKeys(driver, Email, CmpName+"@gmail.com", 20);
@@ -172,7 +173,7 @@ public class CompaniesPage {
 	
 	/* @TileCountValidation Is Written by ganesh ***/
 	public static void TileCountValidation() throws InterruptedException {
-	    Thread.sleep(3000);
+	    Thread.sleep(5000);
 	    String TileCountText = driver.findElement(CompanyTileCount).getText();
 	    JavascriptExecutor js = (JavascriptExecutor) driver;
 	    WebElement totalCompaniesCount = driver.findElement(TotalCompaniesCount);
