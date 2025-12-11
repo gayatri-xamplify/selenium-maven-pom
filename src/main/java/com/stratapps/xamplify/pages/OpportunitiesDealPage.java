@@ -217,6 +217,7 @@ public class OpportunitiesDealPage {
 
 	/*** @dealSearch written by Ganesh */
 	public void dealSearch(String SearchKeyword) throws InterruptedException {
+		Thread.sleep(4000);
 		WaitUtil.waitAndSendKeys(driver, searchDeals, SearchKeyword, 20);
 		WaitUtil.waitAndClick(driver, clickSearchDealIcon, 20);
 		ScreenshotUtil.captureScreenshot(driver, "DealSearch");

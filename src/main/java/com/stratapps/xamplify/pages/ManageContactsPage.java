@@ -132,7 +132,7 @@ public class ManageContactsPage {
 
 	/* @clickContactsTab Is Written by ganesh ***/
 	public void hoverContacts_ManageContacts(String tabName) throws InterruptedException {
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		ActionUtil.hover(driver, hoverContacts);
 		ActionUtil.hoverAndClick(driver, manageContactsBtn);
 		clickContactsTab(tabName);
