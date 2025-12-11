@@ -277,14 +277,16 @@ public class OpportunitiesLeadPage {
 
 	public void leadsPaginationandPageCount() throws InterruptedException {
 		Thread.sleep(2000);
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
 		WaitUtil.waitAndClick(driver, leadNextPage, 20);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "leadNextPage");
 		WaitUtil.waitAndClick(driver, leadLastPage, 20);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "leadLastPage");
+	    js.executeScript("window.scrollTo(0, 700)");
 		WaitUtil.waitAndClick(driver, leadPreviousPage, 20);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
 		WaitUtil.waitAndClick(driver, leadFirstPage, 20);
 		Thread.sleep(3000);

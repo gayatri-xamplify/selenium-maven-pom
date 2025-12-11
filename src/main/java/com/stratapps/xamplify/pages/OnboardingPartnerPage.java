@@ -322,8 +322,8 @@ public class OnboardingPartnerPage {
 		// uploadElement.sendKeys(filePath);
 		WaitUtil.waitAndSendKeys(driver, legallInput, "Legitimate interest - prospect/lead", 20);
 		WaitUtil.waitForElementPresent(driver, legallInput, 20).sendKeys(Keys.ENTER);
-		Thread.sleep(3000);
-		WaitUtil.waitAndClick(driver, csvPartnerSave, 20);
+		Thread.sleep(7000);
+		WaitUtil.waitAndClick(driver, csvPartnerSave, 30);
 		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, acceptTerms, 20);
 		WaitUtil.waitAndClick(driver, pContinue, 20);

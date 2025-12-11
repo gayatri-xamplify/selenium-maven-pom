@@ -126,8 +126,8 @@ public class ManagePartnerPage {
 	}
 
 	public void CreateNewPartnerGroup() throws InterruptedException {
-		Thread.sleep(4000);
-	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 10);
+		Thread.sleep(6000);
+	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 60);
 	    WaitUtil.waitForElementClickable(driver, Alltile, 10).click();
 	    WaitUtil.waitForElementClickable(driver, checkAll, 10).click();
 	    WaitUtil.waitForElementClickable(driver, Action, 10).click();
@@ -163,12 +163,14 @@ public class ManagePartnerPage {
 	    // Sort again by index 4
 	    sortby1.selectByIndex(4);
 	    // Copy and Save Partner Group
+	    Thread.sleep(4000);
 	    WaitUtil.waitForElementClickable(driver, copyAndSaveButton, 20).click();
 	    WebElement nameField = WaitUtil.waitForElementVisible(driver, copyAndSaveNameField, 20);
 	    nameField.clear();
 	    WaitUtil.waitAndSendKeys(driver, copyAndSaveNameField, "automated list_" + System.currentTimeMillis(), 10);
 	    WaitUtil.waitForElementClickable(driver, saveNameChangesButton, 20).click();
 	    ScreenshotUtil.captureScreenshot(driver, "CopyandsaveGroup");
+	    Thread.sleep(3000);
 	    WaitUtil.waitForElementClickable(driver, searchClear, 20).click();
 	}
 
