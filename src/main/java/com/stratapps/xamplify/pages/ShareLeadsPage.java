@@ -110,22 +110,25 @@ public class ShareLeadsPage {
 			.xpath("(//i[contains(@class, 'fa-share') and contains(@class, 'IconCustomization')])[1]");
 	private final By PUBLISH_viewicon = By
 			.xpath("(//i[contains(@class, 'fa-eye') and contains(@class, 'IconCustomization')])[1]");
-
 	private By fieldNameDropdown = By.xpath("(//select[contains(@class,'form-control')])[1]");
-
 	private By campaignNameInput = By.id("campaignName");
 	private By legalBasisDropdown = By.xpath("//*[@id=\"multiselectelement\"]//span[3]/input");
 	private By saveButton = By.xpath("(//div[@id='saveAsModal']//button)[3]"); // update with actual value or property
-
 	private By manageshFilterSelect = By.xpath("//input[@id='checkAllExistingContacts']");
-
 	private final By undeliverableTile = By.xpath("(//button[contains(@class, 'yellow-gold')])[2]");
 	private final By unsubscribeTile = By.xpath("//button[@class='btn-block dashboard-stat red']");
-
 	private final By geariconAlltile = By.xpath("(//i[contains(@class,'fa-angle-down')])[2]");
 	private final By DownloadSL = By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]");
 
-	
+	private final By viewlist = By.xpath("//div[@id='partnerCompaniesPopup']//table//i[@class='fa fa-angle-right']");
+	private final By allCheckbook = By.xpath("//div[@id='partnerCompaniesPopup']//table//th[1]//input");
+	private final By Submit = By.xpath("//div[@id='partnerCompaniesPopup']//button//span");
+	private final By Close = By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),\\\"Close\\\")]");
+	private final By searchInput1 = By.xpath("(//input[@id='sort-text'])[1]");
+
+	private final By excludeTileLocator = By.xpath("(//button[contains(@class, 'yellow-gold')])[1]");
+	private final By UndeliverableTileLocator = By.xpath("(//button[contains(@class, 'yellow-gold')])[1]");
+
 //	===================================================
 	
 	
@@ -219,21 +222,20 @@ public class ShareLeadsPage {
 	public void publishShareLeadFlow() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, FIRST_PUBLISH_ICON, backdrop, 250);
 		WebDriverWait inputWait = new WebDriverWait(driver, Duration.ofSeconds(20));
-		By searchInput = By.xpath("(//input[@id='sort-text'])[1]");
-		inputWait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
-		ElementUtil.sendText(searchInput, "PartnerAuto", driver);
+		inputWait.until(ExpectedConditions.visibilityOfElementLocated(searchInput1));
+		ElementUtil.sendText(searchInput1, "PartnerAuto", driver);
 		Thread.sleep(1000);
-		ElementUtil.sendKey(searchInput, Keys.ENTER, driver);
+		ElementUtil.sendKey(searchInput1, Keys.ENTER, driver);
 		Thread.sleep(1000);
-		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//table//i[@class='fa fa-angle-right']"), driver);
+		ElementUtil.click(viewlist, driver);
 		Thread.sleep(1000);
-		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//table//th[1]//input"), driver);
+		ElementUtil.click(allCheckbook, driver);
 		Thread.sleep(1000);
-		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//button//span"), driver);
+		ElementUtil.click(Submit, driver);
 		Thread.sleep(1000);
 		ScreenshotUtil.captureScreenshot(driver, "Published_Shareleads");
 		Thread.sleep(1000);
-		ElementUtil.click(By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),\"Close\")]"), driver);
+		ElementUtil.click(Close, driver);
 		 Thread.sleep(58000);
 //		WaitUtil.waitAndClick(driver, PUBLISH_viewicon, backdrop, 80);
 		// Now click safely
@@ -449,7 +451,6 @@ public class ShareLeadsPage {
 
 	public boolean isExcludeTileEnabled() {
 		try {
-			By excludeTileLocator = By.xpath("(//button[contains(@class, 'yellow-gold')])[1]");
 			WebElement excludeTile = WaitUtil.waitForElementPresent(driver, excludeTileLocator, 40);
 			return excludeTile.isEnabled();
 		} catch (TimeoutException e) {
@@ -460,7 +461,6 @@ public class ShareLeadsPage {
 
 	public void clickExcludeTile() {
 		try {
-			By excludeTileLocator = By.xpath("(//button[contains(@class, 'yellow-gold')])[1]");
 			WebElement excludeTile = WaitUtil.waitForElementClickable(driver, excludeTileLocator, 40);
 			excludeTile.click();
 		} catch (TimeoutException e) {
@@ -480,7 +480,6 @@ public class ShareLeadsPage {
 
 	public void clickUndeliverableTile() {
 		try {
-			By UndeliverableTileLocator = By.xpath("(//button[contains(@class, 'yellow-gold')])[1]");
 			WebElement excludeTile = WaitUtil.waitForElementClickable(driver, UndeliverableTileLocator, 40);
 			excludeTile.click();
 		} catch (TimeoutException e) {
