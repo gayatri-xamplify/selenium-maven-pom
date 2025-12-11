@@ -60,7 +60,11 @@ public class ElementUtil {
         dropdown.selectByVisibleText(visibleText);
     }
 
-    
+    public static void selectDropdownByValue(By locator, String value, WebDriver driver) {
+        WebElement dropdownElement = driver.findElement(locator);
+        Select dropdown = new Select(dropdownElement);
+        dropdown.selectByValue(value);
+    }
     
     
     
