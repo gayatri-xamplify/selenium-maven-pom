@@ -106,6 +106,7 @@ public class EventCampaignPage {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(throughPartner));
 		}
 
+		Thread.sleep(2000);
 		// Toggle Public/Private
 		ElementUtil.click(publicToggle, driver);
 

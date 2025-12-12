@@ -132,7 +132,7 @@ public class ManageContactsPage {
 
 	/* @clickContactsTab Is Written by ganesh ***/
 	public void hoverContacts_ManageContacts(String tabName) throws InterruptedException {
-		Thread.sleep(3000);
+		Thread.sleep(7000);
 		ActionUtil.hover(driver, hoverContacts);
 		ActionUtil.hoverAndClick(driver, manageContactsBtn);
 		clickContactsTab(tabName);
@@ -219,7 +219,7 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, Unsubscribe, 20);
 		Thread.sleep(5000);
 		WaitUtil.verifyResponseMessage(driver, responsemesage, 20, mailId + " has been successfully unsubscribed for receiving the emails from the company: PartnerAuto");
-		WaitUtil.waitAndClick(driver, responsClose, 20);
+		WaitUtil.waitAndClick(driver, responsClose, 80);
 	}
 	
 	/* @Edit_ContactSubscribe Is Written by ganesh ***/

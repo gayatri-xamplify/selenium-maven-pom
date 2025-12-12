@@ -54,8 +54,6 @@ public class LaunchRedistributeSurveyCampaignPage {
         return actual.equals(expected);
     }
 
-    public void backToHome() {
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
+
 
 }

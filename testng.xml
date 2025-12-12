@@ -11,13 +11,13 @@
 			<class name="com.stratapps.xamplify.tests.ManagePartnerTest" />
 
 
-			<!--
+			
 		<class
 				name="com.stratapps.xamplify.tests.UploadAssetTest" />
 		<class
 				name="com.stratapps.xamplify.tests.ManageAssetTest" />
 		
-		-->
+		
 
 			<class
 				name="com.stratapps.xamplify.tests.AddTracksTest" />
@@ -46,35 +46,42 @@
 
 
 			<class
-				name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleEmailCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
+                name="com.stratapps.xamplify.tests.ScheduleEmailCampaignTest" />
+            <class
+                name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
+    <class
+                name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />                
+            <class
+                name="com.stratapps.xamplify.tests.ManageEmailCampaignTest" />
 
 
-			<class name="com.stratapps.xamplify.tests.LaunchSurveyCampaignTest" />
+<class
+                name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
+            <class
+                name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
+    <class
+                name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />                
+            <class
+                name="com.stratapps.xamplify.tests.ManageVideoCampaignTest" />
 
-			<class name="com.stratapps.xamplify.tests.SaveSurveyCampaignTest" />
+<class
+                name="com.stratapps.xamplify.tests.ScheduleSurveyCampaignTest" />
+            <class
+                name="com.stratapps.xamplify.tests.SaveSurveyCampaignTest" />
+    <class
+                name="com.stratapps.xamplify.tests.LaunchSurveyCampaignTest" />                
+            <class
+                name="com.stratapps.xamplify.tests.ManageSurveyCampaignTest" />
 
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleSurveyCampaignTest" />
 
-
-			<class name="com.stratapps.xamplify.tests.LaunchEventCampaignTest" />
-
-
-			<class name="com.stratapps.xamplify.tests.SaveEventCampaignTest" />
-			<class name="com.stratapps.xamplify.tests.ScheduleEventCampaignTest" />
-
+<class
+                name="com.stratapps.xamplify.tests.ScheduleEventCampaignTest" />
+            <class
+                name="com.stratapps.xamplify.tests.SaveEventCampaignTest" />
+    <class
+                name="com.stratapps.xamplify.tests.LaunchEventCampaignTest" />                
+            <class
+                name="com.stratapps.xamplify.tests.ManageEventCampaignTest" />
 
 			<class name="com.stratapps.xamplify.tests.TeamVendorTest" />
 
@@ -146,7 +153,7 @@
 
 			<class name="com.stratapps.xamplify.tests.TeamPartnerTest" />
 
-			<!-- 	
+			
 
       		 <class name="com.stratapps.xamplify.tests.SharedLeadsTest"/>
 			 
@@ -156,7 +163,7 @@
 		
 			 <class
 			name="com.stratapps.xamplify.tests.OpportunitiesLeadTest"/>
-            <class name="com.stratapps.xamplify.tests.OpportunitiesDealTest"/>-->
+            <class name="com.stratapps.xamplify.tests.OpportunitiesDealTest"/>
 
 
 		</classes>

@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ManageAssetPage;
+import com.stratapps.xamplify.pages.UploadAssetPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class ManageAssetTest extends BaseTest {
@@ -19,25 +20,30 @@ public class ManageAssetTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(ManageAssetTest.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
-	public void setUpClass() {
-		/*
-		 * super.setUp();
-		 * 
-		 * LoginPage loginPage = new LoginPage(driver);
-		 * loginPage.login(ConfigReader.getProperty("username"),
-		 * ConfigReader.getProperty("password")); manageAssetPage = new
-		 * ManageAssetPage(driver); wait = new WebDriverWait(driver,
-		 * Duration.ofSeconds(60)); logger.info("ManageAssetsTest setup completed");
-		 */
+	
+		@BeforeClass
+		public void setUpClass() {
+			try {
+				manageAssetPage = new ManageAssetPage(driver);
+				wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+				logger.info("ManageAsset setup completed");
+			} catch (Exception e) {
+				System.out.println("Note: Hide multiple classes Run");
+			}
+			try {
+				super.setUp();
+				LoginPage loginPage = new LoginPage(driver);
+				loginPage.loginAsVendor();
+				manageAssetPage = new ManageAssetPage(driver);
+				wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+				logger.info("ManageAsset setup completed");
+			} catch (Exception e) {
+				System.out.println("Note: single class Run Fail");
+			}
+		}
 		
 		
 		
-		
-		
-		
-		manageAssetPage = new ManageAssetPage(driver);
-	}
 	@Test(priority = 1, enabled = true)
 	public void manage_docx() throws Exception {
 		manageAssetPage.openManageAssetSection();

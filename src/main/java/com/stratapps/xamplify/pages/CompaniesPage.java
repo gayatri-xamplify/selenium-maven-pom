@@ -62,7 +62,7 @@ public class CompaniesPage {
 	private By companyEditUpdate = By.xpath("//Span[text()= 'Update']");
 	private By Sync = By.xpath("//button[text() = 'Sync']");
 	private By SynchronizeCompaniesBtn = By.xpath("//span[contains(text(), 'Synchronize Companies')]");
-	private By AddCompaniesBtn = By.xpath("//span[contains(text() , 'Add a Company')]/..");
+	private static By AddCompaniesBtn = By.xpath("//span[contains(text() , 'Add a Company')]/..");
 	private By AddCMP = By.xpath("//Span[text()= 'Add']/..");
 	private By reponsemsg = By.xpath("//span[@id=\"responseMessage\"]");
 	private static By CompanyTileCount = By.xpath("(//*[@id=\"deals-page-content-div\"]//div[1]/span)[1]");
@@ -75,13 +75,16 @@ public class CompaniesPage {
 	// ========================= Methods ========================================
 	/* @NavigateToCompany Is Written by ganesh ***/
 	public void NavigateToCompany() throws InterruptedException {
-		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, Companies, 20);
+		Thread.sleep(5000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 350);");
+		WaitUtil.waitAndClick(driver, Companies, 100);
 	}
 	
 	/* @editCompanyDetails Is Written by ganesh ***/
 	public void editCompanyDetails() throws InterruptedException {
 		String CmpName = "Cmp_update"+ timestamp;
+		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, EditCompany, 20);
 		WaitUtil.waitAndSendKeys(driver, CompanyName, CmpName, 20);
 		WaitUtil.waitAndSendKeys(driver, Email, CmpName+"@gmail.com", 20);
@@ -105,7 +108,8 @@ public class CompaniesPage {
 	
 	/* @DeleteCompany Is Written by ganesh ***/
 	public void DeleteCompany() throws InterruptedException  {
-		WaitUtil.waitAndClick(driver, DeleteCompany, 20);
+		Thread.sleep(4000);
+		WaitUtil.waitAndClick(driver, DeleteCompany, 60);
 		WaitUtil.waitAndClick(driver, YesDelete, 20);
 		Thread.sleep(2000);
 		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20, "Company Deleted Successfully");	
@@ -172,9 +176,10 @@ public class CompaniesPage {
 	
 	/* @TileCountValidation Is Written by ganesh ***/
 	public static void TileCountValidation() throws InterruptedException {
-	    Thread.sleep(3000);
+	    Thread.sleep(5000);
 	    String TileCountText = driver.findElement(CompanyTileCount).getText();
 	    JavascriptExecutor js = (JavascriptExecutor) driver;
+	    
 	    WebElement totalCompaniesCount = driver.findElement(TotalCompaniesCount);
 		js.executeScript("arguments[0].scrollIntoView();", totalCompaniesCount);
 	    String TotalRecordText = driver.findElement(TotalCompaniesCount).getText();

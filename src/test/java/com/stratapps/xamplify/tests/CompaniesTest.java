@@ -70,6 +70,7 @@ public class CompaniesTest extends BaseTest{
 	
     @Test(priority = 3, enabled = true)
 	public void CompanyCountValidationAndPagination() throws Exception {
+    	companiesPage.NavigateToCompany();
     	companiesPage.TileCountValidation();
     	manageContactsPage.ManageContactPagination();
     }
