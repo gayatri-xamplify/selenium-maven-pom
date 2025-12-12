@@ -56,7 +56,6 @@ public class ManageEventCampaignTest extends BaseTest {
         	manageEventCampaignPage.editEventCampaignFolder();
         	manageEventCampaignPage.sendPreviewEmailAndHandlePreviewDelete();
         	manageEventCampaignPage.gridViewPreviewAndUpdateEvent();
-        	manageEventCampaignPage.archiveAndDeleteEventFromGrid();
         	manageEventCampaignPage.openEventAnalyticsAndReports();
         	manageEventCampaignPage.goToHomeFromEventAnalytics();
         }
