@@ -144,6 +144,7 @@ public class ManageEventCampaignPage {
 	private By yourLeadDetailsSearchBox = By.xpath("//div[1]/div[3]//div[2]/input");
 	private By yourLeadDetailsGearIcon = By.xpath("//div[3]//div[3]/span/i[1]");
 	private By yourLeadDetailsExcel = By.xpath("//div[3]//div[3]/ul/li/a");
+    private By backdrop = By.cssSelector("div.backdrop");
 
 	// Home (reuse same as email)
 	private By homeLink = By.xpath("//a[normalize-space()='Home']");
@@ -226,6 +227,8 @@ public class ManageEventCampaignPage {
 
 	public void openEventTab() {
 		logger.info("Opening Event tab in Manage Campaigns...");
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		sleep(3000);
 		WaitUtil.waitAndClick(driver, eventTab, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
