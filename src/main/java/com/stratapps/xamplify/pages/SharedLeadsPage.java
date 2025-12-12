@@ -64,11 +64,15 @@ public class SharedLeadsPage {
 	private By filterSearchBox = By.xpath("(//app-manage-contacts//div/input)[1]");
 
 	private By validTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Valid')]]");
-	private By validTile2 = By.xpath("(//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'')]])[2]");
+	private By validTile2 = By
+			.xpath("(//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'')]])[2]");
 
-	private By excludeTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Excluded')]]");
-	private By undeliverableTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Undeliverable')]]");
-	private By unsubscribedTile = By.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Unsubscribed')]]");
+	private By excludeTile = By
+			.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Excluded')]]");
+	private By undeliverableTile = By
+			.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Undeliverable')]]");
+	private By unsubscribedTile = By
+			.xpath("//button[contains(@class,'dashboard-stat') and .//div[contains(text(),'Unsubscribed')]]");
 	private By resubscribeButton = By.xpath("(//i[contains(@class,'fa fa-bell')])[1]");
 	private By resubscribeSubmit = By.xpath("//span[contains(text(),'Subscribe')]");
 	private By sharedleadsAllBtn = By
@@ -83,12 +87,14 @@ public class SharedLeadsPage {
 	public By SubscribeBtn = By.xpath("(//button[contains(text(),'Subscribe')])[1]");
 	private By SearchClear = By.xpath("//button[contains(@class,'remove search-box-item-clear')]");
 
-
 	public String Sharedleadmail;
 
 	// --------------------- Navigation ---------------------
 
-	public void navigateToSharedLeads() { //
+	public void navigateToSharedLeads() throws InterruptedException { //
+		Thread.sleep(4000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 0);");
 		wait.until(ExpectedConditions.elementToBeClickable(sharedLeadsMenu)).click();
 		WaitUtil.waitForDropdownToBeReady(driver, sharedLeadsMenu, 60);
 		ElementUtil.click(sharedLeadsMenu, driver);
@@ -144,6 +150,10 @@ public class SharedLeadsPage {
 			logger.warn("Failed to extract count from: " + locator);
 			return 0;
 		}
+	}
+
+	public int getUnsubscribedTileCount() {
+		return extractTileCount(unsubscribedTile);
 	}
 
 	public int getValidTileCount() {
@@ -261,26 +271,32 @@ public class SharedLeadsPage {
 		ElementUtil.click(resubscribeSubmit, driver);
 
 	}
-	public void UnsubscribeTileManageShareleads(String Searchkeyword ) throws InterruptedException {
+
+	public void UnsubscribeTileManageShareleads(String Searchkeyword) throws InterruptedException {
 		Thread.sleep(10000);
-		WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
-		Thread.sleep(10000);
-		WaitUtil.waitAndClick(driver, unsubscribedTile, 60);
-		filterSearch(Searchkeyword);
-		Thread.sleep(2000);
-		WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon2, 60);
-		ElementUtil.click(emailReportIcon2, driver);
-		Thread.sleep(3000);
-		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
-				"We are processing your list(s) reports. We will send it over an email when the report is ready");
-		WaitUtil.waitForDropdownToBeReady(driver, SubscribeBtn, 80);
-		ElementUtil.click(SubscribeBtn, driver);
-		driver.findElement(By.id("comment")).sendKeys("Resubscribe sharedlead 123");
-		ElementUtil.click(resubscribeSubmit, driver);
-		Thread.sleep(100);
+		if (extractTileCount(unsubscribedTile) > 0) {
+			WaitUtil.waitForDropdownToBeReady(driver, unsubscribedTile, 80);
+			Thread.sleep(10000);
+			WaitUtil.waitAndClick(driver, unsubscribedTile, 60);
+			filterSearch(Searchkeyword);
+			Thread.sleep(2000);
+			WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon2, 60);
+			ElementUtil.click(emailReportIcon2, driver);
+			Thread.sleep(3000);
+			WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
+					"We are processing your list(s) reports. We will send it over an email when the report is ready");
+			WaitUtil.waitForDropdownToBeReady(driver, SubscribeBtn, 80);
+			ElementUtil.click(SubscribeBtn, driver);
+			driver.findElement(By.id("comment")).sendKeys("Resubscribe sharedlead 123");
+			ElementUtil.click(resubscribeSubmit, driver);
+			Thread.sleep(100);
+		} else {
+			System.out.println("'unsubscribed SharedLead' Tile count is " + extractTileCount(unsubscribedTile)
+					+ ", So Unable to click on Valid Tile");
+		}
 	}
-	
-	public void ValidTileManageShareleads(String Searchkeyword ) throws InterruptedException {
+
+	public void ValidTileManageShareleads(String Searchkeyword) throws InterruptedException {
 		Thread.sleep(10000);
 		WaitUtil.waitForDropdownToBeReady(driver, validTile2, 80);
 		Thread.sleep(10000);
@@ -292,10 +308,15 @@ public class SharedLeadsPage {
 		Thread.sleep(3000);
 		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
 				"We are processing your list(s) reports. We will send it over an email when the report is ready");
-		WaitUtil.waitAndClick(driver, SearchClear, 20);
-		Thread.sleep(1000);
+		Thread.sleep(3000);
+		try {
+			WaitUtil.waitAndClick(driver, SearchClear, 20);
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
-	
+
 	public void sharedLeadsEditListValidTile(int count) {
 		if (count > 0)
 
@@ -306,36 +327,35 @@ public class SharedLeadsPage {
 
 	public void sharedLeadsEditListExcludeTile(int count) throws InterruptedException {
 		if (count > 0) {
-		WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 80);
-		ElementUtil.click(excludeTile, driver);
-		Thread.sleep(2000);
-		WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon2, 60);
-		ElementUtil.click(emailReportIcon2, driver);
-		Thread.sleep(3000);
-		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
-				"We are processing your list(s) reports. We will send it over an email when the report is ready");
-		}
-		else{
-			System.out.println("'Exclude SharedLead' Tile count is " + count+ ", So Unable to click on Exclude Tile");
+			WaitUtil.waitForDropdownToBeReady(driver, excludeTile, 80);
+			ElementUtil.click(excludeTile, driver);
+			Thread.sleep(2000);
+			WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon2, 60);
+			ElementUtil.click(emailReportIcon2, driver);
+			Thread.sleep(3000);
+			WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
+					"We are processing your list(s) reports. We will send it over an email when the report is ready");
+		} else {
+			System.out.println("'Exclude SharedLead' Tile count is " + count + ", So Unable to click on Exclude Tile");
 		}
 
-		
 	}
 
 	public void sharedLeadsEditListUndeliverableTile(int count) throws InterruptedException {
 		if (count > 0) {
 			WaitUtil.waitForDropdownToBeReady(driver, undeliverableTile, 80);
-		ElementUtil.click(undeliverableTile, driver);
-		Thread.sleep(2000);
-		WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon2, 60);
-		ElementUtil.click(emailReportIcon2, driver);
-		Thread.sleep(3000);
-		WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
-				"We are processing your list(s) reports. We will send it over an email when the report is ready");
+			ElementUtil.click(undeliverableTile, driver);
+			Thread.sleep(2000);
+			WaitUtil.waitForDropdownToBeReady(driver, emailReportIcon2, 60);
+			ElementUtil.click(emailReportIcon2, driver);
+			Thread.sleep(3000);
+			WaitUtil.verifyResponseMessage(driver, reponsemsg, 20,
+					"We are processing your list(s) reports. We will send it over an email when the report is ready");
 		}
-		
-		else{
-			System.out.println("'Undeliverable SharedLead' Tile count is " + count+ ", So Unable to click on Undeliverable Tile");
+
+		else {
+			System.out.println(
+					"'Undeliverable SharedLead' Tile count is " + count + ", So Unable to click on Undeliverable Tile");
 		}
 
 	}
@@ -358,15 +378,15 @@ public class SharedLeadsPage {
 
 	public void manageValidSharedLeadsTileActions() throws InterruptedException {
 		if (extractTileCount(validTile) > 0) {
-		WaitUtil.waitForDropdownToBeReady(driver, validTile, 80);
-		ElementUtil.click(validTile, driver);
-		applyAllEditTileSortOptions();
-		applyFilter("City", "Contains", "Hyderabad");
-		filterSearch(Sharedleadmail);
-		manageSharedleadsTilesEmailreports();
-		}
-		else{
-			System.out.println("'Valid SharedLead' Tile count is " + extractTileCount(validTile)+ ", So Unable to click on Valid Tile");
+			WaitUtil.waitForDropdownToBeReady(driver, validTile, 80);
+			ElementUtil.click(validTile, driver);
+			applyAllEditTileSortOptions();
+			applyFilter("City", "Contains", "Hyderabad");
+			filterSearch(Sharedleadmail);
+			manageSharedleadsTilesEmailreports();
+		} else {
+			System.out.println("'Valid SharedLead' Tile count is " + extractTileCount(validTile)
+					+ ", So Unable to click on Valid Tile");
 		}
 	}
 
@@ -377,9 +397,9 @@ public class SharedLeadsPage {
 			applyAllEditTileSortOptions();
 			applyFilter("City", "Contains", "Hyderabad");
 			manageSharedleadsTilesEmailreports();
-		}
-		else{
-			System.out.println("Excluded SharedLead Tile count is " + getExcludeTileCount()+ ", So Unable to click on Excluded Tile");
+		} else {
+			System.out.println("Excluded SharedLead Tile count is " + getExcludeTileCount()
+					+ ", So Unable to click on Excluded Tile");
 		}
 	}
 
@@ -390,9 +410,9 @@ public class SharedLeadsPage {
 			applyAllEditTileSortOptions();
 			applyFilter("City", "Contains", "Hyderabad");
 			manageSharedleadsTilesEmailreports();
-		}
-		else{
-			System.out.println("Undeliverable SharedLead Tile count is " + getUndeliverableTileCount()+ ", So Unable to click on Undeliverable Tile");
+		} else {
+			System.out.println("Undeliverable SharedLead Tile count is " + getUndeliverableTileCount()
+					+ ", So Unable to click on Undeliverable Tile");
 		}
 	}
 
@@ -414,9 +434,9 @@ public class SharedLeadsPage {
 					+ " has been successfully resubscribed for receiving the emails from the company: PartnerAuto");
 			WaitUtil.waitAndClick(driver, SearchClear, 20);
 			Thread.sleep(1000);
-		}
-		else{
-			System.out.println("Unsubscribed SharedLead Tile count is " + extractTileCount(unsubscribedTile)+ ", So Unable to click on Valid Tile");
+		} else {
+			System.out.println("Unsubscribed SharedLead Tile count is " + extractTileCount(unsubscribedTile)
+					+ ", So Unable to click on Valid Tile");
 		}
 	}
 
