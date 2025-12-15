@@ -90,9 +90,12 @@ public class UploadAssetTest extends BaseTest {
 	@Test(priority = 2, enabled = false)
 	public void uploadAndsaveasDraft_mp3() {
 
+	    String filePath = System.getProperty("user.dir") + "/files/test-docx.docx";
+
 		uploadAssetPage.openUploadAssetSection();
+		  uploadAssetPage.uploadFile(filePath);
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-mp3.mp3");
+		//uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-mp3.mp3");
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("mp3", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
