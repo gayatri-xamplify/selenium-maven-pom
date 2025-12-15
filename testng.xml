@@ -102,8 +102,8 @@
 			<class name="com.stratapps.xamplify.tests.ManageContactsTest" />
 
 
-			<!--		<class
-			name="com.stratapps.xamplify.tests.AccessSharedAssetsTest" />-->
+					<class
+			name="com.stratapps.xamplify.tests.AccessSharedAssetsTest" />
 
 			<class name="com.stratapps.xamplify.tests.AccessSharedTracksTest" />
 			<class name="com.stratapps.xamplify.tests.AccessSharedPlaybooksTest" />
