@@ -142,4 +142,5 @@ public class VideoCampaignPage {
 
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(document.body.scrollHeight, 0)");
     }
+
 }

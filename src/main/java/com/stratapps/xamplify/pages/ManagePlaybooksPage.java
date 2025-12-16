@@ -141,7 +141,8 @@ public class ManagePlaybooksPage {
 
 	public void unpublishPlaybook() {
 
-		WaitUtil.waitAndClick(driver, unpublishIcon, 60);
+		WaitUtil.waitAndClick(driver, unpublishIcon, backdrop, 70);
+		//WaitUtil.waitAndClick(driver, unpublishIcon, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitAndClick(driver, otherRadio, 60);
 		ElementUtil.click(unpublishButton, driver);
