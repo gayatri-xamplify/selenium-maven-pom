@@ -48,17 +48,17 @@ public class ContactsTest extends BaseTest {
 	}
 
 	
-	  @BeforeClass public void setUp() {
-	  logger.info("✅ Initializing WebDriver and ContactsPage...");
-	  
-	  super.setUp(); logoutIfLoggedIn();
-	  
-	  LoginPage loginPage = new LoginPage(driver);
-	  loginPage.login(ConfigReader.getProperty("partner.username"),
-	  ConfigReader.getProperty("partner.password"));
-	  
-	  contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
-	  Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
+//	  @BeforeClass public void setUp() {
+//	  logger.info("✅ Initializing WebDriver and ContactsPage...");
+//	  
+//	  super.setUp(); logoutIfLoggedIn();
+//	  
+//	  LoginPage loginPage = new LoginPage(driver);
+//	  loginPage.login(ConfigReader.getProperty("partner.username"),
+//	  ConfigReader.getProperty("partner.password"));
+//	  
+//	  contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
+//	  Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
 	 
 
 	

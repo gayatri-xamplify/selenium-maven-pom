@@ -322,8 +322,9 @@ public class OnboardingPartnerPage {
 		// uploadElement.sendKeys(filePath);
 		WaitUtil.waitAndSendKeys(driver, legallInput, "Legitimate interest - prospect/lead", 20);
 		WaitUtil.waitForElementPresent(driver, legallInput, 20).sendKeys(Keys.ENTER);
+		Thread.sleep(7000);
+		WaitUtil.waitAndClick(driver, csvPartnerSave, 30);
 		Thread.sleep(3000);
-		WaitUtil.waitAndClick(driver, csvPartnerSave, 20);
 		WaitUtil.waitAndClick(driver, acceptTerms, 20);
 		WaitUtil.waitAndClick(driver, pContinue, 20);
 		ScreenshotUtil.captureScreenshot(driver, "Upload CSV");
@@ -331,7 +332,7 @@ public class OnboardingPartnerPage {
 
 // Onboarding partner through One At a Time
 	public void OnboardPartnerOneAtaTime() throws InterruptedException {
-		Thread.sleep(6000);
+		Thread.sleep(8000);
 		WaitUtil.waitAndClick(driver, oneAtATime, 20);
 		onboardpartnerForm();
 		WaitUtil.waitAndClick(driver, oneAtATimeProceed, 20);
@@ -342,7 +343,8 @@ public class OnboardingPartnerPage {
 
 // Edit the partner and update the partner details
 	public void partnerEdit() throws InterruptedException {
-		HoverPartners_OnboardingPartner();
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 300);");
 		WaitUtil.waitAndClick(driver, editPartner, 10);
 		updatepartnerForm();
 		WaitUtil.waitAndClick(driver, updatePartner2, 10);
@@ -360,6 +362,8 @@ public class OnboardingPartnerPage {
 		driver.findElement(search).sendKeys(Keys.ENTER);
 		WaitUtil.waitForLoaderToDisappear(driver, 50);
 		Thread.sleep(5000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 300);");
 		// Step 2: Wait for search results
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//b[text()='Email Id:']/..")));
 		// Step 3: Verify search results
@@ -395,6 +399,8 @@ public class OnboardingPartnerPage {
 	public void createGroup() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 30);
 		WaitUtil.waitAndClick(driver, checkBox1, 10);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 300);");
 		WaitUtil.waitAndClick(driver, actionBtn, 10);
 		WaitUtil.waitAndClick(driver, newGroup, 10);
 		WaitUtil.waitAndSendKeys(driver, nameOfTheList, "NewGroup" + System.currentTimeMillis(), 10);
@@ -410,6 +416,8 @@ public class OnboardingPartnerPage {
 		WaitUtil.waitForPageToLoad(driver, 30);
 		searchAndVerifyPartner();
 		WaitUtil.waitAndClick(driver, checkBox1, 10);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 300);");
 		WaitUtil.waitAndClick(driver, actionBtn, 10);
 		WaitUtil.waitAndClick(driver, addToGroup, 10);
 //WaitUtil.waitForPageToLoad(driver, 30);
@@ -424,7 +432,7 @@ public class OnboardingPartnerPage {
 // Delete the partner
 	public void deletePartner() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollTo(0, 0);");
+		js.executeScript("window.scrollTo(0, 300);");
 		searchAndVerifyPartner();
 		WaitUtil.waitAndClick(driver, deletePartnerOnboardBtn, 30);
 		WaitUtil.waitAndClick(driver, yesDeleteIt, 30);

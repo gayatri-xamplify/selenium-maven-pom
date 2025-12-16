@@ -38,12 +38,6 @@ public class OpportunitiesLeadTest extends BaseTest {
 		}
 	}
 
-//	@BeforeClass
-//	public void setUpClass() {
-//
-//		opportunitiesleadPage = new OpportunitiesLeadPage(driver);
-//	}
-
 	@Test(priority = 1, enabled = true)
 	public void OpenManageLeads() {
 		logger.info("Starting test: Create share lead one at a time");

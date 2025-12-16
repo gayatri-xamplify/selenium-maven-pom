@@ -238,9 +238,9 @@ public class WaitUtil {
     }
     
 	public static void verifyResponseMessage(WebDriver driver, By locator, int timeoutInSeconds, String expectedMessage) {
-
-		WebElement responseMsg = driver.findElement(locator);
-	    String actualMessage = responseMsg.getText().trim();
+	    WebElement responseMsg = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds))
+	            .until(ExpectedConditions.visibilityOfElementLocated(locator));
+		String actualMessage = responseMsg.getText().trim();
 
 	    if (actualMessage.equalsIgnoreCase(expectedMessage)) {
 	        System.out.println("✅ Message Verified: " + actualMessage);

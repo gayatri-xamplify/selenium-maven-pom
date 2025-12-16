@@ -174,6 +174,8 @@ public class ContactsPage {
 	public void completeOneAtATimeFlow(String contactType) throws Exception {
 		logger.info("Starting 'One at a Time' contact creation flow.");
 		Thread.sleep(2000);
+		String timestamp1 = String.valueOf(System.currentTimeMillis());
+
 		WaitUtil.waitAndClick(driver, oneAtATimeOption, 80);
 		WaitUtil.waitAndSendKeys(driver, emailField, uniqueEmail, 60);
 		WaitUtil.waitAndSendKeys(driver, firstName, "GAYATRI", 60);
@@ -195,7 +197,7 @@ public class ContactsPage {
 		try {
 			WebElement listName = driver.findElement(Listname);
 			if (listName.isDisplayed()) {
-				WaitUtil.waitAndSendKeys(driver, Listname, "List_" + timestamp + new Random().nextInt(10), 30);
+				WaitUtil.waitAndSendKeys(driver, Listname, "List_" + timestamp1 + new Random().nextInt(10), 30);
 			}
 
 			if (contactType == "Private") {
