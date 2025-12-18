@@ -46,11 +46,13 @@ public class ManageAssetTest extends BaseTest {
 		
 	@Test(priority = 1, enabled = true)
 	public void manage_docx() throws Exception {
+	    String filePath = System.getProperty("user.dir") + "/files/test-docx-updated.docx";
+
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(ASC)");
+		manageAssetPage.sortAssets("Created On (ASC)");
 		manageAssetPage.searchAsset("docx");
-		manageAssetPage.editAndReplaceAsset("D:\\git\\selenium-maven-pom\\files\\test-docx-updated.docx");
+		manageAssetPage.editAndReplaceAsset(filePath);
 		manageAssetPage.deleteAssetFile("docx");
 		manageAssetPage.previewAsset("docx");
 		manageAssetPage.downloadAsset();
@@ -61,10 +63,12 @@ public class ManageAssetTest extends BaseTest {
 	
 	@Test(priority = 2, enabled = true)
 	public void views() throws Exception {
+	    String filePath = System.getProperty("user.dir") + "/files/test-mp4.mp4";
+
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.openFilterAndApply("Asset Name", "Contains", "docx");
 		manageAssetPage.searchAsset("mp4");
-		manageAssetPage.videoActions("D:\\git\\selenium-maven-pom\\files\\test-mp4.mp4");
+		manageAssetPage.videoActions(filePath);
 	
 }
 	
@@ -73,7 +77,7 @@ public class ManageAssetTest extends BaseTest {
 	public void manage_csv() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(ASC)");
+		manageAssetPage.sortAssets("Created On (ASC)");
 		manageAssetPage.searchAsset("docx");
 		manageAssetPage.deleteAssetFile("csv");
 		manageAssetPage.previewAsset("csv");
@@ -90,7 +94,7 @@ public class ManageAssetTest extends BaseTest {
 	public void manage_ppt() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(DESC)");
+		manageAssetPage.sortAssets("Created On (DESC)");
 		manageAssetPage.searchAsset("ppt");
 		manageAssetPage.deleteAssetFile("ppt");
 		manageAssetPage.previewAsset("ppt");
@@ -106,7 +110,7 @@ public class ManageAssetTest extends BaseTest {
 	public void manage_pdf() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(DESC)");
+		manageAssetPage.sortAssets("Created On (DESC)");
 		manageAssetPage.searchAsset("pdf");
 		manageAssetPage.pdfAssetActions("pdf");
 	

@@ -184,30 +184,42 @@ public class ManageEventCampaignPage {
 	}
 
 	private void staleSafeClick(By locator) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		for (int i = 0; i < 4; i++) {
-			try {
-				WebElement el = wait
-						.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(locator)));
-				js.executeScript("arguments[0].scrollIntoView({block:'center'});", el);
-				sleep(200);
-				el.click();
-				return;
-			} catch (StaleElementReferenceException e) {
-				logger.warn("Stale element for locator: " + locator + " | retry: " + (i + 1));
-			} catch (Exception e) {
-				try {
-					WebElement el = driver.findElement(locator);
-					js.executeScript("arguments[0].click();", el);
-					return;
-				} catch (Exception ignored) {
-				}
-			}
-		}
-		throw new RuntimeException("staleSafeClick FAILED for: " + locator);
+	    for (int i = 1; i <= 6; i++) {
+	        try {
+	            // Always fetch a NEW element (avoids stale)
+	            WebElement el = wait.until(
+	                    ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(locator))
+	            );
+
+	            // Scroll into center to avoid overlap
+	            js.executeScript("arguments[0].scrollIntoView({block:'center'});", el);
+	            sleep(250);
+
+	            el.click();
+	            return; // SUCCESS
+
+	        } catch (StaleElementReferenceException | ElementClickInterceptedException e) {
+	            logger.warn("Retry " + i + " → stale/intercepted for: " + locator);
+	            sleep(300);
+
+	        } catch (Exception e) {
+	            logger.warn("Normal click failed, trying JS click → retry " + i);
+
+	            try {
+	                WebElement el = driver.findElement(locator);
+	                js.executeScript("arguments[0].click();", el);
+	                return; // SUCCESS with JS
+	            } catch (Exception ignored) {
+	            }
+	        }
+	    }
+
+	    throw new RuntimeException("staleSafeClick FAILED after 6 retries for: " + locator);
 	}
+
 
 	// ===================== SECTION 1: Navigation =====================
 
@@ -469,15 +481,29 @@ public class ManageEventCampaignPage {
 		safeClick(emailInfoPreviewLink);
 		logger.info("Clicked on Email Info preview.");
 
+		// Store the original window
 		String originalWindow = driver.getWindowHandle();
-		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
+
+		// Wait until at least 2 windows are open (parent + newly opened tab)
+		wait.until(driver1 -> driver1.getWindowHandles().size() > 1);
+
+		// Switch to the newly opened tab
+		for (String window : driver.getWindowHandles()) {
+		    if (!window.equals(originalWindow)) {
+		        driver.switchTo().window(window);
+		        break;
+		    }
+		}
+		// Wait for new tab to load
 		WaitUtil.waitForPageToLoad(driver, 60);
 
+		// Close the newly opened tab
 		driver.close();
+
+		// Switch back to original parent window
 		driver.switchTo().window(originalWindow);
 		WaitUtil.waitForPageToLoad(driver, 60);
+
 		logger.info("Email info preview closed successfully.");
 
 		// List info preview (same window)

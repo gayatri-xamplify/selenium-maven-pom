@@ -672,9 +672,12 @@ public class ManageSurveyCampaignPage {
 		logger.info("Handling Recipients tile...");
 
 		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);	
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsTile));
+		js.executeScript("arguments[0].scrollIntoView({block:'center'});", el);
 
-		WaitUtil.waitAndClick(driver, recipientsTile, 60);
+		js.executeScript("arguments[0].click();", el);
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsSearchBox));
@@ -937,13 +940,13 @@ public class ManageSurveyCampaignPage {
 		WaitUtil.waitAndClick(driver, SurveyTab, 60);
 	}
 
-
 	// ===================== SECTION 11: Show Download History =====================
 
 	public void handleShowDownloadHistory() {
 		logger.info("Handling Show Download History...");
 
-		WaitUtil.waitAndClick(driver, showDownloadHistoryIcon, 60);
+		WaitUtil.waitAndClick(driver, showDownloadHistoryIcon, backdrop, 60);
+		//WaitUtil.waitAndClick(driver, showDownloadHistoryIcon, 60);
 
 		WebElement sort = WaitUtil.waitForElementVisible(driver, showDownloadHistorySortBy, 60);
 		Select sel = new Select(sort);

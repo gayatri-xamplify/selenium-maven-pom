@@ -48,8 +48,7 @@ public class LaunchRedistributeEmailCampaignPage {
 
         String actual = WaitUtil.waitForElementVisible(driver, responseMsg, 60).getText();
 
-        String expected = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner."
-        		+ "";
+        String expected = "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner.";
 
         return actual.equals(expected);
     }

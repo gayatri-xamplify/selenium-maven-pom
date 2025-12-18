@@ -29,7 +29,6 @@ public class SaveRedistributeEmailCampaignPage {
     // ============================
     //   ONE SINGLE COMPLETE FLOW
     // ============================
-
     /**
      *  Complete flow:
      *  1️⃣ Click Test Mail
