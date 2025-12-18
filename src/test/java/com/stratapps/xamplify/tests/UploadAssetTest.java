@@ -78,19 +78,11 @@ public class UploadAssetTest extends BaseTest {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	@Test(priority = 2, enabled = false)
+	@Test(priority = 2, enabled = true)
 	public void uploadAndsaveasDraft_mp3() {
 
-	    String filePath = System.getProperty("user.dir") + "/files/test-docx.docx";
+	    String filePath = System.getProperty("user.dir") + "/files/test-mp3.mp3";
 
 		uploadAssetPage.openUploadAssetSection();
 		  uploadAssetPage.uploadFile(filePath);
@@ -105,11 +97,13 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 3, enabled = false)
+	@Test(priority = 3, enabled = true)
 	public void uploadAndPublishAsset_mp4() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-mp4.mp4";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-mp4.mp4");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("mp4", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -120,11 +114,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 4, enabled = false)
+	@Test(priority = 4, enabled = true)
 	public void uploadAndPublishAsset_doc() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-doc.doc";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-doc.doc");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("doc", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -135,11 +131,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 5, enabled = false)
+	@Test(priority = 5, enabled = true)
 	public void uploadAndPublishAsset_jpg() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-image.jpg";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-image.jpg");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -150,11 +148,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 6, enabled = false)
+	@Test(priority = 6, enabled = true)
 	public void uploadAndPublishAsset_ppt() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-ppt.ppt";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-ppt.ppt");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("ppt", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -165,11 +165,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 7, enabled = false)
+	@Test(priority = 7, enabled = true)
 	public void uploadAndPublishAsset_zip() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-zip.zip";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-zip.zip");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("zip", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -180,11 +182,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 8, enabled = false)
+	@Test(priority = 8, enabled = true)
 	public void uploadAndPublishAsset_pdf() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-file.pdf";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-file.pdf");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("pdf", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -195,11 +199,13 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 9, enabled = false)
+	@Test(priority = 9, enabled = true)
 	public void uploadAndPublishAsset_csv() {
+	    String filePath = System.getProperty("user.dir") + "/files/test-csv.csv";
+
 		uploadAssetPage.openUploadAssetSection();
 		// Start asset upload flow
-		uploadAssetPage.uploadFile("D:\\git\\selenium-maven-pom\\files\\test-csv.csv");
+		uploadAssetPage.uploadFile(filePath);
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("csv", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
@@ -217,7 +223,7 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 10, enabled = false)
+	@Test(priority = 10, enabled = true)
 	public void uploadNewAsset_Box() {
 		{
 			uploadAssetPage.openUploadAssetSection();
@@ -229,14 +235,14 @@ public class UploadAssetTest extends BaseTest {
 		}
 	}
 
-	@Test(priority = 13, enabled = false)
+	@Test(priority = 13, enabled = true)
 	public void DesignPDFPublish() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.selectPartnerPDF();
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 12, enabled = false)
+	@Test(priority = 12, enabled = true)
 	public void DesignPDFSave() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSave();
@@ -244,7 +250,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 11, enabled = false)
+	@Test(priority = 11, enabled = true)
 	public void DesignPDFDraft() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSaveDraft();

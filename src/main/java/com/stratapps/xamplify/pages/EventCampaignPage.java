@@ -135,6 +135,7 @@ public class EventCampaignPage {
 	// ==========================================
 	public void selectPartnerList() throws Exception {
 
+		Thread.sleep(3000); // wait for page load
 		WaitUtil.waitForVisibility(driver, partnerSearch, 60);
 		ElementUtil.sendText(partnerSearch, "Active", driver);
 		ElementUtil.sendKey(partnerSearch, Keys.ENTER, driver);
