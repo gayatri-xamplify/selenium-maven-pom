@@ -62,6 +62,8 @@ public class VideoCampaignPage {
         WaitUtil.waitForElementVisible(driver, campaignHover, 60);
         ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
         WaitUtil.waitAndClick(driver, createCampaign, 60);
+        WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
         WaitUtil.waitAndClick(driver, openVideoCampaign, 60);
 
         // 2️⃣ Campaign name input
@@ -142,4 +144,5 @@ public class VideoCampaignPage {
 
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(document.body.scrollHeight, 0)");
     }
+
 }

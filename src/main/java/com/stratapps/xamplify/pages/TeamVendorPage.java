@@ -69,7 +69,7 @@ public class TeamVendorPage {
 	private By previewclose = By.xpath("//div[@id=\"preview-team-member-popup\"]/div/div/div[3]/button");
     private By Gotohome =By.xpath("//img[@class='cls-pointer']");
 
-	public void addTeammember() {
+	public void addTeammember() throws InterruptedException {
 	    // Ensure no backdrop/overlay is blocking the element
 	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 	    // Scroll down slightly to bring the Team menu into view
@@ -96,7 +96,7 @@ public class TeamVendorPage {
 	    ElementUtil.sendText(firstNameField, "Mounika", driver);
 	    ElementUtil.sendText(lastNameField, "K", driver);
 	    ElementUtil.sendText(emailIdField, "Oneteam" + System.currentTimeMillis() + "@test.com", driver);
-	    
+	    Thread.sleep(2000);
 	    // Select the group from the dropdown
 	    ElementUtil.click(groupDropdown, driver);
 	    WaitUtil.waitForVisibility(driver, groupDropdown, 30);
