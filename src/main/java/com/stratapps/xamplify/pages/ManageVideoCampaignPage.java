@@ -673,9 +673,11 @@ public class ManageVideoCampaignPage {
 		logger.info("Handling Recipients tile...");
 
 		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsTile));
+		js.executeScript("arguments[0].scrollIntoView({block:'center'});", el);
 
-		WaitUtil.waitAndClick(driver, recipientsTile, 60);
+		js.executeScript("arguments[0].click();", el);
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsSearchBox));

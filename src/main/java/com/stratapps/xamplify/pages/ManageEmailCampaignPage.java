@@ -402,6 +402,7 @@ public class ManageEmailCampaignPage {
 
 	public void openEmailTab() {
 		logger.info("Opening Email tab in Manage Campaigns...");
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		WaitUtil.waitAndClick(driver, emailTab, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
@@ -410,6 +411,8 @@ public class ManageEmailCampaignPage {
 	// ===================== SECTION 2: Edit Campaign =====================
 
 	public void clickGearIconRow1() throws InterruptedException {
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		// 1️⃣ Wait for icon to exist & scroll to center
@@ -673,9 +676,11 @@ public class ManageEmailCampaignPage {
 		logger.info("Handling Recipients tile...");
 
 		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsTile));
+		js.executeScript("arguments[0].scrollIntoView({block:'center'});", el);
 
-		WaitUtil.waitAndClick(driver, recipientsTile, 60);
+		js.executeScript("arguments[0].click();", el);
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(recipientsSearchBox));
