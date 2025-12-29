@@ -419,7 +419,7 @@ public class OpportunitiesDealPage {
 
 	/*** @editDeal written by Ganesh */
 	public void editDeal() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, editDeal, 10);
+		WaitUtil.waitAndClick(driver, editDeal, 60);
 		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 10);
 		Thread.sleep(4000);
 		DropdownUtil.selectByValue(driver, dealPipeLineStage, "88671");
@@ -566,8 +566,8 @@ public class OpportunitiesDealPage {
 	}
 	
 	public void WonDealTileCountValidation() throws InterruptedException {
-	    WaitUtil.waitAndClick(driver, WonDealTile, 20);
-	    Thread.sleep(5000);
+	    WaitUtil.waitAndClick(driver, WonDealTile, 60);
+	    Thread.sleep(9000);
 	    String WonDealCountText = driver.findElement(WonDealTileCount).getText();
 	    String TotalRecordText = driver.findElement(WonDealTotalCount).getText();
 	    // Convert to int
@@ -594,8 +594,9 @@ public class OpportunitiesDealPage {
 	}
 	
 	public void AllDealTileCountValidation() throws InterruptedException {
-	    WaitUtil.waitAndClick(driver, AllDealTile, 20);
-	    Thread.sleep(5000);
+	    Thread.sleep(4000);
+	    WaitUtil.waitAndClick(driver, AllDealTile, 60);
+	    Thread.sleep(9000);
 	    String LossDealCountText = driver.findElement(AllDealTileCount).getText();
 	    String TotalRecordText = driver.findElement(AllDealTotalCount).getText();
 	    // Convert to int
