@@ -247,55 +247,117 @@ public class UploadAssetPage {
 
 	}
 
-	/** Add Tags to Asset */
-	public void addTags(String tagName) {
-		WaitUtil.waitForPageToLoad(driver, 90);
+	/** Add Tags to Asset 
+	 * @throws InterruptedException */
+	
+	
+	public void addTags(String tagName) throws InterruptedException {
 
-		// ✅ Step 1: Click on "Pick up Tag(s)"
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", pickUpButton);
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", pickUpButton);
-		System.out.println("✅ Clicked on 'Pick up Tag(s)' successfully");
 
-		// ✅ Step 2: Wait for modal to appear
-		WaitUtil.waitForElementVisible(driver, active_modal, 20);
+	    WaitUtil.waitForPageToLoad(driver, 90);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-		// ✅ Step 3: Click "+ Add a tag"
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		try {
-			WebElement addTagButton = WaitUtil.waitForElementClickable(driver, addTagIcon, 20);
-			addTagButton.click();
-		} catch (Exception e) {
-			WebElement addTagButton = driver.findElement(addTagIcon);
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();", addTagButton);
-		}
-		System.out.println("✅ Clicked on '+ Add a tag' successfully");
+	    // 1️⃣ Click "Pick up Tag(s)"
+	    WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
+	    js.executeScript("arguments[0].scrollIntoView({block:'center'});", pickUpButton);
+	    js.executeScript("arguments[0].click();", pickUpButton);
 
-		// ✅ Step 4: Enter new tag name
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
-		String uniqueTag = tagName + "_" + System.currentTimeMillis();
-		ElementUtil.sendText(tagInputField, uniqueTag, driver);
-		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
 
-		// ✅ Step 5: Save and select tag
-		WaitUtil.waitAndClick(driver, tagSaveButton, 30);
-		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 30);
+	    // 2️⃣ Wait for modal
+	    WaitUtil.waitForElementVisible(driver, active_modal, 30);
+
+	    Thread.sleep(2000); // short pause to ensure modal fully rendered
+	    // 3️⃣ Click "+ Add a tag"
+	    WebElement addTagBtn = WaitUtil.waitForElementPresent(driver, addTagIcon, 30);
+	    js.executeScript("arguments[0].click();", addTagBtn);
+
+
+	    // 4️⃣ Enter unique tag name
+	    WaitUtil.waitForElementVisible(driver, tagInputField, 30);
+
+	    String uniqueTag = tagName + "_" + System.currentTimeMillis();
+	    ElementUtil.sendText(tagInputField, uniqueTag, driver);
+	    ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+
+
+	    // 5️⃣ Save tag
+	    WebElement saveBtn = WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
+	    js.executeScript("arguments[0].click();", saveBtn);
+
+	    // 6️⃣ Select newly created tag
+	    WebElement checkbox = WaitUtil.waitForElementClickable(driver, tagSelectCheckbox, 30);
+	    js.executeScript("arguments[0].click();", checkbox);
 		ElementUtil.click(tagSaveButton, driver);
 
-		// ✅ Step 6: Add more tags
-		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 30);
-		ElementUtil.click(addMoreTagsLink, driver);
-		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
-		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
-		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
-		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 30);
-		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 30);
-		WaitUtil.waitForPageToLoad(driver, 60);
+	    // 7️⃣ Add more tags
+	    WebElement addMoreLink = WaitUtil.waitForElementClickable(driver, addMoreTagsLink, 30);
+	    js.executeScript("arguments[0].click();", addMoreLink);
 
-		System.out.println("✅ Tags added successfully.");
+	    WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
+	    ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+	    ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
+
+	    WebElement selectMore = WaitUtil.waitForElementClickable(driver, addMoreTagsSelect, 30);
+	    js.executeScript("arguments[0].click();", selectMore);
+
+	    WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
+	    js.executeScript("arguments[0].click();", updateBtn);
+
 	}
+
+	
+	
+	
+//	public void addTags(String tagName) {
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//
+//		// ✅ Step 1: Click on "Pick up Tag(s)"
+//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+//		WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
+//		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", pickUpButton);
+//		((JavascriptExecutor) driver).executeScript("arguments[0].click();", pickUpButton);
+//		System.out.println("✅ Clicked on 'Pick up Tag(s)' successfully");
+//
+//		// ✅ Step 2: Wait for modal to appear
+//		WaitUtil.waitForElementVisible(driver, active_modal, 20);
+//
+//		// ✅ Step 3: Click "+ Add a tag"
+//
+//		try {
+//			WebElement addTagButton = WaitUtil.waitForElementClickable(driver, addTagIcon, 20);
+//			addTagButton.click();
+//		} catch (Exception e) {
+//			WebElement addTagButton = driver.findElement(addTagIcon);
+//			((JavascriptExecutor) driver).executeScript("arguments[0].click();", addTagButton);
+//		}
+//		System.out.println("✅ Clicked on '+ Add a tag' successfully");
+//
+//		// ✅ Step 4: Enter new tag name
+//		WaitUtil.waitForPageToLoad(driver, 60);
+//		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
+//		String uniqueTag = tagName + "_" + System.currentTimeMillis();
+//		ElementUtil.sendText(tagInputField, uniqueTag, driver);
+//		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+//
+//		// ✅ Step 5: Save and select tag
+//		WaitUtil.waitAndClick(driver, tagSaveButton, 30);
+//		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 30);
+//		ElementUtil.click(tagSaveButton, driver);
+//
+//		// ✅ Step 6: Add more tags
+//		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 30);
+//		ElementUtil.click(addMoreTagsLink, driver);
+//		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
+//		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+//		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
+//		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 30);
+//		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 30);
+//		WaitUtil.waitForPageToLoad(driver, 60);
+//
+//		System.out.println("✅ Tags added successfully.");
+//	}
 
 	/** Enters description text inside the asset description editor. */
 	public void enterDescription(String text) {

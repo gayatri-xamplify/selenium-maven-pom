@@ -61,11 +61,10 @@ public class AddTracksPage {
 	private By quizSearchBox = By.xpath("(//input[@id='search-text'])[2]");
 	private By firstQuizClick = By
 			.xpath("(//*[@id='quiz-list']/div/div/div[2]/div[1]/div/div/div[2]/table/tbody/tr/td[1]/input)[1]");
-	private By previewQuiz = By.xpath("(//tbody/tr[1]/td[4]/div/a/i)[2]");
+	private By previewQuiz = By.xpath("(//div[contains(@class,'modal right in')]//a[@title='Preview'])[1]");
 	private By closeQuizPopup1 = By.xpath("//a[@id='bottom-right']");
 	private By closeQuizPopup = By
 			.xpath("//div[@id='quiz-list']//span[@class='btn Btn-Gray'][normalize-space()='Close']");
-
 	private By orderAssetsButton = By.xpath("//span[contains(text(),'Order')]");
 	private By previewOrderAsset = By
 			.xpath("(//*[@id='actions-row ']/div/a[1]/i[@class='fa fa-eye IconCustomization'])[1]");
@@ -84,7 +83,11 @@ public class AddTracksPage {
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 	private By backdrop = By.cssSelector("div.backdrop");
 	private By quizSearchIcon = By.xpath("//*[@id=\"search-icon\"]/button[2]/i");
-
+	public By active_modal = By.xpath("//div[@id='addTagModal' and contains(@style,'display: block')]");
+	
+	
+	
+	
 	public void openContentMenu() {
 		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
 		ElementUtil.click(contentMenu, driver);
@@ -114,31 +117,98 @@ public class AddTracksPage {
 
 	}
 
-	public void addTags(String tagName) {
+	public void addTags(String tagName) throws InterruptedException {
+		
+		   WaitUtil.waitForPageToLoad(driver, 90);
+		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-		WaitUtil.waitAndClick(driver, tagPlusIcon, 60);
-		WaitUtil.waitAndClick(driver, addTagButton, 90);
-		WaitUtil.waitForPageToLoad(driver, 70);
-		WaitUtil.waitForElementVisible(driver, tagInputField, 90);
-		ElementUtil.sendText(tagInputField, tagName + "_" + System.currentTimeMillis(), driver);
-		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
-		WaitUtil.waitAndClick(driver, tagSaveButton, 60);
-		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 60);
-		ElementUtil.click(tagSaveButton, driver);
+		    JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 60);
-		ElementUtil.click(addMoreTagsLink, driver);
-		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 60);
-		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
-		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
-		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 60);
-		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 60);
+		    // 1️⃣ Click "Pick up Tag(s)"
+		    WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, tagPlusIcon, 30);
+		    js.executeScript("arguments[0].scrollIntoView({block:'center'});", pickUpButton);
+		    js.executeScript("arguments[0].click();", pickUpButton);
+
+
+		    // 2️⃣ Wait for modal
+		    WaitUtil.waitForElementVisible(driver, active_modal, 30);
+
+		    Thread.sleep(2000); // short pause to ensure modal fully rendered
+		    // 3️⃣ Click "+ Add a tag"
+		    WebElement addTagBtn = WaitUtil.waitForElementPresent(driver, addTagButton, 30);
+		    js.executeScript("arguments[0].click();", addTagBtn);
+
+
+		    // 4️⃣ Enter unique tag name
+		    WaitUtil.waitForElementVisible(driver, tagInputField, 30);
+
+		    String uniqueTag = tagName + "_" + System.currentTimeMillis();
+		    ElementUtil.sendText(tagInputField, uniqueTag, driver);
+		    ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+
+
+		    // 5️⃣ Save tag
+		    WebElement saveBtn = WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
+		    js.executeScript("arguments[0].click();", saveBtn);
+
+		    // 6️⃣ Select newly created tag
+		    WebElement checkbox = WaitUtil.waitForElementClickable(driver, tagSelectCheckbox, 30);
+		    js.executeScript("arguments[0].click();", checkbox);
+			ElementUtil.click(tagSaveButton, driver);
+
+		    // 7️⃣ Add more tags
+		    WebElement addMoreLink = WaitUtil.waitForElementClickable(driver, addMoreTagsLink, 30);
+		    js.executeScript("arguments[0].click();", addMoreLink);
+
+		    WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
+		    ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+		    ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
+
+		    WebElement selectMore = WaitUtil.waitForElementClickable(driver, addMoreTagsSelect, 30);
+		    js.executeScript("arguments[0].click();", selectMore);
+
+		    WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
+		    js.executeScript("arguments[0].click();", updateBtn);
+
+		
+		
+		
+		
+		
+		
+		
+//
+//		WaitUtil.waitAndClick(driver, tagPlusIcon, 60);
+//		WaitUtil.waitAndClick(driver, addTagButton, 90);
+//		WaitUtil.waitForPageToLoad(driver, 70);
+//		WaitUtil.waitForElementVisible(driver, tagInputField, 90);
+//		WaitUtil.waitForPageToLoad(driver, 70);
+//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+//		ElementUtil.sendText(tagInputField, tagName + "_" + System.currentTimeMillis(), driver);
+//		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+//		WaitUtil.waitAndClick(driver, tagSaveButton, 60);
+//		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 60);
+//		ElementUtil.click(tagSaveButton, driver);
+//
+//		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 60);
+//		ElementUtil.click(addMoreTagsLink, driver);
+//		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 60);
+//		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+//		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
+//		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 60);
+//		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 60);
 
 		ElementUtil.click(nextButton, driver);
 	}
 
 	public void addMediaAndForm() {
 
+		WaitUtil.waitForPageToLoad(driver, 70);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+	    WebElement addMedia = driver.findElement(addMediaButton);
+		ElementUtil.scrollToElement(addMedia, driver);
+	    
 		WaitUtil.waitAndClick(driver, addMediaButton, 60);
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForVisibility(driver, firstAssetClick, 60);
@@ -261,8 +331,13 @@ public class AddTracksPage {
 
 		WebElement quiz = WaitUtil.waitForElementPresent(driver, firstQuizClick, 60);
 		if (quiz.isDisplayed()) {
+			
 			if (ElementUtil.isElementVisible(firstQuizClick, driver)) {
+				WaitUtil.waitForPageToLoad(driver, 60);
+				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
 				ElementUtil.click(firstQuizClick, driver);
+				Thread.sleep(2000);
 				ElementUtil.click(previewQuiz, driver);
 				WaitUtil.waitForPageToLoad(driver, 60);
 				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);

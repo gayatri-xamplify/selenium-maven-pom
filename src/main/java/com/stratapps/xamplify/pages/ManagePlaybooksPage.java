@@ -130,13 +130,14 @@ public class ManagePlaybooksPage {
 
 		// Click Share tab
 		WaitUtil.waitAndClick(driver, shareSection, 60);
-
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		// Click update
 		ElementUtil.click(updatePlaybook, driver);
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		// Refresh
-		WaitUtil.waitAndClick(driver, refreshButton, 60);
+		//WaitUtil.waitAndClick(driver, refreshButton, 60);
 	}
 
 	public void unpublishPlaybook() {
