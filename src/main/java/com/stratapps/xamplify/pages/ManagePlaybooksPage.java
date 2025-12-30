@@ -92,15 +92,15 @@ public class ManagePlaybooksPage {
 
 		WaitUtil.waitForVisibility(driver, editPlaybook, 60);
 		ElementUtil.click(editPlaybook, driver);
-		//WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-//		    JavascriptExecutor js = (JavascriptExecutor) driver;
-//		    js.executeScript("window.scrollTo(0, document.body.scrollHeight / 2);");
-//	
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+		WebElement clearDate = driver.findElement(clearEndDate);
+		ElementUtil.scrollToElement(clearDate, driver);
 
 		// Clear & select end date
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
+
 		ElementUtil.clickWithRetry(clearEndDate, driver, 3);
 
 		WaitUtil.waitAndClick(driver, endDateInput, 60);
@@ -137,13 +137,13 @@ public class ManagePlaybooksPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		// Refresh
-		//WaitUtil.waitAndClick(driver, refreshButton, 60);
+		// WaitUtil.waitAndClick(driver, refreshButton, 60);
 	}
 
 	public void unpublishPlaybook() {
 
 		WaitUtil.waitAndClick(driver, unpublishIcon, backdrop, 70);
-		//WaitUtil.waitAndClick(driver, unpublishIcon, 60);
+		// WaitUtil.waitAndClick(driver, unpublishIcon, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitAndClick(driver, otherRadio, 60);
 		ElementUtil.click(unpublishButton, driver);

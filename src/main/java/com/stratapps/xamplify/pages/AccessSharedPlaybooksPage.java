@@ -177,6 +177,7 @@ public class AccessSharedPlaybooksPage {
 		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
 		ElementUtil.click(downloadAssetPlaybook, driver);
 		WaitUtil.waitForPageToLoad(driver, 90);
+		Thread.sleep(2000);
 		ElementUtil.click(previewclose, driver);
 		WaitUtil.waitForPageToLoad(driver, 30);
 

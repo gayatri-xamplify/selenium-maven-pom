@@ -170,34 +170,6 @@ public class AddTracksPage {
 		    WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
 		    js.executeScript("arguments[0].click();", updateBtn);
 
-		
-		
-		
-		
-		
-		
-		
-//
-//		WaitUtil.waitAndClick(driver, tagPlusIcon, 60);
-//		WaitUtil.waitAndClick(driver, addTagButton, 90);
-//		WaitUtil.waitForPageToLoad(driver, 70);
-//		WaitUtil.waitForElementVisible(driver, tagInputField, 90);
-//		WaitUtil.waitForPageToLoad(driver, 70);
-//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-//		ElementUtil.sendText(tagInputField, tagName + "_" + System.currentTimeMillis(), driver);
-//		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
-//		WaitUtil.waitAndClick(driver, tagSaveButton, 60);
-//		WaitUtil.waitAndClick(driver, tagSelectCheckbox, 60);
-//		ElementUtil.click(tagSaveButton, driver);
-//
-//		WaitUtil.waitForElementVisible(driver, addMoreTagsLink, 60);
-//		ElementUtil.click(addMoreTagsLink, driver);
-//		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 60);
-//		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
-//		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
-//		WaitUtil.waitAndClick(driver, addMoreTagsSelect, 60);
-//		WaitUtil.waitAndClick(driver, addMoreTagsUpdate, 60);
-
 		ElementUtil.click(nextButton, driver);
 	}
 
