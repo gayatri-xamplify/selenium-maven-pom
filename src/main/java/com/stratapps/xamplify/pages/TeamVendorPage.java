@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
@@ -71,14 +72,20 @@ public class TeamVendorPage {
 
 	public void addTeammember() throws InterruptedException {
 	    // Ensure no backdrop/overlay is blocking the element
+	    
+	    WaitUtil.waitForPageToLoad(driver, 70);
 	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 	    // Scroll down slightly to bring the Team menu into view
-	 // Scroll down slightly to bring the Team menu into view
-	    ActionUtil.scrollToElement(driver, driver.findElement(teamMenu));
 
+	    WebElement teamModule = driver.findElement(teamMenu);
+		ElementUtil.scrollToElement(teamModule, driver);
+	    	
+	    ElementUtil.click(teamMenu, driver);
 
+//	    ActionUtil.scrollToElement(driver, driver.findElement(teamMenu));
+ 
 	    // Hover over the team menu and click on "Add"
-	    ActionUtil.hoverAndClick(driver, teamMenu);
+//	    ActionUtil.hoverAndClick(driver, teamMenu);
 	    
 	    // Wait for the "Add" button to be visible
 	    WaitUtil.waitForVisibility(driver, addButton, 60);
@@ -177,7 +184,8 @@ public class TeamVendorPage {
 //		WaitUtil.waitForPageToLoad(driver, 90);
 	}
 
-	public void exportTeamMembers() {
+	public void exportTeamMembers() throws InterruptedException {
+		Thread.sleep(2000);
 		ElementUtil.click(refreshButton, driver);
 		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitAndClick(driver, exportExcelButton, 60);
