@@ -91,9 +91,16 @@ public class ManageTracksPage {
 
 		WaitUtil.waitForVisibility(driver, editTrack, 60);
 		ElementUtil.click(editTrack, driver);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
+
+		WebElement clearDate = driver.findElement(clearEndDate);
+		ElementUtil.scrollToElement(clearDate, driver);
+		
+		
 		// Clear & select end date
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
+		
 		ElementUtil.clickWithRetry(clearEndDate, driver, 3);
 
 		WaitUtil.waitAndClick(driver, endDateInput, 60);
@@ -120,16 +127,18 @@ public class ManageTracksPage {
 
 		// Wait for Add on Asset section and proceed
 		WaitUtil.waitAndClick(driver, addOnAsset, 60);
-
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		// Click Share tab
 		WaitUtil.waitAndClick(driver, shareSection, 60);
-
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		// Click update
 		ElementUtil.click(updateTrack, driver);
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		// Refresh
-		WaitUtil.waitAndClick(driver, refreshButton, 60);
+		//WaitUtil.waitAndClick(driver, refreshButton, 60);
 	}
 
 	public void unpublishTrack() {
@@ -189,12 +198,13 @@ public class ManageTracksPage {
 		ElementUtil.click(trackNavigation, driver);
 	}
 
-	public void sortAndDeleteTrack() {
+	public void sortAndDeleteTrack() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		DropdownUtil.selectByValue(driver, sortByDropdown, "1: Object");
 		ElementUtil.sendText(searchTrack, "track", driver);
 		ElementUtil.sendKey(searchTrack, Keys.ENTER, driver);
+		Thread.sleep(2000); // wait for search results to load
 		WaitUtil.waitAndClick(driver, deleteTrack, 70);
 		WaitUtil.waitForVisibility(driver, confirmDelete, 60);
 		WaitUtil.waitAndClick(driver, confirmDelete, 70);
@@ -202,6 +212,7 @@ public class ManageTracksPage {
 		ElementUtil.clickWithRetry(clearSearch, driver, 3);
 	}
 
+	
 	public void trackViews(String localFilePath) {
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);

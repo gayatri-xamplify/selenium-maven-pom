@@ -74,7 +74,7 @@ public class AddPlaybooksTest extends BaseTest {
     }
 
     @Test(priority = 5, enabled = true)
-    public void addTagsTest() throws AWTException {
+    public void addTagsTest() throws AWTException, InterruptedException {
         logger.info("Test 5: Add Tags - STARTED");
         addPlaybooksPage.addTags("JPG");
         logger.info("Test 5: Add Tags - COMPLETED");
