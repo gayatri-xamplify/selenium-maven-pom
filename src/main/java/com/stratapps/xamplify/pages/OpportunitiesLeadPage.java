@@ -284,7 +284,7 @@ public class OpportunitiesLeadPage {
 		WaitUtil.waitAndClick(driver, leadLastPage, 20);
 		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "leadLastPage");
-	    js.executeScript("window.scrollTo(0, 700)");
+	    js.executeScript("window.scrollTo(0, 350)");
 		WaitUtil.waitAndClick(driver, leadPreviousPage, 20);
 		Thread.sleep(5000);
 		ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
