@@ -86,7 +86,7 @@ public class ManagePlaybooksPage {
 		WaitUtil.waitAndClick(driver, managePlaybooks, 60);
 	}
 
-	public void editPlaybookDetails() {
+	public void editPlaybookDetails() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
@@ -98,6 +98,7 @@ public class ManagePlaybooksPage {
 		WebElement clearDate = driver.findElement(clearEndDate);
 		ElementUtil.scrollToElement(clearDate, driver);
 
+		Thread.sleep(2000); // allow scroll to settle
 		// Clear & select end date
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
 

@@ -223,17 +223,20 @@ public class RedistributeVideoCampaignPage {
 		WaitUtil.waitAndClick(driver, selectAllContacts, 60);
 	}
 	
-    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
-    public void backToHome() throws Exception {
-        By overlay = By.cssSelector(".swal2-overlay");
 
-        // Wait for page load
-        WaitUtil.waitForPageToLoad(driver, 60);
+	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	 public void backToHome() {
 
-        // Wait for SweetAlert overlay to disappear
-        WaitUtil.waitForInvisibilityOfElement(overlay, driver, 60);
 
-        // Now safely click home button
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
+		    // 1️ Handle SweetAlert safely
+		    WaitUtil.handleSweetAlertIfPresent(driver, 2);
+		    // 2 Now wait for HOME icon (real signal)
+		    WaitUtil.waitForElementClickable(driver, Gotohome, 30);
+		    WaitUtil.waitAndClick(driver, Gotohome, 30);
+
+		    WaitUtil.waitForPageToLoad(driver, 60);
+		}
+
+	 
+	 
 }
