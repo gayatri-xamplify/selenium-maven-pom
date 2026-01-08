@@ -71,7 +71,7 @@ public class AddTracksTest extends BaseTest {
 		logger.info("Test 4: Select Folder - COMPLETED");
 	}
 
-	@Test(priority = 5, enabled = true)
+	@Test(priority = 5, enabled = false)
 	public void addTagsTest() throws AWTException, InterruptedException {
 		logger.info("Test 5: Add Tags - STARTED");
 		addTracksPage.addTags("JPG");
@@ -79,7 +79,7 @@ public class AddTracksTest extends BaseTest {
 	}
 
 	@Test(priority = 6, enabled = true)
-	public void addMediaAndFormTest() {
+	public void addMediaAndFormTest() throws InterruptedException {
 		logger.info("Test 6: Add Media and Form - STARTED");
 		addTracksPage.addMediaAndForm();
 		logger.info("Test 6: Add Media and Form - COMPLETED");

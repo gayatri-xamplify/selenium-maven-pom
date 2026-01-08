@@ -138,12 +138,14 @@ public class AddPlaybooksPage {
 
 		    WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
 		    js.executeScript("arguments[0].click();", updateBtn);
-			ElementUtil.click(nextButton, driver);
+		
 
 	}
 
-	public void addMediaAndForm() {
+	public void addMediaAndForm() throws InterruptedException {
 
+		ElementUtil.click(nextButton, driver);
+		Thread.sleep(2000); // short wait to stabilize
 		WaitUtil.waitForPageToLoad(driver, 70);
 		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
 

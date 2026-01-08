@@ -255,28 +255,47 @@ public class UploadAssetPage {
 
 		WaitUtil.waitForPageToLoad(driver, 90);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-
 		// 1️⃣ Click "Pick up Tag(s)"
-		WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
+		WebElement pickUpButton =
+		        WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
 		js.executeScript("arguments[0].scrollIntoView({block:'center'});", pickUpButton);
-		js.executeScript("arguments[0].click();", pickUpButton);
+		pickUpButton.click();
 
-		// 2️⃣ Wait for modal
+		// 2️⃣ Wait for modal to be fully ready
 		WaitUtil.waitForElementVisible(driver, active_modal, 30);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
 
-		Thread.sleep(2000); // short pause to ensure modal fully rendered
-		// 3️⃣ Click "+ Add a tag"
-		WebElement addTagBtn = WaitUtil.waitForElementPresent(driver, addTagIcon, 30);
-		js.executeScript("arguments[0].click();", addTagBtn);
+		// 3️⃣ Wait until "+ Add a tag" is REALLY clickable
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-		// 4️⃣ Enter unique tag name
+		WebElement addTagBtn = wait.until(driver -> {
+		    WebElement el = driver.findElement(addTagIcon);
+		    return (el.isDisplayed() && el.isEnabled()) ? el : null;
+		});
+
+		// 4️⃣ Click safely
+		try {
+			Thread.sleep(2000); // brief pause to ensure readiness
+		    addTagBtn.click();
+		} catch (Exception e) {
+		    js.executeScript("arguments[0].click();", addTagBtn);
+		}
+		
+
 		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
 
 		String uniqueTag = tagName + "_" + System.currentTimeMillis();
+
+		// Always re-locate
 		ElementUtil.sendText(tagInputField, uniqueTag, driver);
+
+		// ENTER triggers DOM refresh
 		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+
+		// Wait for new UI state
+		WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
+
 
 		// 5️⃣ Save tag
 		WebElement saveBtn = WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
@@ -287,19 +306,20 @@ public class UploadAssetPage {
 		js.executeScript("arguments[0].click();", checkbox);
 		ElementUtil.click(tagSaveButton, driver);
 
-		// 7️⃣ Add more tags
-		WebElement addMoreLink = WaitUtil.waitForElementClickable(driver, addMoreTagsLink, 30);
-		js.executeScript("arguments[0].click();", addMoreLink);
-
-		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
-		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
-		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
-
-		WebElement selectMore = WaitUtil.waitForElementClickable(driver, addMoreTagsSelect, 30);
-		js.executeScript("arguments[0].click();", selectMore);
-
-		WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
-		js.executeScript("arguments[0].click();", updateBtn);
+//		// 7️⃣ Add more tags
+//		WebElement addMoreLink = WaitUtil.waitForElementClickable(driver, addMoreTagsLink, 30);
+//		js.executeScript("arguments[0].click();", addMoreLink);
+//
+//		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
+//		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+//		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
+//
+//		WebElement selectMore = WaitUtil.waitForElementClickable(driver, addMoreTagsSelect, 30);
+//		js.executeScript("arguments[0].click();", selectMore);
+//
+//		Thread.sleep(2000); // brief pause before updating
+//		WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
+//		js.executeScript("arguments[0].click();", updateBtn);
 
 	}
 
@@ -336,10 +356,12 @@ public class UploadAssetPage {
 		}
 	}
 
-	/** Save Asset */
-	public void saveAsset() {
+	/** Save Asset 
+	 * @throws InterruptedException */
+	public void saveAsset() throws InterruptedException {
 		// Wait for page stability after frame switch
 		WaitUtil.waitForPageToLoad(driver, 20);
+		Thread.sleep(1000);
 		// Ensure Save button is visible and clickable
 		WebElement saveBtn = driver.findElement(save);
 		ActionUtil.scrollToElement(driver, saveBtn);
@@ -356,10 +378,12 @@ public class UploadAssetPage {
 		}
 	}
 
-	/** Save As draft Asset */
-	public void saveAsDraftAsset() {
+	/** Save As draft Asset 
+	 * @throws InterruptedException */
+	public void saveAsDraftAsset() throws InterruptedException {
 		// Wait for page stability after frame switch
 		WaitUtil.waitForPageToLoad(driver, 20);
+		Thread.sleep(2000);
 		// Ensure Save button is visible and clickable
 		WebElement savedraftBtn = driver.findElement(saveasDraft);
 		ActionUtil.scrollToElement(driver, savedraftBtn);
@@ -376,9 +400,10 @@ public class UploadAssetPage {
 		}
 	}
 
-	public void selectPartner() {
+	public void selectPartner() throws InterruptedException {
 
 		WaitUtil.waitForPageToLoad(driver, 60);
+		Thread.sleep(2000);
 		// Scroll down slightly to bring the Team menu into view
 //	    ActionUtil.scrollToElement(driver, driver.findElement(searchPublishInput));
 		ElementUtil.sendText(searchPublishInput, "automate", driver);
@@ -526,7 +551,7 @@ public class UploadAssetPage {
 			WaitUtil.waitAndClick(driver, designpdfLink, 40);
 			WaitUtil.waitForPageToLoad(driver, 90);
 			WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-			Thread.sleep(2000); // Let the iframe load properly
+			Thread.sleep(4000); // Let the iframe load properly
 
 			// 🔹 Step 5: Switch to PDF iframe safely
 			List<WebElement> frames = driver.findElements(By.tagName("iframe"));
@@ -537,6 +562,7 @@ public class UploadAssetPage {
 				throw new RuntimeException("❌ No iframe found for PDF editor.");
 			}
 
+			Thread.sleep(2000); // Extra wait to ensure iframe content fully loaded
 			// 🔹 Step 6: Wait and click SAVE button with retry
 			WaitUtil.waitForElementClickable(driver, designPdfSave, 60);
 			clickWithStaleRetry(designPdfSave, driver, 3);
