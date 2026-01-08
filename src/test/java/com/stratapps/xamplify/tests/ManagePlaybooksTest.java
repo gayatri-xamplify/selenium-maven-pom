@@ -51,7 +51,7 @@ public class ManagePlaybooksTest extends BaseTest {
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void editPlaybookDetailsTest() {
+	public void editPlaybookDetailsTest() throws InterruptedException {
 		logger.info("Test 2: Edit Playbook Details - STARTED");
 		managePlaybooksPage.editPlaybookDetails();
 		logger.info("Test 2: Edit Playbook Details - COMPLETED");

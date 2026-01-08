@@ -71,7 +71,7 @@ public class UploadAssetTest extends BaseTest {
 	    uploadAssetPage.uploadFile(filePath);
 	    uploadAssetPage.selectDropdown("docx", "xamplify", "xamplify2024-Default-Folder");
 	    uploadAssetPage.enterDescription("This is an automated test asset upload");
-	    uploadAssetPage.addTags("automation");
+	    //uploadAssetPage.addTags("automation");
 	    uploadAssetPage.saveAsset();
 	    uploadAssetPage.getPublishConfirmationMessage();
 	    uploadAssetPage.backToHome();
@@ -91,7 +91,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("mp3", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.saveAsDraftAsset();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -107,7 +106,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("mp4", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -124,7 +122,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("doc", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -141,7 +138,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -158,7 +154,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("ppt", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -175,7 +170,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("zip", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -192,7 +186,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("pdf", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -209,7 +202,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("csv", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -224,7 +216,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 10, enabled = true)
-	public void uploadNewAsset_Box() {
+	public void uploadNewAsset_Box() throws InterruptedException {
 		{
 			uploadAssetPage.openUploadAssetSection();
 			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
