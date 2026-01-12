@@ -2,6 +2,7 @@ package com.stratapps.xamplify.utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -285,7 +286,25 @@ public class WaitUtil {
         }
     }
     
-    
+    public static void handleSweetAlertIfPresent(WebDriver driver, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+        By swalPopup = By.cssSelector(".swal2-popup");
+        By confirmBtn = By.cssSelector(".swal2-confirm");
+
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(swalPopup));
+
+            if (driver.findElements(confirmBtn).size() > 0) {
+                driver.findElement(confirmBtn).click();
+            }
+
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(swalPopup));
+        } catch (TimeoutException e) {
+            // SweetAlert not shown — safe to continue
+        }
+    }
+
     
 }
 
