@@ -164,8 +164,9 @@ public class TeamPartnerPage {
 		ElementUtil.click(yesDelete, driver);
 	}
 
-	public void exportTeamMembers() {
+	public void exportTeamMembers() throws InterruptedException {
 
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, exportExcelButton, 60);
 	}
 

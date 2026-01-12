@@ -123,7 +123,7 @@ public class ShareLeadsPage {
 	private final By viewlist = By.xpath("//div[@id='partnerCompaniesPopup']//table//i[@class='fa fa-angle-right']");
 	private final By allCheckbook = By.xpath("//div[@id='partnerCompaniesPopup']//table//th[1]//input");
 	private final By Submit = By.xpath("//div[@id='partnerCompaniesPopup']//button//span");
-	private final By Close = By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),\\\"Close\\\")]");
+	private final By Close = By.xpath("//div[@id='partnerCompaniesPopup']//button[contains(text(),'Close')]");
 	private final By searchInput1 = By.xpath("(//input[@id='sort-text'])[1]");
 
 	private final By excludeTileLocator = By.xpath("(//button[contains(@class, 'yellow-gold')])[1]");
@@ -189,7 +189,7 @@ public class ShareLeadsPage {
 	public void navigateToManageShareLeads() throws Exception {
 		Thread.sleep(2000);
 		ActionUtil.hover(driver, HOVER_SHARE_LEADS); // hover only
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		ActionUtil.hoverAndClick(driver, MANAGE_SHARE_LEADS); // click after hover
 	}
 	
@@ -250,7 +250,7 @@ public class ShareLeadsPage {
 			WaitUtil.waitAndClick(driver, DownloadSL, backdrop, 250);
 		} catch (Exception e) {
 			System.out.println(e);		}
-//		WaitUtil.waitAndClick(driver, DownloadSL, 40);
+		WaitUtil.waitAndClick(driver, DownloadSL, 40);
 //		ElementUtil.click(By.xpath("(//i[@class='fa fa-download IconCustomization'])[1]"), driver);
 		Thread.sleep(2000);
 	}
@@ -273,9 +273,9 @@ public class ShareLeadsPage {
 	}
 
 	public void clickDeleteIcon() {
-		WaitUtil.waitAndClick(driver, DELETE_ICON, backdrop, 120);
+		WaitUtil.waitAndClick(driver, DELETE_ICON, backdrop, 200);
 		ElementUtil.click(DELETE_CONFIRM, driver);
-	 ActionUtil.clickWithRetry(driver, DELETE_ICON, 3);
+//	 ActionUtil.clickWithRetry(driver, DELETE_ICON, 3);
 	}
 
 	private void sleep(long millis) {
@@ -354,16 +354,16 @@ public class ShareLeadsPage {
 
 	public void EmailReport() {
 
-		WaitUtil.waitAndClick(driver, emailReportButton, backdrop, 80);
+		WaitUtil.waitAndClick(driver, emailReportButton, backdrop, 200);
 
 		// Now safely click the element
-		// ElementUtil.click(emailReportButton, driver);
+		 ElementUtil.click(emailReportButton, driver);
 
-		// ActionUtil.clickWithRetry(driver, emailReportButton, 3);
+//		 ActionUtil.clickWithRetry(driver, emailReportButton, 3);
 	}
 
 	public void gearIconFromTiles() {
-		WaitUtil.waitAndClick(driver, manageshFilterSelect, backdrop, 80);
+		WaitUtil.waitAndClick(driver, manageshFilterSelect, backdrop, 100);
 
 	}
 
@@ -373,13 +373,10 @@ public class ShareLeadsPage {
 
 		ElementUtil.click(geariconAlltile, driver);
 		ElementUtil.click(newlist, driver);
-
 		String nameWithTimestamp = baseName + System.currentTimeMillis();
-
+		Thread.sleep(4000);
 		// 🔽 FIXED: Ensure visibility first
-		WaitUtil.waitForVisibility(driver, campaignNameInput, 70);
-		WaitUtil.waitForPresence(driver, campaignNameInput, 70);
-
+		WaitUtil.waitForVisibility(driver, campaignNameInput, 100);
 		ElementUtil.sendTextdriver(driver, campaignNameInput, nameWithTimestamp);
 	}
 

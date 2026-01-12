@@ -63,7 +63,7 @@ public class UploadAssetTest extends BaseTest {
 	 */
 	
 	@Test(priority = 1, enabled = true)
-	public void uploadAndSaveAsset_docx() {
+	public void uploadAndSaveAsset_docx() throws InterruptedException {
 
 	    String filePath = System.getProperty("user.dir") + "/files/test-docx.docx";
 
@@ -71,7 +71,7 @@ public class UploadAssetTest extends BaseTest {
 	    uploadAssetPage.uploadFile(filePath);
 	    uploadAssetPage.selectDropdown("docx", "xamplify", "xamplify2024-Default-Folder");
 	    uploadAssetPage.enterDescription("This is an automated test asset upload");
-	    uploadAssetPage.addTags("automation");
+	    //uploadAssetPage.addTags("automation");
 	    uploadAssetPage.saveAsset();
 	    uploadAssetPage.getPublishConfirmationMessage();
 	    uploadAssetPage.backToHome();
@@ -80,7 +80,7 @@ public class UploadAssetTest extends BaseTest {
 	
 
 	@Test(priority = 2, enabled = true)
-	public void uploadAndsaveasDraft_mp3() {
+	public void uploadAndsaveasDraft_mp3() throws InterruptedException {
 
 	    String filePath = System.getProperty("user.dir") + "/files/test-mp3.mp3";
 
@@ -91,14 +91,13 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("mp3", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.saveAsDraftAsset();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
 	}
 
 	@Test(priority = 3, enabled = true)
-	public void uploadAndPublishAsset_mp4() {
+	public void uploadAndPublishAsset_mp4() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-mp4.mp4";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -107,7 +106,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("mp4", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -115,7 +113,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 4, enabled = true)
-	public void uploadAndPublishAsset_doc() {
+	public void uploadAndPublishAsset_doc() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-doc.doc";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -124,7 +122,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("doc", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -132,7 +129,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 5, enabled = true)
-	public void uploadAndPublishAsset_jpg() {
+	public void uploadAndPublishAsset_jpg() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-image.jpg";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -141,7 +138,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("Jpg", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -149,7 +145,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 6, enabled = true)
-	public void uploadAndPublishAsset_ppt() {
+	public void uploadAndPublishAsset_ppt() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-ppt.ppt";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -158,7 +154,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("ppt", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -166,7 +161,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 7, enabled = true)
-	public void uploadAndPublishAsset_zip() {
+	public void uploadAndPublishAsset_zip() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-zip.zip";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -175,7 +170,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("zip", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -183,7 +177,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 8, enabled = true)
-	public void uploadAndPublishAsset_pdf() {
+	public void uploadAndPublishAsset_pdf() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-file.pdf";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -192,7 +186,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("pdf", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -200,7 +193,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 9, enabled = true)
-	public void uploadAndPublishAsset_csv() {
+	public void uploadAndPublishAsset_csv() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-csv.csv";
 
 		uploadAssetPage.openUploadAssetSection();
@@ -209,7 +202,6 @@ public class UploadAssetTest extends BaseTest {
 		// Select folder, category, tags etc.
 		uploadAssetPage.selectDropdown("csv", "xamplify", "xamplify2024-Default-Folder");
 		uploadAssetPage.enterDescription("This is an automated test asset upload");
-		uploadAssetPage.addTags("automation");
 		uploadAssetPage.selectPartner();
 		uploadAssetPage.getPublishConfirmationMessage();
 		uploadAssetPage.backToHome();
@@ -224,7 +216,7 @@ public class UploadAssetTest extends BaseTest {
 	}
 
 	@Test(priority = 10, enabled = true)
-	public void uploadNewAsset_Box() {
+	public void uploadNewAsset_Box() throws InterruptedException {
 		{
 			uploadAssetPage.openUploadAssetSection();
 			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");

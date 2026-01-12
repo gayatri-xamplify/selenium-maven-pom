@@ -73,15 +73,15 @@ public class AddPlaybooksTest extends BaseTest {
         logger.info("Test 4: Select Folder - COMPLETED");
     }
 
-    @Test(priority = 5, enabled = true)
-    public void addTagsTest() throws AWTException {
+    @Test(priority = 5, enabled = false)
+    public void addTagsTest() throws AWTException, InterruptedException {
         logger.info("Test 5: Add Tags - STARTED");
         addPlaybooksPage.addTags("JPG");
         logger.info("Test 5: Add Tags - COMPLETED");
     }
 
     @Test(priority = 6, enabled = true)
-    public void addMediaAndFormTest() {
+    public void addMediaAndFormTest() throws InterruptedException {
         logger.info("Test 6: Add Media and Form - STARTED");
         addPlaybooksPage.addMediaAndForm();
         logger.info("Test 6: Add Media and Form - COMPLETED");

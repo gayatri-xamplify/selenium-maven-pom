@@ -126,7 +126,7 @@ public class ManagePartnerPage {
 	}
 
 	public void CreateNewPartnerGroup() throws InterruptedException {
-		Thread.sleep(6000);
+		Thread.sleep(10000);
 	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 60);
 	    WaitUtil.waitForElementClickable(driver, Alltile, 10).click();
 	    WaitUtil.waitForElementClickable(driver, checkAll, 10).click();

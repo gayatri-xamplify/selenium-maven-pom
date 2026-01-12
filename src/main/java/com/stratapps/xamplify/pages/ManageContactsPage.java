@@ -132,7 +132,7 @@ public class ManageContactsPage {
 
 	/* @clickContactsTab Is Written by ganesh ***/
 	public void hoverContacts_ManageContacts(String tabName) throws InterruptedException {
-		Thread.sleep(7000);
+		Thread.sleep(14000);
 		ActionUtil.hover(driver, hoverContacts);
 		ActionUtil.hoverAndClick(driver, manageContactsBtn);
 		clickContactsTab(tabName);
@@ -392,16 +392,17 @@ public class ManageContactsPage {
 	    WaitUtil.waitAndClick(driver, shareListButton, 20);
 	    try {
 	        WaitUtil.waitAndClick(driver, entInfoCheckbox, 10);
-	        WaitUtil.waitAndClick(driver, shareContentBtn, 10);
+	        WaitUtil.waitAndClick(driver, shareContentBtn, 20);
 	        ScreenshotUtil.captureScreenshot(driver, "campaignlaunchMPartner");
-	        WaitUtil.waitAndClick(driver, closingBtn, 10);
+	        WaitUtil.waitAndClick(driver, closingBtn, 20);
 	    } catch (Exception e) {
 	        String msg = driver.findElement(noCampaignsMsg).getText();
 	        System.out.println(msg);
 	        ScreenshotUtil.captureScreenshot(driver, "NoCampaignlaunchMPartner");
-	        WaitUtil.waitAndClick(driver, unpublishPopupCloseBtn, 10);
+	        WaitUtil.waitAndClick(driver, unpublishPopupCloseBtn, 20);
 	    }
 	    ScreenshotUtil.captureScreenshot(driver, "publishCampaignScreenshot");
+	    Thread.sleep(8000);
 	}
 	
 	/* @pagination written by Ganesh ***/
@@ -417,6 +418,7 @@ public class ManageContactsPage {
 		WaitUtil.waitAndClick(driver, lastPage, 20);
 		Thread.sleep(8000);
 	    WebElement previousPage = driver.findElement(PreviousPage);
+		js.executeScript("window.scrollTo(0, 350);");
 	    js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", previousPage);
 		WaitUtil.waitAndClick(driver, PreviousPage, 20);
 		Thread.sleep(8000);

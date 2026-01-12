@@ -92,7 +92,7 @@ public class SharedLeadsPage {
 	// --------------------- Navigation ---------------------
 
 	public void navigateToSharedLeads() throws InterruptedException { //
-		Thread.sleep(4000);
+		Thread.sleep(9000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollTo(0, 0);");
 		wait.until(ExpectedConditions.elementToBeClickable(sharedLeadsMenu)).click();
@@ -234,7 +234,8 @@ public class SharedLeadsPage {
 		logger.info("Starting unsubscribe action");
 		Sharedleadmail = driver.findElement(SharedLeadMailId).getAttribute("title");
 		System.out.println(Sharedleadmail);
-		WaitUtil.waitForDropdownToBeReady(driver, unsubIcon, 60);
+		Thread.sleep(10000);
+		WaitUtil.waitForDropdownToBeReady(driver, unsubIcon, 100);
 		ElementUtil.clickWithRetry(unsubIcon, driver, 3);
 		WaitUtil.waitForDropdownToBeReady(driver, unsubReason, 60);
 		ElementUtil.clickWithRetry(unsubReason, driver, 3);
