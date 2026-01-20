@@ -103,9 +103,10 @@ public class UploadAssetPage {
 	/** Navigate to Upload Asset Page */
 	public void openUploadAssetSection() {
 		// Wait for Content menu
-		WaitUtil.waitForElementVisible(driver, contentMenu, 90);
-		ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
-
+		WaitUtil.waitForPageToLoad(driver, 60);
+		WaitUtil.waitForLoaderToDisappear(driver, 60);
+		WebElement content = WaitUtil.waitForElementVisible(driver, contentMenu, 90);
+		ElementUtil.hoverAndClick(content, driver);
 		// Click Design Upload
 		WaitUtil.waitAndClick(driver, designUploadOption, 90);
 

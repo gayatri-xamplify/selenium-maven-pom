@@ -31,8 +31,8 @@ public class RedistributeEventCampaignPage {
 	// Preview
 	private By previewIcon = By.xpath("//*[@id='redistribute-campaign-list']/tbody/tr[1]/td[5]/div/a[1]/i");
 	// Download
-		private By downloadMenu = By.xpath("(//span[@id='download-drop'])[1]");
-		private By downloadHtml = By.xpath("(//*[@id='download-template']/ul/li[1]/a)[1]");
+	private By downloadMenu = By.xpath("(//span[@id='download-drop'])[1]");
+	private By downloadHtml = By.xpath("(//*[@id='download-template']/ul/li[1]/a)[1]");
 	// Download History
 	private By downloadHistory = By.xpath("//table[@id='redistribute-campaign-list']/tbody/tr[1]/td[5]/div/span/a[2]");
 	private By downloadHistoryClose = By.xpath("//button[@class='btn Btn-Gray']");
@@ -49,13 +49,16 @@ public class RedistributeEventCampaignPage {
 	private By searchIcon = By.xpath("(//i[@class='fa fa-search'])[2]");
 	private By selectAllContacts = By.xpath("//input[@id='checkAllExistingContacts']");
 	private By searchCampaign = By.xpath("//div[3]/div/div/input");
-	private By searchiconcampaign = By.xpath("//button[@class='search-box-item-click only_content']//i[@class='fa fa-search']");
+	private By searchiconcampaign = By
+			.xpath("//button[@class='search-box-item-click only_content']//i[@class='fa fa-search']");
 	private By backdrop = By.cssSelector("div.backdrop");
 
 	// =========================================================
 	// STEP 1 – OPEN REDISTRIBUTE EVENT CAMPAIGN MODULE
 	// =========================================================
 	public void openRedistributeEventCampaign() {
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitForLoaderToDisappear(driver, 60);
 		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
 		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
@@ -70,7 +73,7 @@ public class RedistributeEventCampaignPage {
 		WaitUtil.waitAndClick(driver, searchCampaign, 30);
 		ElementUtil.sendText(searchCampaign, "Event", driver);
 		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
-		
+
 //		// ⭐ NEW IMPORTANT WAIT ⭐
 //		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 //
@@ -82,41 +85,40 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	public void previewEventTemplate() throws Exception {
 
-	    WaitUtil.waitForPageToLoad(driver, 120);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
+		WaitUtil.waitForPageToLoad(driver, 120);
+		WaitUtil.waitForLoaderToDisappear(driver, 120);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 
-	    // Wait for icon to appear in DOM
-	    wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
+		// Wait for icon to appear in DOM
+		wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
 
-	    // Scroll into view
-	    WebElement preview = wait.until(ExpectedConditions.visibilityOfElementLocated(previewIcon));
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
-	    Thread.sleep(500);
+		// Scroll into view
+		WebElement preview = wait.until(ExpectedConditions.visibilityOfElementLocated(previewIcon));
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
+		Thread.sleep(500);
 
-	    // 👉 Re-locate fresh element before click (AVOIDS STALE)
-	    preview = wait.until(ExpectedConditions.refreshed(
-	            ExpectedConditions.elementToBeClickable(previewIcon)
-	    ));
+		// 👉 Re-locate fresh element before click (AVOIDS STALE)
+		preview = wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(previewIcon)));
 
-	    // JS Click
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
+		// JS Click
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
 
-	    // NEW TAB HANDLING
-	    String originalWindow = driver.getWindowHandle();
-	    wait.until(driver1 -> driver.getWindowHandles().size() > 1);
+		// NEW TAB HANDLING
+		String originalWindow = driver.getWindowHandle();
+		wait.until(driver1 -> driver.getWindowHandles().size() > 1);
 
-	    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-	    driver.switchTo().window(tabs.get(1));
+		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
 
-	    WaitUtil.waitForPageToLoad(driver, 60);
+		WaitUtil.waitForPageToLoad(driver, 60);
 
-	    Thread.sleep(800);
+		Thread.sleep(800);
 
-	    driver.close();
-	    driver.switchTo().window(originalWindow);
-	    WaitUtil.waitForPageToLoad(driver, 60);
+		driver.close();
+		driver.switchTo().window(originalWindow);
+		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
 	// =========================================================
@@ -127,11 +129,11 @@ public class RedistributeEventCampaignPage {
 
 		WaitUtil.waitForPageToLoad(driver, 30);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		
-		 // 🔼 Scroll up before clicking the first element
-	    JavascriptExecutor js = (JavascriptExecutor) driver;
-	    js.executeScript("window.scrollTo(0, 0);");
-	    Thread.sleep(500); // small wait to stabilize
+
+		// 🔼 Scroll up before clicking the first element
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 0);");
+		Thread.sleep(500); // small wait to stabilize
 
 //		// HTML
 //		WaitUtil.waitAndClick(driver, downloadMenu, 40);
@@ -172,18 +174,17 @@ public class RedistributeEventCampaignPage {
 
 		WaitUtil.waitAndClick(driver, selectAllContacts, 60);
 	}
-	
 
-	 private By Gotohome =By.xpath("//div[contains(@class,'company-logo-thumbnail-wrapper')]//img");
-	 public void backToHome() {
+	private By Gotohome = By.xpath("//div[contains(@class,'company-logo-thumbnail-wrapper')]//img");
 
+	public void backToHome() {
 
-		    // 1️ Handle SweetAlert safely
-		    WaitUtil.handleSweetAlertIfPresent(driver, 2);
-		    // 2 Now wait for HOME icon (real signal)
-		    WaitUtil.waitForElementClickable(driver, Gotohome, 30);
-		    WaitUtil.waitAndClick(driver, Gotohome, 30);
+		// 1️ Handle SweetAlert safely
+		WaitUtil.handleSweetAlertIfPresent(driver, 2);
+		// 2 Now wait for HOME icon (real signal)
+		WaitUtil.waitForElementClickable(driver, Gotohome, 30);
+		WaitUtil.waitAndClick(driver, Gotohome, 30);
 
-		    WaitUtil.waitForPageToLoad(driver, 60);
-		}
+		WaitUtil.waitForPageToLoad(driver, 60);
+	}
 }
