@@ -84,9 +84,18 @@ public class ManageAssetPage {
 
 	// ================= ACTION METHODS =================
 	public void openManageAssetSection() {
-		WaitUtil.waitForElementVisible(driver, contentMenu, 90);
-		ElementUtil.hoverAndClick(driver.findElement(contentMenu), driver);
+		// Hover over Content Menu and click Manage Assets
+		WaitUtil.waitForPageToLoad(driver, 60);
+		WaitUtil.waitForLoaderToDisappear(driver, 60);
+		
+		WebElement content = WaitUtil.waitForElementVisible(driver, contentMenu, 90);
+		ElementUtil.hoverAndClick(content, driver);
+
+		// Add this wait (important)
+		WaitUtil.waitForElementVisible(driver, ManageAssets, 90);
+
 		WaitUtil.waitAndClick(driver, ManageAssets, 90);
+
 	}
 
 	public void refreshAssetsPage() {

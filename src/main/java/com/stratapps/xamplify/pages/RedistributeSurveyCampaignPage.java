@@ -54,31 +54,37 @@ public class RedistributeSurveyCampaignPage {
 	private By searchIcon = By.xpath("//button[@class='search-box-item-click']");
 	private By selectAllContacts = By.xpath("//input[@id='checkAllExistingContacts']");
 	private By backdrop = By.cssSelector("div.backdrop");
-
+	private By searchCampaign = By.xpath("//div[3]/div/div/input");
+	private By searchiconcampaign = By
+			.xpath("//button[@class='search-box-item-click only_content']//i[@class='fa fa-search']");
 	// =========================================================
 	// MAIN ACTIONS
 	// =========================================================
 
 	public void openRedistributeSurveyCampaign() {
+		WaitUtil.waitForPageToLoad(driver, 120);
+		WaitUtil.waitForLoaderToDisappear(driver, 120);
+		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
+		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
-		 WaitUtil.waitForElementVisible(driver, campaignHover, 60);
-		    ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+		WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
 
-		    WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+		WebElement redisElement = driver.findElement(redistributeCampaign);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
 
-		    WebElement redisElement = driver.findElement(redistributeCampaign);
-		    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
-		    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+		WaitUtil.waitForPageToLoad(driver, 90);
+		WaitUtil.waitAndClick(driver, searchCampaign, 30);
+		ElementUtil.sendText(searchCampaign, "Survey", driver);
+		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
 
-		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
-		    WaitUtil.waitForPageToLoad(driver, 90);
-
-		    // ⭐ NEW IMPORTANT WAIT ⭐
-		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-
-		// 7️⃣ Click survey tab
-
-		WaitUtil.waitAndClick(driver, SurveyTab, 60);
+//		// ⭐ NEW IMPORTANT WAIT ⭐
+//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+//
+//		// 7️⃣ Click survey tab
+//
+//		WaitUtil.waitAndClick(driver, SurveyTab, 60);
 	}
 
 	// =========================================================
@@ -87,97 +93,95 @@ public class RedistributeSurveyCampaignPage {
 
 	public void previewSurveyTemplate() throws Exception {
 
-		  // 1️⃣ Wait until the entire page is loaded
-	    WaitUtil.waitForPageToLoad(driver, 120);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
+		// 1️⃣ Wait until the entire page is loaded
+		WaitUtil.waitForPageToLoad(driver, 120);
+		WaitUtil.waitForLoaderToDisappear(driver, 120);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 
-	    // 2️⃣ Wait until preview icon EXISTS in DOM
-	    wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
+		// 2️⃣ Wait until preview icon EXISTS in DOM
+		wait.until(ExpectedConditions.presenceOfElementLocated(previewIcon));
 
-	    // 3️⃣ Scroll preview icon into view (mandatory)
-	    WebElement preview = driver.findElement(previewIcon);
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
-	    Thread.sleep(800);
+		// 3️⃣ Scroll preview icon into view (mandatory)
+		WebElement preview = driver.findElement(previewIcon);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", preview);
+		Thread.sleep(800);
 
-	    // 4️⃣ Wait until preview is CLICKABLE
-	    wait.until(ExpectedConditions.elementToBeClickable(previewIcon));
+		// 4️⃣ Wait until preview is CLICKABLE
+		wait.until(ExpectedConditions.elementToBeClickable(previewIcon));
 
-	    // 5️⃣ Click using JS (Selenium click often fails with heavy DOM)
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
+		// 5️⃣ Click using JS (Selenium click often fails with heavy DOM)
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", preview);
 
-	    // 6️⃣ Now wait for NEW TAB to open
-	    String originalWindow = driver.getWindowHandle();
-	    wait.until(driver1 -> driver.getWindowHandles().size() > 1);
+		// 6️⃣ Now wait for NEW TAB to open
+		String originalWindow = driver.getWindowHandle();
+		wait.until(driver1 -> driver.getWindowHandles().size() > 1);
 
-	    // 7️⃣ Switch to new tab
-	    ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-	    driver.switchTo().window(tabs.get(1));
+		// 7️⃣ Switch to new tab
+		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
 
-	    // 8️⃣ Wait for the preview page to load completely
-	    WaitUtil.waitForPageToLoad(driver, 60);
+		// 8️⃣ Wait for the preview page to load completely
+		WaitUtil.waitForPageToLoad(driver, 60);
 
-	    Thread.sleep(1500);
+		Thread.sleep(1500);
 
-	    // 9️⃣ Close the preview tab
-	    driver.close();
+		// 9️⃣ Close the preview tab
+		driver.close();
 
-	    // 🔟 Switch back to original tab
-	    driver.switchTo().window(originalWindow);
+		// 🔟 Switch back to original tab
+		driver.switchTo().window(originalWindow);
 
-	    WaitUtil.waitForPageToLoad(driver, 60);
+		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
 	// =========================================================
 	// DOWNLOAD HTML / IMAGE / HISTORY
 	// =========================================================
 
-	 private void jsClick(WebElement element) {
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-	    }
+	private void jsClick(WebElement element) {
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+	}
+
 	public void downloadSurveyTemplate() throws Exception {
 
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		WaitUtil.waitForPageToLoad(driver, 60);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-		    WaitUtil.waitForPageToLoad(driver, 60);
-		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		// Locate download menu
+		WebElement menu = wait.until(ExpectedConditions.presenceOfElementLocated(downloadMenu));
 
-		    // Locate download menu
-		    WebElement menu = wait.until(ExpectedConditions.presenceOfElementLocated(downloadMenu));
+		// Scroll to center to avoid top-bar overlap
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", menu);
+		Thread.sleep(600);
 
-		    // Scroll to center to avoid top-bar overlap
-		    ((JavascriptExecutor) driver)
-		            .executeScript("arguments[0].scrollIntoView({block:'center'});", menu);
-		    Thread.sleep(600);
-		  
+		// ⭐ 1) CLICK MENU (JS prevents intercepted errors)
+		jsClick(menu);
 
-		    // ⭐ 1) CLICK MENU (JS prevents intercepted errors)
-		    jsClick(menu);
+		// ⭐ 2) DOWNLOAD HTML
+		WebElement html = wait.until(ExpectedConditions.elementToBeClickable(downloadHtml));
+		jsClick(html);
+		Thread.sleep(800);
 
-		    // ⭐ 2) DOWNLOAD HTML
-		    WebElement html = wait.until(ExpectedConditions.elementToBeClickable(downloadHtml));
-		    jsClick(html);
-		    Thread.sleep(800);
+		// ⭐ 3) DOWNLOAD IMAGE
+		jsClick(menu); // reopen dropdown
+		WebElement image = wait.until(ExpectedConditions.elementToBeClickable(downloadImage));
+		jsClick(image);
+		Thread.sleep(800);
 
-		    // ⭐ 3) DOWNLOAD IMAGE
-		    jsClick(menu);  // reopen dropdown
-		    WebElement image = wait.until(ExpectedConditions.elementToBeClickable(downloadImage));
-		    jsClick(image);
-		    Thread.sleep(800);
+		// ⭐ 4) DOWNLOAD HISTORY → OPEN
+		WebElement history = wait.until(ExpectedConditions.elementToBeClickable(downloadHistory));
+		jsClick(history);
+		Thread.sleep(600);
 
-		    // ⭐ 4) DOWNLOAD HISTORY → OPEN
-		    WebElement history = wait.until(ExpectedConditions.elementToBeClickable(downloadHistory));
-		    jsClick(history);
-		    Thread.sleep(600);
+		// ⭐ 5) CLOSE HISTORY POPUP
+		WebElement close = wait.until(ExpectedConditions.elementToBeClickable(downloadHistoryClose));
+		jsClick(close);
 
-		    // ⭐ 5) CLOSE HISTORY POPUP
-		    WebElement close = wait.until(ExpectedConditions.elementToBeClickable(downloadHistoryClose));
-		    jsClick(close);
-
-		    Thread.sleep(800);
-		
+		Thread.sleep(800);
 
 	}
 	// =========================================================
@@ -228,19 +232,18 @@ public class RedistributeSurveyCampaignPage {
 
 		WaitUtil.waitAndClick(driver, selectAllContacts, 60);
 	}
-	
 
-	 private By Gotohome =By.xpath("//div[contains(@class,'company-logo-thumbnail-wrapper')]//img");
-	 public void backToHome() {
+	private By Gotohome = By.xpath("//div[contains(@class,'company-logo-thumbnail-wrapper')]//img");
 
+	public void backToHome() {
 
-		    // 1️ Handle SweetAlert safely
-		    WaitUtil.handleSweetAlertIfPresent(driver, 2);
-		    // 2 Now wait for HOME icon (real signal)
-		    WaitUtil.waitForElementClickable(driver, Gotohome, 30);
-		    WaitUtil.waitAndClick(driver, Gotohome, 30);
+		// 1️ Handle SweetAlert safely
+		WaitUtil.handleSweetAlertIfPresent(driver, 2);
+		// 2 Now wait for HOME icon (real signal)
+		WaitUtil.waitForElementClickable(driver, Gotohome, 30);
+		WaitUtil.waitAndClick(driver, Gotohome, 30);
 
-		    WaitUtil.waitForPageToLoad(driver, 60);
-		}
+		WaitUtil.waitForPageToLoad(driver, 60);
+	}
 
 }
