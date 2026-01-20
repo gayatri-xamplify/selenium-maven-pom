@@ -80,10 +80,19 @@ public class ManageTracksPage {
 	}
 
 	public void navigateToContentAndManageTracks() {
-		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
-		ElementUtil.click(contentMenu, driver);
-		WaitUtil.waitAndClick(driver, manageTracks, 60);
+
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForLoaderToDisappear(driver, 120);
+
+	    WaitUtil.waitForElementClickable(driver, contentMenu, 60);
+	    WaitUtil.waitAndClick(driver, contentMenu, 60);
+
+	    WaitUtil.waitForLoaderToDisappear(driver, 60);
+
+	    WaitUtil.waitForElementClickable(driver, manageTracks, 60);
+	    WaitUtil.waitAndClick(driver, manageTracks, 60);
 	}
+
 
 	public void editTrackDetails() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 70);
