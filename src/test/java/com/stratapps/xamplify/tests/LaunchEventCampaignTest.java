@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.EventCampaignPage;
 import com.stratapps.xamplify.pages.LaunchEventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
@@ -23,34 +24,22 @@ public class LaunchEventCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(LaunchEventCampaignTest.class);
 
-
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			EventCampaignPage = new EventCampaignPage(driver);
-			launchEventCampaignPage = new LaunchEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("Launch Event Campaign setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			EventCampaignPage = new EventCampaignPage(driver);
-			launchEventCampaignPage = new LaunchEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("Launch Event Campaign setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+
+		logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+		// Preconditions guaranteed by BaseTest:
+		// - Browser already launched
+		// - Partner already logged in (role=PARTNER)
+
+		EventCampaignPage = new EventCampaignPage(driver);
+		launchEventCampaignPage = new LaunchEventCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+		logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
-	
-	
-	
-	
-	
+
 	@Test(priority = 1, enabled = true)
 	public void createAndLaunchEventCampaignTest() throws Exception {
 		logger.info("Test 1: Create and Launch Event Campaign - STARTED");
@@ -69,4 +58,3 @@ public class LaunchEventCampaignTest extends BaseTest {
 		logger.info("✅ Test 1: Create and Launch Event Campaign - COMPLETED");
 	}
 }
-

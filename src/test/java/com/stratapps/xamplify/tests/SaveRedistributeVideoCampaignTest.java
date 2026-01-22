@@ -11,7 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.RedistributeVideoCampaignPage;
+import com.stratapps.xamplify.pages.SaveRedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.SaveRedistributeVideoCampaignPage;
 
 public class SaveRedistributeVideoCampaignTest extends BaseTest {
@@ -21,31 +23,22 @@ public class SaveRedistributeVideoCampaignTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger(SaveRedistributeVideoCampaignTest.class);
     private WebDriverWait wait;
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-    @BeforeClass
-    public void setUpClass() {
-        try {
-            redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-            saveRedistributeVideoCampaignPage = new SaveRedistributeVideoCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("SaveRedistributeVideoCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class setup ignored");
-        }
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.loginAsPartner();
+	    redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
+        saveRedistributeVideoCampaignPage = new SaveRedistributeVideoCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-            redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-            saveRedistributeVideoCampaignPage = new SaveRedistributeVideoCampaignPage(driver);
-
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-        } catch (Exception e) {
-            System.out.println("Single-class setup failed");
-        }
-    }
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	}
+	
+   
 
     // =====================================================
     //       TEST: Redistribute + SAVE Campaign

@@ -7,6 +7,7 @@ import com.stratapps.xamplify.utils.EmailUtil;
 import com.stratapps.xamplify.utils.ExtentManager;
 import com.stratapps.xamplify.utils.ScreenshotUtil;
 
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebDriver;
 import org.testng.*;
 
@@ -17,8 +18,10 @@ import java.util.*;
 public class TestListener implements ITestListener, ISuiteListener {
 
     private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
-    public static long suiteStartTime;
-    public static long suiteEndTime;
+    private static List<String> failedScreenshotPaths = new ArrayList<>();
+
+    private static long suiteStartTime;
+    private static long suiteEndTime;
 
     @Override
     public void onStart(ISuite suite) {
@@ -27,7 +30,8 @@ public class TestListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        ExtentTest test = ExtentManager.getInstance().createTest(result.getMethod().getMethodName());
+        ExtentTest test = ExtentManager.getInstance()
+                .createTest(result.getMethod().getMethodName());
         extentTest.set(test);
     }
 
@@ -40,17 +44,28 @@ public class TestListener implements ITestListener, ISuiteListener {
     public void onTestFailure(ITestResult result) {
         extentTest.get().fail(result.getThrowable());
 
-        Object testClass = result.getInstance();
         WebDriver driver = null;
 
-        if (testClass instanceof BaseTest) {
-            driver = ((BaseTest) testClass).getDriver();
+        if (result.getInstance() instanceof BaseTest) {
+            driver = ((BaseTest) result.getInstance()).getDriver();
         }
 
-        if (driver != null) {
-            String screenshotPath = ScreenshotUtil.captureScreenshot(driver, result.getName());
+        if (driver == null) {
+            return;
+        }
+
+        try {
+            String screenshotPath =
+                    ScreenshotUtil.captureScreenshot(driver, result.getName());
+
             extentTest.get().addScreenCaptureFromPath(screenshotPath);
-            BaseTest.failedScreenshotPaths.add(screenshotPath);
+            failedScreenshotPaths.add(screenshotPath);
+
+        } catch (NoSuchSessionException e) {
+            // Driver already closed — do NOT fail listener
+            extentTest.get().warning("Screenshot skipped: WebDriver session invalid");
+        } catch (Exception e) {
+            extentTest.get().warning("Screenshot capture failed: " + e.getMessage());
         }
     }
 
@@ -63,25 +78,27 @@ public class TestListener implements ITestListener, ISuiteListener {
     public void onFinish(ISuite suite) {
         suiteEndTime = System.currentTimeMillis();
 
-        int passedCount = 0, failedCount = 0, skippedCount = 0;
+        int passed = 0, failed = 0, skipped = 0;
 
         for (ISuiteResult result : suite.getResults().values()) {
             ITestContext context = result.getTestContext();
-            passedCount += context.getPassedTests().size();
-            failedCount += context.getFailedTests().size();
-            skippedCount += context.getSkippedTests().size();
+            passed += context.getPassedTests().size();
+            failed += context.getFailedTests().size();
+            skipped += context.getSkippedTests().size();
         }
 
-        // Time details
+        // Time formatting
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-        String startTimeStr = sdf.format(new Date(suiteStartTime));
-        String endTimeStr = sdf.format(new Date(suiteEndTime));
-        long durationMillis = suiteEndTime - suiteStartTime;
-        long durationMinutes = (durationMillis / 1000) / 60;
-        long durationSeconds = (durationMillis / 1000) % 60;
 
-        String machine = "Unknown";
+        String startTime = sdf.format(new Date(suiteStartTime));
+        String endTime = sdf.format(new Date(suiteEndTime));
+
+        long durationMs = suiteEndTime - suiteStartTime;
+        long minutes = (durationMs / 1000) / 60;
+        long seconds = (durationMs / 1000) % 60;
+
+        String machine;
         try {
             machine = InetAddress.getLocalHost().getHostName();
         } catch (Exception e) {
@@ -91,30 +108,26 @@ public class TestListener implements ITestListener, ISuiteListener {
         String browser = ConfigReader.getProperty("browser.name");
         String environment = ConfigReader.getProperty("env.name");
 
-        StringBuilder emailBody = new StringBuilder();
-        emailBody.append("\uD83D\uDCCB Test Summary:\n")
-                .append("\u2705 Passed: ").append(passedCount).append("\n")
-                .append("\u274C Failed: ").append(failedCount).append("\n")
-                .append("\u23ED️ Skipped: ").append(skippedCount).append("\n\n")
-                .append("\uD83D\uDD52 Start Time: ").append(startTimeStr).append("\n")
-                .append("\uD83D\uDD53 End Time: ").append(endTimeStr).append("\n")
-                .append("\u23F1️ Duration: ").append(durationMinutes).append(" min ").append(durationSeconds).append(" sec\n\n")
-                .append("\uD83D\uDCBB Machine: ").append(machine).append("\n")
-                .append("\uD83C\uDF10 Browser: ").append(browser != null ? browser : "Not Set").append("\n")
-                .append("\uD83C\uDFF7️ Environment: ").append(environment != null ? environment : "Not Set").append("\n\n")
-                .append("\uD83D\uDCCC Please find the attached test execution report and any screenshots.");
-
-        String subject = "\uD83D\uDCE7 Automation Test Report - Summary";
-        String reportPath = ExtentManager.getReportPath();
+        String body = ""
+                + "📋 Test Summary:\n"
+                + "✅ Passed: " + passed + "\n"
+                + "❌ Failed: " + failed + "\n"
+                + "⏭ Skipped: " + skipped + "\n\n"
+                + "🕒 Start: " + startTime + "\n"
+                + "🕓 End: " + endTime + "\n"
+                + "⏱ Duration: " + minutes + " min " + seconds + " sec\n\n"
+                + "💻 Machine: " + machine + "\n"
+                + "🌐 Browser: " + (browser != null ? browser : "Not Set") + "\n"
+                + "🏷 Environment: " + (environment != null ? environment : "Not Set");
 
         ExtentManager.flushReport();
 
         EmailUtil.sendReportEmailWithAttachments(
                 "gayatri@xamplify.com,ganesh@xamplify.com,mounika@xamplify.com",
-                subject,
-                emailBody.toString(),
-                reportPath,
-                BaseTest.failedScreenshotPaths
+                "📧 Automation Test Report - Summary",
+                body,
+                ExtentManager.getReportPath(),
+                failedScreenshotPaths
         );
     }
 

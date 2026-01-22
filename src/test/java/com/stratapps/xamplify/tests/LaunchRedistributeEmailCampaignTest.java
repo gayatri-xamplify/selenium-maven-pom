@@ -22,27 +22,22 @@ public class LaunchRedistributeEmailCampaignTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(LaunchRedistributeEmailCampaignTest.class);
     private WebDriverWait wait;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setUpClass() {
-        try {
-        	redistributeemailPage = new RedistributeEmailCampaignPage(driver);
-        	launchRedistributeEmailCampaignPage = new LaunchRedistributeEmailCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("LaunchRedistributionEmailCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class Setup: Ignored");
-        }
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-            redistributeemailPage = new RedistributeEmailCampaignPage(driver);
-            launchRedistributeEmailCampaignPage = new LaunchRedistributeEmailCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-        } catch (Exception e) {
-            System.out.println("Single Class Setup Failed");
-        }
+        logger.info("🔧 Setting up LaunchRedistributionEmailCampaignTest");
+
+        // At this point:
+        // - Browser is already open (BeforeSuite)
+        // - Partner is already logged in (role=PARTNER from testng.xml)
+
+        redistributeemailPage = new RedistributeEmailCampaignPage(driver);
+        launchRedistributeEmailCampaignPage =
+                new LaunchRedistributeEmailCampaignPage(driver);
+
+        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        logger.info("✅ LaunchRedistributionEmailCampaignTest setup completed");
     }
 
     // =====================================================

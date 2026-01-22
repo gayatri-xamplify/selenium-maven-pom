@@ -12,19 +12,24 @@ public class LogoutPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // Locators (update if exact match differs in your HTML)
-    private By userProfileDropdown = By.xpath("//i[contains(@class, 'fa-angle-down')]");
+    private By userProfileDropdown = By.xpath("//i[contains(@class,'fa-angle-down')]");
     private By logoutButton = By.xpath("//a[normalize-space()='Log Out']");
+    private By loginUsernameField = By.id("username");
 
-    // Constructor
     public LogoutPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
-    // Actions
     public void logout() {
+
+        if (driver.findElements(userProfileDropdown).isEmpty()) {
+            return; // already logged out
+        }
+
         wait.until(ExpectedConditions.elementToBeClickable(userProfileDropdown)).click();
         wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginUsernameField));
     }
 }
