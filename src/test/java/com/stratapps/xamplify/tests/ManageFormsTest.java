@@ -28,7 +28,7 @@ public class ManageFormsTest extends BaseTest {
 
 	@BeforeClass(alwaysRun = true)
 public void setUpClass() {
-    logger.info("🔧 Setting up ManageContactsTest");
+    logger.info("🔧 Setting up ManageFormsTest");
 
     // At this point:
     // - Browser is already launched (@BeforeSuite)
@@ -38,7 +38,7 @@ public void setUpClass() {
 	designFormPage = new DesignFormPage(driver);
     wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-    logger.info("✅ ManageContactsTest setup completed");
+    logger.info("✅ ManageFormsTest setup completed");
 }
 
 	
