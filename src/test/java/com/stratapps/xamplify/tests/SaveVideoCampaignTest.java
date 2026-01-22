@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
+import com.stratapps.xamplify.pages.SaveRedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.SaveVideoCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
@@ -20,41 +22,23 @@ public class SaveVideoCampaignTest extends BaseTest {
     private SaveVideoCampaignPage saveVideoCampaignPage;
     private WebDriverWait wait;
     private static final Logger logger = LogManager.getLogger(SaveVideoCampaignTest.class);
-
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-	        videoCampaignPage = new VideoCampaignPage(driver);
-	        saveVideoCampaignPage = new SaveVideoCampaignPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("SaveVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-	        videoCampaignPage = new VideoCampaignPage(driver);
-	        saveVideoCampaignPage = new SaveVideoCampaignPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("SaveVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+
+	    videoCampaignPage = new VideoCampaignPage(driver);
+        saveVideoCampaignPage = new SaveVideoCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
 	
-	/*
-	 * @BeforeClass public void setUpClass() { // If login is already handled in
-	 * BaseTest, skip below // LoginPage loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * videoCampaignPage = new VideoCampaignPage(driver); saveVideoCampaignPage =
-	 * new SaveVideoCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("SaveVideoCampaignTest setup completed"); }
-	 */
+	
+
     @Test(priority = 1, enabled = true)
     public void createAndSaveVideoCampaignTest() {
         logger.info("Test 1: Create and Save Video Campaign - STARTED");
@@ -64,7 +48,7 @@ public class SaveVideoCampaignTest extends BaseTest {
       
             "MounikaSaveVideoTest",
             "SaveVideoSubject",
-            "chmounika@stratapps.com",
+            "mounika@xamplify.com",
             "SaveVideoSub"
         );
 

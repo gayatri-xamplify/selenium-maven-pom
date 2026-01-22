@@ -11,9 +11,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.ContactsPage;
 import com.stratapps.xamplify.pages.DesignFormPage;
 import com.stratapps.xamplify.pages.DesignTemplatesPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageContactsPage;
 import com.stratapps.xamplify.pages.ManageFormsPage;
 import com.stratapps.xamplify.pages.ManageTemplatesPage;
 
@@ -25,26 +27,20 @@ public class ManageTemplatesTest extends BaseTest {
 	private ManageFormsPage manageFormsPage;
 	private DesignFormPage designFormPage;
 	private WebDriverWait wait;
+	@BeforeClass(alwaysRun = true)
+public void setUpClass() {
+    logger.info("🔧 Setting up ManageContactsTest");
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			manageTemplatesPage = new ManageTemplatesPage(driver);
-			designTemplatesPage = new DesignTemplatesPage(driver);
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			manageTemplatesPage = new ManageTemplatesPage(driver);
-			designTemplatesPage = new DesignTemplatesPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("ManageTemplatesPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single classes Run Fail");
-		}
+    // At this point:
+    // - Browser is already launched (@BeforeSuite)
+    // - Partner login is already done (@Parameters role=PARTNER)
+
+    manageTemplatesPage = new ManageTemplatesPage(driver);
+	designTemplatesPage = new DesignTemplatesPage(driver);
+    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+    logger.info("✅ ManageContactsTest setup completed");
+
 	}
 
 	@Test(priority = 1, enabled = true)

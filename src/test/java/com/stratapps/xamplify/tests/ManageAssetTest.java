@@ -9,8 +9,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.LaunchRedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ManageAssetPage;
+import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
+import com.stratapps.xamplify.pages.UploadAssetPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class ManageAssetTest extends BaseTest {
@@ -19,32 +22,32 @@ public class ManageAssetTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(ManageAssetTest.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		/*
-		 * super.setUp();
-		 * 
-		 * LoginPage loginPage = new LoginPage(driver);
-		 * loginPage.login(ConfigReader.getProperty("username"),
-		 * ConfigReader.getProperty("password")); manageAssetPage = new
-		 * ManageAssetPage(driver); wait = new WebDriverWait(driver,
-		 * Duration.ofSeconds(60)); logger.info("ManageAssetsTest setup completed");
-		 */
-		
-		
-		
-		
-		
-		
+
+	    logger.info("🔧 Setting up manageAssetPage");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
 		manageAssetPage = new ManageAssetPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ manageAssetPage setup completed");
 	}
+
+	
+		
 	@Test(priority = 1, enabled = true)
 	public void manage_docx() throws Exception {
+	    String filePath = System.getProperty("user.dir") + "/files/test-docx-updated.docx";
+
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(ASC)");
+		manageAssetPage.sortAssets("Created On (ASC)");
 		manageAssetPage.searchAsset("docx");
-		manageAssetPage.editAndReplaceAsset("D:\\git\\selenium-maven-pom\\files\\test-docx-updated.docx");
+		manageAssetPage.editAndReplaceAsset(filePath);
 		manageAssetPage.deleteAssetFile("docx");
 		manageAssetPage.previewAsset("docx");
 		manageAssetPage.downloadAsset();
@@ -55,10 +58,12 @@ public class ManageAssetTest extends BaseTest {
 	
 	@Test(priority = 2, enabled = true)
 	public void views() throws Exception {
+	    String filePath = System.getProperty("user.dir") + "/files/test-mp4.mp4";
+
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.openFilterAndApply("Asset Name", "Contains", "docx");
 		manageAssetPage.searchAsset("mp4");
-		manageAssetPage.videoActions("D:\\git\\selenium-maven-pom\\files\\test-mp4.mp4");
+		manageAssetPage.videoActions(filePath);
 	
 }
 	
@@ -67,7 +72,7 @@ public class ManageAssetTest extends BaseTest {
 	public void manage_csv() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(ASC)");
+		manageAssetPage.sortAssets("Created On (ASC)");
 		manageAssetPage.searchAsset("docx");
 		manageAssetPage.deleteAssetFile("csv");
 		manageAssetPage.previewAsset("csv");
@@ -84,7 +89,7 @@ public class ManageAssetTest extends BaseTest {
 	public void manage_ppt() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(DESC)");
+		manageAssetPage.sortAssets("Created On (DESC)");
 		manageAssetPage.searchAsset("ppt");
 		manageAssetPage.deleteAssetFile("ppt");
 		manageAssetPage.previewAsset("ppt");
@@ -100,7 +105,7 @@ public class ManageAssetTest extends BaseTest {
 	public void manage_pdf() throws Exception {
 		manageAssetPage.openManageAssetSection();
 		manageAssetPage.refreshAssetsPage();
-		manageAssetPage.sortAssets("Created On(DESC)");
+		manageAssetPage.sortAssets("Created On (DESC)");
 		manageAssetPage.searchAsset("pdf");
 		manageAssetPage.pdfAssetActions("pdf");
 	

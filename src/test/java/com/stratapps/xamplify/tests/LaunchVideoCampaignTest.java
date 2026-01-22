@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
+import com.stratapps.xamplify.pages.DesignPages;
 import com.stratapps.xamplify.pages.LaunchVideoCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
@@ -21,40 +22,25 @@ public class LaunchVideoCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(LaunchVideoCampaignTest.class);
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			videoCampaignPage = new VideoCampaignPage(driver);
-			launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			videoCampaignPage = new VideoCampaignPage(driver);
-			launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
-	/*@BeforeClass
-	 * public void setUpClass() { // If login is required, uncomment below //
-	 * super.setUp(); // LoginPage loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * videoCampaignPage = new VideoCampaignPage(driver); launchVideoCampaignPage =
-	 * new LaunchVideoCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("LaunchVideoCampaignTest setup completed"); }
-	 */
+	
 
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+	    videoCampaignPage = new VideoCampaignPage(driver);
+		launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
+	
+	
 	@Test(priority = 1, enabled = true)
 	public void createAndLaunchVideoCampaignTest() {
 		logger.info("Test 1: Create and Launch Video Campaign - STARTED");

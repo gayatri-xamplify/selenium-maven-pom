@@ -22,7 +22,7 @@ public class AccessSharedTracksPage {
 	private By contentMenu = By.xpath("//span[normalize-space()='Content']");
 	private By sharedTracksOption = By.xpath("//span[normalize-space()='Access Shared Tracks']");
 	private By refreshIcon = By.xpath("//i[@class='fa fa-refresh']");
-	private By sortDropdown = By.xpath("//div/div[2]/div[1]/select");
+	private By sortDropdown = By.xpath("//select[contains(@class,'mDamSort')]");
 	private By TrackSearchInput = By.xpath("//input[@placeholder='search...']");
 	private By searchIcon = By.xpath("//i[@class='fa fa-search']");
 
@@ -103,6 +103,7 @@ public class AccessSharedTracksPage {
 	}
 
 	public void sortTracks(String sortOption) {
+		WaitUtil.waitForLoaderToDisappear(driver, 60);
 		WaitUtil.waitForElementVisible(driver, sortDropdown, 30);
 		ElementUtil.selectDropdownByVisibleText(sortDropdown, sortOption, driver);
 	}
@@ -185,7 +186,8 @@ public class AccessSharedTracksPage {
 		WaitUtil.waitAndClick(driver, ViewTrackclose, 60);
 		ElementUtil.click(downloadAssetTrack, driver);
 		WaitUtil.waitForPageToLoad(driver, 90);
-		ElementUtil.click(previewclose, driver);
+		WaitUtil.waitAndClick(driver, previewclose, 60);
+		//ElementUtil.click(previewclose, driver);
 		WaitUtil.waitForPageToLoad(driver, 30);
 
 		// Video Asset view
@@ -202,6 +204,7 @@ public class AccessSharedTracksPage {
 		WaitUtil.waitAndClick(driver, ViewTrackclose, 60);
 		ElementUtil.click(downloadAssetTrack, driver);
 		WaitUtil.waitForPageToLoad(driver, 90);
+		Thread.sleep(2000);
 		ElementUtil.click(previewclose, driver);
 		WaitUtil.waitForPageToLoad(driver, 30);
 
@@ -308,15 +311,20 @@ public class AccessSharedTracksPage {
 	
 	public void tilesActions(String fileName) {
 
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitAndClick(driver, inProgressTile, backdrop, 30);
-		WaitUtil.waitAndClick(driver, completedTile, backdrop, 30);
-		searchTrack(fileName);
-		WaitUtil.waitAndClick(driver, notViewedTile, backdrop, 30);
-		WaitUtil.waitAndClick(driver, allTile, backdrop, 30);
-		
+	    WaitUtil.waitForPageToLoad(driver, 30);
 
+	    // 🔥 NEW IMPORTANT WAIT
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+
+	    WaitUtil.waitAndClick(driver, inProgressTile, backdrop, 30);
+	    WaitUtil.waitAndClick(driver, completedTile, backdrop, 30);
+
+	    searchTrack(fileName);
+
+	    WaitUtil.waitAndClick(driver, notViewedTile, backdrop, 30);
+	    WaitUtil.waitAndClick(driver, allTile, backdrop, 30);
 	}
+
 	
 	
 	

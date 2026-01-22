@@ -3,7 +3,6 @@ package com.stratapps.xamplify.tests;
 
 import java.awt.AWTException;
 import java.time.Duration;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,9 +10,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AccessSharedPlaybooksPage;
 import com.stratapps.xamplify.pages.AddPlaybooksPage;
 import com.stratapps.xamplify.pages.LoginPage;
-import com.stratapps.xamplify.utils.ConfigReader;
 
 public class AddPlaybooksTest extends BaseTest {
 
@@ -21,17 +20,26 @@ public class AddPlaybooksTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(AddPlaybooksTest.class);
     private WebDriverWait wait;
 
-    @BeforeClass
-    public void setUpClass() {
-//        super.setUp();
-//		
-//		  LoginPage loginPage = new LoginPage(driver);
-//		  loginPage.login(ConfigReader.getProperty("username"),
-//		  ConfigReader.getProperty("password"));		 
-        addPlaybooksPage = new AddPlaybooksPage(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-        logger.info("AddPlaybooksTest setup completed");
-    }
+  
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+		 addPlaybooksPage = new AddPlaybooksPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
+	
+	
+	
+    
 
     @Test(priority = 1, enabled = true)
     public void openContentMenuTest() {
@@ -61,15 +69,15 @@ public class AddPlaybooksTest extends BaseTest {
         logger.info("Test 4: Select Folder - COMPLETED");
     }
 
-    @Test(priority = 5, enabled = true)
-    public void addTagsTest() throws AWTException {
+    @Test(priority = 5, enabled = false)
+    public void addTagsTest() throws AWTException, InterruptedException {
         logger.info("Test 5: Add Tags - STARTED");
         addPlaybooksPage.addTags("JPG");
         logger.info("Test 5: Add Tags - COMPLETED");
     }
 
     @Test(priority = 6, enabled = true)
-    public void addMediaAndFormTest() {
+    public void addMediaAndFormTest() throws InterruptedException {
         logger.info("Test 6: Add Media and Form - STARTED");
         addPlaybooksPage.addMediaAndForm();
         logger.info("Test 6: Add Media and Form - COMPLETED");

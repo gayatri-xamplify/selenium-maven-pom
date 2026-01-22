@@ -11,6 +11,8 @@ import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
 import com.stratapps.xamplify.pages.SharedLeadsPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
+import com.stratapps.xamplify.pages.ScheduleRedistributeEventCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class ScheduleVideoCampaignTest extends BaseTest {
@@ -20,51 +22,32 @@ public class ScheduleVideoCampaignTest extends BaseTest {
     private WebDriverWait wait;
 
     private static final Logger logger = LogManager.getLogger(ScheduleVideoCampaignTest.class);
-
-	@BeforeClass
+    @BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-	        videoCampaignPage = new VideoCampaignPage(driver);
-	        scheduleVideoCampaignPage = new ScheduleVideoCampaignPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("ScheduleVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-	        videoCampaignPage = new VideoCampaignPage(driver);
-	        scheduleVideoCampaignPage = new ScheduleVideoCampaignPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("ScheduleVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+
+	    videoCampaignPage = new VideoCampaignPage(driver);
+        scheduleVideoCampaignPage = new ScheduleVideoCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
+
 	
-	/*
-	 * @BeforeClass public void setUpClass() { // super.setUp(); // // LoginPage
-	 * loginPage = new LoginPage(driver); //
-	 * loginPage.login(ConfigReader.getProperty("username"),
-	 * ConfigReader.getProperty("password"));
-	 * 
-	 * videoCampaignPage = new VideoCampaignPage(driver); scheduleVideoCampaignPage
-	 * = new ScheduleVideoCampaignPage(driver); wait = new WebDriverWait(driver,
-	 * Duration.ofSeconds(60));
-	 * logger.info("ScheduleVideoCampaignTest setup completed"); }
-	 */
 
     @Test(priority = 1, enabled = true)
-    public void createAndScheduleVideoCampaignTest() {
+    public void createAndScheduleVideoCampaignTest() throws InterruptedException {
         logger.info("Test 1: Create and Schedule Video Campaign - STARTED");
 
         // Step 1: Create video campaign
         videoCampaignPage.createVideoCampaign(
             "mounikaVideoScheduleTest",
             "videoScheduleSubject",
-            "chmounika@stratapps.com",
+            "mounika@xamplify.com",
             "videoScheduleSub"
         );
 

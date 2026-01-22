@@ -7,9 +7,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddPlaybooksPage;
 import com.stratapps.xamplify.pages.EmailCampaignPage;
 import com.stratapps.xamplify.pages.LaunchEmailCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.SaveSurveyCampaignPage;
+import com.stratapps.xamplify.pages.SurveyCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class LaunchEmailCampaignTest extends BaseTest {
@@ -20,19 +23,29 @@ public class LaunchEmailCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(LaunchEmailCampaignTest.class);
 
-	@BeforeClass
+
+	
+	
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		super.setUp();
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
 
 		emailCampaignPage = new EmailCampaignPage(driver);
 		launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		logger.info("LaunchEmailCampaignTest setup completed");
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
 
+	
+	
+	
+	
 	@Test(priority = 1, enabled = true)
 	public void createAndLaunchEmailCampaignTest() {
 		logger.info("Test 1: Create and Launch Email Campaign - STARTED");

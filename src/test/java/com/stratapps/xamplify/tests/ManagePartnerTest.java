@@ -9,7 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.ContactsPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageContactsPage;
 import com.stratapps.xamplify.pages.ManagePartnerPage;
 import com.stratapps.xamplify.pages.OnboardingPartnerPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
@@ -22,28 +24,20 @@ public class ManagePartnerTest extends BaseTest {
 	private WebDriverWait wait;
 	OnboardingPartnerPage onboardingPartnerPage = new OnboardingPartnerPage(this.driver);
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			managePartnerPage = new ManagePartnerPage(driver);
-			onboardingPartnerPage = new OnboardingPartnerPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("OnboardingPartnerPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			managePartnerPage = new ManagePartnerPage(driver);
-			onboardingPartnerPage = new OnboardingPartnerPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("OnboardingPartnerPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
+	@BeforeClass(alwaysRun = true)
+public void setUpClass() {
+    logger.info("🔧 Setting up ManageContactsTest");
+
+    // At this point:
+    // - Browser is already launched (@BeforeSuite)
+    // - Partner login is already done (@Parameters role=PARTNER)
+
+    managePartnerPage = new ManagePartnerPage(driver);
+	onboardingPartnerPage = new OnboardingPartnerPage(driver);
+    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+    logger.info("✅ ManageContactsTest setup completed");
+}
 
 
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
@@ -159,57 +160,142 @@ public class AccessSharedPlaybooksPage {
 
 	public void viewPlaybookAndClickAssets() throws InterruptedException {
 
-		try {
-			// 1️⃣ Click the View Playbook button
-			WaitUtil.waitAndClick(driver, clickOnPlaybookPreview, backdrop, 30);
-			WaitUtil.waitForPageToLoad(driver, 90);
+		
+		
+		 try {
+		        // 1️⃣ Click the View Playbook button
+		        WaitUtil.waitAndClick(driver, clickOnPlaybookPreview, backdrop, 30);
+		        WaitUtil.waitForPageToLoad(driver, 60);
+		        WaitUtil.waitForLoaderToDisappear(driver, 60);
 
-		} catch (Exception e) {
-			throw new RuntimeException("View Playbook flow failed", e);
-		}
-		By clickOnPlaybookPreviewViewAsset = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[2]/div");
-		// Retry open Playbook Preview (2nd icon)
-		WaitUtil.waitForPageToLoad(driver, 90);
-		WaitUtil.waitForElementClickable(driver, clickOnPlaybookPreviewViewAsset, 30);
-		ElementUtil.clickWithRetry(clickOnPlaybookPreviewViewAsset, driver, 3);
-		WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
-		ElementUtil.click(downloadAssetPlaybook, driver);
-		WaitUtil.waitForPageToLoad(driver, 90);
-		ElementUtil.click(previewclose, driver);
-		WaitUtil.waitForPageToLoad(driver, 30);
+		    } catch (Exception e) {
+		        throw new RuntimeException("View Playbook flow failed while opening Playbook Preview", e);
+		    }
 
-		// Video Asset view
-		By clickOnPlaybookPreviewViewAsset2 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[2]/td[2]/div");
-		// Retry open Playbook Preview (2nd icon)
-		WaitUtil.waitForPageToLoad(driver, 90);
-		WaitUtil.waitForElementClickable(driver, clickOnPlaybookPreviewViewAsset2, 30);
-		ElementUtil.clickWithRetry(clickOnPlaybookPreviewViewAsset2, driver, 3);
-		WaitUtil.waitForPageToLoad(driver, 50);
-//		WaitUtil.waitForVisibility(driver, viewVideoclose, 50);
-//		WaitUtil.waitAndClick(driver, viewVideoclose, 60);
-		WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
-		ElementUtil.click(downloadAssetPlaybook, driver);
-		WaitUtil.waitForPageToLoad(driver, 90);
-		ElementUtil.click(previewclose, driver);
-		WaitUtil.waitForPageToLoad(driver, 30);
+		    try {
+		        // 2️⃣ Wait until assets table has at least 1 row
+		        By assetRows = By.xpath("//*[@id='manage-assets-table']/tbody/tr");
 
-		// Asset # Viewed
-		By clickOnPlaybookPreviewViewAsset3 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[3]/td[2]/div");
-		// Retry open Playbook Preview (2nd icon)
-		WaitUtil.waitForPageToLoad(driver, 90);
-		WaitUtil.waitForElementClickable(driver, clickOnPlaybookPreviewViewAsset3, 30);
-		ElementUtil.clickWithRetry(clickOnPlaybookPreviewViewAsset3, driver, 3);
-		WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
-		ElementUtil.click(downloadAssetPlaybook, driver);
-		WaitUtil.waitForPageToLoad(driver, 90);
-		ElementUtil.click(previewclose, driver);
-		WaitUtil.waitForPageToLoad(driver, 20);
+		        new WebDriverWait(driver, Duration.ofSeconds(60))
+		                .until(ExpectedConditions.numberOfElementsToBeMoreThan(assetRows, 0));
+
+		        int totalRows = driver.findElements(assetRows).size();
+		        //logger.info("Total assets available in Playbook: " + totalRows);
+
+		        // ✅ We will test max 3 assets (if available)
+		        int rowsToTest = Math.min(totalRows, 3);
+
+		        for (int i = 1; i <= rowsToTest; i++) {
+
+		           // logger.info("Processing asset row: " + i);
+
+		            By assetCell = By.xpath("//*[@id='manage-assets-table']/tbody/tr[" + i + "]/td[2]/div");
+
+		            // 3️⃣ Click Asset Row (with retry)
+		            WaitUtil.waitForLoaderToDisappear(driver, 60);
+		            WaitUtil.waitForElementClickable(driver, assetCell, 30);
+		            ElementUtil.clickWithRetry(assetCell, driver, 3);
+
+		            // 4️⃣ Click View Asset button
+		            WaitUtil.waitForLoaderToDisappear(driver, 30);
+		            WaitUtil.waitForElementClickable(driver, viewAssetPlaybook, 30);
+		            WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
+
+		            // 5️⃣ Close View Playbook popup
+		            WaitUtil.waitForLoaderToDisappear(driver, 30);
+		            WaitUtil.waitForElementClickable(driver, ViewPlaybookclose, 60);
+		            WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
+
+		            // 6️⃣ Download Asset
+		            WaitUtil.waitForLoaderToDisappear(driver, 30);
+		            WaitUtil.waitForElementClickable(driver, downloadAssetPlaybook, 30);
+		            ElementUtil.click(downloadAssetPlaybook, driver);
+
+		            // 7️⃣ Close Preview
+		            WaitUtil.waitForLoaderToDisappear(driver, 60);
+		            WaitUtil.waitForElementClickable(driver, previewclose, 60);
+		            ElementUtil.click(previewclose, driver);
+
+		            WaitUtil.waitForLoaderToDisappear(driver, 30);
+		        }
+
+		    } catch (Exception e) {
+		        throw new RuntimeException("Failed while viewing/downloading assets inside Playbook preview", e);
+		    }
+		
+		
+		
+		
+		
+		
+//		try {
+//			// 1️⃣ Click the View Playbook button
+//			WaitUtil.waitAndClick(driver, clickOnPlaybookPreview, backdrop, 30);
+//			WaitUtil.waitForPageToLoad(driver, 90);
+//
+//		} catch (Exception e) {
+//			throw new RuntimeException("View Playbook flow failed", e);
+//		}
+//		By clickOnPlaybookPreviewViewAsset = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[2]/div");
+//		// Retry open Playbook Preview (2nd icon)
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		WaitUtil.waitForElementClickable(driver, clickOnPlaybookPreviewViewAsset, 30);
+//		ElementUtil.clickWithRetry(clickOnPlaybookPreviewViewAsset, driver, 3);
+//		WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
+//		ElementUtil.click(downloadAssetPlaybook, driver);
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		Thread.sleep(2000);
+//		ElementUtil.click(previewclose, driver);
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//
+//		// Video Asset view
+//		By clickOnPlaybookPreviewViewAsset2 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[2]/td[2]/div");
+//		// Retry open Playbook Preview (2nd icon)
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		WaitUtil.waitForElementClickable(driver, clickOnPlaybookPreviewViewAsset2, 30);
+//		ElementUtil.clickWithRetry(clickOnPlaybookPreviewViewAsset2, driver, 3);
+//		WaitUtil.waitForPageToLoad(driver, 50);
+////		WaitUtil.waitForVisibility(driver, viewVideoclose, 50);
+////		WaitUtil.waitAndClick(driver, viewVideoclose, 60);
+//		WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
+//		ElementUtil.click(downloadAssetPlaybook, driver);
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		ElementUtil.click(previewclose, driver);
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//
+//		// Asset # Viewed
+//		By clickOnPlaybookPreviewViewAsset3 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[3]/td[2]/div");
+//		// Retry open Playbook Preview (2nd icon)
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		WaitUtil.waitForElementClickable(driver, clickOnPlaybookPreviewViewAsset3, 30);
+//		ElementUtil.clickWithRetry(clickOnPlaybookPreviewViewAsset3, driver, 3);
+//		WaitUtil.waitAndClick(driver, viewAssetPlaybook, 30);
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//		WaitUtil.waitAndClick(driver, ViewPlaybookclose, 60);
+//		ElementUtil.click(downloadAssetPlaybook, driver);
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		ElementUtil.click(previewclose, driver);
+//		WaitUtil.waitForPageToLoad(driver, 20);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //		// Asset # Viewed
 //		By clickOnPlaybookPreviewViewAsset4 = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[4]/td[2]/div");
 //		// Retry open Playbook Preview (2nd icon)

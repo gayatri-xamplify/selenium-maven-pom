@@ -2,6 +2,7 @@ package com.stratapps.xamplify.utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -248,5 +249,62 @@ public class WaitUtil {
 	        System.out.println("❌ Message Mismatch: Expected [" + expectedMessage + "] but found [" + actualMessage + "]");
 	    }
 	}
+
+//      mounika - safeJsClick
+
+    public static void safeJsClick(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // 1️⃣ Wait for element to be visible (fresh reference)
+            WebElement element = wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.visibilityOfElementLocated(locator)
+            ));
+
+            // 2️⃣ Scroll element into center view
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block:'center', inline:'nearest'});", 
+                    element
+            );
+            Thread.sleep(300);
+
+            // 3️⃣ Wait again for clickability (fresh lookup)
+            element = wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.elementToBeClickable(locator)
+            ));
+
+            // 4️⃣ Try normal click first
+            try {
+                element.click();
+            } catch (Exception e) {
+                // 5️⃣ Fallback to JS click
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("❌ safeJsClick FAILED for locator: " + locator + "\n" + e.getMessage(), e);
+        }
+    }
+    
+    public static void handleSweetAlertIfPresent(WebDriver driver, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+        By swalPopup = By.cssSelector(".swal2-popup");
+        By confirmBtn = By.cssSelector(".swal2-confirm");
+
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(swalPopup));
+
+            if (driver.findElements(confirmBtn).size() > 0) {
+                driver.findElement(confirmBtn).click();
+            }
+
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(swalPopup));
+        } catch (TimeoutException e) {
+            // SweetAlert not shown — safe to continue
+        }
+    }
+
+    
 }
 

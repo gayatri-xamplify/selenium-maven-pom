@@ -37,7 +37,7 @@ public class ManageTracksTest extends BaseTest {
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void editTrackDetailsTest() {
+	public void editTrackDetailsTest() throws InterruptedException {
 		logger.info("Test 2: Edit Track Details - STARTED");
 		manageTracksPage.editTrackDetails();
 		logger.info("Test 2: Edit Track Details - COMPLETED");
@@ -72,7 +72,7 @@ public class ManageTracksTest extends BaseTest {
 	}
 
 	@Test(priority = 7, enabled = true)
-	public void sortAndDeleteTrackTest() {
+	public void sortAndDeleteTrackTest() throws InterruptedException {
 		logger.info("Test 7: Sort and Delete Track - STARTED");
 		manageTracksPage.sortAndDeleteTrack();
 		manageTracksPage.backToHome();

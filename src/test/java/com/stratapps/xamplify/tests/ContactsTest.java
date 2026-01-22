@@ -2,12 +2,14 @@ package com.stratapps.xamplify.tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.ContactsPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
+import com.stratapps.xamplify.pages.TeamVendorPage;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
@@ -25,41 +27,45 @@ public class ContactsTest extends BaseTest {
 	private WebDriverWait wait;
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ContactsTest.class);
-
-	@BeforeClass
-	public void setUpClass() {
-		try {  
-			contactsPage = new ContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("ContactsTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-			contactsPage = new ContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("ContactsTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
+	
+	
+	
+	
+	
 
 	
-//	  @BeforeClass public void setUp() {
-//	  logger.info("✅ Initializing WebDriver and ContactsPage...");
-//	  
-//	  super.setUp(); logoutIfLoggedIn();
-//	  
-//	  LoginPage loginPage = new LoginPage(driver);
-//	  loginPage.login(ConfigReader.getProperty("partner.username"),
-//	  ConfigReader.getProperty("partner.password"));
-//	  
-//	  contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
-//	  Duration.ofSeconds(60)); logger.info("SharedleadsTest setup completed"); }
-	 
+	 @BeforeClass(alwaysRun = true)
+		public void setUpClass() {
+		    logger.info("🔧 Setting up ManageVideoCampaignTest");
+
+		    // At this point:
+		    // - Browser is already launched (@BeforeSuite)
+		    // - Partner login is already done (@Parameters role=PARTNER)
+	        contactsPage = new ContactsPage(driver);
+
+			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+		    logger.info("✅ ManageVideoCampaignTest setup completed");
+		}
+	
+	
+	
+	
+
+		/*
+		 * @BeforeClass public void setUpClass1() { try { contactsPage = new
+		 * ContactsPage(driver); wait = new WebDriverWait(driver,
+		 * Duration.ofSeconds(60)); logger.info("ContactsTest setup completed"); } catch
+		 * (Exception e) { System.out.println("Note: Hide multiple classes Run"); } try
+		 * { super.setUp(); LoginPage loginPage = new LoginPage(driver);
+		 * loginPage.loginAsPartner(); contactsPage = new ContactsPage(driver); wait =
+		 * new WebDriverWait(driver, Duration.ofSeconds(60));
+		 * logger.info("ContactsTest setup completed"); } catch (Exception e) {
+		 * System.out.println("Note: single class Run Fail"); } }
+		 */
+
+	
+
 
 	
 	  @Test(priority = 1, enabled = true) public void AddPublicContact_OneAtATime()
