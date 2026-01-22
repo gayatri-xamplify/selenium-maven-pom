@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.DesignPages;
 import com.stratapps.xamplify.pages.LaunchRedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
@@ -22,28 +23,33 @@ public class LaunchRedistributeEventCampaignTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(LaunchRedistributeEventCampaignTest.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-			launchRedistributeEventCampaignPage = new LaunchRedistributeEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchRedistributionEventCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Multi-class Setup: Ignored");
-		}
 
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-			redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-			launchRedistributeEventCampaignPage = new LaunchRedistributeEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		} catch (Exception e) {
-			System.out.println("Single Class Setup Failed");
-		}
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up launchRedistributeEventCampaignPage");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+	    redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
+		launchRedistributeEventCampaignPage = new LaunchRedistributeEventCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ launchRedistributeEventCampaignPage setup completed");
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// =====================================================
 	// TEST: Complete Redistribute + Launch Flow

@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.CompaniesPage;
 import com.stratapps.xamplify.pages.DesignFormPage;
 import com.stratapps.xamplify.pages.LoginPage;
@@ -20,29 +21,27 @@ public class CompaniesTest extends BaseTest{
 	private static final Logger logger = LogManager.getLogger(CompaniesTest.class);
 	private WebDriverWait wait;
   
-	@BeforeClass
-	public void setUpClass() {  
-		try {
-			companiesPage = new CompaniesPage(driver);
-			manageContactsPage = new ManageContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("CompaniesPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-			companiesPage = new CompaniesPage(driver);
-			manageContactsPage = new ManageContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("companiesPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
 	
+
+	
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+	    companiesPage = new CompaniesPage(driver);
+		manageContactsPage = new ManageContactsPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
+	
+
 	@Test(priority = 1, enabled = true)
 	public void AddCompany() throws InterruptedException {
 		System.out.println(" ");

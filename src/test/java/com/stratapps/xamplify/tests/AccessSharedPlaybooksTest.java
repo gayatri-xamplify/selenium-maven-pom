@@ -18,28 +18,39 @@ public class AccessSharedPlaybooksTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(AccessSharedPlaybooksTest.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
-
+	
+	
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			accessSharedPlaybooksPage = new AccessSharedPlaybooksPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("AccessSharedPlaybooks setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-			accessSharedPlaybooksPage = new AccessSharedPlaybooksPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("AccessSharedPlaybooks setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+	    accessSharedPlaybooksPage = new AccessSharedPlaybooksPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Test(priority = 1, enabled = true)
 	public void AccessSharedPlaybooks() throws Exception {
 		accessSharedPlaybooksPage.accesssharedPlaybookSection();

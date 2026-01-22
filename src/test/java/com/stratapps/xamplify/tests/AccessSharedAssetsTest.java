@@ -25,29 +25,34 @@ import com.stratapps.xamplify.utils.ConfigReader;
 		private WebDriverWait wait;
 		
 		
+		/*
+		 * @BeforeClass public void setUpClass() { try { accessSharedAssetsPage = new
+		 * AccessSharedAssetsPage(driver); wait = new WebDriverWait(driver,
+		 * Duration.ofSeconds(60));
+		 * logger.info("OnboardingPartnerPage setup completed"); } catch (Exception e) {
+		 * System.out.println("Note: Hide multiple classes Run"); } try { super.setUp();
+		 * LoginPage loginPage = new LoginPage(driver); loginPage.loginAsPartner();
+		 * accessSharedAssetsPage = new AccessSharedAssetsPage(driver); wait = new
+		 * WebDriverWait(driver, Duration.ofSeconds(60));
+		 * logger.info("OnboardingPartnerPage setup completed"); } catch (Exception e) {
+		 * System.out.println("Note: single class Run Fail"); } }
+		 */
 		
-		@BeforeClass
+		@BeforeClass(alwaysRun = true)
 		public void setUpClass() {
-			try {
-				accessSharedAssetsPage = new AccessSharedAssetsPage(driver);
-				wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-				logger.info("OnboardingPartnerPage setup completed");
-			} catch (Exception e) {
-				System.out.println("Note: Hide multiple classes Run");
-			}
-			try {
-				super.setUp();
-				LoginPage loginPage = new LoginPage(driver);
-				loginPage.loginAsPartner();
-				accessSharedAssetsPage = new AccessSharedAssetsPage(driver);
-				wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-				logger.info("OnboardingPartnerPage setup completed");
-			} catch (Exception e) {
-				System.out.println("Note: single class Run Fail");
-			}
+
+		    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+		    // Preconditions guaranteed by BaseTest:
+		    // - Browser already launched
+		    // - Partner already logged in (role=PARTNER)
+
+		    accessSharedAssetsPage = new AccessSharedAssetsPage(driver);
+		    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+		    logger.info("✅ AccessSharedAssetsTest setup completed");
 		}
-		
-		
+
 		
 		
 		

@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddPlaybooksPage;
+import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.DesignFormPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ManageFormsPage;
@@ -21,39 +23,24 @@ public class DesignFormTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(DesignFormPage.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			designFormPage = new DesignFormPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("DesignFormPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			designFormPage = new DesignFormPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("DesignFormPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
-	
-	
-	
-	 
-	/*
-	 * @BeforeClass public void setUpClass() { designFormPage = new
-	 * DesignFormPage(driver); }
-	 */
 
-	/*
-	 * @BeforeClass public void setUpClass() { designFormPage = new
-	 * DesignFormPage(driver); }
-	 */
+	
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+		designFormPage = new DesignFormPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
+	
 
 	@Test(priority = 1, enabled = true)
 	public void DesignRegularForm() throws InterruptedException {

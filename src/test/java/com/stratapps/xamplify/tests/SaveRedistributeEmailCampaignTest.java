@@ -21,31 +21,20 @@ public class SaveRedistributeEmailCampaignTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger(SaveRedistributeEmailCampaignTest.class);
     private WebDriverWait wait;
-
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setUpClass() {
-        try {
-            redistributeemailPage = new RedistributeEmailCampaignPage(driver);
-            saveRedistributeEmailCampaignPage = new SaveRedistributeEmailCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("SaveRedistributeEmailCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class setup ignored");
-        }
+        logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.loginAsPartner();
+        // At this point:
+        // - Browser is already launched (@BeforeSuite)
+        // - Partner login is already done (@Parameters role=PARTNER)
 
-            redistributeemailPage = new RedistributeEmailCampaignPage(driver);
-            saveRedistributeEmailCampaignPage = new SaveRedistributeEmailCampaignPage(driver);
+        redistributeemailPage = new RedistributeEmailCampaignPage(driver);
+        saveRedistributeEmailCampaignPage = new SaveRedistributeEmailCampaignPage(driver);        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-        } catch (Exception e) {
-            System.out.println("Single-class setup failed");
-        }
+        logger.info("✅ ManageVideoCampaignTest setup completed");
     }
+ 
 
     // =====================================================
     //       TEST: Redistribute + SAVE Campaign

@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
+import com.stratapps.xamplify.pages.ScheduleRedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.ShareLeadsPage;
 import com.stratapps.xamplify.pages.SharedLeadsPage;
 import com.stratapps.xamplify.utils.ConfigReader;
@@ -19,28 +21,21 @@ public class SharedLeadsTest extends BaseTest {
 	private SharedLeadsPage sharedleadsPage;
 	private static final Logger logger = LogManager.getLogger(SharedLeadsTest.class);
 	private WebDriverWait wait;
-
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			sharedleadsPage = new SharedLeadsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("SharedleadsTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-			sharedleadsPage = new SharedLeadsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("SharedleadsTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single classes Run Fail");
-		}
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+
+		sharedleadsPage = new SharedLeadsPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
 
+	
 	@Test(priority = 1, enabled = true)
 	public void SharedleadsListviewActionsValidTile1() throws Exception {
 		sharedleadsPage.manageAllSharedLeadsTileActions();

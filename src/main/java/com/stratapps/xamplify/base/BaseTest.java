@@ -1,122 +1,83 @@
 package com.stratapps.xamplify.base;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
 
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.LogoutPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class BaseTest {
+
     protected static WebDriver driver;
-    private static final Logger logger = LogManager.getLogger(BaseTest.class);
-    public static List<String> failedScreenshotPaths = new ArrayList<>();
+    private static String currentRole = "NONE";
 
-    private static final Set<String> vendorClasses = new HashSet<>(Arrays.asList(
-            "AddTracksTest", "ManageTracksTest", "TeamVendorTest"
-    ));
+    protected final Logger logger = LogManager.getLogger(this.getClass());
 
-    private static final Set<String> partnerClasses = new HashSet<>(Arrays.asList(
-            "SharedLeadsTest", "TeamPartnerTest"
-    ));
-
-    private static int vendorTestCount = 0;
-    private static int partnerTestCount = 0;
-
-    @BeforeClass(alwaysRun = true)
-    public void setUp() {
+    /* =========================================================
+       SUITE SETUP – Browser launch (ONCE)
+       ========================================================= */
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite() {
         if (driver == null) {
-            logger.info("🛠 BaseTest.setUp() - START");
-            driver = new ChromeDriver();  // ✅ Adjust as needed (ChromeOptions, remote, etc.)
+            logger.info("🚀 Launching browser for test suite");
+            driver = new ChromeDriver();
             driver.manage().window().maximize();
             driver.get(ConfigReader.getProperty("url"));
-            logger.info("✅ WebDriver initialized and navigated to URL.");
+        }
+    }
+
+    /* =========================================================
+       CLASS SETUP – Role-based login (ONCE PER ROLE)
+       ========================================================= */
+    @BeforeClass(alwaysRun = true)
+    @Parameters("role")
+    public void beforeClass(@Optional("NONE") String role) {
+
+        if ("NONE".equalsIgnoreCase(role)) {
+            logger.info("ℹ️ No role specified for class {}", this.getClass().getSimpleName());
+            return;
+        }
+
+        if (role.equalsIgnoreCase(currentRole)) {
+            logger.info("🔁 Reusing existing {} session", role);
+            return;
+        }
+
+        // Logout if switching roles
+        if (!"NONE".equalsIgnoreCase(currentRole)) {
+            logger.info("🔓 Logging out from {}", currentRole);
+            new LogoutPage(driver).logout();
+        }
+
+        // Login for new role
+        LoginPage loginPage = new LoginPage(driver);
+
+        if ("VENDOR".equalsIgnoreCase(role)) {
+            loginPage.loginAsVendor();
+        } else if ("PARTNER".equalsIgnoreCase(role)) {
+            loginPage.loginAsPartner();
         } else {
-            logger.info("🔁 Reusing existing WebDriver session");
+            throw new RuntimeException("❌ Unsupported role: " + role);
         }
 
-        logger.info("✅ BaseTest.setUp() - COMPLETE");
+        currentRole = role;
+        logger.info("🔐 Logged in as {}", role);
     }
 
-    /**
-     * Checks if the user is logged in by checking visibility of the Welcome element.
-     */
-    public boolean isLoggedIn() {
-        try {
-            LoginPage loginPage = new LoginPage(driver);
-            return loginPage.isWelcomeDisplayed();
-        } catch (Exception e) {
-            logger.warn("⚠️ isLoggedIn() failed: {}", e.getMessage());
-            return false;
-        }
-    }
-
-    
-    
-    @AfterClass(alwaysRun = true)
-    public void tearDownClass() {
-        String className = this.getClass().getSimpleName();
-
-        // Vendor
-        if (vendorClasses.contains(className)) {
-            vendorTestCount++;
-            logger.info("✅ Vendor class '{}' completed. Progress: {}/{}", className, vendorTestCount, vendorClasses.size());
-
-            if (vendorTestCount == vendorClasses.size()) {
-                logoutIfLoggedIn();
-                logger.info("🔒 Logged out after all vendor classes completed.");
-            } else {
-                logger.info("⏳ Waiting for remaining vendor test classes. Logout skipped for now.");
-            }
-        }
-
-        // Partner
-        if (partnerClasses.contains(className)) {
-            partnerTestCount++;
-            logger.info("✅ Partner class '{}' completed. Progress: {}/{}", className, partnerTestCount, partnerClasses.size());
-
-            if (partnerTestCount == partnerClasses.size()) {
-                logoutIfLoggedIn();
-                logger.info("🔒 Logged out after all partner classes completed.");
-            } else {
-                logger.info("⏳ Waiting for remaining partner test classes. Logout skipped for now.");
-            }
-        }
-    }
-
-    
-    
-    
-    
-    
-    
-    
-    public void logoutIfLoggedIn() {
-        try {
-            if (isLoggedIn()) {
-                logger.info("🔓 Logging out...");
-                driver.get(ConfigReader.getProperty("url") + "/logout"); // ✅ Adjust as per app
-            }
-        } catch (Exception e) {
-            logger.error("❌ Logout failed: {}", e.getMessage());
-        }
-    }
-
+    /* =========================================================
+       SUITE TEARDOWN – Browser quit (ONCE)
+       ========================================================= */
     @AfterSuite(alwaysRun = true)
-    public void tearDownSuite() {
+    public void afterSuite() {
         if (driver != null) {
+            logger.info("🧹 Closing browser after suite");
             driver.quit();
-            logger.info("🧹 WebDriver closed after suite.");
+            driver = null;
+            currentRole = "NONE";
         }
     }
 
