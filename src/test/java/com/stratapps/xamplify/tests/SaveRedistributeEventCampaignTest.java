@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEmailCampaignPage;
 import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.SaveRedistributeEventCampaignPage;
 
@@ -21,31 +22,21 @@ public class SaveRedistributeEventCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(SaveRedistributeEventCampaignTest.class);
 	private WebDriverWait wait;
-
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-			saveRedistributeEventCampaignPage = new SaveRedistributeEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("SaveRedistributeEventCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Multi-class setup ignored");
-		}
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
 
-			redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-			saveRedistributeEventCampaignPage = new SaveRedistributeEventCampaignPage(driver);
+	    redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
+		saveRedistributeEventCampaignPage = new SaveRedistributeEventCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		} catch (Exception e) {
-			System.out.println("Single-class setup failed");
-		}
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
+	
 
 	// =====================================================
 	// TEST: Redistribute + SAVE Campaign

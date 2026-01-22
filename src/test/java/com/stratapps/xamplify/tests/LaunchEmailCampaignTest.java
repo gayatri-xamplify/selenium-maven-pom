@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddPlaybooksPage;
 import com.stratapps.xamplify.pages.EmailCampaignPage;
 import com.stratapps.xamplify.pages.LaunchEmailCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
@@ -23,29 +24,24 @@ public class LaunchEmailCampaignTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(LaunchEmailCampaignTest.class);
 
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			emailCampaignPage = new EmailCampaignPage(driver);
-			launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("Launch Email Campaign setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			emailCampaignPage = new EmailCampaignPage(driver);
-			launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("Launch EMail Campaign setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
 	
+	
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+		emailCampaignPage = new EmailCampaignPage(driver);
+		launchEmailCampaignPage = new LaunchEmailCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
 	
 	
 	

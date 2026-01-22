@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.EmailCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEmailCampaignPage;
 import com.stratapps.xamplify.pages.SaveEmailCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
@@ -22,29 +23,21 @@ public class SaveEmailCampaignTest extends BaseTest {
     private WebDriverWait wait;
 
     private static final Logger logger = LogManager.getLogger(SaveEmailCampaignTest.class);
+    @BeforeClass(alwaysRun = true)
+    public void setUpClass() {
+        logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-		       emailCampaignPage = new EmailCampaignPage(driver);
-		        saveEmailCampaignPage = new SaveEmailCampaignPage(driver);
-		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		        logger.info("SaveEmailCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-		       emailCampaignPage = new EmailCampaignPage(driver);
-		        saveEmailCampaignPage = new SaveEmailCampaignPage(driver);
-		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		        logger.info("SaveEmailCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
+        // At this point:
+        // - Browser is already launched (@BeforeSuite)
+        // - Partner login is already done (@Parameters role=PARTNER)
+
+        emailCampaignPage = new EmailCampaignPage(driver);
+        saveEmailCampaignPage = new SaveEmailCampaignPage(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        logger.info("✅ ManageVideoCampaignTest setup completed");
+    }
+	
 	
     @Test(priority = 1, enabled = true)
     public void createAndSaveEmailCampaignTest() {

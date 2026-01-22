@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
+import com.stratapps.xamplify.pages.DesignPages;
 import com.stratapps.xamplify.pages.LaunchVideoCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
@@ -21,28 +22,24 @@ public class LaunchVideoCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(LaunchVideoCampaignTest.class);
 
-	@BeforeClass
+	
+
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			videoCampaignPage = new VideoCampaignPage(driver);
-			launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			videoCampaignPage = new VideoCampaignPage(driver);
-			launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("LaunchVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+	    videoCampaignPage = new VideoCampaignPage(driver);
+		launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
+
+	
 	
 	@Test(priority = 1, enabled = true)
 	public void createAndLaunchVideoCampaignTest() {

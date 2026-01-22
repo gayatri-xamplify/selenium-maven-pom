@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.DesignPages;
 import com.stratapps.xamplify.pages.LaunchRedistributeVideoCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.RedistributeVideoCampaignPage;
@@ -23,30 +24,26 @@ public class LaunchRedistributeVideoCampaignTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(LaunchRedistributeVideoCampaignTest.class);
     private WebDriverWait wait;
 
-    @BeforeClass
-    public void setUpClass() {
-        try {
-        	redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-        	launchRedistributeVideoCampaignPage = new LaunchRedistributeVideoCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("LaunchRedistributionVideoCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class Setup: Ignored");
-        }
+    
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-            redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-            launchRedistributeVideoCampaignPage = new LaunchRedistributeVideoCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("LaunchRedistributionVideoCampaignTest setup completed");
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
 
-        } catch (Exception e) {
-            System.out.println("Single Class Setup Failed");
-        }
-    }
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+	    redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
+    	launchRedistributeVideoCampaignPage = new LaunchRedistributeVideoCampaignPage(driver);
+    	wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
+    
+   
 
     // =====================================================
     //   TEST: Complete Redistribute + Launch Flow

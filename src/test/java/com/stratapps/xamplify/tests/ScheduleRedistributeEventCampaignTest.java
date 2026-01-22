@@ -10,8 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.EventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
+import com.stratapps.xamplify.pages.ScheduleEventCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleRedistributeEventCampaignPage;
 
 public class ScheduleRedistributeEventCampaignTest extends BaseTest {
@@ -21,32 +23,22 @@ public class ScheduleRedistributeEventCampaignTest extends BaseTest {
 
 	private static final Logger logger = LogManager.getLogger(ScheduleRedistributeEventCampaignTest.class);
 	private WebDriverWait wait;
-
-	@BeforeClass
+    
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-		try {
-			redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-			scheduleRedistributeEventCampaignPage = new ScheduleRedistributeEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("RedistributeScheduleEventCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Multi-class Setup: Ignored");
-		}
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
 
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
+	    redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
+		scheduleRedistributeEventCampaignPage = new ScheduleRedistributeEventCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-			redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-			scheduleRedistributeEventCampaignPage = new ScheduleRedistributeEventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
-		} catch (Exception e) {
-			System.out.println("Single Class Setup Failed");
-		}
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
+
 
 	// =====================================================
 	// TEST: Complete Redistribute + Schedule Flow

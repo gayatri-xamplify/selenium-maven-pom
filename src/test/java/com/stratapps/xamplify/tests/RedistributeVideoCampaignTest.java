@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEmailCampaignPage;
 import com.stratapps.xamplify.pages.RedistributeVideoCampaignPage;
 
 public class RedistributeVideoCampaignTest extends BaseTest {
@@ -17,30 +18,20 @@ public class RedistributeVideoCampaignTest extends BaseTest {
 	private RedistributeVideoCampaignPage redistributeVideoPage;
 	private static final Logger logger = LogManager.getLogger(RedistributeVideoCampaignTest.class);
 	private WebDriverWait wait;
-
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-		try {
-			redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("RedistributeVideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Multi-class Init Ignored");
-		}
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
 
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
+		redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-			redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
-		} catch (Exception e) {
-			System.out.println("Single class Init Failed");
-		}
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
+	
 
 	// =====================================================
 	// TEST: VIDEO REDISTRIBUTION FLOW
