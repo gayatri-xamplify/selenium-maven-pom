@@ -10,8 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.EventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.RedistributeEmailCampaignPage;
+import com.stratapps.xamplify.pages.ScheduleEventCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleRedistributeEmailCampaignPage;
 
 public class ScheduleRedistributeEmailCampaignTest extends BaseTest {
@@ -21,33 +23,22 @@ public class ScheduleRedistributeEmailCampaignTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger(ScheduleRedistributeEmailCampaignTest.class);
     private WebDriverWait wait;
+    
+	@BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-    @BeforeClass
-    public void setUpClass() {
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
 
-        try {
-            redistributeemailPage = new RedistributeEmailCampaignPage(driver);
-            scheduleRedistributeEmailCampaignPage = new ScheduleRedistributeEmailCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("RedistributeScheduleEmailCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class Setup: Ignored");
-        }
+	    redistributeemailPage = new RedistributeEmailCampaignPage(driver);
+        scheduleRedistributeEmailCampaignPage = new ScheduleRedistributeEmailCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.loginAsPartner();
-
-            redistributeemailPage = new RedistributeEmailCampaignPage(driver);
-            scheduleRedistributeEmailCampaignPage = new ScheduleRedistributeEmailCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
-        } catch (Exception e) {
-            System.out.println("Single Class Setup Failed");
-        }
-    }
-
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	}
+   
     // =====================================================
     //   TEST: Complete Redistribute + Schedule Flow
     // =====================================================

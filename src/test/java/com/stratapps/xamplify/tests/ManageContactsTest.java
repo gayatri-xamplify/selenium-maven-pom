@@ -19,27 +19,20 @@ public class ManageContactsTest extends BaseTest {
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ManageContactsTest.class);
 
-	@BeforeClass
+	
+		@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			manageContactsPage = new ManageContactsPage(driver);
-			contactsPage = new ContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("ManageContactsTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsPartner();
-			contactsPage = new ContactsPage(driver);
-			manageContactsPage = new ManageContactsPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("ManageContactsTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+	    logger.info("🔧 Setting up ManageContactsTest");
+
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+
+	    manageContactsPage = new ManageContactsPage(driver);
+	    contactsPage = new ContactsPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageContactsTest setup completed");
 	}
 
 	@Test(priority = 1, enabled = true)

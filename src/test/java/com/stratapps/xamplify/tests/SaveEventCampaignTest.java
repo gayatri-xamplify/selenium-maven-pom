@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.EventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEmailCampaignPage;
 import com.stratapps.xamplify.pages.SaveEventCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
@@ -22,29 +23,20 @@ public class SaveEventCampaignTest extends BaseTest {
     private WebDriverWait wait;
 
     private static final Logger logger = LogManager.getLogger(SaveEventCampaignTest.class);
+    @BeforeClass(alwaysRun = true)
+    public void setUpClass() {
+        logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-	@BeforeClass
-	public void setUpClass() {
-		try {
-		       EventCampaignPage = new EventCampaignPage(driver);
-		        saveEventCampaignPage = new SaveEventCampaignPage(driver);
-		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		        logger.info("SaveEventCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-		       EventCampaignPage = new EventCampaignPage(driver);
-		        saveEventCampaignPage = new SaveEventCampaignPage(driver);
-		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		        logger.info("SaveEventCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
+        // At this point:
+        // - Browser is already launched (@BeforeSuite)
+        // - Partner login is already done (@Parameters role=PARTNER)
+
+        EventCampaignPage = new EventCampaignPage(driver);
+        saveEventCampaignPage = new SaveEventCampaignPage(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        logger.info("✅ ManageVideoCampaignTest setup completed");
+    }
 	
 	
     @Test(priority = 1, enabled = true)

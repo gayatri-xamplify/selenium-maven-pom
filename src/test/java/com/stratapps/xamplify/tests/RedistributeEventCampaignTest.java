@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageVideoCampaignPage;
 import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,30 +19,20 @@ public class RedistributeEventCampaignTest extends BaseTest {
     private RedistributeEventCampaignPage redistributeEventCampaignPage;
     private static final Logger logger = LogManager.getLogger(RedistributeEventCampaignTest.class);
     private WebDriverWait wait;
+	@BeforeClass(alwaysRun = true)
+public void setUpClass() {
+    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-    @BeforeClass
-    public void setUpClass() {
+    // At this point:
+    // - Browser is already launched (@BeforeSuite)
+    // - Partner login is already done (@Parameters role=PARTNER)
 
-        try {
-            redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("RedistributeEventCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multiclass Setup: Ignored");
-        }
+    redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
+    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.loginAsPartner();
-
-            redistributeEventCampaignPage = new RedistributeEventCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-        } catch (Exception e) {
-            System.out.println("Single Class Setup Failed");
-        }
-    }
-
+    logger.info("✅ ManageVideoCampaignTest setup completed");
+}
+   
     // =====================================================
     //   TEST: Complete Redistribute Event Campaign Flow
     // =====================================================

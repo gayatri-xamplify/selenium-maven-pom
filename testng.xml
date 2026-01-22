@@ -2,8 +2,10 @@
 	<listeners>
 		<listener class-name="com.stratapps.xamplify.listeners.TestListener" />
 	</listeners>
-	✅ All vendor classes grouped under one test block <test
-		name="Vendor Account Tests">
+	✅ All vendor classes grouped under one test block 
+	<test name="Vendor Account Tests">
+        <parameter name="role" value="VENDOR"/>
+
 		<classes>
 
 		<class name="com.stratapps.xamplify.tests.OnboardingPartnersTest" />
@@ -44,8 +46,8 @@
 				name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
 			<class
 				name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
-			<!--<class
-				name="com.stratapps.xamplify.tests.ManageEmailCampaignTest" />-->
+			<class
+				name="com.stratapps.xamplify.tests.ManageEmailCampaignTest" />
 
 
 			<class
@@ -54,8 +56,8 @@
 				name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
 			<class
 				name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />
-			<!--<class
-				name="com.stratapps.xamplify.tests.ManageVideoCampaignTest" />-->
+			<class
+				name="com.stratapps.xamplify.tests.ManageVideoCampaignTest" />
 
 			<class
 				name="com.stratapps.xamplify.tests.ScheduleSurveyCampaignTest" />
@@ -63,8 +65,8 @@
 				name="com.stratapps.xamplify.tests.SaveSurveyCampaignTest" />
 			<class
 				name="com.stratapps.xamplify.tests.LaunchSurveyCampaignTest" />
-			<!--<class
-				name="com.stratapps.xamplify.tests.ManageSurveyCampaignTest" />-->
+			<class
+				name="com.stratapps.xamplify.tests.ManageSurveyCampaignTest" />
 
 
 			<class
@@ -73,23 +75,27 @@
 				name="com.stratapps.xamplify.tests.SaveEventCampaignTest" />
 			<class
 				name="com.stratapps.xamplify.tests.LaunchEventCampaignTest" />
-			<!--<class
-				name="com.stratapps.xamplify.tests.ManageEventCampaignTest" />-->
+			<class
+				name="com.stratapps.xamplify.tests.ManageEventCampaignTest" />
 
 			<class name="com.stratapps.xamplify.tests.TeamVendorTest" />
 
 			<class name="com.stratapps.xamplify.tests.ShareLeadsTest" />
 
 
-			<class
-				name="com.stratapps.xamplify.tests.LogoutTest" />
+			
 
 
 		</classes>
 
 
 	</test>
+	
+	
+	
+
 	✅ Partner block can remain separate <test name="Partner Account Tests">
+	 <parameter name="role" value="PARTNER"/>
 		<classes>
 			<class name="com.stratapps.xamplify.tests.ContactsTest" />
 			<class name="com.stratapps.xamplify.tests.ManageContactsTest" />

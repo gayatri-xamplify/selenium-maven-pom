@@ -10,7 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.ContactsPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageContactsPage;
 import com.stratapps.xamplify.pages.ManagePlaybooksPage;
 
 public class ManagePlaybooksTest extends BaseTest {
@@ -19,29 +21,21 @@ public class ManagePlaybooksTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(ManagePlaybooksTest.class);
 	private WebDriverWait wait;
 
-	
-	@BeforeClass
-	public void setUpClass() {
-		try {
-			managePlaybooksPage = new ManagePlaybooksPage(driver);
+	@BeforeClass(alwaysRun = true)
+public void setUpClass() {
+    logger.info("🔧 Setting up ManageContactsTest");
 
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("ManagePlaybooks setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			managePlaybooksPage = new ManagePlaybooksPage(driver);
+    // At this point:
+    // - Browser is already launched (@BeforeSuite)
+    // - Partner login is already done (@Parameters role=PARTNER)
 
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("ManagePlaybooks setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single classes Run Fail");
-		}
-	}
+	managePlaybooksPage = new ManagePlaybooksPage(driver);
+
+    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+    logger.info("✅ ManageContactsTest setup completed");
+}
+
 	
 	@Test(priority = 1, enabled = true)
 	public void navigateToManagePlaybooksTest() {

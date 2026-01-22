@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.DesignTemplatesPage;
 import com.stratapps.xamplify.pages.LoginPage;
 
@@ -19,24 +20,25 @@ public class DesignTemplatesTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(DesignTemplatesPage.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
+	
+
+	
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			designTemplatesPage = new DesignTemplatesPage(driver);
-		} catch (Exception e) {
-			System.out.println("Note: Multiple classes Run Config Skipped");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			designTemplatesPage = new DesignTemplatesPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("DesignTemplatesPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Config Skipped");
-		}
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+		designTemplatesPage = new DesignTemplatesPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
+
+	
 
 	@Test(priority = 1, enabled = true)
 	public void CreateEmailTemplate() throws InterruptedException, UnsupportedFlavorException, IOException {
