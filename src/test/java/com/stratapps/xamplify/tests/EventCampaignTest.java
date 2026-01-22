@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddPlaybooksPage;
 import com.stratapps.xamplify.pages.EmailCampaignPage;
 import com.stratapps.xamplify.pages.EventCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
@@ -26,27 +27,24 @@ public class EventCampaignTest extends BaseTest {
     private WebDriverWait wait;
 
     
-    @BeforeClass
-	public void setUpClass() {
-		try {
-	    	  eventCampaignPage = new EventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("EventCampaign setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-	    	  eventCampaignPage = new EventCampaignPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("EventCampaign setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
-	}
+   
+
     
+    @BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+  	  eventCampaignPage = new EventCampaignPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	}
+
 	
     
     

@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
 import com.stratapps.xamplify.pages.TeamVendorPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
@@ -19,27 +20,21 @@ public class VideoCampaignTest extends BaseTest {
     private VideoCampaignPage videoCampaignPage;
     private static final Logger logger = LogManager.getLogger(VideoCampaignTest.class);
     private WebDriverWait wait;
-
-	@BeforeClass
+    @BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-	        videoCampaignPage = new VideoCampaignPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("VideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-	        videoCampaignPage = new VideoCampaignPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-	        logger.info("VideoCampaignTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single classes Run Fail");
-		}
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+
+        videoCampaignPage = new VideoCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
+
+	
 	
 
     @Test(priority = 1, enabled = true)

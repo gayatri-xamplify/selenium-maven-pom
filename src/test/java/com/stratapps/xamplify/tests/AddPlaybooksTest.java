@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AccessSharedPlaybooksPage;
 import com.stratapps.xamplify.pages.AddPlaybooksPage;
 import com.stratapps.xamplify.pages.LoginPage;
 
@@ -19,30 +20,25 @@ public class AddPlaybooksTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(AddPlaybooksTest.class);
     private WebDriverWait wait;
 
-    @BeforeClass
-    
-    
+  
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			 addPlaybooksPage = new AddPlaybooksPage(driver);
-		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		        logger.info("AddPlaybooksTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			 addPlaybooksPage = new AddPlaybooksPage(driver);
-		        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		        logger.info("AddPlaybooksTest setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+		 addPlaybooksPage = new AddPlaybooksPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
+
 	
-    
+	
+	
     
 
     @Test(priority = 1, enabled = true)

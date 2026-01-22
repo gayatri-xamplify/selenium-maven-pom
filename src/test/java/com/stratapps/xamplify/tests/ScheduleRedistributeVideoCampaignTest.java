@@ -11,7 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.RedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.RedistributeVideoCampaignPage;
+import com.stratapps.xamplify.pages.ScheduleRedistributeEventCampaignPage;
 import com.stratapps.xamplify.pages.ScheduleRedistributeVideoCampaignPage;
 
 public class ScheduleRedistributeVideoCampaignTest extends BaseTest {
@@ -21,33 +23,21 @@ public class ScheduleRedistributeVideoCampaignTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger(ScheduleRedistributeVideoCampaignTest.class);
     private WebDriverWait wait;
+    @BeforeClass(alwaysRun = true)
+	public void setUpClass() {
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
 
-    @BeforeClass
-    public void setUpClass() {
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+	    redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
+        scheduleRedistributeVideoCampaignPage = new ScheduleRedistributeVideoCampaignPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        try {
-            redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-            scheduleRedistributeVideoCampaignPage = new ScheduleRedistributeVideoCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("RedistributeScheduleVideoCampaignTest setup completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class Setup: Ignored");
-        }
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	}
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.loginAsPartner();
-
-            redistributeVideoPage = new RedistributeVideoCampaignPage(driver);
-            scheduleRedistributeVideoCampaignPage = new ScheduleRedistributeVideoCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
-        } catch (Exception e) {
-            System.out.println("Single Class Setup Failed");
-        }
-    }
-
+  
     // =====================================================
     //   TEST: Complete Redistribute + Schedule Flow
     // =====================================================

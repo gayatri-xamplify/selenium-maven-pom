@@ -11,7 +11,9 @@ import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.OnboardingPartnerPage;
+import com.stratapps.xamplify.pages.ScheduleVideoCampaignPage;
 import com.stratapps.xamplify.pages.UploadAssetPage;
+import com.stratapps.xamplify.pages.VideoCampaignPage;
 import com.stratapps.xamplify.utils.ConfigReader;
 
 public class UploadAssetTest extends BaseTest {
@@ -19,28 +21,21 @@ public class UploadAssetTest extends BaseTest {
 	private UploadAssetPage uploadAssetPage;
 	private static final Logger logger = LogManager.getLogger(UploadAssetTest.class);
 	private WebDriverWait wait;
-
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			uploadAssetPage = new UploadAssetPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("UploadAsset setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			uploadAssetPage = new UploadAssetPage(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("Upload Asset setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+
+	    // At this point:
+	    // - Browser is already launched (@BeforeSuite)
+	    // - Partner login is already done (@Parameters role=PARTNER)
+
+		uploadAssetPage = new UploadAssetPage(driver);
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageVideoCampaignTest setup completed");
 	}
-	
+
 	
 	
 	

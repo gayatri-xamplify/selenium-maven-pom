@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.AddTracksPage;
 import com.stratapps.xamplify.pages.DesignPages;
 import com.stratapps.xamplify.pages.LoginPage;
 import com.stratapps.xamplify.pages.ManageFormsPage;
@@ -20,28 +21,25 @@ public class DesignPageTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(ManageFormsPage.class);
 	private WebDriverWait wait;
 
-	@BeforeClass
+
+	
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-		try {
-			designPages = new DesignPages(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("DesignFormPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: Hide multiple classes Run");
-		}
-		try {
-			super.setUp();
-			LoginPage loginPage = new LoginPage(driver);
-			loginPage.loginAsVendor();
-			designPages = new DesignPages(driver);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			logger.info("DesignFormPage setup completed");
-		} catch (Exception e) {
-			System.out.println("Note: single class Run Fail");
-		}
+
+	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
+
+		designPages = new DesignPages(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ AccessSharedAssetsTest setup completed");
 	}
 
-
+	
+	
 	@Test(priority = 1, enabled = true)
 	public void CreateRegularPublicPage() throws InterruptedException {
 		System.out.println(" ");

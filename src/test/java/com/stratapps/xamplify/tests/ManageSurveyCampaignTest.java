@@ -10,7 +10,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.ContactsPage;
 import com.stratapps.xamplify.pages.LoginPage;
+import com.stratapps.xamplify.pages.ManageContactsPage;
 import com.stratapps.xamplify.pages.ManageSurveyCampaignPage;
 
 public class ManageSurveyCampaignTest extends BaseTest {
@@ -19,30 +21,21 @@ public class ManageSurveyCampaignTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(ManageSurveyCampaignTest.class);
     private WebDriverWait wait;
 
-    @BeforeClass
-    public void setUpClass() {
-        try {
-            manageSurveyCampaignPage = new ManageSurveyCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("ManageSurveyCampaignTest initial setup (multi-class) completed");
-        } catch (Exception e) {
-            System.out.println("Multi-class Setup: Ignored");
-        }
+	@BeforeClass(alwaysRun = true)
+public void setUpClass() {
+    logger.info("🔧 Setting up ManageContactsTest");
 
-        try {
-            super.setUp();
-            LoginPage loginPage = new LoginPage(driver);
-            // adjust if you need loginAsPartner()
-            loginPage.loginAsVendor();
+    // At this point:
+    // - Browser is already launched (@BeforeSuite)
+    // - Partner login is already done (@Parameters role=PARTNER)
 
-            manageSurveyCampaignPage = new ManageSurveyCampaignPage(driver);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-            logger.info("ManageSurveyCampaignTest setup completed with login");
-        } catch (Exception e) {
-            System.out.println("Single class Setup Failed");
-        }
-    }
+    manageSurveyCampaignPage = new ManageSurveyCampaignPage(driver);
 
+    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+    logger.info("✅ ManageContactsTest setup completed");
+}
+    
     
     @Test(priority = 1)
     public void testManageSurveyCampaignFullFlow() throws Exception {
