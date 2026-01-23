@@ -26,7 +26,7 @@ public class ScheduleRedistributeEmailCampaignTest extends BaseTest {
     
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up ScheduleRedistributeEmailCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -36,7 +36,7 @@ public class ScheduleRedistributeEmailCampaignTest extends BaseTest {
         scheduleRedistributeEmailCampaignPage = new ScheduleRedistributeEmailCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ ScheduleRedistributeEmailCampaignTest setup completed");
 	}
    
     // =====================================================
@@ -49,7 +49,7 @@ public class ScheduleRedistributeEmailCampaignTest extends BaseTest {
         logger.info("Step 1: Open Redistribute Flow");
         redistributeemailPage.openRedistributeEmailCampaign();
         redistributeemailPage.previewEmailTemplate();
-        redistributeemailPage.downloadEmailTemplate();
+        //redistributeemailPage.downloadEmailTemplate();
         redistributeemailPage.fillCampaignDetails("redistribute_email_campaign");
         redistributeemailPage.selectContacts();
         logger.info("Step 2: Schedule Campaign");

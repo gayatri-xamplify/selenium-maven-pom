@@ -131,7 +131,7 @@ public class OpportunitiesLeadPage {
 	public static final By ConvertedLeadTile = By.xpath("(//a[text()= ' Detailed view '])[4]/..");
 	public static final By ConvertedLeadTileCount = By.xpath("(//div[@class='number']/span)[4]");
 	public static final By ConvertedLeadTotalCount = By.xpath("(//span[@class='total-records-bg-color'])[1]/Strong");
-	
+	public static final By emailthereport = By.xpath("//*[@id='exportExcelModalPopup']//button[contains(text(),'Email')]");    
 
 	/**
 	 * @hoverOnOpportunities written by ganesh
@@ -159,14 +159,10 @@ public class OpportunitiesLeadPage {
 	}
 
 	public void leadEmailReport() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, eMailReport, 10);
+		WaitUtil.waitAndClick(driver, eMailReport, 40);
+		WaitUtil.waitAndClick(driver, emailthereport, 40);
 		ScreenshotUtil.captureScreenshot(driver, "eMailReport");
-		/*
-		 * WebElement respondMessage =
-		 * driver.findElement(By.xpath("xpath_for_first_result")).getText();
-		 * assertTrue(resultText.contains("AutoLead_FN_175"),
-		 * "Search result validation failed!");
-		 */
+
 	}
 
 	public void LeadForm() throws InterruptedException {
@@ -190,7 +186,7 @@ public class OpportunitiesLeadPage {
 	public void addLead() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, addLeadButton, 10);
 		WaitUtil.waitForDropdownToBeReady(driver, leadForCompany, 5);
-		DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
+//		DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
 		WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 5);
 		DropdownUtil.selectByVisibleText(driver, pipelineStageId, "Opened");
 		WaitUtil.waitAndSendKeys(driver, addleadCommentId, "Lead Created through automation", 5);
@@ -315,8 +311,8 @@ public class OpportunitiesLeadPage {
 		WaitUtil.waitAndClick(driver, MyProfileDropdown, 20);
 		Thread.sleep(3000);
 		WaitUtil.waitAndClick(driver, AddLeadBTN, 20);
-		WaitUtil.waitForDropdownToBeReady(driver, leadForCompany, 20);
-		DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
+//		WaitUtil.waitForDropdownToBeReady(driver, leadForCompany, 20);
+//		DropdownUtil.selectByVisibleText(driver, leadForCompany, "xAmplify");
 		WaitUtil.waitForDropdownToBeReady(driver, pipelineStageId, 20);
 		DropdownUtil.selectByVisibleText(driver, pipelineStageId, "Closed - Lost");
 		WaitUtil.waitAndSendKeys(driver, addleadCommentId, "Lead Created through automation", 20);

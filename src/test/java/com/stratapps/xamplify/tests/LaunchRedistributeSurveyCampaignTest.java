@@ -29,7 +29,7 @@ public class LaunchRedistributeSurveyCampaignTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up LaunchRedistributeSurveyCampaignTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -39,7 +39,7 @@ public class LaunchRedistributeSurveyCampaignTest extends BaseTest {
     	launchRedistributeSurveyCampaignPage = new LaunchRedistributeSurveyCampaignPage(driver);
     	wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ LaunchRedistributeSurveyCampaignTest setup completed");
 	}
 
 

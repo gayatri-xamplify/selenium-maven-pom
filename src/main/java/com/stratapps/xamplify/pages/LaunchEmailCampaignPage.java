@@ -6,51 +6,50 @@ import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 
 public class LaunchEmailCampaignPage {
-    private WebDriver driver;
+	private WebDriver driver;
 
-    public LaunchEmailCampaignPage(WebDriver driver) {
-        this.driver = driver;
-    }
-    // Locators
-    private By nowEmailCampaignBtn = By.xpath("(//div[@class='btn-group btn-group-justified']//label)[1]");
-    private By launchEmailBtn = By.xpath("//span[normalize-space(text())='Launch']");
-    private By responseMessage = By.xpath("//span[@id='responseMessage']");
-    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	public LaunchEmailCampaignPage(WebDriver driver) {
+		this.driver = driver;
+	}
 
-     // Clicks the "Now Email Campaign" button.
-    
-    public void clickNowEmailCampaign() {
-        WaitUtil.waitForElementVisible(driver, nowEmailCampaignBtn, 60);
-        ElementUtil.click(nowEmailCampaignBtn, driver);
-    }
+	// Locators
+	private By nowEmailCampaignBtn = By.xpath("(//div[@class='btn-group btn-group-justified']//label)[1]");
+	private By launchEmailBtn = By.xpath("//span[normalize-space(text())='Launch']");
+	private By responseMessage = By.xpath("//span[@id='responseMessage']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
-    
-     // Clicks the "Launch Email" button.
-     
-    public void clickLaunchEmail() {
-        WaitUtil.waitForElementVisible(driver, launchEmailBtn, 60);
-        ElementUtil.click(launchEmailBtn, driver);
-    }
+	// Clicks the "Now Email Campaign" button.
 
-   
-     // Returns the launch confirmation message.
-    
-    public String getResponseMessage() {
-        WaitUtil.waitForElementVisible(driver, responseMessage, 60);
-        return ElementUtil.getText(responseMessage, driver);
-    }
+	public void clickNowEmailCampaign() {
+		WaitUtil.waitForElementVisible(driver, nowEmailCampaignBtn, 60);
+		ElementUtil.click(nowEmailCampaignBtn, driver);
+	}
 
-    public void backToHome() {
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
+	// Clicks the "Launch Email" button.
 
-     //Full flow: Launches the email campaign and validates the success message.
-    
-    public void launchEmailCampaign() {
-        clickNowEmailCampaign();
-        clickLaunchEmail();
-        getResponseMessage();
-        backToHome();
+	public void clickLaunchEmail() {
+		WaitUtil.waitForElementVisible(driver, launchEmailBtn, 60);
+		ElementUtil.click(launchEmailBtn, driver);
+	}
+
+	// Returns the launch confirmation message.
+
+	public String getResponseMessage() {
+		WaitUtil.waitForElementVisible(driver, responseMessage, 60);
+		return ElementUtil.getText(responseMessage, driver);
+	}
+
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
+
+	// Full flow: Launches the email campaign and validates the success message.
+
+	public void launchEmailCampaign() {
+		clickNowEmailCampaign();
+		clickLaunchEmail();
+		getResponseMessage();
+		backToHome();
 		/*
 		 * String actualMessage = getResponseMessage();
 		 * 
@@ -58,8 +57,6 @@ public class LaunchEmailCampaignPage {
 		 * "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner."
 		 * ; return expectedMessage.equals(actualMessage);
 		 */
-    }
-    
-    
+	}
 
 }

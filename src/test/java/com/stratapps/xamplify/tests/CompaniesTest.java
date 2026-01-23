@@ -27,7 +27,7 @@ public class CompaniesTest extends BaseTest{
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up CompaniesTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -37,7 +37,7 @@ public class CompaniesTest extends BaseTest{
 		manageContactsPage = new ManageContactsPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ CompaniesTest setup completed");
 	}
 
 	

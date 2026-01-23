@@ -25,7 +25,7 @@ public class SaveSurveyCampaignTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(SaveSurveyCampaignTest.class);
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up SaveSurveyCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -35,7 +35,7 @@ public class SaveSurveyCampaignTest extends BaseTest {
 		saveSurveyCampaignPage = new SaveSurveyCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ SaveSurveyCampaignTest setup completed");
 	}
 	
 	

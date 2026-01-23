@@ -6,51 +6,46 @@ import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 
 public class LaunchVideoCampaignPage {
-    private WebDriver driver;
+	private WebDriver driver;
 
-    public LaunchVideoCampaignPage(WebDriver driver) {
-        this.driver = driver;
-    }
-    
-    
+	public LaunchVideoCampaignPage(WebDriver driver) {
+		this.driver = driver;
+	}
 
-    // Locators
-    private By nowVideoCampaignBtn = By.xpath("//input[@value='NOW']");
-    private By launchVideoBtn = By.xpath("//span[contains(text(),'Launch')]");
-    private By responseMessage = By.xpath("//span[@id='responseMessage']");
-    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
-    
-    // Clicks the "Now Video Campaign" button.
-    public void clickNowVideoCampaign() {
-        WaitUtil.waitForElementVisible(driver, nowVideoCampaignBtn, 60);
-        ElementUtil.click(nowVideoCampaignBtn, driver);
-    }
+	// Locators
+	private By nowVideoCampaignBtn = By.xpath("//input[@value='NOW']");
+	private By launchVideoBtn = By.xpath("//span[contains(text(),'Launch')]");
+	private By responseMessage = By.xpath("//span[@id='responseMessage']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
-    
-    // Clicks the "Launch Video" button.
-    public void clickLaunchVideo() {
-        WaitUtil.waitForElementVisible(driver, launchVideoBtn, 60);
-        ElementUtil.click(launchVideoBtn, driver);
-    }
+	// Clicks the "Now Video Campaign" button.
+	public void clickNowVideoCampaign() {
+		WaitUtil.waitForElementVisible(driver, nowVideoCampaignBtn, 60);
+		ElementUtil.click(nowVideoCampaignBtn, driver);
+	}
 
-    
-    // Returns the launch confirmation message.
-    public String getResponseMessage() {
-        WaitUtil.waitForElementVisible(driver, responseMessage, 60);
-        return ElementUtil.getText(responseMessage, driver);
-    }
+	// Clicks the "Launch Video" button.
+	public void clickLaunchVideo() {
+		WaitUtil.waitForElementVisible(driver, launchVideoBtn, 60);
+		ElementUtil.click(launchVideoBtn, driver);
+	}
 
-    public void backToHome() {
-        WaitUtil.waitAndClick(driver, Gotohome, 60);
-    }
+	// Returns the launch confirmation message.
+	public String getResponseMessage() {
+		WaitUtil.waitForElementVisible(driver, responseMessage, 60);
+		return ElementUtil.getText(responseMessage, driver);
+	}
 
-    
-    // Full flow: Launches the video campaign and validates the success message.
-    public void launchVideoCampaign() {
-        clickNowVideoCampaign();
-        clickLaunchVideo();
-        getResponseMessage();
-        backToHome();
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
+
+	// Full flow: Launches the video campaign and validates the success message.
+	public void launchVideoCampaign() {
+		clickNowVideoCampaign();
+		clickLaunchVideo();
+		getResponseMessage();
+		backToHome();
 		/*
 		 * String actualMessage = getResponseMessage();
 		 * 
@@ -58,6 +53,5 @@ public class LaunchVideoCampaignPage {
 		 * "The campaign was successfully deployed. Please wait until the campaign is processed and launched. We will send you email updates in timely manner."
 		 * ; return expectedMessage.equals(actualMessage);
 		 */
-    }
+	}
 }
-

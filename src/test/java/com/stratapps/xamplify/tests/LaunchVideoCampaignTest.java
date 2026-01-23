@@ -27,7 +27,7 @@ public class LaunchVideoCampaignTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up LaunchVideoCampaignTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -36,7 +36,7 @@ public class LaunchVideoCampaignTest extends BaseTest {
 	    videoCampaignPage = new VideoCampaignPage(driver);
 		launchVideoCampaignPage = new LaunchVideoCampaignPage(driver);	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ LaunchVideoCampaignTest setup completed");
 	}
 
 	

@@ -26,7 +26,7 @@ public class ScheduleSurveyCampaignTest extends BaseTest {
     
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up ScheduleSurveyCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -35,7 +35,7 @@ public class ScheduleSurveyCampaignTest extends BaseTest {
 		scheduleSurveyCampaignPage = new ScheduleSurveyCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ ScheduleSurveyCampaignTest setup completed");
 	}
 	
 	@Test(priority = 1, enabled = true)

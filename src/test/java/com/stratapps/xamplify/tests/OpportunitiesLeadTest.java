@@ -21,7 +21,7 @@ public class OpportunitiesLeadTest extends BaseTest {
 	private WebDriverWait wait;
 	@BeforeClass(alwaysRun = true)
 public void setUpClass() {
-    logger.info("🔧 Setting up ManageVideoCampaignTest");
+    logger.info("🔧 Setting up OpportunitiesLeadTest");
 
     // At this point:
     // - Browser is already launched (@BeforeSuite)
@@ -30,7 +30,7 @@ public void setUpClass() {
 	opportunitiesleadPage = new OpportunitiesLeadPage(driver);
     wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-    logger.info("✅ ManageVideoCampaignTest setup completed");
+    logger.info("✅ OpportunitiesLeadTest setup completed");
 }
     
 

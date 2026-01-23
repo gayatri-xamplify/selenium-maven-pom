@@ -26,7 +26,7 @@ public class UploadAssetPage {
 
 	// ================= LOCATORS ================= //
 
-	private By contentMenu = By.xpath("//span[contains(text(),'Content')]");
+	private By contentMenu = By.xpath("//span[normalize-space()='Content']");
 	private By designUploadOption = By.xpath("//a[contains(text(),'Design / Upload')]");
 	private By uploadAssetsLink = By.xpath("//span[normalize-space()='Upload']");
 	private By fileInput = By.xpath("//input[@type='file']");
@@ -104,7 +104,8 @@ public class UploadAssetPage {
 	public void openUploadAssetSection() {
 		// Wait for Content menu
 		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForLoaderToDisappear(driver, 60);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+
 		WebElement content = WaitUtil.waitForElementVisible(driver, contentMenu, 90);
 		ElementUtil.hoverAndClick(content, driver);
 		// Click Design Upload
@@ -258,8 +259,7 @@ public class UploadAssetPage {
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		// 1️⃣ Click "Pick up Tag(s)"
-		WebElement pickUpButton =
-		        WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
+		WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, pickUpTag, 30);
 		js.executeScript("arguments[0].scrollIntoView({block:'center'});", pickUpButton);
 		pickUpButton.click();
 
@@ -271,18 +271,17 @@ public class UploadAssetPage {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
 		WebElement addTagBtn = wait.until(driver -> {
-		    WebElement el = driver.findElement(addTagIcon);
-		    return (el.isDisplayed() && el.isEnabled()) ? el : null;
+			WebElement el = driver.findElement(addTagIcon);
+			return (el.isDisplayed() && el.isEnabled()) ? el : null;
 		});
 
 		// 4️⃣ Click safely
 		try {
 			Thread.sleep(2000); // brief pause to ensure readiness
-		    addTagBtn.click();
+			addTagBtn.click();
 		} catch (Exception e) {
-		    js.executeScript("arguments[0].click();", addTagBtn);
+			js.executeScript("arguments[0].click();", addTagBtn);
 		}
-		
 
 		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
 
@@ -296,7 +295,6 @@ public class UploadAssetPage {
 
 		// Wait for new UI state
 		WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
-
 
 		// 5️⃣ Save tag
 		WebElement saveBtn = WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
@@ -357,8 +355,11 @@ public class UploadAssetPage {
 		}
 	}
 
-	/** Save Asset 
-	 * @throws InterruptedException */
+	/**
+	 * Save Asset
+	 * 
+	 * @throws InterruptedException
+	 */
 	public void saveAsset() throws InterruptedException {
 		// Wait for page stability after frame switch
 		WaitUtil.waitForPageToLoad(driver, 20);
@@ -379,8 +380,11 @@ public class UploadAssetPage {
 		}
 	}
 
-	/** Save As draft Asset 
-	 * @throws InterruptedException */
+	/**
+	 * Save As draft Asset
+	 * 
+	 * @throws InterruptedException
+	 */
 	public void saveAsDraftAsset() throws InterruptedException {
 		// Wait for page stability after frame switch
 		WaitUtil.waitForPageToLoad(driver, 20);
@@ -507,8 +511,10 @@ public class UploadAssetPage {
 
 					// Wait for navigation to complete
 					WaitUtil.waitForPageToLoad(driver, 60);
+					WaitUtil.waitForLoaderToDisappear(driver, 120);
 					System.out.println("🏠 Navigated back to home page successfully!");
 					return;
+
 				} catch (StaleElementReferenceException e) {
 					System.out.println("⚠️ StaleElementReferenceException while clicking home, retry " + attempt);
 				} catch (TimeoutException e) {

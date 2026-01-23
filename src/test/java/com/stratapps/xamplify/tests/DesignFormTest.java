@@ -28,7 +28,7 @@ public class DesignFormTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up DesignFormTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -37,7 +37,7 @@ public class DesignFormTest extends BaseTest {
 		designFormPage = new DesignFormPage(driver);
 	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ DesignFormTest setup completed");
 	}
 
 	
