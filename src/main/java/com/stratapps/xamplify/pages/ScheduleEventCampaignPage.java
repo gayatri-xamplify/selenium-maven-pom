@@ -15,8 +15,8 @@ public class ScheduleEventCampaignPage {
 	}
 
 	// Locators
-	private By scheduleEventCampaignBtn = By
-			.xpath("//label[contains(@class,'btn btn-warning button-border Sch-class')]//input[contains(@name,'scheduleCampaign')]");
+	private By scheduleEventCampaignBtn = By.xpath(
+			"//label[contains(@class,'btn btn-warning button-border Sch-class')]//input[contains(@name,'scheduleCampaign')]");
 	private By selectDateInput = By.xpath("//input[@id='launchTimeInString']");
 	private By selectCountryDropdown = By.xpath("//select[@id='countryName']");
 	private By scheduleLaunchBtn = By.xpath("//button[normalize-space()='Schedule']");
@@ -28,8 +28,8 @@ public class ScheduleEventCampaignPage {
 
 	public void clickScheduleEventCampaign() {
 		WaitUtil.waitForPageToLoad(driver, 60);
-    	JavascriptExecutor js = (JavascriptExecutor) driver;
-    	js.executeScript("window.scrollTo(0, 0);");
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 0);");
 		WaitUtil.waitForElementVisible(driver, scheduleEventCampaignBtn, 60);
 		ElementUtil.click(scheduleEventCampaignBtn, driver);
 	}
@@ -41,7 +41,6 @@ public class ScheduleEventCampaignPage {
 		ElementUtil.click(selectDateInput, driver);
 	}
 
-	
 	// Selects today's date in the date picker.
 
 	public void selectTodayDate() {

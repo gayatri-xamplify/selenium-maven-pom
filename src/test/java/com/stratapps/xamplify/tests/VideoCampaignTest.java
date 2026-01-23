@@ -22,7 +22,7 @@ public class VideoCampaignTest extends BaseTest {
     private WebDriverWait wait;
     @BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up VideoCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -31,7 +31,7 @@ public class VideoCampaignTest extends BaseTest {
         videoCampaignPage = new VideoCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ VideoCampaignTest setup completed");
 	}
 
 	

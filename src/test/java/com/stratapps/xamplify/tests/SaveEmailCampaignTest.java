@@ -25,7 +25,7 @@ public class SaveEmailCampaignTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(SaveEmailCampaignTest.class);
     @BeforeClass(alwaysRun = true)
     public void setUpClass() {
-        logger.info("🔧 Setting up ManageVideoCampaignTest");
+        logger.info("🔧 Setting up SaveEmailCampaignTest");
 
         // At this point:
         // - Browser is already launched (@BeforeSuite)
@@ -35,7 +35,7 @@ public class SaveEmailCampaignTest extends BaseTest {
         saveEmailCampaignPage = new SaveEmailCampaignPage(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        logger.info("✅ ManageVideoCampaignTest setup completed");
+        logger.info("✅ SaveEmailCampaignTest setup completed");
     }
 	
 	

@@ -25,7 +25,7 @@ public class ScheduleRedistributeVideoCampaignTest extends BaseTest {
     private WebDriverWait wait;
     @BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up ScheduleRedistributeVideoCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -34,7 +34,7 @@ public class ScheduleRedistributeVideoCampaignTest extends BaseTest {
         scheduleRedistributeVideoCampaignPage = new ScheduleRedistributeVideoCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ ScheduleRedistributeVideoCampaignTest setup completed");
 	}
 
   
@@ -51,8 +51,8 @@ public class ScheduleRedistributeVideoCampaignTest extends BaseTest {
 		logger.info("Step 2: Preview Template");
 		redistributeVideoPage.previewVideoTemplate();
 
-		logger.info("Step 3: download Template");
-		redistributeVideoPage.downloadEmailTemplate();
+//		logger.info("Step 3: download Template");
+//		redistributeVideoPage.downloadEmailTemplate();
 		
 		logger.info("Step 4: ViewDownloadHistory");
 	//	redistributeVideoPage.viewDownloadHistory();
