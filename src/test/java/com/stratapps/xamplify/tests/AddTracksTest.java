@@ -25,7 +25,7 @@ public class AddTracksTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up AddTracksTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -34,7 +34,7 @@ public class AddTracksTest extends BaseTest {
 		addTracksPage = new AddTracksPage(driver);
 	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ AddTracksTest setup completed");
 	}
 
 	

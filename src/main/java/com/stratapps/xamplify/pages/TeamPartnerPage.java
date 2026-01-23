@@ -40,7 +40,8 @@ public class TeamPartnerPage {
 	private By inviteSendButton = By.xpath("(//span[contains(text(), 'Send')])[2]");
 	private By inviteClose = By.xpath("(//button[contains(text(), 'Cancel')])[4]");
 	private By searchField = By.xpath("(//input[@placeholder='Search'])[1]");
-	private By searchIcon = By.xpath("//div[@class='portlet-input input-inline input-small tmutttpx']//i[@class='fa fa-search']");
+	private By searchIcon = By
+			.xpath("//div[@class='portlet-input input-inline input-small tmutttpx']//i[@class='fa fa-search']");
 	private By deleteUploadIcon = By
 			.xpath("//a[@data-placement='bottom']//i[@class='fa fa-trash-o trashIconCustomization']");
 	private By yesDelete = By.xpath("//button[normalize-space()='Yes, delete it!']");
@@ -70,7 +71,7 @@ public class TeamPartnerPage {
 	private By previewclose = By.xpath("//div[@id=\"preview-team-member-popup\"]/div/div/div[3]/button");
 	private By select_tm = By.xpath("//input[@placeholder='Select Team Members']");
 	private By backdrop = By.cssSelector("div.backdrop");
-    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
 	private By select_vendor = By.xpath("//input[@placeholder='Select Vendors']");
 
@@ -230,9 +231,9 @@ public class TeamPartnerPage {
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(closeAdminsPopup));
 
 	}
-	
-	 public void backToHome() {
-	        WaitUtil.waitAndClick(driver, Gotohome, 60);
-	    }
+
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
 
 }

@@ -48,6 +48,9 @@ public class RedistributeVideoCampaignPage {
 	private By searchContact = By.xpath("//input[@placeholder='Search for a list']");
 	private By selectAllContacts = By.xpath("//input[@id='checkAllExistingContacts']");
 	private By backdrop = By.cssSelector("div.backdrop");
+	private By searchCampaign = By.xpath("//div[3]/div/div/input");
+	private By searchiconcampaign = By
+			.xpath("//button[@class='search-box-item-click only_content']//i[@class='fa fa-search']");
 
 	// =========================================================
 	// MAIN ACTIONS
@@ -56,7 +59,6 @@ public class RedistributeVideoCampaignPage {
 	/** Navigate → Click Redistribute → Video Tab */
 	public void openRedistributeVideoCampaign() {
 		WaitUtil.waitForPageToLoad(driver, 120);
-		WaitUtil.waitForLoaderToDisappear(driver, 120);
 		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
 		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
@@ -68,12 +70,12 @@ public class RedistributeVideoCampaignPage {
 
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
 		WaitUtil.waitForPageToLoad(driver, 90);
-
-		// ⭐ NEW IMPORTANT WAIT ⭐
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitAndClick(driver, searchCampaign, 60);
+		ElementUtil.sendText(searchCampaign, "Video", driver);
+		WaitUtil.waitAndClick(driver, searchiconcampaign, 60);
 
 		// 7️⃣ Click video tab
-		WaitUtil.waitAndClick(driver, videoTab, 60);
+		// WaitUtil.waitAndClick(driver, videoTab, 60);
 	}
 
 	// =========================================================
@@ -84,7 +86,6 @@ public class RedistributeVideoCampaignPage {
 
 		// 1️⃣ Wait until the entire page is loaded
 		WaitUtil.waitForPageToLoad(driver, 120);
-		WaitUtil.waitForLoaderToDisappear(driver, 120);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));

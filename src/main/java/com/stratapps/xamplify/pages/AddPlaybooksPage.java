@@ -6,16 +6,17 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
 
 public class AddPlaybooksPage {
 	private WebDriver driver;
+
 	public AddPlaybooksPage(WebDriver driver) {
 		this.driver = driver;
 	}
+
 	// Locators
 	private By contentMenu = By.xpath("//span[normalize-space()='Content']");
 	private By addPlaybooksButton = By.xpath("//span[normalize-space()='Add Playbooks']");
@@ -46,8 +47,6 @@ public class AddPlaybooksPage {
 	private By firstAssetSelect = By.xpath("//ul[1]//li[1]//div[1]//div[1]//span[1]//label[1]");
 	private By assetTypeDropdown = By.xpath("(//*[@id='left']/select)[2]");
 
-	
-	
 	private By searchPublishInput = By.xpath("(//input[@id='sort-text'])[1]");
 	private By arrowClickPlaybook = By.xpath("//i[@class='fa IconCustomization fa-angle-right']");
 	private By partnerSelectPlaybook = By.xpath("//th[@class='text-center']/input");
@@ -60,10 +59,16 @@ public class AddPlaybooksPage {
 
 	public void openContentMenu() {
 		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+
 		ElementUtil.click(contentMenu, driver);
 	}
 
 	public void clickAddPlaybooks() {
+		WaitUtil.waitForPageToLoad(driver, 70);
+
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 30);
+
 		WaitUtil.waitAndClick(driver, addPlaybooksButton, 60);
 	}
 
@@ -88,57 +93,53 @@ public class AddPlaybooksPage {
 	}
 
 	public void addTags(String tagName) throws InterruptedException {
-		 WaitUtil.waitForPageToLoad(driver, 90);
-		    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		WaitUtil.waitForPageToLoad(driver, 90);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-		    JavascriptExecutor js = (JavascriptExecutor) driver;
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		    // 1️⃣ Click "Pick up Tag(s)"
-		    WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, tagPlusIcon, 30);
-		    js.executeScript("arguments[0].scrollIntoView({block:'center'});", pickUpButton);
-		    js.executeScript("arguments[0].click();", pickUpButton);
+		// 1️⃣ Click "Pick up Tag(s)"
+		WebElement pickUpButton = WaitUtil.waitForElementClickable(driver, tagPlusIcon, 30);
+		js.executeScript("arguments[0].scrollIntoView({block:'center'});", pickUpButton);
+		js.executeScript("arguments[0].click();", pickUpButton);
 
+		// 2️⃣ Wait for modal
+		WaitUtil.waitForElementVisible(driver, active_modal, 30);
 
-		    // 2️⃣ Wait for modal
-		    WaitUtil.waitForElementVisible(driver, active_modal, 30);
+		Thread.sleep(2000); // short pause to ensure modal fully rendered
+		// 3️⃣ Click "+ Add a tag"
+		WebElement addTagBtn = WaitUtil.waitForElementPresent(driver, addTagButton, 30);
+		js.executeScript("arguments[0].click();", addTagBtn);
 
-		    Thread.sleep(2000); // short pause to ensure modal fully rendered
-		    // 3️⃣ Click "+ Add a tag"
-		    WebElement addTagBtn = WaitUtil.waitForElementPresent(driver, addTagButton, 30);
-		    js.executeScript("arguments[0].click();", addTagBtn);
+		// 4️⃣ Enter unique tag name
+		WaitUtil.waitForElementVisible(driver, tagInputField, 30);
 
+		String uniqueTag = tagName + "_" + System.currentTimeMillis();
+		ElementUtil.sendText(tagInputField, uniqueTag, driver);
+		ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
 
-		    // 4️⃣ Enter unique tag name
-		    WaitUtil.waitForElementVisible(driver, tagInputField, 30);
+		// 5️⃣ Save tag
+		WebElement saveBtn = WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
+		js.executeScript("arguments[0].click();", saveBtn);
 
-		    String uniqueTag = tagName + "_" + System.currentTimeMillis();
-		    ElementUtil.sendText(tagInputField, uniqueTag, driver);
-		    ElementUtil.sendKey(tagInputField, Keys.ENTER, driver);
+		// 6️⃣ Select newly created tag
+		WebElement checkbox = WaitUtil.waitForElementClickable(driver, tagSelectCheckbox, 30);
+		js.executeScript("arguments[0].click();", checkbox);
+		ElementUtil.click(tagSaveButton, driver);
 
+		// 7️⃣ Add more tags
+		WebElement addMoreLink = WaitUtil.waitForElementClickable(driver, addMoreTagsLink, 30);
+		js.executeScript("arguments[0].click();", addMoreLink);
 
-		    // 5️⃣ Save tag
-		    WebElement saveBtn = WaitUtil.waitForElementClickable(driver, tagSaveButton, 30);
-		    js.executeScript("arguments[0].click();", saveBtn);
+		WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
+		ElementUtil.sendText(addMoreTagsSearch, "test", driver);
+		ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
 
-		    // 6️⃣ Select newly created tag
-		    WebElement checkbox = WaitUtil.waitForElementClickable(driver, tagSelectCheckbox, 30);
-		    js.executeScript("arguments[0].click();", checkbox);
-			ElementUtil.click(tagSaveButton, driver);
+		WebElement selectMore = WaitUtil.waitForElementClickable(driver, addMoreTagsSelect, 30);
+		js.executeScript("arguments[0].click();", selectMore);
 
-		    // 7️⃣ Add more tags
-		    WebElement addMoreLink = WaitUtil.waitForElementClickable(driver, addMoreTagsLink, 30);
-		    js.executeScript("arguments[0].click();", addMoreLink);
-
-		    WaitUtil.waitForElementVisible(driver, addMoreTagsSearch, 30);
-		    ElementUtil.sendText(addMoreTagsSearch, "test", driver);
-		    ElementUtil.sendKey(addMoreTagsSearch, Keys.ENTER, driver);
-
-		    WebElement selectMore = WaitUtil.waitForElementClickable(driver, addMoreTagsSelect, 30);
-		    js.executeScript("arguments[0].click();", selectMore);
-
-		    WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
-		    js.executeScript("arguments[0].click();", updateBtn);
-		
+		WebElement updateBtn = WaitUtil.waitForElementClickable(driver, addMoreTagsUpdate, 30);
+		js.executeScript("arguments[0].click();", updateBtn);
 
 	}
 
@@ -184,10 +185,10 @@ public class AddPlaybooksPage {
 		// Scroll and pause to let it settle
 		WebElement nextBtnElement = driver.findElement(nextButton);
 		ElementUtil.scrollToElement(nextBtnElement, driver);
-		 //Optional hard scroll up in case button is covered
+		// Optional hard scroll up in case button is covered
 		((JavascriptExecutor) driver).executeScript("window.scrollBy(0, -150);");
 		WaitUtil.waitAndClick(driver, nextButton, 40);
-		//ElementUtil.click(nextButton, driver);
+		// ElementUtil.click(nextButton, driver);
 	}
 
 	public void selectAsset(String type) throws Exception {
@@ -262,9 +263,6 @@ public class AddPlaybooksPage {
 
 		WaitUtil.waitAndClick(driver, partnerSelectPlaybook, 70);
 		ElementUtil.click(saveAndPublishButton, driver);
-
-		// Wait for loader to disappear
-		WaitUtil.waitForLoaderToDisappear(driver, 60);
 
 		// Wait for confirmation message
 		WaitUtil.waitForElementVisible(driver, publishConfirmationMessage, 60);

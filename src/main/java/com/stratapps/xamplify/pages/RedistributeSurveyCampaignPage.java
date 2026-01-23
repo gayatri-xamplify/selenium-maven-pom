@@ -63,7 +63,6 @@ public class RedistributeSurveyCampaignPage {
 
 	public void openRedistributeSurveyCampaign() {
 		WaitUtil.waitForPageToLoad(driver, 120);
-		WaitUtil.waitForLoaderToDisappear(driver, 120);
 		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
 		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
@@ -75,16 +74,10 @@ public class RedistributeSurveyCampaignPage {
 
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
 		WaitUtil.waitForPageToLoad(driver, 90);
-		WaitUtil.waitAndClick(driver, searchCampaign, 30);
+		WaitUtil.waitAndClick(driver, searchCampaign, 60);
 		ElementUtil.sendText(searchCampaign, "Survey", driver);
-		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
+		WaitUtil.waitAndClick(driver, searchiconcampaign, 60);
 
-//		// ⭐ NEW IMPORTANT WAIT ⭐
-//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-//
-//		// 7️⃣ Click survey tab
-//
-//		WaitUtil.waitAndClick(driver, SurveyTab, 60);
 	}
 
 	// =========================================================
@@ -95,7 +88,6 @@ public class RedistributeSurveyCampaignPage {
 
 		// 1️⃣ Wait until the entire page is loaded
 		WaitUtil.waitForPageToLoad(driver, 120);
-		WaitUtil.waitForLoaderToDisappear(driver, 120);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));

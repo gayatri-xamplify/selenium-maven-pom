@@ -24,7 +24,7 @@ public class AddPlaybooksTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up AddPlaybooksTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -33,7 +33,7 @@ public class AddPlaybooksTest extends BaseTest {
 		 addPlaybooksPage = new AddPlaybooksPage(driver);
 	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ AddPlaybooksTest setup completed");
 	}
 
 	

@@ -24,7 +24,7 @@ public class ScheduleVideoCampaignTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(ScheduleVideoCampaignTest.class);
     @BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up ScheduleVideoCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -34,7 +34,7 @@ public class ScheduleVideoCampaignTest extends BaseTest {
         scheduleVideoCampaignPage = new ScheduleVideoCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ ScheduleVideoCampaignTest setup completed");
 	}
 
 	

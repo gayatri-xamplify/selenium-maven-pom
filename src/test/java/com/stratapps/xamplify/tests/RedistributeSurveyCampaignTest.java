@@ -20,7 +20,7 @@ public class RedistributeSurveyCampaignTest extends BaseTest {
     private WebDriverWait wait;
 	@BeforeClass(alwaysRun = true)
 public void setUpClass() {
-    logger.info("🔧 Setting up ManageVideoCampaignTest");
+    logger.info("🔧 Setting up RedistributeSurveyCampaignTest");
 
     // At this point:
     // - Browser is already launched (@BeforeSuite)
@@ -29,7 +29,7 @@ public void setUpClass() {
     redistributeSurveyCampaignPage = new RedistributeSurveyCampaignPage(driver);
     wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-    logger.info("✅ ManageVideoCampaignTest setup completed");
+    logger.info("✅ RedistributeSurveyCampaignTest setup completed");
 }
     
     // ================================

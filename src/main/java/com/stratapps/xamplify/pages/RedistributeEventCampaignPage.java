@@ -58,7 +58,6 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	public void openRedistributeEventCampaign() {
 		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForLoaderToDisappear(driver, 60);
 		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
 		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
 
@@ -74,10 +73,6 @@ public class RedistributeEventCampaignPage {
 		ElementUtil.sendText(searchCampaign, "Event", driver);
 		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
 
-//		// ⭐ NEW IMPORTANT WAIT ⭐
-//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-//
-//		WaitUtil.waitAndClick(driver, eventTab, 60);
 	}
 
 	// =========================================================
@@ -86,7 +81,6 @@ public class RedistributeEventCampaignPage {
 	public void previewEventTemplate() throws Exception {
 
 		WaitUtil.waitForPageToLoad(driver, 120);
-		WaitUtil.waitForLoaderToDisappear(driver, 120);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 120);
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
