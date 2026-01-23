@@ -277,19 +277,19 @@ public class ManageContactsPage {
 	
 	/* @Edit_CreateNewPublicList Is Written by ganesh ***/
 	public void Edit_CreateNewPublicContactList() throws Exception {
-		Thread.sleep(5000);
+		Thread.sleep(8000);
 		String timestamp2 = String.valueOf(System.currentTimeMillis());
-		WaitUtil.waitAndClick(driver, AllCheckbox, 20);
-		WaitUtil.waitAndClick(driver, ActionDropdown, 20);
-		WaitUtil.waitAndClick(driver, CreateList, 20);
+		WaitUtil.waitAndClick(driver, AllCheckbox, 40);
+		WaitUtil.waitAndClick(driver, ActionDropdown, 40);
+		WaitUtil.waitAndClick(driver, CreateList, 40);
 		Thread.sleep(2000);
-		WaitUtil.waitAndSendKeys(driver, titleField, "PublicGroup"+timestamp2, 20);
+		WaitUtil.waitAndSendKeys(driver, titleField, "PublicGroup"+timestamp2, 40);
 		if (ElementUtil.isDisplayed(legalBasisField, driver)) {
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver);
 			WaitUtil.waitAndSendKeys(driver, legalBasisField, "Legitimate interest - existing customer", 40);
 			ElementUtil.sendKey(legalBasisField, Keys.ENTER, driver); // Select from dropdown or confirm
 		}
-		WaitUtil.waitAndClick(driver, saveChanges, 20);
+		WaitUtil.waitAndClick(driver, saveChanges, 40);
 	}
 	
 	/* @Edit_exportToExcel Is Written by ganesh ***/

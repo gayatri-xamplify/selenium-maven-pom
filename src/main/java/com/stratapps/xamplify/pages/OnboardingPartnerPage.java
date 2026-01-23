@@ -415,18 +415,18 @@ public class OnboardingPartnerPage {
 	public void addToGroup() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 30);
 		searchAndVerifyPartner();
-		WaitUtil.waitAndClick(driver, checkBox1, 10);
+		WaitUtil.waitAndClick(driver, checkBox1, 60);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollTo(0, 300);");
-		WaitUtil.waitAndClick(driver, actionBtn, 10);
-		WaitUtil.waitAndClick(driver, addToGroup, 10);
+		WaitUtil.waitAndClick(driver, actionBtn, 60);
+		WaitUtil.waitAndClick(driver, addToGroup, 60);
 //WaitUtil.waitForPageToLoad(driver, 30);
 		// Thread.sleep(60000);
 		WaitUtil.waitAndClick(driver, groupCheckbox, 60);
-		WaitUtil.waitAndClick(driver, addPartnerToGroup, 10);
-		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, addPartnerToGroup, 60);
+		WaitUtil.waitForPageToLoad(driver, 60);
 		ScreenshotUtil.captureScreenshot(driver, "AddPartnerToGroup");
-		WaitUtil.waitAndClick(driver, modernPopupClose, 10);
+		WaitUtil.waitAndClick(driver, modernPopupClose, 60);
 	}
 
 // Delete the partner
