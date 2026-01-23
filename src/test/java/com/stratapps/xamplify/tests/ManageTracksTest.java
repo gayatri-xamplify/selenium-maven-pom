@@ -1,12 +1,15 @@
 package com.stratapps.xamplify.tests;
 
 import java.awt.AWTException;
+import java.time.Duration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.stratapps.xamplify.base.BaseTest;
+import com.stratapps.xamplify.pages.ManageAssetPage;
 import com.stratapps.xamplify.pages.ManageTracksPage;
 
 public class ManageTracksTest extends BaseTest {
@@ -19,13 +22,17 @@ public class ManageTracksTest extends BaseTest {
 	@BeforeClass
 	public void setUpClass() {
 
-//    	 super.setUp();
-// 		
-//		  LoginPage loginPage = new LoginPage(driver);
-//		  loginPage.login(ConfigReader.getProperty("username"),
-//		  ConfigReader.getProperty("password"));		 
+   	 logger.info("🔧 Setting up ManageTracksTest");
+
+	    // Preconditions guaranteed by BaseTest:
+	    // - Browser already launched
+	    // - Partner already logged in (role=PARTNER)
 
 		manageTracksPage = new ManageTracksPage(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+	    logger.info("✅ ManageTracksTest setup completed");	 
+
 
 	}
 

@@ -205,7 +205,8 @@ public class OpportunitiesDealPage {
 	public static final By MyProfileDropdown = By.xpath("//li[@id='headerdropDownLi']/a");
 	public static final By AddDealBTN = By.xpath("//*[@id='headerdropDownLi']//li[7]/a");
 	
-	
+	public static final By emailthereport = By.xpath("//*[@id='exportExcelModalPopup']//button[contains(text(),'Email')]");    
+
 // ------------------------------------------------------------------------------------------------------------------
 
 	/*** @hoverOnOpportunities_ManageDeals written by Ganesh */
@@ -237,6 +238,8 @@ public class OpportunitiesDealPage {
 	/*** dealEmailReport written by Ganesh */
 	public void dealEmailReport() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, dealsEmailReport, 20);
+		WaitUtil.waitAndClick(driver, emailthereport, 20);
+
 		ScreenshotUtil.captureScreenshot(driver, "dealEmailReport");
 		/*
 		 * WebElement respondMessage =
@@ -335,8 +338,8 @@ public class OpportunitiesDealPage {
 		Thread.sleep(1000);
 		WaitUtil.waitAndClick(driver, addDealButton, 20);
 		Thread.sleep(4000);
-		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 20);
-		DropdownUtil.selectByValue(driver, dealCompany, "5430");
+//		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 20);
+//		DropdownUtil.selectByValue(driver, dealCompany, "5430");
 		attachLeadInDealForm();
 		changeAttachLeadInDealForm();
 		WaitUtil.waitAndClick(driver, detachContactOrLead, 20);
@@ -357,8 +360,8 @@ public class OpportunitiesDealPage {
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, addDealButton, 20);
 		Thread.sleep(2000);
-		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
-		DropdownUtil.selectByValue(driver, dealCompany, "5430");
+//		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
+//		DropdownUtil.selectByValue(driver, dealCompany, "5430");
 		attachLeadInDealForm();
 		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 5);
 		DropdownUtil.selectByVisibleText(driver, dealPipeLineStage, "Opened");
@@ -373,8 +376,8 @@ public class OpportunitiesDealPage {
 	public void addedLeadConvertToDeal() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, addDealButton, 30);
 		Thread.sleep(4000);
-		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
-		DropdownUtil.selectByValue(driver, dealCompany, "5430");
+//		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
+//		DropdownUtil.selectByValue(driver, dealCompany, "5430");
 		addLeadAndAttachLeadInDealForm();
 		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 5);
 		DropdownUtil.selectByVisibleText(driver, dealPipeLineStage, "Opened");
@@ -388,10 +391,10 @@ public class OpportunitiesDealPage {
 	/*** @addDealWithAttachContact written by Ganesh */
 	public void addDealWithAttachContact() throws InterruptedException {
 		Thread.sleep(2000);
-		WaitUtil.waitAndClick(driver, addDealButton, 10);
+		WaitUtil.waitAndClick(driver, addDealButton, 60);
 		Thread.sleep(2000);
-		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
-		DropdownUtil.selectByValue(driver, dealCompany, "5430");
+//		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 10);
+//		DropdownUtil.selectByValue(driver, dealCompany, "5430");
 		attachContactInDealForm();
 		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 5);
 		DropdownUtil.selectByVisibleText(driver, dealPipeLineStage, "Opened");
@@ -404,15 +407,15 @@ public class OpportunitiesDealPage {
 
 	/*** @dealView written by Ganesh */
 	public void dealView() throws InterruptedException {
-		WaitUtil.waitAndClick(driver, viewDeal, 10);
+		WaitUtil.waitAndClick(driver, viewDeal, 40);
 		Thread.sleep(2000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollTo(0, 800);");
-		WaitUtil.waitAndSendKeys(driver, commentHistoryDeal, "comment added in preview", 10);
-		Thread.sleep(1000);
-		WaitUtil.waitAndClick(driver, dealCommentSubmit, 10);
+		WaitUtil.waitAndSendKeys(driver, commentHistoryDeal, "comment added in preview", 40);
+		Thread.sleep(4000);
+		WaitUtil.waitAndClick(driver, dealCommentSubmit, 40);
 		js.executeScript("window.scrollTo(0, 0);");
-		WaitUtil.waitAndClick(driver, campViewEditClose, 10);
+		WaitUtil.waitAndClick(driver, campViewEditClose, 40);
 		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "dealView");
 	}
@@ -420,11 +423,11 @@ public class OpportunitiesDealPage {
 	/*** @editDeal written by Ganesh */
 	public void editDeal() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, editDeal, 60);
-		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 10);
+		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 40);
 		Thread.sleep(4000);
 		DropdownUtil.selectByValue(driver, dealPipeLineStage, "88671");
-		WaitUtil.waitAndSendKeys(driver, dealComment, "comment added in edit deal", 10);
-		WaitUtil.waitAndClick(driver, saveDeal, 5);
+		WaitUtil.waitAndSendKeys(driver, dealComment, "comment added in edit deal", 40);
+		WaitUtil.waitAndClick(driver, saveDeal, 40);
 		Thread.sleep(3000);
 		ScreenshotUtil.captureScreenshot(driver, "editDealUpdated");
 	}
@@ -522,9 +525,9 @@ public class OpportunitiesDealPage {
 		Thread.sleep(6000);
 		ScreenshotUtil.captureScreenshot(driver, "DealNextPage");
 		WaitUtil.waitAndClick(driver, dealLastPg, 20);
-		Thread.sleep(6000);
+		Thread.sleep(10000);
 		ScreenshotUtil.captureScreenshot(driver, "DealLastPage");
-        WaitUtil.waitAndClick(driver, dealPreviousPg, 20);
+        WaitUtil.waitAndClick(driver, dealPreviousPg, 60);
 		Thread.sleep(6000);
 		ScreenshotUtil.captureScreenshot(driver, "leadPreviousPage");
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -614,8 +617,8 @@ public class OpportunitiesDealPage {
 		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, AddDealBTN, 20);
 		Thread.sleep(4000);
-		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 20);
-		DropdownUtil.selectByValue(driver, dealCompany, "5430");
+//		WaitUtil.waitForDropdownToBeReady(driver, dealCompany, 20);
+//		DropdownUtil.selectByValue(driver, dealCompany, "5430");
 		WaitUtil.waitForDropdownToBeReady(driver, dealPipeLineStage, 20);
 		Thread.sleep(3000);
 		DropdownUtil.selectByValue(driver, dealPipeLineStage, "88669");

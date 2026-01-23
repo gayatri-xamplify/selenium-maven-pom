@@ -68,58 +68,58 @@ public class TeamVendorPage {
 	private By closeAdminsPopup = By.xpath("//button[normalize-space()='Close']");
 	private By select_tm = By.xpath("//input[@placeholder='Select Team Members']");
 	private By previewclose = By.xpath("//div[@id=\"preview-team-member-popup\"]/div/div/div[3]/button");
-    private By Gotohome =By.xpath("//img[@class='cls-pointer']");
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
 	public void addTeammember() throws InterruptedException {
-	    // Ensure no backdrop/overlay is blocking the element
-	    
-	    WaitUtil.waitForPageToLoad(driver, 70);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-	    // Scroll down slightly to bring the Team menu into view
+		// Ensure no backdrop/overlay is blocking the element
 
-	    WebElement teamModule = driver.findElement(teamMenu);
+		WaitUtil.waitForPageToLoad(driver, 70);
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		// Scroll down slightly to bring the Team menu into view
+
+		WebElement teamModule = driver.findElement(teamMenu);
 		ElementUtil.scrollToElement(teamModule, driver);
-	    	
-	    ElementUtil.click(teamMenu, driver);
+
+		ElementUtil.click(teamMenu, driver);
 
 //	    ActionUtil.scrollToElement(driver, driver.findElement(teamMenu));
- 
-	    // Hover over the team menu and click on "Add"
+
+		// Hover over the team menu and click on "Add"
 //	    ActionUtil.hoverAndClick(driver, teamMenu);
-	    
-	    // Wait for the "Add" button to be visible
-	    WaitUtil.waitForVisibility(driver, addButton, 60);
-	    
-	    // Check if an overlay or modal is blocking and wait until it's gone
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-	    
-	    // Use JavaScript to click the element in case it is being blocked
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(addButton));
 
-	    // Wait for the next element (First Name Field) to be visible
-	    WaitUtil.waitForVisibility(driver, firstNameField, 30);
-	    
-	    // Fill in the team member details
-	    ElementUtil.sendText(firstNameField, "Mounika", driver);
-	    ElementUtil.sendText(lastNameField, "K", driver);
-	    ElementUtil.sendText(emailIdField, "Oneteam" + System.currentTimeMillis() + "@test.com", driver);
-	    Thread.sleep(2000);
-	    // Select the group from the dropdown
-	    ElementUtil.click(groupDropdown, driver);
-	    WaitUtil.waitForVisibility(driver, groupDropdown, 30);
-	    ElementUtil.selectDropdownByVisibleText(groupDropdown, "Sales Account Manager", driver);
+		// Wait for the "Add" button to be visible
+		WaitUtil.waitForVisibility(driver, addButton, 60);
 
-	    // Wait for the page to load
-	    WaitUtil.waitForPageToLoad(driver, 70);
+		// Check if an overlay or modal is blocking and wait until it's gone
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-	    // Wait for any potential backdrop/overlay to disappear
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		// Use JavaScript to click the element in case it is being blocked
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(addButton));
 
-	    // Ensure the "Save" button is visible and clickable
-	    WaitUtil.waitForVisibility(driver, saveButton, 60);
-	    
-	    // Click the "Save" button
-	    ElementUtil.click(saveButton, driver);
+		// Wait for the next element (First Name Field) to be visible
+		WaitUtil.waitForVisibility(driver, firstNameField, 30);
+
+		// Fill in the team member details
+		ElementUtil.sendText(firstNameField, "Mounika", driver);
+		ElementUtil.sendText(lastNameField, "K", driver);
+		ElementUtil.sendText(emailIdField, "Oneteam" + System.currentTimeMillis() + "@test.com", driver);
+		Thread.sleep(2000);
+		// Select the group from the dropdown
+		ElementUtil.click(groupDropdown, driver);
+		WaitUtil.waitForVisibility(driver, groupDropdown, 30);
+		ElementUtil.selectDropdownByVisibleText(groupDropdown, "Sales Account Manager", driver);
+
+		// Wait for the page to load
+		WaitUtil.waitForPageToLoad(driver, 70);
+
+		// Wait for any potential backdrop/overlay to disappear
+		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+		// Ensure the "Save" button is visible and clickable
+		WaitUtil.waitForVisibility(driver, saveButton, 60);
+
+		// Click the "Save" button
+		ElementUtil.click(saveButton, driver);
 	}
 
 	public void inviteTeammember() {
@@ -234,19 +234,21 @@ public class TeamVendorPage {
 	public void deleteTeammember() {
 //		WaitUtil.waitAndClick(driver, deleteIcon, 60);
 //		ElementUtil.click(yesDelete, driver);
-		
-		 // Ensure the delete button is visible and interactable
-        WaitUtil.waitForElementVisible(driver, deleteIcon, 60);
 
-        // Scroll to the element to make sure it's in the viewport
-        //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(deleteIcon));
+		// Ensure the delete button is visible and interactable
+		WaitUtil.waitForElementVisible(driver, deleteIcon, 60);
 
-        // Ensure the element is clickable and then click on it
-        ElementUtil.click(deleteIcon, driver);
-        WaitUtil.waitForElementVisible(driver, yesDelete, 60);
+		// Scroll to the element to make sure it's in the viewport
+		// ((JavascriptExecutor)
+		// driver).executeScript("arguments[0].scrollIntoView(true);",
+		// driver.findElement(deleteIcon));
 
-        // Confirm deletion
-        ElementUtil.click(yesDelete, driver);
+		// Ensure the element is clickable and then click on it
+		ElementUtil.click(deleteIcon, driver);
+		WaitUtil.waitForElementVisible(driver, yesDelete, 60);
+
+		// Confirm deletion
+		ElementUtil.click(yesDelete, driver);
 	}
 
 	public void handleAdminsPopup() {
@@ -265,9 +267,9 @@ public class TeamVendorPage {
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", driver.findElement(closeAdminsPopup));
 
 	}
-	
-	 public void backToHome() {
-	        WaitUtil.waitAndClick(driver, Gotohome, 60);
-	    }
+
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
 
 }

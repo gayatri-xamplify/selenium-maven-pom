@@ -4,8 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
+
 public class LaunchSurveyCampaignPage {
 	private WebDriver driver;
+
 	public LaunchSurveyCampaignPage(WebDriver driver) {
 
 		this.driver = driver;

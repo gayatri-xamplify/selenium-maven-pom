@@ -27,7 +27,7 @@ public class LaunchEventCampaignTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-		logger.info("🔧 Setting up AccessSharedAssetsTest");
+		logger.info("🔧 Setting up LaunchEventCampaignTest");
 
 		// Preconditions guaranteed by BaseTest:
 		// - Browser already launched
@@ -37,7 +37,7 @@ public class LaunchEventCampaignTest extends BaseTest {
 		launchEventCampaignPage = new LaunchEventCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		logger.info("✅ AccessSharedAssetsTest setup completed");
+		logger.info("✅ LaunchEventCampaignTest setup completed");
 	}
 
 	@Test(priority = 1, enabled = true)

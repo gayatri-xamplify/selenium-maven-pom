@@ -5,7 +5,6 @@ import java.util.Calendar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
@@ -47,27 +46,23 @@ public class ScheduleRedistributeVideoCampaignPage {
 		Calendar calendar = Calendar.getInstance();
 		int currentHr = calendar.get(Calendar.HOUR_OF_DAY);
 
+		if (currentHr < 12) {
 
-        if (currentHr < 12) {
+			// ElementUtil.clear(hourInput, driver);
+			ElementUtil.sendText(hourInput, "1", driver);
 
-            //ElementUtil.clear(hourInput, driver);
-            ElementUtil.sendText(hourInput, "1", driver);
+			// ElementUtil.clear(minuteInput, driver);
+			ElementUtil.sendText(minuteInput, "11", driver);
 
-            //ElementUtil.clear(minuteInput, driver);
-            ElementUtil.sendText(minuteInput, "11", driver);
+		} else {
 
-        } else {
+			// ElementUtil.clear(hourInput, driver);
+			ElementUtil.sendText(hourInput, "11", driver);
 
-            //ElementUtil.clear(hourInput, driver);
-            ElementUtil.sendText(hourInput, "11", driver);
+			// ElementUtil.clear(minuteInput, driver);
+			ElementUtil.sendText(minuteInput, "59", driver);
+		}
 
-           // ElementUtil.clear(minuteInput, driver);
-            ElementUtil.sendText(minuteInput, "59", driver);
-        }
-
-
-
-		
 		Thread.sleep(2000);
 		// 4️⃣ Select country
 		DropdownUtil.selectByValue(driver, countrySelect, countryValue);
@@ -82,6 +77,5 @@ public class ScheduleRedistributeVideoCampaignPage {
 
 		return actual.equalsIgnoreCase(expected);
 	}
-
 
 }

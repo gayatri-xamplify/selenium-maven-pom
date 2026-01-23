@@ -2,7 +2,6 @@ package com.stratapps.xamplify.pages;
 
 import java.util.Calendar;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -165,10 +164,6 @@ public class ManagePlaybooksPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 		WaitUtil.waitAndClick(driver, previewClose, 50);
 		WaitUtil.waitForPageToLoad(driver, 60);
-//		WaitUtil.waitAndClick(driver, addToPlaybook, 90);
-//		WaitUtil.waitForPageToLoad(driver, 60);
-//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-
 		WaitUtil.waitAndClick(driver, PlaybookNavigation, 90);
 	}
 

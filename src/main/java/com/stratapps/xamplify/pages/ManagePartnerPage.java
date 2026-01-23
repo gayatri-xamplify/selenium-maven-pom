@@ -128,24 +128,24 @@ public class ManagePartnerPage {
 	public void CreateNewPartnerGroup() throws InterruptedException {
 		Thread.sleep(10000);
 	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 60);
-	    WaitUtil.waitForElementClickable(driver, Alltile, 10).click();
-	    WaitUtil.waitForElementClickable(driver, checkAll, 10).click();
-	    WaitUtil.waitForElementClickable(driver, Action, 10).click();
-	    WaitUtil.waitForElementClickable(driver, CreateGroup, 10).click();
-	    WaitUtil.waitAndSendKeys(driver, groupName, "NewGroup" + System.currentTimeMillis(), 10);
-	    WaitUtil.waitAndSendKeys(driver, legalInGroup, "Legitimate interest - prospect/lead", 10);
+	    WaitUtil.waitForElementClickable(driver, Alltile, 60).click();
+	    WaitUtil.waitForElementClickable(driver, checkAll, 40).click();
+	    WaitUtil.waitForElementClickable(driver, Action, 40).click();
+	    WaitUtil.waitForElementClickable(driver, CreateGroup, 40).click();
+	    WaitUtil.waitAndSendKeys(driver, groupName, "NewGroup" + System.currentTimeMillis(), 40);
+	    WaitUtil.waitAndSendKeys(driver, legalInGroup, "Legitimate interest - prospect/lead", 40);
 	    driver.findElement(legalInGroup).sendKeys(Keys.ENTER);
-	    WaitUtil.waitForElementClickable(driver, savechanges, 10).click();
+	    WaitUtil.waitForElementClickable(driver, savechanges, 40).click();
 	    Thread.sleep(3000);
 	    ScreenshotUtil.captureScreenshot(driver, "newGroupManagePartner");
 	}
 	
 	public void exportToMail() throws InterruptedException {
 		Thread.sleep(30000);
-	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 10);
-	    WaitUtil.waitForElementClickable(driver, Alltile, 10).click();
-	    WaitUtil.waitForElementClickable(driver, checkAll, 10).click();
-	    WaitUtil.waitForElementClickable(driver, exportemail, 10).click();
+	    WebElement allTile = WaitUtil.waitForVisibility(driver, Alltile, 40);
+	    WaitUtil.waitForElementClickable(driver, Alltile, 40).click();
+	    WaitUtil.waitForElementClickable(driver, checkAll, 40).click();
+	    WaitUtil.waitForElementClickable(driver, exportemail, 40).click();
 	    Thread.sleep(3000);
 	    ScreenshotUtil.captureScreenshot(driver, "exportMailManagePartner");
 	}
@@ -318,7 +318,7 @@ public class ManagePartnerPage {
 	}
 
 	public void exportToExcel() throws InterruptedException {
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 	    WebElement allTileElement = wait.until(ExpectedConditions.elementToBeClickable(allTile));
 	    allTileElement.click();
 	    WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInputAlltile));

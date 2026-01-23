@@ -23,7 +23,7 @@ public class SaveRedistributeEmailCampaignTest extends BaseTest {
     private WebDriverWait wait;
     @BeforeClass(alwaysRun = true)
     public void setUpClass() {
-        logger.info("🔧 Setting up ManageVideoCampaignTest");
+        logger.info("🔧 Setting up SaveRedistributeEmailCampaignTest");
 
         // At this point:
         // - Browser is already launched (@BeforeSuite)
@@ -32,7 +32,7 @@ public class SaveRedistributeEmailCampaignTest extends BaseTest {
         redistributeemailPage = new RedistributeEmailCampaignPage(driver);
         saveRedistributeEmailCampaignPage = new SaveRedistributeEmailCampaignPage(driver);        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        logger.info("✅ ManageVideoCampaignTest setup completed");
+        logger.info("✅ SaveRedistributeEmailCampaignTest setup completed");
     }
  
 

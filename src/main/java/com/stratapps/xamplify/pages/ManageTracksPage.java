@@ -16,7 +16,8 @@ public class ManageTracksPage {
 	private By manageTracks = By.xpath("//span[contains(text(),'Manage Tracks')]");
 	private By editTrack = By.xpath(
 			"(//a[contains(@class,'custom-icon')]//i[contains(@class,'fa fa-pencil-square-o IconCustomization')])[1]");
-	private By clearEndDate = By.xpath("//div/app-add-tracks-play-book/div[3]/div[2]/div[1]/div/div/div/div/div[1]/div[7]/div/div/button");
+	private By clearEndDate = By
+			.xpath("//div/app-add-tracks-play-book/div[3]/div[2]/div[1]/div/div/div/div/div[1]/div[7]/div/div/button");
 	private By endDateInput = By.xpath("//input[@id='flat-picker']");
 	private By selectEndDate = By
 			.xpath("//div[contains(@class,'open')]//span[@class='flatpickr-day today']/following-sibling::span[5]");
@@ -81,18 +82,14 @@ public class ManageTracksPage {
 
 	public void navigateToContentAndManageTracks() {
 
-	    WaitUtil.waitForPageToLoad(driver, 60);
-	    WaitUtil.waitForLoaderToDisappear(driver, 120);
+		WaitUtil.waitForPageToLoad(driver, 60);
 
-	    WaitUtil.waitForElementClickable(driver, contentMenu, 60);
-	    WaitUtil.waitAndClick(driver, contentMenu, 60);
+		WaitUtil.waitForElementClickable(driver, contentMenu, 60);
+		WaitUtil.waitAndClick(driver, contentMenu, 60);
 
-	    WaitUtil.waitForLoaderToDisappear(driver, 60);
-
-	    WaitUtil.waitForElementClickable(driver, manageTracks, 60);
-	    WaitUtil.waitAndClick(driver, manageTracks, 60);
+		WaitUtil.waitForElementClickable(driver, manageTracks, 60);
+		WaitUtil.waitAndClick(driver, manageTracks, 60);
 	}
-
 
 	public void editTrackDetails() throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 70);
@@ -101,16 +98,16 @@ public class ManageTracksPage {
 		WaitUtil.waitForVisibility(driver, editTrack, 60);
 		ElementUtil.click(editTrack, driver);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-Thread.sleep(2000); // wait for edit modal to load completely
+		Thread.sleep(2000); // wait for edit modal to load completely
 
 		WebElement clearDate = driver.findElement(clearEndDate);
 		ElementUtil.scrollToElement(clearDate, driver);
-		
-		
+
 		// Clear & select end date
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
-		
-		ElementUtil.clickWithRetry(clearEndDate, driver, 3);
+		ElementUtil.click(clearEndDate, driver);
+
+		// ElementUtil.clickWithRetry(clearEndDate, driver, 3);
 
 		WaitUtil.waitAndClick(driver, endDateInput, 60);
 		ElementUtil.click(selectEndDate, driver);
@@ -147,7 +144,7 @@ Thread.sleep(2000); // wait for edit modal to load completely
 		WaitUtil.waitForPageToLoad(driver, 60);
 
 		// Refresh
-		//WaitUtil.waitAndClick(driver, refreshButton, 60);
+		// WaitUtil.waitAndClick(driver, refreshButton, 60);
 	}
 
 	public void unpublishTrack() {
@@ -221,7 +218,6 @@ Thread.sleep(2000); // wait for edit modal to load completely
 		ElementUtil.clickWithRetry(clearSearch, driver, 3);
 	}
 
-	
 	public void trackViews(String localFilePath) {
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
