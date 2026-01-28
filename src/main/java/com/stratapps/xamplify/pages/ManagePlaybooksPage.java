@@ -92,6 +92,7 @@ public class ManagePlaybooksPage {
 
 		WaitUtil.waitForVisibility(driver, editPlaybook, 60);
 		ElementUtil.click(editPlaybook, driver);
+		Thread.sleep(2000); // allow page to load
 
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 

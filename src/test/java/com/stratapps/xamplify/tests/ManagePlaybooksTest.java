@@ -21,6 +21,7 @@ public class ManagePlaybooksTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(ManagePlaybooksTest.class);
 	private WebDriverWait wait;
 
+	
 	@BeforeClass(alwaysRun = true)
 public void setUpClass() {
     logger.info("🔧 Setting up ManagePlaybooksTest");
