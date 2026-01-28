@@ -38,7 +38,7 @@ public void setUpClass() {
 
 	
 	@Test(priority = 1, enabled = true)
-	public void navigateToManagePlaybooksTest() {
+	public void navigateToManagePlaybooksTest() throws InterruptedException {
 		logger.info("Test 1: Navigate to Manage Playbooks - STARTED");
 		managePlaybooksPage.navigateToContentAndManagePlaybooks();
 		logger.info("Test 1: Navigate to Manage Playbooks - COMPLETED");
