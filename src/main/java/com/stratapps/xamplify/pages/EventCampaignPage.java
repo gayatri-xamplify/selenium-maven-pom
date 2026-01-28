@@ -65,7 +65,8 @@ public class EventCampaignPage {
 	private By templateSelect = By.xpath("//img[contains(@src,'email_templates')]/preceding::input[@type='radio'][1]");
 	private By templatePreview = By.xpath(
 			"//*[@id=\"event-tabs\"]/div[2]/div[1]/div[1]/div[2]/section/ul[1]/li/div/div/div/div/div/span[2]/a/i");
-	private By templateHover = By.xpath("//div[@class='grid-box imgage-paddings template-selected-border']//img[contains(@class,'img-grid-track')]");
+	private By templateHover = By.xpath(
+			"//div[@class='grid-box imgage-paddings template-selected-border']//img[contains(@class,'img-grid-track')]");
 	private By templateEdit = By.xpath("//a/div/div/span");
 	private By templateEditClose = By.xpath("//*[@id='edit-template']//a/i");
 	private By nextPage3 = By.xpath(
@@ -172,7 +173,6 @@ public class EventCampaignPage {
 		driver.switchTo().window(tabs.get(1));
 		driver.close();
 		driver.switchTo().window(original);
-
 
 		// next button
 		WaitUtil.waitAndClick(driver, nextPage3, 60);

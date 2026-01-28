@@ -24,7 +24,7 @@ public class SaveRedistributeEventCampaignTest extends BaseTest {
 	private WebDriverWait wait;
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up SaveRedistributeEventCampaignTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -34,7 +34,7 @@ public class SaveRedistributeEventCampaignTest extends BaseTest {
 		saveRedistributeEventCampaignPage = new SaveRedistributeEventCampaignPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ SaveRedistributeEventCampaignTest setup completed");
 	}
 	
 

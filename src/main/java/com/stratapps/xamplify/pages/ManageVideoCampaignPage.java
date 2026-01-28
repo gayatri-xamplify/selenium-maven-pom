@@ -266,113 +266,107 @@ public class ManageVideoCampaignPage {
 	private By homeLink = By.xpath("//a[normalize-space()='Home']");
 
 	// (XamplifyUtil uses raw xpath String)
-	private By View_Analytics_arrow = By.xpath("//*[@id=\"manage-campaign-list\"]/tbody/tr[1]/td[3]/div/div/div/button/span/a/i");
-	private By Hide_Analytics_arrow =  By.xpath("//*[@id=\"manage-campaign-list\"]/tbody/tr[1]/td[3]/div/div[2]/div/button/span/a/i");
+	private By View_Analytics_arrow = By
+			.xpath("//*[@id=\"manage-campaign-list\"]/tbody/tr[1]/td[3]/div/div/div/button/span/a/i");
+	private By Hide_Analytics_arrow = By
+			.xpath("//*[@id=\"manage-campaign-list\"]/tbody/tr[1]/td[3]/div/div[2]/div/button/span/a/i");
 
 	// ===================== UTILITIES =====================
 
-		private static void sleep(long ms) {
+	private static void sleep(long ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	private void scrollToTop() {
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+	}
+
+	private void scrollToBottom() {
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+	}
+
+	// ✅ Common helper: scroll down by given pixels
+	private void scrollDown(int px) {
+		((JavascriptExecutor) driver).executeScript("window.scrollBy(0, arguments[0]);", px);
+	}
+
+	// ✅ Common helper: wait+scroll element into center and return it
+	private WebElement scrollIntoCenter(By locator) {
+		WebElement el = WaitUtil.waitForElementVisible(driver, locator, 60);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", el);
+		sleep(300);
+		return el;
+	}
+
+	// ✅ Common helper: refreshed clickable (stale-safe)
+	private WebElement waitRefreshedClickable(By locator) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		return wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(locator)));
+	}
+
+	// ✅ Common helper: safe click with JS fallback
+	private void safeClick(By locator) {
+		WebElement el = WaitUtil.waitForElementVisible(driver, locator, 60);
+		try {
+			el.click();
+		} catch (Exception e) {
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+		}
+	}
+
+	// ✅ Common helper: retry click using scrollIntoCenter + JS click
+	private void retryClick(By locator, int attempts) {
+		for (int i = 1; i <= attempts; i++) {
 			try {
-				Thread.sleep(ms);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
-
-		private void scrollToTop() {
-			((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
-		}
-
-		private void scrollToBottom() {
-			((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-		}
-
-		// ✅ Common helper: scroll down by given pixels
-		private void scrollDown(int px) {
-			((JavascriptExecutor) driver).executeScript("window.scrollBy(0, arguments[0]);", px);
-		}
-
-		// ✅ Common helper: wait+scroll element into center and return it
-		private WebElement scrollIntoCenter(By locator) {
-			WebElement el = WaitUtil.waitForElementVisible(driver, locator, 60);
-			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", el);
-			sleep(300);
-			return el;
-		}
-
-		// ✅ Common helper: refreshed clickable (stale-safe)
-		private WebElement waitRefreshedClickable(By locator) {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			return wait.until(ExpectedConditions.refreshed(
-					ExpectedConditions.elementToBeClickable(locator)));
-		}
-
-		// ✅ Common helper: safe click with JS fallback
-		private void safeClick(By locator) {
-			WebElement el = WaitUtil.waitForElementVisible(driver, locator, 60);
-			try {
-				el.click();
+				WebElement element = scrollIntoCenter(locator);
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+				logger.info("Clicked successfully on attempt " + i);
+				return; // EXIT after success
 			} catch (Exception e) {
-				((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+				logger.warn("Attempt " + i + " failed for locator: " + locator + " | " + e.getMessage());
+				sleep(500); // small wait before retry
 			}
 		}
+		throw new RuntimeException("Failed to click element after " + attempts + " attempts: " + locator);
+	}
 
-		// ✅ Common helper: retry click using scrollIntoCenter + JS click
-		private void retryClick(By locator, int attempts) {
-			for (int i = 1; i <= attempts; i++) {
-				try {
-					WebElement element = scrollIntoCenter(locator);
-					((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-					logger.info("Clicked successfully on attempt " + i);
-					return; // EXIT after success
-				} catch (Exception e) {
-					logger.warn("Attempt " + i + " failed for locator: " + locator + " | " + e.getMessage());
-					sleep(500); // small wait before retry
-				}
-			}
-			throw new RuntimeException("Failed to click element after " + attempts + " attempts: " + locator);
+	// ✅ Open a tile only if enabled; returns false if skipped
+	private boolean openTileIfEnabled(By tileLocator, String tileName) {
+		WebElement tile = driver.findElement(tileLocator);
+		if (!tile.isEnabled()) {
+			logger.info(tileName + " count is zero. Skipping tile.");
+			return false;
 		}
+		tile.click();
+		WaitUtil.waitForPageToLoad(driver, 60);
+		return true;
+	}
 
-		
-		
-		
-		// ✅ Open a tile only if enabled; returns false if skipped
-		private boolean openTileIfEnabled(By tileLocator, String tileName) {
-			WebElement tile = driver.findElement(tileLocator);
-			if (!tile.isEnabled()) {
-				logger.info(tileName + " count is zero. Skipping tile.");
-				return false;
-			}
+	// ✅ Common helper: select 4 time range options (1–4: Object)
+	private void selectTimeRangesForFourOptions(By dropdownLocator) {
+		WebElement timeDrop = WaitUtil.waitForElementVisible(driver, dropdownLocator, 60);
+		Select sel = new Select(timeDrop);
+		sel.selectByValue("1: Object");
+		sel.selectByValue("2: Object");
+		sel.selectByValue("3: Object");
+		sel.selectByValue("4: Object");
+	}
+
+	// ✅ Open tile and close its modal if enabled
+	private void openAndCloseIfEnabled(By tileLocator, By closeLocator, String tileName) {
+		WebElement tile = driver.findElement(tileLocator);
+		if (tile.isEnabled()) {
+			logger.info(tileName + " tile enabled. Opening...");
 			tile.click();
-			WaitUtil.waitForPageToLoad(driver, 60);
-			return true;
+			WaitUtil.waitAndClick(driver, closeLocator, 60);
+		} else {
+			logger.info(tileName + " count is zero. Skipping tile.");
 		}
-
-		// ✅ Common helper: select 4 time range options (1–4: Object)
-		private void selectTimeRangesForFourOptions(By dropdownLocator) {
-			WebElement timeDrop = WaitUtil.waitForElementVisible(driver, dropdownLocator, 60);
-			Select sel = new Select(timeDrop);
-			sel.selectByValue("1: Object");
-			sel.selectByValue("2: Object");
-			sel.selectByValue("3: Object");
-			sel.selectByValue("4: Object");
-		}
-
-		// ✅ Open tile and close its modal if enabled
-		private void openAndCloseIfEnabled(By tileLocator, By closeLocator, String tileName) {
-			WebElement tile = driver.findElement(tileLocator);
-			if (tile.isEnabled()) {
-				logger.info(tileName + " tile enabled. Opening...");
-				tile.click();
-				WaitUtil.waitAndClick(driver, closeLocator, 60);
-			} else {
-				logger.info(tileName + " count is zero. Skipping tile.");
-			}
-		}
-
-
-	
-	
+	}
 
 	// ===================== SECTION 1: Navigation =====================
 
@@ -405,7 +399,6 @@ public class ManageVideoCampaignPage {
 		WaitUtil.waitAndClick(driver, VideoTab, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
-
 
 	// ===================== SECTION 2: Edit Campaign =====================
 
@@ -481,7 +474,6 @@ public class ManageVideoCampaignPage {
 		logger.info("COPY completed successfully.");
 	}
 
-
 	// ===================== SECTION 4: Update End Date =====================
 
 	public void updateCampaignEndDate() {
@@ -501,7 +493,6 @@ public class ManageVideoCampaignPage {
 
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
-
 
 	// ===================== SECTION 5: Preview & Delete View =====================
 
@@ -542,7 +533,6 @@ public class ManageVideoCampaignPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
-
 	// ===================== SECTION 6: Preview Only =====================
 
 	public void previewOnlyView() throws Exception {
@@ -580,7 +570,6 @@ public class ManageVideoCampaignPage {
 
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
-
 
 	// ===================== SECTION 7: Archive / Unarchive =====================
 
@@ -625,7 +614,6 @@ public class ManageVideoCampaignPage {
 
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
-
 
 	// ===================== SECTION 8: Delete Campaign =====================
 
@@ -910,8 +898,8 @@ public class ManageVideoCampaignPage {
 		sleep(2000);
 	}
 
-
-	// ===================== SECTION 10: Open History By Template =====================
+	// ===================== SECTION 10: Open History By Template
+	// =====================
 
 	public void handleOpenHistoryByTemplate() throws InterruptedException {
 		logger.info("Handling Open History By Template...");
@@ -940,7 +928,6 @@ public class ManageVideoCampaignPage {
 		WaitUtil.waitAndClick(driver, VideoTab, 60);
 	}
 
-
 	// ===================== SECTION 11: Show Download History =====================
 
 	public void handleShowDownloadHistory() {
@@ -963,7 +950,6 @@ public class ManageVideoCampaignPage {
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
-
 	// ===================== SECTION 13: Go To Home =====================
 
 	public void goToHome() {
@@ -972,98 +958,96 @@ public class ManageVideoCampaignPage {
 		WaitUtil.waitAndClick(driver, homeLink, 60);
 		WaitUtil.waitForPageToLoad(driver, 60);
 	}
-	 //===================== SECTION 12: Redistribution Analytics  =====================
-	 //=====================										=====================
+	// ===================== SECTION 12: Redistribution Analytics
+	// =====================
+	// ===================== =====================
 
 	public void handleRedistributionAnalytics() {
-	    logger.info("Handling redistribution analytics and view/hide analytics toggles...");
+		logger.info("Handling redistribution analytics and view/hide analytics toggles...");
 
-	    sleep(1000);
-	    // ⭐ Scroll DOWN so the View Analytics arrow becomes fully clickable
-	    WebElement arrowl = WaitUtil.waitForElementVisible(driver, View_Analytics_arrow, 60);
-        ElementUtil.scrollToElement(arrowl, driver);
-        sleep(400);
-	   
+		sleep(1000);
+		// ⭐ Scroll DOWN so the View Analytics arrow becomes fully clickable
+		WebElement arrowl = WaitUtil.waitForElementVisible(driver, View_Analytics_arrow, 60);
+		ElementUtil.scrollToElement(arrowl, driver);
+		sleep(400);
 
-	    // 1️⃣ Expand analytics section
-	    WaitUtil.safeJsClick(driver, View_Analytics_arrow);
-	    sleep(1500);
+		// 1️⃣ Expand analytics section
+		WaitUtil.safeJsClick(driver, View_Analytics_arrow);
+		sleep(1500);
 
-	    // 2️⃣ Read count
-	    String countText = ElementUtil.getText(redistributionCountIcon, driver).trim();
-	    int count = 0;
+		// 2️⃣ Read count
+		String countText = ElementUtil.getText(redistributionCountIcon, driver).trim();
+		int count = 0;
 
-	    try {
-	        count = Integer.parseInt(countText);
-	    } catch (Exception e) {
-	        logger.warn("Cannot parse redistribution count. Treating as 0.");
-	    }
+		try {
+			count = Integer.parseInt(countText);
+		} catch (Exception e) {
+			logger.warn("Cannot parse redistribution count. Treating as 0.");
+		}
 
-	    logger.info("Redistribution Count: " + count);
+		logger.info("Redistribution Count: " + count);
 
-	    if (count > 0) {
+		if (count > 0) {
 
-	        logger.info("Count > 0. Clicking redistribution icon...");
+			logger.info("Count > 0. Clicking redistribution icon...");
 
-	        WebElement iconEl = WaitUtil.waitForElementVisible(driver, redistributionCountIcon, 60);
-	        ElementUtil.scrollToElement(iconEl, driver);
-	        sleep(400);
+			WebElement iconEl = WaitUtil.waitForElementVisible(driver, redistributionCountIcon, 60);
+			ElementUtil.scrollToElement(iconEl, driver);
+			sleep(400);
 
-	        WaitUtil.safeJsClick(driver, redistributionCountIcon);
-	        sleep(2000);
+			WaitUtil.safeJsClick(driver, redistributionCountIcon);
+			sleep(2000);
 
-	        // ⭐ Hide analytics
-	        WaitUtil.safeJsClick(driver, Hide_Analytics_arrow);
+			// ⭐ Hide analytics
+			WaitUtil.safeJsClick(driver, Hide_Analytics_arrow);
 
-	    } else {
+		} else {
 
-	        logger.info("Count is 0 → No redistributed campaigns. Hiding analytics only.");
+			logger.info("Count is 0 → No redistributed campaigns. Hiding analytics only.");
 
-	        // ⭐ Scroll UP before clicking hide arrow (avoids overlap)
-	        scrollToTop();
-	        sleep(500);
+			// ⭐ Scroll UP before clicking hide arrow (avoids overlap)
+			scrollToTop();
+			sleep(500);
 
-	        WaitUtil.safeJsClick(driver, Hide_Analytics_arrow);
-	    }
+			WaitUtil.safeJsClick(driver, Hide_Analytics_arrow);
+		}
 	}
 
-
-	
 	// ===================== MAIN PUBLIC FLOW =====================
 
-		public void manageVideoCampaignFullFlow() throws Exception {
+	public void manageVideoCampaignFullFlow() throws Exception {
 
-			navigateToManageCampaigns();
-			openVideoTab();
+		navigateToManageCampaigns();
+		openVideoTab();
 
-			editVideoCampaign();
-			copyVideoCampaign();
-			updateCampaignEndDate();
+		editVideoCampaign();
+		copyVideoCampaign();
+		updateCampaignEndDate();
 
-			previewAndDeleteView();
-			previewOnlyView();
-			archiveAndUnarchiveCampaign();
-			deleteVideoCampaign();
+		previewAndDeleteView();
+		previewOnlyView();
+		archiveAndUnarchiveCampaign();
+		deleteVideoCampaign();
 
-			openCampaignAnalytics();
-			handleRecipientsTile();
-			handleTotalVideoSentTile();
-			handleDeliverabilityTile();
-			handleActiveRecipientsTile();
-			handleOpenRateTile();
-			handleClickedURLTile();
-			handleClickedThroughRateTile();
-			handleBounceTiles();
-			handleLeadsTile();
-			handleDealsTile();
-			handleCampaignAnalyticsSearchAndExport();
+		openCampaignAnalytics();
+		handleRecipientsTile();
+		handleTotalVideoSentTile();
+		handleDeliverabilityTile();
+		handleActiveRecipientsTile();
+		handleOpenRateTile();
+		handleClickedURLTile();
+		handleClickedThroughRateTile();
+		handleBounceTiles();
+		handleLeadsTile();
+		handleDealsTile();
+		handleCampaignAnalyticsSearchAndExport();
 
-			handleOpenHistoryByTemplate();
-			handleShowDownloadHistory();
-			handleRedistributionAnalytics();
+		handleOpenHistoryByTemplate();
+		handleShowDownloadHistory();
+		handleRedistributionAnalytics();
 
-			goToHome();
-			logger.info("Manage Video Campaign full flow completed successfully.");
-		}
+		goToHome();
+		logger.info("Manage Video Campaign full flow completed successfully.");
+	}
 
 }

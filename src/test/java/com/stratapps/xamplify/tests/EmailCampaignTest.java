@@ -28,7 +28,7 @@ public class EmailCampaignTest extends BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
 
-	    logger.info("🔧 Setting up AccessSharedAssetsTest");
+	    logger.info("🔧 Setting up EmailCampaignTest");
 
 	    // Preconditions guaranteed by BaseTest:
 	    // - Browser already launched
@@ -37,7 +37,7 @@ public class EmailCampaignTest extends BaseTest {
 	    emailCampaignPage = new EmailCampaignPage(driver);
 	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ AccessSharedAssetsTest setup completed");
+	    logger.info("✅ EmailCampaignTest setup completed");
 	}
 
 	

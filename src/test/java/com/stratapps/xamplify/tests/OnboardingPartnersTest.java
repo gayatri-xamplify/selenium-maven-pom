@@ -25,7 +25,7 @@ public class OnboardingPartnersTest extends BaseTest {
 	private WebDriverWait wait;
 	@BeforeClass(alwaysRun = true)
 public void setUpClass() {
-    logger.info("🔧 Setting up ManageContactsTest");
+    logger.info("🔧 Setting up OnboardingPartnersTest");
 
     // At this point:
     // - Browser is already launched (@BeforeSuite)
@@ -35,7 +35,7 @@ public void setUpClass() {
 
     wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-    logger.info("✅ ManageContactsTest setup completed");
+    logger.info("✅ OnboardingPartnersTest setup completed");
 }
 	
 

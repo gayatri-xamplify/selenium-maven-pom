@@ -1,14 +1,9 @@
 package com.stratapps.xamplify.pages;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -17,12 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.stratapps.xamplify.utils.ActionUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
-import com.stratapps.xamplify.utils.ScreenshotUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
-
 
 public class AccessSharedAssetsPage {
 
@@ -240,21 +231,17 @@ public class AccessSharedAssetsPage {
 		}
 	}
 
-	
 	public void videoActions(String fileName) {
 		searchAsset(fileName);
-	
-			WaitUtil.waitForPageToLoad(driver, 30);
-			// Preview Asset
-			WaitUtil.waitAndClick(driver, previewasset, 30);
-			WaitUtil.waitForPageToLoad(driver, 30);
-			WaitUtil.waitAndClick(driver, accessSharedBreadCrumb, backdrop, 90);
-//			WaitUtil.waitForPageToLoad(driver, 30);
-//			WaitUtil.waitForVisibility(driver, accessSharedBreadCrumb, 60);
-//			WaitUtil.waitForElementClickable(driver, accessSharedBreadCrumb, 60);
-//			ElementUtil.clickWithRetry(accessSharedBreadCrumb, driver, 3);
+
+		WaitUtil.waitForPageToLoad(driver, 30);
+		// Preview Asset
+		WaitUtil.waitAndClick(driver, previewasset, 30);
+		WaitUtil.waitForPageToLoad(driver, 30);
+		WaitUtil.waitAndClick(driver, accessSharedBreadCrumb, backdrop, 90);
 
 	}
+
 	public void tilesActions(String fileName) {
 
 		WaitUtil.waitForPageToLoad(driver, 30);

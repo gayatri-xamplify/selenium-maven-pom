@@ -29,18 +29,17 @@ public class SaveEmailCampaignPage {
 	private By saveBtn = By.xpath(
 			"/html[1]/body[1]/app-root[1]/app-home[1]/div[1]/div[1]/app-create-campaign[1]/div[1]/div[1]/div[2]/div[1]/div[6]/form[1]/div[3]/div[1]/div[2]/div[1]/button[3]");
 	private By responseMessage = By.xpath("//span[@id='responseMessage']");
-	 private By Gotohome =By.xpath("//img[@class='cls-pointer']");
-	
-	 // Clicks on "Test Mail" button
-	
+	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
+
+	// Clicks on "Test Mail" button
+
 	public void clickTestMail() {
 		WaitUtil.waitForElementVisible(driver, testMailBtn, 60);
 		ElementUtil.click(testMailBtn, driver);
 	}
 
-	
-	 // Enters email and subject for test mail
-	 
+	// Enters email and subject for test mail
+
 	public void enterTestMailDetails(String email, String subject) {
 		WaitUtil.waitForElementVisible(driver, emailInput, 60);
 		ElementUtil.sendText(emailInput, email, driver);
@@ -49,9 +48,8 @@ public class SaveEmailCampaignPage {
 		ElementUtil.sendText(emailSubjectInput, subject, driver);
 	}
 
+	// Sends test mail
 
-	 // Sends test mail
-	
 	public void sendTestMail() {
 		WaitUtil.waitForElementVisible(driver, sendTestBtn, 60);
 		ElementUtil.click(sendTestBtn, driver);
@@ -60,9 +58,8 @@ public class SaveEmailCampaignPage {
 		ElementUtil.click(okBtn, driver);
 	}
 
-	
-	 // Runs spam check
-	
+	// Runs spam check
+
 	public void runSpamCheck() {
 		WaitUtil.waitForElementVisible(driver, spamCheckBtn, 60);
 		ElementUtil.click(spamCheckBtn, driver);
@@ -79,28 +76,26 @@ public class SaveEmailCampaignPage {
 		ElementUtil.click(spamCheckCloseBtn, driver);
 	}
 
-	
-	 // Saves the email campaign
-	
+	// Saves the email campaign
+
 	public void saveCampaign() {
 		WaitUtil.waitForElementVisible(driver, saveClickBtn, 60);
 		ElementUtil.click(saveClickBtn, driver);
 	}
 
+	// Gets the response message
 
-	 //Gets the response message
-	 
 	public String getResponseMessage() {
 		WaitUtil.waitForElementVisible(driver, responseMessage, 60);
 		return ElementUtil.getText(responseMessage, driver);
 	}
-	 public void backToHome() {
-	        WaitUtil.waitAndClick(driver, Gotohome, 60);
-	    }
 
-	
-	 // Full flow: Test mail -> Spam check -> Save campaign
-	
+	public void backToHome() {
+		WaitUtil.waitAndClick(driver, Gotohome, 60);
+	}
+
+	// Full flow: Test mail -> Spam check -> Save campaign
+
 	public void saveEmailCampaign(String email, String subject) {
 		clickTestMail();
 		enterTestMailDetails(email, subject);

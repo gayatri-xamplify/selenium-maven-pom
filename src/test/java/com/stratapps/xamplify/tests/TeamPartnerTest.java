@@ -26,7 +26,7 @@ public class TeamPartnerTest extends BaseTest {
 	
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up TeamPartnerTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -35,7 +35,7 @@ public class TeamPartnerTest extends BaseTest {
 
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ TeamPartnerTest setup completed");
 	}
 
 	

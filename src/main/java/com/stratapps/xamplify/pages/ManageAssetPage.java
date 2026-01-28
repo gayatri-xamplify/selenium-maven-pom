@@ -86,7 +86,6 @@ public class ManageAssetPage {
 	public void openManageAssetSection() {
 		// Hover over Content Menu and click Manage Assets
 		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForLoaderToDisappear(driver, 60);
 		
 		WebElement content = WaitUtil.waitForElementVisible(driver, contentMenu, 90);
 		ElementUtil.hoverAndClick(content, driver);
