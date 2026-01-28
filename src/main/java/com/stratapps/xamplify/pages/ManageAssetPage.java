@@ -1,6 +1,5 @@
 package com.stratapps.xamplify.pages;
 
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import com.stratapps.xamplify.utils.ElementUtil;
@@ -36,7 +35,6 @@ public class ManageAssetPage {
 	private By manageAssetsBreadcrumb = By.xpath("//a[normalize-space()='Manage Assets']");
 	private By deleteButton = By.xpath("//tbody/tr[3]/td[5]/div[1]/div[1]/a[5]/i[1]");
 	private By confirmYes = By.xpath("//button[normalize-space()='Yes, delete it!']");
-
 
 	// View locators
 	private final By hoverOnListView = By.xpath("//button[contains(@class,'fa fa-th-list btn btn-xs l-g-view mr')]");
@@ -80,13 +78,13 @@ public class ManageAssetPage {
 	private By downloadpdfAssetButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[4]/i");
 	private By analyticspdfAssetButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[5]/i");
 	private By deletepdfAssetButton = By.xpath("//*[@id=\"manage-assets-table\"]/tbody/tr[1]/td[5]/div/div/a[6]/i");
-	private By loader   = By.xpath("//*[contains(@class,'spinner') or contains(@class,'loader')]");
+	private By loader = By.xpath("//*[contains(@class,'spinner') or contains(@class,'loader')]");
 
 	// ================= ACTION METHODS =================
 	public void openManageAssetSection() {
 		// Hover over Content Menu and click Manage Assets
 		WaitUtil.waitForPageToLoad(driver, 60);
-		
+
 		WebElement content = WaitUtil.waitForElementVisible(driver, contentMenu, 90);
 		ElementUtil.hoverAndClick(content, driver);
 
@@ -149,79 +147,88 @@ public class ManageAssetPage {
 	}
 
 	public void previewAsset(String fileName) throws Exception {
-	    try {
+		try {
 
-	        // ================================
-	        // STEP 1 → SAFE REFRESH
-	        // ================================
-	        WaitUtil.waitForPageToLoad(driver, 60);
+			// ================================
+			// STEP 1 → SAFE REFRESH
+			// ================================
+			WaitUtil.waitForPageToLoad(driver, 60);
 
-	        try { WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 20); } catch (Exception ignore) {}
-	        try { WaitUtil.waitForInvisibilityOfElement(loader, driver, 20); } catch (Exception ignore) {}
+			try {
+				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 20);
+			} catch (Exception ignore) {
+			}
+			try {
+				WaitUtil.waitForInvisibilityOfElement(loader, driver, 20);
+			} catch (Exception ignore) {
+			}
 
-	        WebElement refreshBtn = WaitUtil.waitForElementVisible(driver, refreshIcon, 40);
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", refreshBtn);
+			WebElement refreshBtn = WaitUtil.waitForElementVisible(driver, refreshIcon, 40);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", refreshBtn);
 
-	        try {
-	            WaitUtil.waitForElementClickable(driver, refreshIcon, 20).click();
-	        } catch (Exception e) {
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", refreshBtn);
-	        }
+			try {
+				WaitUtil.waitForElementClickable(driver, refreshIcon, 20).click();
+			} catch (Exception e) {
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", refreshBtn);
+			}
 
-	        WaitUtil.waitForPageToLoad(driver, 60);
-	        Thread.sleep(700);  // Angular reflow buffer
+			WaitUtil.waitForPageToLoad(driver, 60);
+			Thread.sleep(700); // Angular reflow buffer
 
+			// ================================
+			// STEP 2 → SAFE PREVIEW CLICK
+			// ================================
+			try {
+				WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 20);
+			} catch (Exception ignore) {
+			}
+			try {
+				WaitUtil.waitForInvisibilityOfElement(loader, driver, 20);
+			} catch (Exception ignore) {
+			}
 
-	        // ================================
-	        // STEP 2 → SAFE PREVIEW CLICK
-	        // ================================
-	        try { WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 20); } catch (Exception ignore) {}
-	        try { WaitUtil.waitForInvisibilityOfElement(loader, driver, 20); } catch (Exception ignore) {}
+			WebElement previewBtn = WaitUtil.waitForElementVisible(driver, previewButton, 40);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", previewBtn);
 
-	        WebElement previewBtn = WaitUtil.waitForElementVisible(driver, previewButton, 40);
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", previewBtn);
+			try {
+				WaitUtil.waitForElementClickable(driver, previewButton, 20).click();
+			} catch (Exception e) {
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", previewBtn);
+			}
 
-	        try {
-	            WaitUtil.waitForElementClickable(driver, previewButton, 20).click();
-	        } catch (Exception e) {
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", previewBtn);
-	        }
+			Thread.sleep(1500); // Let preview open fully
 
-	        Thread.sleep(1500);  // Let preview open fully
+			// ================================
+			// STEP 3 → OPTIONAL REFRESH AFTER PREVIEW
+			// ================================
+			try {
+				WebElement refresh = WaitUtil.waitForElementPresent(driver, refreshIcon, 3);
+				if (refresh != null) {
+					((JavascriptExecutor) driver).executeScript("arguments[0].click();", refresh);
+					System.out.println("🔄 Refresh icon found and clicked successfully.");
+				}
+			} catch (Exception ignore) {
+			}
 
+			// ================================
+			// STEP 4 → SAFE CLOSE PREVIEW
+			// ================================
+			WebElement closeBtn = WaitUtil.waitForElementVisible(driver, previewclose, 40);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", closeBtn);
 
-	        // ================================
-	        // STEP 3 → OPTIONAL REFRESH AFTER PREVIEW
-	        // ================================
-	        try {
-	            WebElement refresh = WaitUtil.waitForElementPresent(driver, refreshIcon, 3);
-	            if (refresh != null) {
-	                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", refresh);
-	                System.out.println("🔄 Refresh icon found and clicked successfully.");
-	            }
-	        } catch (Exception ignore) {}
+			try {
+				WaitUtil.waitForElementClickable(driver, previewclose, 20).click();
+			} catch (Exception e) {
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", closeBtn);
+			}
 
+			System.out.println("✅ Preview opened and closed successfully for asset: " + fileName);
 
-	        // ================================
-	        // STEP 4 → SAFE CLOSE PREVIEW
-	        // ================================
-	        WebElement closeBtn = WaitUtil.waitForElementVisible(driver, previewclose, 40);
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", closeBtn);
-
-	        try {
-	            WaitUtil.waitForElementClickable(driver, previewclose, 20).click();
-	        } catch (Exception e) {
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", closeBtn);
-	        }
-
-	        System.out.println("✅ Preview opened and closed successfully for asset: " + fileName);
-
-	    } catch (Exception e) {
-	        System.err.println("❌ Failed to preview asset '" + fileName + "': " + e.getMessage());
-	        throw e;
-	    }
+		} catch (Exception e) {
+			System.err.println("❌ Failed to preview asset '" + fileName + "': " + e.getMessage());
+			throw e;
+		}
 	}
-
 
 	public void downloadAsset() {
 

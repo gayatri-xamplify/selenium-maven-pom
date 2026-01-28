@@ -76,7 +76,7 @@ public class TeamVendorPage {
 		WaitUtil.waitForPageToLoad(driver, 70);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 		// Scroll down slightly to bring the Team menu into view
-
+		Thread.sleep(2000);
 		WebElement teamModule = driver.findElement(teamMenu);
 		ElementUtil.scrollToElement(teamModule, driver);
 
