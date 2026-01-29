@@ -281,8 +281,9 @@ public class ManageTracksPage {
 		WaitUtil.waitAndClick(driver, homeLink, 80);
 	}
 
-	public void backToHome() {
+	public void backToHome() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, Gotohome, 60);
+		Thread.sleep(4000); // wait for home to load
 	}
 
 }

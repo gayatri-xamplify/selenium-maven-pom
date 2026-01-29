@@ -230,7 +230,7 @@ public class RedistributeEmailCampaignPage {
 
 	private By Gotohome = By.xpath("//div[contains(@class,'company-logo-thumbnail-wrapper')]//img");
 
-	public void backToHome() {
+	public void backToHome() throws InterruptedException {
 
 		// 1️ Handle SweetAlert safely
 		WaitUtil.handleSweetAlertIfPresent(driver, 2);
@@ -238,7 +238,8 @@ public class RedistributeEmailCampaignPage {
 		WaitUtil.waitForElementClickable(driver, Gotohome, 30);
 		WaitUtil.waitAndClick(driver, Gotohome, 30);
 
-		WaitUtil.waitForPageToLoad(driver, 60);
+		//WaitUtil.waitForPageToLoad(driver, 60);
+		Thread.sleep(2000);
 	}
 
 }

@@ -21,6 +21,7 @@ public class ManagePlaybooksTest extends BaseTest {
 	private static final Logger logger = LogManager.getLogger(ManagePlaybooksTest.class);
 	private WebDriverWait wait;
 
+	
 	@BeforeClass(alwaysRun = true)
 public void setUpClass() {
     logger.info("🔧 Setting up ManagePlaybooksTest");
@@ -38,7 +39,7 @@ public void setUpClass() {
 
 	
 	@Test(priority = 1, enabled = true)
-	public void navigateToManagePlaybooksTest() {
+	public void navigateToManagePlaybooksTest() throws InterruptedException {
 		logger.info("Test 1: Navigate to Manage Playbooks - STARTED");
 		managePlaybooksPage.navigateToContentAndManagePlaybooks();
 		logger.info("Test 1: Navigate to Manage Playbooks - COMPLETED");
