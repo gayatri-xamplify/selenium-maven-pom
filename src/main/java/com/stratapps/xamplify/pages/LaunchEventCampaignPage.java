@@ -44,13 +44,14 @@ public class LaunchEventCampaignPage {
 		return ElementUtil.getText(responseMessage, driver);
 	}
 
-	public void backToHome() {
+	public void backToHome() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, Gotohome, 60);
+		Thread.sleep(2000);
 	}
 
 	// Full flow: Launches the Event campaign and validates the success message.
 
-	public void launchEventCampaign() {
+	public void launchEventCampaign() throws InterruptedException {
 		clickNowEventCampaign();
 		clickLaunchEvent();
 		getResponseMessage();

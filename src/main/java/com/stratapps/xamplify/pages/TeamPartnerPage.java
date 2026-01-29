@@ -177,8 +177,8 @@ public class TeamPartnerPage {
 		ElementUtil.click(filterButton, driver);
 		WaitUtil.waitAndClick(driver, select_tm, 60);
 		ElementUtil.sendKey(select_tm, Keys.ENTER, driver);
-		WaitUtil.waitAndClick(driver, select_vendor, 60);
-		ElementUtil.sendKey(select_vendor, Keys.ENTER, driver);
+//		WaitUtil.waitAndClick(driver, select_vendor, 60);
+//		ElementUtil.sendKey(select_vendor, Keys.ENTER, driver);
 		ElementUtil.click(selectDateField, driver);
 		WaitUtil.waitAndClick(driver, fromDate, 60);
 		ElementUtil.click(toDateField, driver);

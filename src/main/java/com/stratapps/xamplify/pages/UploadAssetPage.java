@@ -511,7 +511,7 @@ public class UploadAssetPage {
 
 					// Wait for navigation to complete
 					WaitUtil.waitForPageToLoad(driver, 60);
-					WaitUtil.waitForLoaderToDisappear(driver, 120);
+					Thread.sleep(2000); // brief pause to ensure home page fully loaded
 					System.out.println("🏠 Navigated back to home page successfully!");
 					return;
 
@@ -522,7 +522,7 @@ public class UploadAssetPage {
 				}
 
 				// Small pause before retrying
-				Thread.sleep(1000);
+				Thread.sleep(2000);
 			}
 
 			throw new RuntimeException("❌ Failed to navigate back to home after multiple retries.");

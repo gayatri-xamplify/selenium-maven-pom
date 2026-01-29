@@ -79,10 +79,11 @@ public class ManagePlaybooksPage {
 		this.driver = driver;
 	}
 
-	public void navigateToContentAndManagePlaybooks() {
+	public void navigateToContentAndManagePlaybooks() throws InterruptedException {
 		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
 		ElementUtil.click(contentMenu, driver);
 		WaitUtil.waitAndClick(driver, managePlaybooks, 60);
+		Thread.sleep(2000); // allow page to load
 	}
 
 	public void editPlaybookDetails() throws InterruptedException {
@@ -91,6 +92,7 @@ public class ManagePlaybooksPage {
 
 		WaitUtil.waitForVisibility(driver, editPlaybook, 60);
 		ElementUtil.click(editPlaybook, driver);
+		Thread.sleep(2000); // allow page to load
 
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
