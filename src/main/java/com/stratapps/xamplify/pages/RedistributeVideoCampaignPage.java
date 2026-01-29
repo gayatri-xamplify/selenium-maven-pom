@@ -225,15 +225,15 @@ public class RedistributeVideoCampaignPage {
 
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
-	public void backToHome() {
+	public void backToHome() throws InterruptedException {
 
 		// 1️ Handle SweetAlert safely
 		WaitUtil.handleSweetAlertIfPresent(driver, 2);
 		// 2 Now wait for HOME icon (real signal)
 		WaitUtil.waitForElementClickable(driver, Gotohome, 30);
 		WaitUtil.waitAndClick(driver, Gotohome, 30);
-
-		WaitUtil.waitForPageToLoad(driver, 60);
+		Thread.sleep(2000);
+		//WaitUtil.waitForPageToLoad(driver, 60);
 	}
 
 }

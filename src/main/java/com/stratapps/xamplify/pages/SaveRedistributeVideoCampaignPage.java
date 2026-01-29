@@ -1,8 +1,12 @@
 package com.stratapps.xamplify.pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.ElementUtil;
@@ -33,8 +37,9 @@ public class SaveRedistributeVideoCampaignPage {
 	/**
 	 * Complete flow: 1️⃣ Click Test Mail 2️⃣ Enter recipient email 3️⃣ Submit 4️⃣
 	 * Click OK 5️⃣ Click Save 6️⃣ Validate success message
+	 * @throws InterruptedException 
 	 */
-	public boolean saveRedistributedCampaign(String email) {
+	public boolean saveRedistributedCampaign(String email) throws InterruptedException {
 		WaitUtil.waitForPageToLoad(driver, 30);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0, 500);"); // scrolls 500px down
@@ -53,7 +58,14 @@ public class SaveRedistributeVideoCampaignPage {
 		WaitUtil.waitAndClick(driver, okBtn, 40);
 
 		// Step 5: Save Campaign
-		WaitUtil.waitAndClick(driver, saveBtn, 40);
+		Thread.sleep(2000); // brief wait before clicking Save
+		By swalOverlay = By.cssSelector("div.swal2-overlay");
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(swalOverlay));
+
+		wait.until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
+		//WaitUtil.waitAndClick(driver, saveBtn, 40);
 
 		// Step 6: Validate Response Message
 		String actual = WaitUtil.waitForElementVisible(driver, responseMsg, 40).getText();
