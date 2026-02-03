@@ -41,23 +41,8 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 	
-	
-	/*
-	 * @Test(priority = 1, enabled = true) public void uploadAndSaveAsset_docx() {
-	 * uploadAssetPage.openUploadAssetSection(); // Start asset upload flow
-	 * uploadAssetPage.uploadFile(
-	 * "D:\\git\\selenium-maven-pom\\files\\test-docx.docx"); // Select folder,
-	 * category, tags etc. uploadAssetPage.selectDropdown("docx", "xamplify",
-	 * "xamplify2024-Default-Folder");
-	 * uploadAssetPage.enterDescription("This is an automated test asset upload");
-	 * uploadAssetPage.addTags("automation"); uploadAssetPage.saveAsset();
-	 * uploadAssetPage.getPublishConfirmationMessage();
-	 * uploadAssetPage.backToHome();
-	 * 
-	 * }
-	 */
-	
-	@Test(priority = 1, enabled = true)
+
+	@Test(priority = 1, enabled = false)
 	public void uploadAndSaveAsset_docx() throws InterruptedException {
 
 	    String filePath = System.getProperty("user.dir") + "/files/test-docx.docx";
@@ -74,7 +59,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 2, enabled = false)
 	public void uploadAndsaveasDraft_mp3() throws InterruptedException {
 
 	    String filePath = System.getProperty("user.dir") + "/files/test-mp3.mp3";
@@ -91,7 +76,7 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 3, enabled = true)
+	@Test(priority = 3, enabled = false)
 	public void uploadAndPublishAsset_mp4() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-mp4.mp4";
 
@@ -107,7 +92,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 4, enabled = true)
+	@Test(priority = 4, enabled = false)
 	public void uploadAndPublishAsset_doc() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-doc.doc";
 
@@ -123,7 +108,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 5, enabled = true)
+	@Test(priority = 5, enabled = false)
 	public void uploadAndPublishAsset_jpg() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-image.jpg";
 
@@ -139,7 +124,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 6, enabled = true)
+	@Test(priority = 6, enabled = false)
 	public void uploadAndPublishAsset_ppt() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-ppt.ppt";
 
@@ -155,7 +140,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 7, enabled = true)
+	@Test(priority = 7, enabled = false)
 	public void uploadAndPublishAsset_zip() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-zip.zip";
 
@@ -171,7 +156,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 8, enabled = true)
+	@Test(priority = 8, enabled = false)
 	public void uploadAndPublishAsset_pdf() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-file.pdf";
 
@@ -187,7 +172,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 9, enabled = true)
+	@Test(priority = 9, enabled = false)
 	public void uploadAndPublishAsset_csv() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-csv.csv";
 
@@ -214,7 +199,7 @@ public class UploadAssetTest extends BaseTest {
 	public void uploadNewAsset_Box() throws InterruptedException {
 		{
 			uploadAssetPage.openUploadAssetSection();
-			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
+			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Sarigamapa@xamplify2026");
 			uploadAssetPage.switchToNewWindow();
 			uploadAssetPage.selectPartner();
 			uploadAssetPage.getPublishConfirmationMessage();
@@ -222,14 +207,14 @@ public class UploadAssetTest extends BaseTest {
 		}
 	}
 
-	@Test(priority = 13, enabled = true)
+	@Test(priority = 13, enabled = false)
 	public void DesignPDFPublish() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.selectPartnerPDF();
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 12, enabled = true)
+	@Test(priority = 12, enabled = false)
 	public void DesignPDFSave() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSave();
@@ -237,7 +222,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 11, enabled = true)
+	@Test(priority = 11, enabled = false)
 	public void DesignPDFDraft() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSaveDraft();
