@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -191,19 +194,47 @@ public class TeamVendorPage {
 		WaitUtil.waitAndClick(driver, exportExcelButton, 60);
 
 	}
+	private By getDay(String day) {
+	    return By.xpath(
+	        "//div[contains(@class,'open')]//span[contains(@class,'flatpickr-day') and not(contains(@class,'disabled')) and text()='" + day + "']"
+	    );
+	}
+
+	private void navigateToMonthIfRequired(LocalDate targetDate) {
+	    String displayedMonth = driver.findElement(
+	        By.xpath("//div[contains(@class,'open')]//span[@class='cur-month']")
+	    ).getText();
+
+	    if (!displayedMonth.equalsIgnoreCase(targetDate.getMonth().name())) {
+	        driver.findElement(By.xpath("//div[contains(@class,'open')]//span[@class='flatpickr-prev-month']")).click();
+	    }
+	}
+
 
 	public void filterByEmailAndDate(String email) {
-		WaitUtil.waitAndClick(driver, refreshButton, 60);
-		ElementUtil.click(filterButton, driver);
-		WaitUtil.waitAndClick(driver, select_tm, 60);
-		ElementUtil.sendKey(select_tm, Keys.ENTER, driver);
-		ElementUtil.click(dateField, driver);
-		WaitUtil.waitAndClick(driver, fromDate, 60);
-		ElementUtil.click(toDateField, driver);
-		WaitUtil.waitAndClick(driver, toDate, 60);
-		WaitUtil.waitAndClick(driver, applyButton, 60);
-		WaitUtil.waitAndClick(driver, filterButton1, 60);
-		WaitUtil.waitAndClick(driver, clearFilter, 60);
+
+	    LocalDate today = LocalDate.now();
+	    LocalDate fromDateValue = today.minusDays(2);
+
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d");
+	    String fromDay = fromDateValue.format(formatter);
+	    String toDay = today.format(formatter);
+
+
+	    WaitUtil.waitAndClick(driver, refreshButton, 60);
+	    ElementUtil.click(filterButton, driver);
+
+	    WaitUtil.waitAndClick(driver, select_tm, 60);
+	    ElementUtil.sendKey(select_tm, Keys.ENTER, driver);
+	    ElementUtil.click(dateField, driver);
+	    navigateToMonthIfRequired(fromDateValue);
+	    WaitUtil.waitAndClick(driver, getDay(fromDay), 60);
+
+	    ElementUtil.click(toDateField, driver);
+	    WaitUtil.waitAndClick(driver, getDay(toDay), 60);
+	    WaitUtil.waitAndClick(driver, applyButton, 60);
+	    WaitUtil.waitAndClick(driver, filterButton1, 60);
+	    WaitUtil.waitAndClick(driver, clearFilter, 60);
 	}
 
 	public void PreviewTeamMember() {
