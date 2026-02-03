@@ -1,10 +1,14 @@
 package com.stratapps.xamplify.pages;
 
+import java.time.Duration;
 import java.util.Calendar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
 import com.stratapps.xamplify.utils.DropdownUtil;
@@ -78,12 +82,31 @@ public class ManagePlaybooksPage {
 	public ManagePlaybooksPage(WebDriver driver) {
 		this.driver = driver;
 	}
+	
+	
+	public static void clickIgnoringStale(WebDriver driver, By locator, int timeout) {
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+	    wait.until(d -> {
+	        try {
+	            WebElement element = d.findElement(locator);
+	            element.click();
+	            return true;
+	        } catch (StaleElementReferenceException e) {
+	            return false;
+	        }
+	    });
+	}
+
 
 	public void navigateToContentAndManagePlaybooks() throws InterruptedException {
-		WaitUtil.waitForElementVisible(driver, contentMenu, 60);
-		ElementUtil.click(contentMenu, driver);
-		WaitUtil.waitAndClick(driver, managePlaybooks, 60);
-		Thread.sleep(2000); // allow page to load
+
+	    WaitUtil.waitForPageToLoad(driver, 70);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+
+	    clickIgnoringStale(driver, contentMenu, 60);
+	    clickIgnoringStale(driver, managePlaybooks, 60);
+	    Thread.sleep(2000); // allow page to load
 	}
 
 	public void editPlaybookDetails() throws InterruptedException {
