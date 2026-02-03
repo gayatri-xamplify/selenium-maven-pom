@@ -42,7 +42,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 
-	@Test(priority = 1, enabled = false)
+	@Test(priority = 1, enabled = true)
 	public void uploadAndSaveAsset_docx() throws InterruptedException {
 
 	    String filePath = System.getProperty("user.dir") + "/files/test-docx.docx";
@@ -59,7 +59,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 
-	@Test(priority = 2, enabled = false)
+	@Test(priority = 2, enabled = true)
 	public void uploadAndsaveasDraft_mp3() throws InterruptedException {
 
 	    String filePath = System.getProperty("user.dir") + "/files/test-mp3.mp3";
@@ -76,7 +76,7 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 3, enabled = false)
+	@Test(priority = 3, enabled = true)
 	public void uploadAndPublishAsset_mp4() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-mp4.mp4";
 
@@ -92,7 +92,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 4, enabled = false)
+	@Test(priority = 4, enabled = true)
 	public void uploadAndPublishAsset_doc() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-doc.doc";
 
@@ -108,7 +108,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 5, enabled = false)
+	@Test(priority = 5, enabled = true)
 	public void uploadAndPublishAsset_jpg() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-image.jpg";
 
@@ -124,7 +124,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 6, enabled = false)
+	@Test(priority = 6, enabled = true)
 	public void uploadAndPublishAsset_ppt() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-ppt.ppt";
 
@@ -140,7 +140,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 7, enabled = false)
+	@Test(priority = 7, enabled = true)
 	public void uploadAndPublishAsset_zip() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-zip.zip";
 
@@ -156,7 +156,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 8, enabled = false)
+	@Test(priority = 8, enabled = true)
 	public void uploadAndPublishAsset_pdf() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-file.pdf";
 
@@ -172,7 +172,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 9, enabled = false)
+	@Test(priority = 9, enabled = true)
 	public void uploadAndPublishAsset_csv() throws InterruptedException {
 	    String filePath = System.getProperty("user.dir") + "/files/test-csv.csv";
 
@@ -207,14 +207,14 @@ public class UploadAssetTest extends BaseTest {
 		}
 	}
 
-	@Test(priority = 13, enabled = false)
+	@Test(priority = 13, enabled = true)
 	public void DesignPDFPublish() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.selectPartnerPDF();
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 12, enabled = false)
+	@Test(priority = 12, enabled = true)
 	public void DesignPDFSave() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSave();
@@ -222,7 +222,7 @@ public class UploadAssetTest extends BaseTest {
 
 	}
 
-	@Test(priority = 11, enabled = false)
+	@Test(priority = 11, enabled = true)
 	public void DesignPDFDraft() throws Exception {
 		uploadAssetPage.openDesignPDFSection();
 		uploadAssetPage.fillAssetDetailsAndSaveDraft();
