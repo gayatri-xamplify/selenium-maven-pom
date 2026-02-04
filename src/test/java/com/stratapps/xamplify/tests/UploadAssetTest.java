@@ -41,22 +41,7 @@ public class UploadAssetTest extends BaseTest {
 	
 	
 	
-	
-	/*
-	 * @Test(priority = 1, enabled = true) public void uploadAndSaveAsset_docx() {
-	 * uploadAssetPage.openUploadAssetSection(); // Start asset upload flow
-	 * uploadAssetPage.uploadFile(
-	 * "D:\\git\\selenium-maven-pom\\files\\test-docx.docx"); // Select folder,
-	 * category, tags etc. uploadAssetPage.selectDropdown("docx", "xamplify",
-	 * "xamplify2024-Default-Folder");
-	 * uploadAssetPage.enterDescription("This is an automated test asset upload");
-	 * uploadAssetPage.addTags("automation"); uploadAssetPage.saveAsset();
-	 * uploadAssetPage.getPublishConfirmationMessage();
-	 * uploadAssetPage.backToHome();
-	 * 
-	 * }
-	 */
-	
+
 	@Test(priority = 1, enabled = true)
 	public void uploadAndSaveAsset_docx() throws InterruptedException {
 
@@ -214,7 +199,7 @@ public class UploadAssetTest extends BaseTest {
 	public void uploadNewAsset_Box() throws InterruptedException {
 		{
 			uploadAssetPage.openUploadAssetSection();
-			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Xamplify@11");
+			uploadAssetPage.uploadFromBox("arohith@stratapps.com", "Sarigamapa@xamplify2026");
 			uploadAssetPage.switchToNewWindow();
 			uploadAssetPage.selectPartner();
 			uploadAssetPage.getPublishConfirmationMessage();
