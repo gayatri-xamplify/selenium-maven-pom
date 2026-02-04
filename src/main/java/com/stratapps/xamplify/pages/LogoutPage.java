@@ -3,6 +3,7 @@ package com.stratapps.xamplify.pages;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,13 +24,25 @@ public class LogoutPage {
 
     public void logout() {
 
-        if (driver.findElements(userProfileDropdown).isEmpty()) {
-            return; // already logged out
+        // If already on login page, skip logout
+        if (!driver.findElements(loginUsernameField).isEmpty()) {
+            return;
         }
 
+        // Open profile dropdown
         wait.until(ExpectedConditions.elementToBeClickable(userProfileDropdown)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
 
+        // Click logout with stale-safe retry
+        wait.until(d -> {
+            try {
+                d.findElement(logoutButton).click();
+                return true;
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+
+        // Wait until redirected to login page
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginUsernameField));
     }
 }
