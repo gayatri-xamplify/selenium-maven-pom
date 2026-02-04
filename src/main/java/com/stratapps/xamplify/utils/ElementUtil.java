@@ -206,23 +206,18 @@ public static void clickWithJS(WebElement Element, WebDriver driver) {
 
 
 public static void previewhandlingtemplate(By locator, WebDriver driver) {
-	
-	 //  Store the original tab/window handle
+
     String originalWindow = driver.getWindowHandle();
+
     ElementUtil.clickWhenReady(driver, locator, 30);
-    
-    WebElement preview = driver.findElement(locator);
-    ElementUtil.clickWithJS(preview, driver);
+
     WaitUtil.waitForNewTabAndSwitch(driver, 30);
-    
- // Wait safely for 2 seconds using dummy wait
-    new WebDriverWait(driver, Duration.ofSeconds(2)).until(d -> true);
-    
+
     driver.close();
+
     WaitUtil.switchToMainTab(driver, originalWindow);
-    
-	
 }
+
     
     
 }
