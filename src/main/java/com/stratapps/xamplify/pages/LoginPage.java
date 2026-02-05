@@ -43,6 +43,18 @@ public class LoginPage {
         }
     }
 
+    // 🔹 NEW adapter method (THIS is what BaseTest calls)
+    public void login(String role) {
+
+        if ("VENDOR".equalsIgnoreCase(role)) {
+            loginAsVendor();
+        } else if ("PARTNER".equalsIgnoreCase(role)) {
+            loginAsPartner();
+        } else {
+            throw new RuntimeException("Unsupported role: " + role);
+        }
+    }
+
     public void loginAsVendor() {
         login(
             ConfigReader.getProperty("username"),

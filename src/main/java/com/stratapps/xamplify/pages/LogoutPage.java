@@ -5,6 +5,7 @@ import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,25 +25,43 @@ public class LogoutPage {
 
     public void logout() {
 
-        // If already on login page, skip logout
-        if (!driver.findElements(loginUsernameField).isEmpty()) {
-            return;
-        }
-
-        // Open profile dropdown
-        wait.until(ExpectedConditions.elementToBeClickable(userProfileDropdown)).click();
-
-        // Click logout with stale-safe retry
-        wait.until(d -> {
-            try {
-                d.findElement(logoutButton).click();
-                return true;
-            } catch (StaleElementReferenceException e) {
-                return false;
+        try {
+            // Driver/session might already be gone
+            if (driver == null) {
+                return;
             }
-        });
 
-        // Wait until redirected to login page
-        wait.until(ExpectedConditions.visibilityOfElementLocated(loginUsernameField));
+            // Already logged out → nothing to do
+            if (!driver.findElements(loginUsernameField).isEmpty()) {
+                return;
+            }
+
+            // Open profile dropdown (stale-safe)
+            wait.until(d -> {
+                try {
+                    d.findElement(userProfileDropdown).click();
+                    return true;
+                } catch (StaleElementReferenceException e) {
+                    return false;
+                }
+            });
+
+            // Click logout (stale-safe)
+            wait.until(d -> {
+                try {
+                    d.findElement(logoutButton).click();
+                    return true;
+                } catch (StaleElementReferenceException e) {
+                    return false;
+                }
+            });
+
+            // Confirm logout completed
+            wait.until(ExpectedConditions.visibilityOfElementLocated(loginUsernameField));
+
+        } catch (WebDriverException e) {
+            // NEVER fail cleanup
+            System.out.println("Logout skipped (driver not stable): " + e.getMessage());
+        }
     }
 }
