@@ -10,94 +10,37 @@ import com.stratapps.xamplify.utils.ConfigReader;
 
 public class BaseTest {
 
-    protected static WebDriver driver;
+    protected WebDriver driver;
 
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() {
+    @Parameters("role")
+    @BeforeClass(alwaysRun = true)
+    public void setUp(@Optional("NONE") String role) {
+
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-    }
 
-    /**
-     * Login ONCE per role (Vendor / Partner)
-     */
-    @BeforeTest(alwaysRun = true)
-    @Parameters("role")
-    public void beforeTest(@Optional("NONE") String role) {
-
-        if ("NONE".equalsIgnoreCase(role)) {
-            return;
-        }
-
-        driver.get(ConfigReader.getProperty("url"));
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(role);
-    }
-
-    /**
-     * Logout ONCE per role
-     * NEVER fail suite from here
-     */
- 
-    
-    
-    
-    
-    
-    
-    @AfterTest(alwaysRun = true)
-    public void afterTest() {
-        try {
-            if (driver == null) {
-                return;
-            }
-
-            // Logout safely
-            new LogoutPage(driver).logout();
-
-            // Delete cookies ONLY if session is still alive
-            try {
-                driver.manage().deleteAllCookies();
-            } catch (Exception e) {
-                System.out.println("Skipping cookie deletion: " + e.getMessage());
-            }
-
-        } catch (Exception e) {
-            // Absolutely never fail configuration
-            System.out.println("AfterTest cleanup skipped: " + e.getMessage());
+        if (!"NONE".equalsIgnoreCase(role)) {
+            driver.get(ConfigReader.getProperty("url"));
+            new LoginPage(driver).login(role);
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite() {
+    @AfterClass(alwaysRun = true)
+    public void tearDown() {
         try {
             if (driver != null) {
+                try {
+                    new LogoutPage(driver).logout();
+                } catch (Exception ignored) {
+                }
                 driver.quit();
             }
-        } catch (Exception ignored) {
         } finally {
             driver = null;
         }
     }
 
-    // Required if you use listeners
+    // Used by listeners
     public WebDriver getDriver() {
         return driver;
     }
