@@ -1,157 +1,95 @@
-<suite name="Xamplify Test Suite" preserve-order="true">
-	<listeners>
-		<listener class-name="com.stratapps.xamplify.listeners.TestListener" />
-	</listeners>
-	✅ All vendor classes grouped under one test block 
-	<test name="Vendor Account Tests">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Xamplify Test Suite" preserve-order="true" parallel="false">
+
+    <listeners>
+        <listener class-name="com.stratapps.xamplify.listeners.TestListener"/>
+    </listeners>
+
+    <!-- ================= VENDOR FLOW ================= -->
+    <test name="Vendor Account Tests">
+
         <parameter name="role" value="VENDOR"/>
 
-		<classes>
+        <classes>
 
-		<class name="com.stratapps.xamplify.tests.OnboardingPartnersTest" />
-				<class name="com.stratapps.xamplify.tests.ManagePartnerTest" />
+            <!-- Vendor-only tests -->
+            <class name="com.stratapps.xamplify.tests.OnboardingPartnersTest"/>
+            <class name="com.stratapps.xamplify.tests.ManagePartnerTest"/>
+            <class name="com.stratapps.xamplify.tests.UploadAssetTest"/>
+            <class name="com.stratapps.xamplify.tests.ManageAssetTest"/>
+            <class name="com.stratapps.xamplify.tests.AddTracksTest"/>
+            <class name="com.stratapps.xamplify.tests.ManageTracksTest"/>
+            <class name="com.stratapps.xamplify.tests.AddPlaybooksTest"/>
+            <class name="com.stratapps.xamplify.tests.ManagePlaybooksTest"/>
 
-			<class
-				name="com.stratapps.xamplify.tests.UploadAssetTest" />
-			<class
-				name="com.stratapps.xamplify.tests.ManageAssetTest" />
+            <!--
+            <class name="com.stratapps.xamplify.tests.DesignTemplatesTest"/>
+            <class name="com.stratapps.xamplify.tests.ManageTemplatesTest"/>
+            <class name="com.stratapps.xamplify.tests.DesignFormTest"/>
+            <class name="com.stratapps.xamplify.tests.ManageFormsTest"/>
+            <class name="com.stratapps.xamplify.tests.DesignPageTest"/>
+            -->
 
-			<class
-				name="com.stratapps.xamplify.tests.AddTracksTest" />
-			<class
-				name="com.stratapps.xamplify.tests.ManageTracksTest" />
+            <class name="com.stratapps.xamplify.tests.ScheduleEmailCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveEmailCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest"/>
 
+            <class name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveVideoCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest"/>
 
-			<class
-				name="com.stratapps.xamplify.tests.AddPlaybooksTest" />
+            <class name="com.stratapps.xamplify.tests.ScheduleSurveyCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveSurveyCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.LaunchSurveyCampaignTest"/>
 
-			<class
-				name="com.stratapps.xamplify.tests.ManagePlaybooksTest" />
+            <class name="com.stratapps.xamplify.tests.ScheduleEventCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveEventCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.LaunchEventCampaignTest"/>
 
+            <class name="com.stratapps.xamplify.tests.TeamVendorTest"/>
+            <class name="com.stratapps.xamplify.tests.ShareLeadsTest"/>
 
-<!--   <class name="com.stratapps.xamplify.tests.DesignTemplatesTest"
-			/>
-        <class name="com.stratapps.xamplify.tests.ManageTemplatesTest" />
-			  <class name="com.stratapps.xamplify.tests.DesignFormTest" />
-            
-          <class name="com.stratapps.xamplify.tests.ManageFormsTest" />
-            
-            <class name="com.stratapps.xamplify.tests.DesignPageTest" />
--->
+        </classes>
+    </test>
 
+    <!-- ================= PARTNER FLOW ================= -->
+    <test name="Partner Account Tests">
 
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleEmailCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
-			
+        <parameter name="role" value="PARTNER"/>
 
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />
-			
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleSurveyCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveSurveyCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.LaunchSurveyCampaignTest" />
-			
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleEventCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveEventCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.LaunchEventCampaignTest" />
-		
-			<class name="com.stratapps.xamplify.tests.TeamVendorTest" />
+        <classes>
 
-			<class name="com.stratapps.xamplify.tests.ShareLeadsTest" />
+            <!-- Partner-only tests -->
+            <class name="com.stratapps.xamplify.tests.ContactsTest"/>
+            <class name="com.stratapps.xamplify.tests.ManageContactsTest"/>
+            <class name="com.stratapps.xamplify.tests.AccessSharedAssetsTest"/>
+            <class name="com.stratapps.xamplify.tests.AccessSharedTracksTest"/>
+            <class name="com.stratapps.xamplify.tests.AccessSharedPlaybooksTest"/>
 
+            <class name="com.stratapps.xamplify.tests.LaunchRedistributeEmailCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveRedistributeEmailCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.ScheduleRedistributeEmailCampaignTest"/>
 
-			
+            <class name="com.stratapps.xamplify.tests.LaunchRedistributeVideoCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveRedistributeVideoCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.ScheduleRedistributeVideoCampaignTest"/>
 
+            <class name="com.stratapps.xamplify.tests.LaunchRedistributeSurveyCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveRedistributeSurveyCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.ScheduleRedistributeSurveyCampaignTest"/>
 
-		</classes>
+            <class name="com.stratapps.xamplify.tests.LaunchRedistributeEventCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.SaveRedistributeEventCampaignTest"/>
+            <class name="com.stratapps.xamplify.tests.ScheduleRedistributeEventCampaignTest"/>
 
+            <class name="com.stratapps.xamplify.tests.TeamPartnerTest"/>
+            <class name="com.stratapps.xamplify.tests.CompaniesTest"/>
+            <class name="com.stratapps.xamplify.tests.SharedLeadsTest"/>
+            <class name="com.stratapps.xamplify.tests.OpportunitiesLeadTest"/>
+            <class name="com.stratapps.xamplify.tests.OpportunitiesDealTest"/>
 
-	</test>
-	
-	
-	
+        </classes>
+    </test>
 
-	✅ Partner block can remain separate <test name="Partner Account Tests">
-	 <parameter name="role" value="PARTNER"/>
-		<classes>
-			<class name="com.stratapps.xamplify.tests.ContactsTest" />
-			<class name="com.stratapps.xamplify.tests.ManageContactsTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.AccessSharedAssetsTest" />
-
-			<class name="com.stratapps.xamplify.tests.AccessSharedTracksTest" />
-			<class name="com.stratapps.xamplify.tests.AccessSharedPlaybooksTest" />
-  <class name="com.stratapps.xamplify.tests.TeamPartnerTest" />
-
-			<class
-				name="com.stratapps.xamplify.tests.LaunchRedistributeEmailCampaignTest" />
-
-			<class
-				name="com.stratapps.xamplify.tests.SaveRedistributeEmailCampaignTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleRedistributeEmailCampaignTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.LaunchRedistributeVideoCampaignTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.SaveRedistributeVideoCampaignTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleRedistributeVideoCampaignTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.LaunchRedistributeSurveyCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveRedistributeSurveyCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleRedistributeSurveyCampaignTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.LaunchRedistributeEventCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.SaveRedistributeEventCampaignTest" />
-			<class
-				name="com.stratapps.xamplify.tests.ScheduleRedistributeEventCampaignTest" />
-
-
-			<class name="com.stratapps.xamplify.tests.CompaniesTest" />
-
-
-			<class name="com.stratapps.xamplify.tests.TeamPartnerTest" />
-
-
-			<class name="com.stratapps.xamplify.tests.SharedLeadsTest" />
-
-
-			<class
-				name="com.stratapps.xamplify.tests.OpportunitiesLeadTest" />
-			<class name="com.stratapps.xamplify.tests.OpportunitiesDealTest" />
-
-
-		</classes>
-	</test>
 </suite>
