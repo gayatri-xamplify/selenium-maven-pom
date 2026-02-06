@@ -29,28 +29,38 @@ public class ContactsTest extends BaseTest {
 	private ContactsPage contactsPage;
 	private static final Logger logger = LogManager.getLogger(ContactsTest.class);
 	
-	@BeforeClass(alwaysRun = true) //written by gayatri
+	
+	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    try {
-	        logger.info("🔧 Setting up ContactsTest");
 
-	        new WebDriverWait(driver, Duration.ofSeconds(30))
-	                .until(ExpectedConditions.jsReturnsValue(
-	                        "return document.readyState === 'complete'"
-	                ));
-
-	        contactsPage = new ContactsPage(driver);
-	        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-
-	        logger.info("✅ ContactsTest setup completed");
-
-	    } catch (Exception e) {
-	        logger.error("❌ ContactsTest @BeforeClass failed", e);
-	        throw new RuntimeException("ContactsTest setup failed", e);
+	    if (driver == null) {
+	        throw new SkipException("Driver not initialized");
 	    }
+
+	    contactsPage = new ContactsPage(driver);
+	    wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 	}
 
 	
+	
+	/*
+	 * @BeforeClass(alwaysRun = true) //written by gayatri public void setUpClass()
+	 * { try { logger.info("🔧 Setting up ContactsTest");
+	 * 
+	 * new WebDriverWait(driver, Duration.ofSeconds(30))
+	 * .until(ExpectedConditions.jsReturnsValue(
+	 * "return document.readyState === 'complete'" ));
+	 * 
+	 * contactsPage = new ContactsPage(driver); wait = new WebDriverWait(driver,
+	 * Duration.ofSeconds(60));
+	 * 
+	 * logger.info("✅ ContactsTest setup completed");
+	 * 
+	 * } catch (Exception e) { logger.error("❌ ContactsTest @BeforeClass failed",
+	 * e); throw new RuntimeException("ContactsTest setup failed", e); } }
+	 * 
+	 * 
+	 */
 	
 	
 	
