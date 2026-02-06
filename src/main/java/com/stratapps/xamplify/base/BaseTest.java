@@ -19,7 +19,8 @@ public class BaseTest {
     }
 
     /**
-     * Login ONCE per role (Vendor / Partner)
+     * LOGIN ONCE PER ROLE
+     * (Runs once for Vendor <test>, once for Partner <test>)
      */
     @BeforeTest(alwaysRun = true)
     @Parameters("role")
@@ -30,61 +31,36 @@ public class BaseTest {
         }
 
         driver.get(ConfigReader.getProperty("url"));
+        new LoginPage(driver).login(role);
 
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(role);
+        System.out.println("✅ LOGIN DONE FOR ROLE: " + role);
     }
 
     /**
-     * Logout ONCE per role
-     * NEVER fail suite from here
+     * LOGOUT ONCE AFTER ALL CLASSES OF THAT ROLE FINISH
      */
- 
-    
-    
-    
-    
-    
-    
     @AfterTest(alwaysRun = true)
     public void afterTest() {
+
         try {
-            if (driver == null) {
-                return;
-            }
+            if (driver == null) return;
 
-            // Logout safely
-            new LogoutPage(driver).logout();
-
-            // Delete cookies ONLY if session is still alive
             try {
-                driver.manage().deleteAllCookies();
+                new LogoutPage(driver).logout();
+                System.out.println("✅ LOGOUT DONE");
             } catch (Exception e) {
-                System.out.println("Skipping cookie deletion: " + e.getMessage());
+                System.out.println("⚠ Logout skipped: " + e.getMessage());
             }
 
         } catch (Exception e) {
-            // Absolutely never fail configuration
-            System.out.println("AfterTest cleanup skipped: " + e.getMessage());
+            // NEVER fail configuration
+            System.out.println("⚠ AfterTest cleanup failed safely: " + e.getMessage());
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * CLOSE BROWSER ONCE AT VERY END
+     */
     @AfterSuite(alwaysRun = true)
     public void afterSuite() {
         try {
@@ -92,12 +68,9 @@ public class BaseTest {
                 driver.quit();
             }
         } catch (Exception ignored) {
-        } finally {
-            driver = null;
         }
     }
 
-    // Required if you use listeners
     public WebDriver getDriver() {
         return driver;
     }
