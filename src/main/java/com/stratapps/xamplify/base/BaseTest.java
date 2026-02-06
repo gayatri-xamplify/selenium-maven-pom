@@ -1,7 +1,5 @@
 package com.stratapps.xamplify.base;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
@@ -13,71 +11,63 @@ import com.stratapps.xamplify.utils.ConfigReader;
 public class BaseTest {
 
     protected static WebDriver driver;
-    private static String currentRole = "NONE";
 
-    protected final Logger logger = LogManager.getLogger(this.getClass());
-
-    /* =========================================================
-       SUITE SETUP – Browser launch (ONCE)
-       ========================================================= */
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite() {
-        if (driver == null) {
-            logger.info("🚀 Launching browser for test suite");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
-            driver.get(ConfigReader.getProperty("url"));
-        }
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
     }
 
-    /* =========================================================
-       CLASS SETUP – Role-based login (ONCE PER ROLE)
-       ========================================================= */
-    @BeforeClass(alwaysRun = true)
+    /**
+     * LOGIN ONCE PER ROLE
+     * (Runs once for Vendor <test>, once for Partner <test>)
+     */
+    @BeforeTest(alwaysRun = true)
     @Parameters("role")
-    public void beforeClass(@Optional("NONE") String role) {
+    public void beforeTest(@Optional("NONE") String role) {
 
         if ("NONE".equalsIgnoreCase(role)) {
-            logger.info("ℹ️ No role specified for class {}", this.getClass().getSimpleName());
             return;
         }
 
-        if (role.equalsIgnoreCase(currentRole)) {
-            logger.info("🔁 Reusing existing {} session", role);
-            return;
-        }
+        driver.get(ConfigReader.getProperty("url"));
+        new LoginPage(driver).login(role);
 
-        // Logout if switching roles
-        if (!"NONE".equalsIgnoreCase(currentRole)) {
-            logger.info("🔓 Logging out from {}", currentRole);
-            new LogoutPage(driver).logout();
-        }
-
-        // Login for new role
-        LoginPage loginPage = new LoginPage(driver);
-
-        if ("VENDOR".equalsIgnoreCase(role)) {
-            loginPage.loginAsVendor();
-        } else if ("PARTNER".equalsIgnoreCase(role)) {
-            loginPage.loginAsPartner();
-        } else {
-            throw new RuntimeException("❌ Unsupported role: " + role);
-        }
-
-        currentRole = role;
-        logger.info("🔐 Logged in as {}", role);
+        System.out.println("✅ LOGIN DONE FOR ROLE: " + role);
     }
 
-    /* =========================================================
-       SUITE TEARDOWN – Browser quit (ONCE)
-       ========================================================= */
+    /**
+     * LOGOUT ONCE AFTER ALL CLASSES OF THAT ROLE FINISH
+     */
+    @AfterTest(alwaysRun = true)
+    public void afterTest() {
+
+        try {
+            if (driver == null) return;
+
+            try {
+                new LogoutPage(driver).logout();
+                System.out.println("✅ LOGOUT DONE");
+            } catch (Exception e) {
+                System.out.println("⚠ Logout skipped: " + e.getMessage());
+            }
+
+        } catch (Exception e) {
+            // NEVER fail configuration
+            System.out.println("⚠ AfterTest cleanup failed safely: " + e.getMessage());
+        }
+    }
+
+    /**
+     * CLOSE BROWSER ONCE AT VERY END
+     */
     @AfterSuite(alwaysRun = true)
     public void afterSuite() {
-        if (driver != null) {
-            logger.info("🧹 Closing browser after suite");
-            driver.quit();
-            driver = null;
-            currentRole = "NONE";
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } catch (Exception ignored) {
         }
     }
 

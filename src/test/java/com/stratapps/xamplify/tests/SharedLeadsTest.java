@@ -23,7 +23,7 @@ public class SharedLeadsTest extends BaseTest {
 	private WebDriverWait wait;
 	@BeforeClass(alwaysRun = true)
 	public void setUpClass() {
-	    logger.info("🔧 Setting up ManageVideoCampaignTest");
+	    logger.info("🔧 Setting up SharedLeadsTest");
 
 	    // At this point:
 	    // - Browser is already launched (@BeforeSuite)
@@ -32,7 +32,7 @@ public class SharedLeadsTest extends BaseTest {
 		sharedleadsPage = new SharedLeadsPage(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    logger.info("✅ ManageVideoCampaignTest setup completed");
+	    logger.info("✅ SharedLeadsTest setup completed");
 	}
 
 	
