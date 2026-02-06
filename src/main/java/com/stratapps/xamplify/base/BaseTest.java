@@ -10,37 +10,67 @@ import com.stratapps.xamplify.utils.ConfigReader;
 
 public class BaseTest {
 
-    protected WebDriver driver;
+    protected static WebDriver driver;
 
-    @Parameters("role")
-    @BeforeClass(alwaysRun = true)
-    public void setUp(@Optional("NONE") String role) {
-
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+    }
 
-        if (!"NONE".equalsIgnoreCase(role)) {
-            driver.get(ConfigReader.getProperty("url"));
-            new LoginPage(driver).login(role);
+    /**
+     * LOGIN ONCE PER ROLE
+     * (Runs once for Vendor <test>, once for Partner <test>)
+     */
+    @BeforeTest(alwaysRun = true)
+    @Parameters("role")
+    public void beforeTest(@Optional("NONE") String role) {
+
+        if ("NONE".equalsIgnoreCase(role)) {
+            return;
+        }
+
+        driver.get(ConfigReader.getProperty("url"));
+        new LoginPage(driver).login(role);
+
+        System.out.println("✅ LOGIN DONE FOR ROLE: " + role);
+    }
+
+    /**
+     * LOGOUT ONCE AFTER ALL CLASSES OF THAT ROLE FINISH
+     */
+    @AfterTest(alwaysRun = true)
+    public void afterTest() {
+
+        try {
+            if (driver == null) return;
+
+            try {
+                new LogoutPage(driver).logout();
+                System.out.println("✅ LOGOUT DONE");
+            } catch (Exception e) {
+                System.out.println("⚠ Logout skipped: " + e.getMessage());
+            }
+
+        } catch (Exception e) {
+            // NEVER fail configuration
+            System.out.println("⚠ AfterTest cleanup failed safely: " + e.getMessage());
         }
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown() {
+    /**
+     * CLOSE BROWSER ONCE AT VERY END
+     */
+    @AfterSuite(alwaysRun = true)
+    public void afterSuite() {
         try {
             if (driver != null) {
-                try {
-                    new LogoutPage(driver).logout();
-                } catch (Exception ignored) {
-                }
                 driver.quit();
             }
-        } finally {
-            driver = null;
+        } catch (Exception ignored) {
         }
     }
 
-    // Used by listeners
     public WebDriver getDriver() {
         return driver;
     }
