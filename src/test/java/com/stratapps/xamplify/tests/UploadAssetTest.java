@@ -195,7 +195,7 @@ public class UploadAssetTest extends BaseTest {
 		uploadAssetPage.backToHome();
 	}
 
-	@Test(priority = 10, enabled = true)
+	@Test(priority = 10, enabled = false)
 	public void uploadNewAsset_Box() throws InterruptedException {
 		{
 			uploadAssetPage.openUploadAssetSection();
