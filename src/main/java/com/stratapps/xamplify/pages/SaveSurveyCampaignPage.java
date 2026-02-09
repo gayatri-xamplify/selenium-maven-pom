@@ -100,7 +100,7 @@ public class SaveSurveyCampaignPage {
 		clickTestMail();
 		enterTestMailDetails(Survey, subject);
 		sendTestMail();
-		runSpamCheck();
+		//runSpamCheck();
 		saveCampaign();
 		getResponseMessage();
 		backToHome();

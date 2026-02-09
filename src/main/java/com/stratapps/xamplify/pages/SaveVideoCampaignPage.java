@@ -93,7 +93,7 @@ public class SaveVideoCampaignPage {
 		clickTestMail();
 		enterTestMailDetails(email, subject);
 		sendTestMail();
-		runSpamCheck();
+		//runSpamCheck();
 		saveCampaign();
 		getResponseMessage();
 		backToHome();

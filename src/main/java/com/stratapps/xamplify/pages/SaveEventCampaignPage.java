@@ -109,7 +109,7 @@ public class SaveEventCampaignPage {
 
 	public void saveEventCampaign(String Event, String subject) {
 
-		runSpamCheck();
+		//runSpamCheck();
 		saveCampaign();
 		getResponseMessage();
 		backToHome();

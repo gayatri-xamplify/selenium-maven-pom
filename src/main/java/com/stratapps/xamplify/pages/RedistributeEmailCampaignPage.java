@@ -134,49 +134,37 @@ public class RedistributeEmailCampaignPage {
 	// DOWNLOAD HTML / IMAGE / HISTORY
 	// =========================================================
 
-	private void jsClick(WebElement element) {
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+	private void jsClick(By locator, int timeout) {
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+	    wait.until(d -> {
+	        try {
+	            WebElement el = d.findElement(locator);
+	            ((JavascriptExecutor) d).executeScript("arguments[0].click();", el);
+	            return true;
+	        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+	            return false;
+	        }
+	    });
 	}
 
-	public void downloadEmailTemplate() throws Exception {
+	public void downloadEmailTemplate() {
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+	    WaitUtil.waitForPageToLoad(driver, 60);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-		WaitUtil.waitForPageToLoad(driver, 60);
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+	    // 🔁 DOWNLOAD HTML
+	    jsClick(downloadMenu, 60);
+	    jsClick(downloadHtml, 60);
 
-		// Locate download menu
-		WebElement menu = wait.until(ExpectedConditions.presenceOfElementLocated(downloadMenu));
+	    // 🔁 DOWNLOAD IMAGE (dropdown is re-rendered!)
+	    jsClick(downloadMenu, 60);
+	    jsClick(downloadImage, 60);
 
-		// Scroll to center to avoid top-bar overlap
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", menu);
-		Thread.sleep(600);
-
-		// ⭐ 1) CLICK MENU (JS prevents intercepted errors)
-		jsClick(menu);
-
-		// ⭐ 2) DOWNLOAD HTML
-		WebElement html = wait.until(ExpectedConditions.elementToBeClickable(downloadHtml));
-		jsClick(html);
-		Thread.sleep(800);
-
-		// ⭐ 3) DOWNLOAD IMAGE
-		jsClick(menu); // reopen dropdown
-		WebElement image = wait.until(ExpectedConditions.elementToBeClickable(downloadImage));
-		jsClick(image);
-		Thread.sleep(800);
-
-		// ⭐ 4) DOWNLOAD HISTORY → OPEN
-		WebElement history = wait.until(ExpectedConditions.elementToBeClickable(downloadHistory));
-		jsClick(history);
-		Thread.sleep(600);
-
-		// ⭐ 5) CLOSE HISTORY POPUP
-		WebElement close = wait.until(ExpectedConditions.elementToBeClickable(downloadHistoryClose));
-		jsClick(close);
-
-		Thread.sleep(800);
-
+	    // 🔁 DOWNLOAD HISTORY
+	    jsClick(downloadHistory, 60);
+	    jsClick(downloadHistoryClose, 60);
 	}
 
 	// =========================================================

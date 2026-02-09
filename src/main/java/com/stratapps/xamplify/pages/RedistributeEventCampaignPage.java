@@ -25,7 +25,7 @@ public class RedistributeEventCampaignPage {
 	// LOCATORS
 	// =========================================================
 	private By campaignHover = By.xpath("//span[text()='Campaign']");
-	private By redistributeCampaign = By.xpath("//span[text()='Redistribute Campaign']");
+	private By redistributeCampaign = By.xpath("//span[contains(normalize-space(),'Redistribute')]");
 	private By eventTab = By.xpath("//li[contains(text(),'Event')]");
 
 	// Preview
@@ -56,23 +56,63 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	// STEP 1 – OPEN REDISTRIBUTE EVENT CAMPAIGN MODULE
 	// =========================================================
-	public void openRedistributeEventCampaign() {
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
-		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+//	public void openRedistributeEventCampaign() {
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
+//		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+//
+//		WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+//
+//		WebElement redisElement = driver.findElement(redistributeCampaign);
+//		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
+//		((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+//
+//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		WaitUtil.waitAndClick(driver, searchCampaign, 30);
+//		ElementUtil.sendText(searchCampaign, "Event", driver);
+//		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
+//
+//	}
 
-		WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+	public void openRedistributeEventCampaign() throws InterruptedException {
 
-		WebElement redisElement = driver.findElement(redistributeCampaign);
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
-		WaitUtil.waitForPageToLoad(driver, 90);
-		WaitUtil.waitAndClick(driver, searchCampaign, 30);
-		ElementUtil.sendText(searchCampaign, "Event", driver);
-		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
+	    // Page + loaders
+	    WaitUtil.waitForPageToLoad(driver, 30);
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
+	    // Hover Campaign (re-locate fresh)
+	    WebElement campaign =
+	            wait.until(ExpectedConditions.presenceOfElementLocated(campaignHover));
+
+	    ElementUtil.hoverAndClick(campaign, driver);
+
+	    // 🔑 Wait for submenu PRESENCE first
+	    wait.until(ExpectedConditions.presenceOfElementLocated(redistributeCampaign));
+
+	    // 🔑 Then wait for CLICKABLE (not visibility)
+	    WebElement redistribute =
+	            wait.until(ExpectedConditions.refreshed(
+	                    ExpectedConditions.elementToBeClickable(redistributeCampaign)));
+
+	    // Scroll + JS click (submenu safety)
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].scrollIntoView(true);", redistribute);
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].click();", redistribute);
+
+	    // Stabilize
+	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+	    WaitUtil.waitForPageToLoad(driver, 90);
+
+	    // Search campaign
+	    WaitUtil.waitAndClick(driver, searchCampaign, 30);
+	    ElementUtil.sendText(searchCampaign, "Event", driver);
+	    WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
+	    Thread.sleep(1000);
 	}
 
 	// =========================================================
@@ -134,6 +174,7 @@ public class RedistributeEventCampaignPage {
 //		WaitUtil.waitAndClick(driver, downloadHtml, 40);
 		WaitUtil.waitAndClick(driver, downloadHistory, 40);
 		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
+		Thread.sleep(1000);
 	}
 
 	// =========================================================
