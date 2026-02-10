@@ -40,7 +40,7 @@ public class SaveVideoCampaignTest extends BaseTest {
 	
 
     @Test(priority = 1, enabled = true)
-    public void createAndSaveVideoCampaignTest() {
+    public void createAndSaveVideoCampaignTest() throws InterruptedException {
         logger.info("Test 1: Create and Save Video Campaign - STARTED");
 
         // Step 1: Create Video Campaign

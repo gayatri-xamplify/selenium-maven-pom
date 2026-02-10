@@ -98,15 +98,15 @@ public class ManageTracksPage {
 		WaitUtil.waitForVisibility(driver, editTrack, 60);
 		ElementUtil.click(editTrack, driver);
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
-		Thread.sleep(2000); // wait for edit modal to load completely
+		Thread.sleep(5000); // wait for edit modal to load completely
 
 		WebElement clearDate = driver.findElement(clearEndDate);
 		ElementUtil.scrollToElement(clearDate, driver);
-
+		Thread.sleep(2000); 
 		// Clear & select end date
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
 		ElementUtil.click(clearEndDate, driver);
-
+		Thread.sleep(2000); 
 		// ElementUtil.clickWithRetry(clearEndDate, driver, 3);
 
 		WaitUtil.waitAndClick(driver, endDateInput, 60);

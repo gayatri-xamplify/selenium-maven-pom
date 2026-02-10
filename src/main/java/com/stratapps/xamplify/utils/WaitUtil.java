@@ -2,6 +2,7 @@ package com.stratapps.xamplify.utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -93,10 +94,29 @@ public class WaitUtil {
      * @param locator By locator
      * @param timeoutInSeconds timeout in seconds
      */
-    public static void waitAndClick(WebDriver driver, By locator, int timeoutInSeconds) {
-        WebElement element = waitForElementClickable(driver, locator, timeoutInSeconds);
-        element.click();
+	/*
+	 * public static void waitAndClick(WebDriver driver, By locator, int
+	 * timeoutInSeconds) { WebElement element = waitForElementClickable(driver,
+	 * locator, timeoutInSeconds); element.click(); }
+	 */
+    
+    public static void waitAndClick(WebDriver driver, By locator, int timeout) {
+
+        WebElement element = waitForElementClickable(driver, locator, timeout);
+
+        ((JavascriptExecutor) driver).executeScript(
+            "arguments[0].scrollIntoView({block:'center'});", element
+        );
+
+        try {
+            element.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();", element
+            );
+        }
     }
+
     
     /**
      * Wait for element to be visible and then send keys to it
@@ -306,5 +326,22 @@ public class WaitUtil {
     }
 
     
+
+
+//mounika
+
+public static void clickIgnoringStale(WebDriver driver, By locator, int timeout) {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+    wait.until(d -> {
+        try {
+            WebElement el = d.findElement(locator);
+            el.click();
+            return true;
+        } catch (StaleElementReferenceException e) {
+            return false;
+        }
+    });
+}
 }
 

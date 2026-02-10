@@ -118,6 +118,7 @@ public class ManagePlaybooksPage {
 		Thread.sleep(2000); // allow page to load
 
 		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
+		Thread.sleep(5000);
 
 		WebElement clearDate = driver.findElement(clearEndDate);
 		ElementUtil.scrollToElement(clearDate, driver);
@@ -127,7 +128,7 @@ public class ManagePlaybooksPage {
 		WaitUtil.waitForElementVisible(driver, clearEndDate, 60);
 
 		ElementUtil.clickWithRetry(clearEndDate, driver, 3);
-
+		Thread.sleep(2000);
 		WaitUtil.waitAndClick(driver, endDateInput, 60);
 		ElementUtil.click(selectEndDate, driver);
 

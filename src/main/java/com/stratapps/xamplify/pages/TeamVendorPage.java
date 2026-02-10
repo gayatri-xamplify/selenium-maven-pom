@@ -299,8 +299,9 @@ public class TeamVendorPage {
 
 	}
 
-	public void backToHome() {
+	public void backToHome() throws InterruptedException {
 		WaitUtil.waitAndClick(driver, Gotohome, 60);
+		Thread.sleep(5000);
 	}
 
 }

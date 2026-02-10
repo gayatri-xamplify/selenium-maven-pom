@@ -121,7 +121,9 @@ public class EventCampaignPage {
 		// 6️⃣ Date Selection
 		WaitUtil.waitAndClick(driver, datePicker, 60);
 		WaitUtil.waitAndClick(driver, selectDate, 60);
-		ElementUtil.click(allDay, driver);
+		Thread.sleep(2000);
+		WaitUtil.waitAndClick(driver, allDay, 60);
+		//ElementUtil.click(allDay, driver);
 
 		// 7️⃣ Timezone
 		Select select = new Select(driver.findElement(countryTimezone));
