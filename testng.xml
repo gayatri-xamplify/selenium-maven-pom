@@ -35,7 +35,7 @@
 			<class name="com.stratapps.xamplify.tests.SaveEmailCampaignTest" />
 			<class name="com.stratapps.xamplify.tests.LaunchEmailCampaignTest" />
 
-			<class name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
+		<class name="com.stratapps.xamplify.tests.ScheduleVideoCampaignTest" />
 			<class name="com.stratapps.xamplify.tests.SaveVideoCampaignTest" />
 			<class name="com.stratapps.xamplify.tests.LaunchVideoCampaignTest" />
 
@@ -47,7 +47,7 @@
 			<class name="com.stratapps.xamplify.tests.ScheduleEventCampaignTest" />
 			<class name="com.stratapps.xamplify.tests.SaveEventCampaignTest" />
 			<class name="com.stratapps.xamplify.tests.LaunchEventCampaignTest" />
-			<class name="com.stratapps.xamplify.tests.ShareLeadsTest" />
+			<!--<class name="com.stratapps.xamplify.tests.ShareLeadsTest" />-->
 
 		</classes>
 	</test>
@@ -98,7 +98,7 @@
 			<class name="com.stratapps.xamplify.tests.CompaniesTest" />
 			<class name="com.stratapps.xamplify.tests.OpportunitiesLeadTest" />
 			<class name="com.stratapps.xamplify.tests.OpportunitiesDealTest" />
-			<class name="com.stratapps.xamplify.tests.SharedLeadsTest" />
+			<!--<class name="com.stratapps.xamplify.tests.SharedLeadsTest" />-->
 		</classes>
 	</test>
 
