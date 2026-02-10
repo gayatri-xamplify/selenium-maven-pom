@@ -94,10 +94,29 @@ public class WaitUtil {
      * @param locator By locator
      * @param timeoutInSeconds timeout in seconds
      */
-    public static void waitAndClick(WebDriver driver, By locator, int timeoutInSeconds) {
-        WebElement element = waitForElementClickable(driver, locator, timeoutInSeconds);
-        element.click();
+	/*
+	 * public static void waitAndClick(WebDriver driver, By locator, int
+	 * timeoutInSeconds) { WebElement element = waitForElementClickable(driver,
+	 * locator, timeoutInSeconds); element.click(); }
+	 */
+    
+    public static void waitAndClick(WebDriver driver, By locator, int timeout) {
+
+        WebElement element = waitForElementClickable(driver, locator, timeout);
+
+        ((JavascriptExecutor) driver).executeScript(
+            "arguments[0].scrollIntoView({block:'center'});", element
+        );
+
+        try {
+            element.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();", element
+            );
+        }
     }
+
     
     /**
      * Wait for element to be visible and then send keys to it

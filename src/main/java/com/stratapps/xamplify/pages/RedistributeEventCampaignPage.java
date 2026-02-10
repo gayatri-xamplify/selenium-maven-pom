@@ -79,41 +79,33 @@ public class RedistributeEventCampaignPage {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-	    // Page + loaders
+
 	    WaitUtil.waitForPageToLoad(driver, 30);
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 60);
 
-	    // Hover Campaign (re-locate fresh)
+	    // Hover only
 	    WebElement campaign =
-	            wait.until(ExpectedConditions.presenceOfElementLocated(campaignHover));
-
+	        wait.until(ExpectedConditions.presenceOfElementLocated(campaignHover));
 	    ElementUtil.hoverAndClick(campaign, driver);
 
-	    // 🔑 Wait for submenu PRESENCE first
-	    wait.until(ExpectedConditions.presenceOfElementLocated(redistributeCampaign));
-
-	    // 🔑 Then wait for CLICKABLE (not visibility)
-	    WebElement redistribute =
-	            wait.until(ExpectedConditions.refreshed(
-	                    ExpectedConditions.elementToBeClickable(redistributeCampaign)));
-
-	    // Scroll + JS click (submenu safety)
-	    ((JavascriptExecutor) driver)
-	            .executeScript("arguments[0].scrollIntoView(true);", redistribute);
+	    // Click menu link (this ALWAYS goes to Manage Campaigns)
+	    WebElement redistributeMenu =
+	        wait.until(ExpectedConditions.presenceOfElementLocated(
+	            By.xpath("//a[contains(@class,'sub_menu_margin')]//span[normalize-space()='Redistribute Campaign']/parent::a")
+	        ));
 
 	    ((JavascriptExecutor) driver)
-	            .executeScript("arguments[0].click();", redistribute);
+	        .executeScript("arguments[0].click();", redistributeMenu);
 
-	    // Stabilize
-	    WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
-	    WaitUtil.waitForPageToLoad(driver, 90);
+	    // 5️⃣ Post-click stabilization
+	    WaitUtil.waitForPageToLoad(driver, 60);
 
-	    // Search campaign
-	    WaitUtil.waitAndClick(driver, searchCampaign, 30);
+	    // 6️⃣ Search campaign
+	    WaitUtil.waitForElementVisible(driver, searchCampaign, 30);
 	    ElementUtil.sendText(searchCampaign, "Event", driver);
 	    WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
 	    Thread.sleep(1000);
 	}
+
 
 	// =========================================================
 	// PREVIEW EVENT TEMPLATE
