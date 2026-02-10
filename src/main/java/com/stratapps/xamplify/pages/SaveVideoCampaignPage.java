@@ -1,6 +1,7 @@
 package com.stratapps.xamplify.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import com.stratapps.xamplify.utils.ElementUtil;
 import com.stratapps.xamplify.utils.WaitUtil;
@@ -32,7 +33,10 @@ public class SaveVideoCampaignPage {
 	private By Gotohome = By.xpath("//img[@class='cls-pointer']");
 
 	// Clicks on "Test Mail" button
-	public void clickTestMail() {
+	public void clickTestMail() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 0);");
+		Thread.sleep(2000);
 		WaitUtil.waitForElementVisible(driver, testMailBtn, 60);
 		ElementUtil.click(testMailBtn, driver);
 	}
@@ -89,7 +93,7 @@ public class SaveVideoCampaignPage {
 	}
 
 	// Full flow: Test mail -> Spam check -> Save campaign
-	public void saveVideoCampaign(String email, String subject) {
+	public void saveVideoCampaign(String email, String subject) throws InterruptedException {
 		clickTestMail();
 		enterTestMailDetails(email, subject);
 		sendTestMail();
