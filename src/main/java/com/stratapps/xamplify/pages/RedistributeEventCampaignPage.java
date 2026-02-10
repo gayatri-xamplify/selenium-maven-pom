@@ -25,7 +25,7 @@ public class RedistributeEventCampaignPage {
 	// LOCATORS
 	// =========================================================
 	private By campaignHover = By.xpath("//span[text()='Campaign']");
-	private By redistributeCampaign = By.xpath("//span[text()='Redistribute Campaign']");
+	private By redistributeCampaign = By.xpath("//span[contains(normalize-space(),'Redistribute')]");
 	private By eventTab = By.xpath("//li[contains(text(),'Event')]");
 
 	// Preview
@@ -56,24 +56,56 @@ public class RedistributeEventCampaignPage {
 	// =========================================================
 	// STEP 1 – OPEN REDISTRIBUTE EVENT CAMPAIGN MODULE
 	// =========================================================
-	public void openRedistributeEventCampaign() {
-		WaitUtil.waitForPageToLoad(driver, 30);
-		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
-		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+//	public void openRedistributeEventCampaign() {
+//		WaitUtil.waitForPageToLoad(driver, 30);
+//		WaitUtil.waitForElementVisible(driver, campaignHover, 60);
+//		ElementUtil.hoverAndClick(driver.findElement(campaignHover), driver);
+//
+//		WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+//
+//		WebElement redisElement = driver.findElement(redistributeCampaign);
+//		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
+//		((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+//
+//		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
+//		WaitUtil.waitForPageToLoad(driver, 90);
+//		WaitUtil.waitAndClick(driver, searchCampaign, 30);
+//		ElementUtil.sendText(searchCampaign, "Event", driver);
+//		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
+//
+//	}
 
-		WaitUtil.waitForElementVisible(driver, redistributeCampaign, 60);
+	public void openRedistributeEventCampaign() throws InterruptedException {
 
-		WebElement redisElement = driver.findElement(redistributeCampaign);
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", redisElement);
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", redisElement);
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		WaitUtil.waitForInvisibilityOfElement(backdrop, driver, 90);
-		WaitUtil.waitForPageToLoad(driver, 90);
-		WaitUtil.waitAndClick(driver, searchCampaign, 30);
-		ElementUtil.sendText(searchCampaign, "Event", driver);
-		WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
 
+	    WaitUtil.waitForPageToLoad(driver, 30);
+
+	    // Hover only
+	    WebElement campaign =
+	        wait.until(ExpectedConditions.presenceOfElementLocated(campaignHover));
+	    ElementUtil.hoverAndClick(campaign, driver);
+
+	    // Click menu link (this ALWAYS goes to Manage Campaigns)
+	    WebElement redistributeMenu =
+	        wait.until(ExpectedConditions.presenceOfElementLocated(
+	            By.xpath("//a[contains(@class,'sub_menu_margin')]//span[normalize-space()='Redistribute Campaign']/parent::a")
+	        ));
+
+	    ((JavascriptExecutor) driver)
+	        .executeScript("arguments[0].click();", redistributeMenu);
+
+	    // 5️⃣ Post-click stabilization
+	    WaitUtil.waitForPageToLoad(driver, 60);
+
+	    // 6️⃣ Search campaign
+	    WaitUtil.waitForElementVisible(driver, searchCampaign, 30);
+	    ElementUtil.sendText(searchCampaign, "Event", driver);
+	    WaitUtil.waitAndClick(driver, searchiconcampaign, 30);
+	    Thread.sleep(1000);
 	}
+
 
 	// =========================================================
 	// PREVIEW EVENT TEMPLATE
@@ -134,6 +166,7 @@ public class RedistributeEventCampaignPage {
 //		WaitUtil.waitAndClick(driver, downloadHtml, 40);
 		WaitUtil.waitAndClick(driver, downloadHistory, 40);
 		WaitUtil.waitAndClick(driver, downloadHistoryClose, 40);
+		Thread.sleep(1000);
 	}
 
 	// =========================================================
