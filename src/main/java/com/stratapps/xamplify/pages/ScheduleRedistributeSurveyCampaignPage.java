@@ -56,7 +56,7 @@ public class ScheduleRedistributeSurveyCampaignPage {
 		} else {
 
 			// ElementUtil.clear(hourInput, driver);
-			ElementUtil.sendText(hourInput, "11", driver);
+			ElementUtil.sendText(hourInput, "10", driver);
 
 			// ElementUtil.clear(minuteInput, driver);
 			ElementUtil.sendText(minuteInput, "59", driver);

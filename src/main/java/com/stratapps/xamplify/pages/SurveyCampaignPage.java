@@ -95,9 +95,12 @@ public class SurveyCampaignPage {
 		WaitUtil.waitForElementVisible(driver, templateSearch, 60);
 		ElementUtil.sendText(templateSearch, "Survey", driver);
 		ElementUtil.sendKey(templateSearch, Keys.ENTER, driver);
-		WaitUtil.waitAndClick(driver, templateSelect, 60);
+		WaitUtil.clickIgnoringStale(driver, templateSelect, 60);
+
 		WaitUtil.waitForPageToLoad(driver, 60);
 
+		
+		
 		// 7️⃣ Send Test Survey
 		WaitUtil.waitForElementClickable(driver, clickSendTestEmail, 60);
 		try {

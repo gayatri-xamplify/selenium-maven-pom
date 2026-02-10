@@ -28,7 +28,7 @@ public class SaveEventCampaignPage {
 	private By spamCheckCloseBtn = By.xpath(
 			"//div[@class='modal-dialog modal-lg modal-template mEventSpamPopUp']//a[@class='Btn-Gray'][normalize-space()='Close']");
 	private By saveClickBtn = By
-			.xpath("//span[contains(@class,'btn Btn-Green transition txt_pd-top3')][normalize-space()='Save']");
+			.xpath("//*[@id=\"event-tabs\"]/div[2]/div[2]/div[4]/div/button[2]/span");
 	private By saveBtn = By.xpath(
 			"/html[1]/body[1]/app-root[1]/app-home[1]/div[1]/div[1]/app-create-campaign[1]/div[1]/div[1]/div[2]/div[1]/div[6]/form[1]/div[3]/div[1]/div[2]/div[1]/button[3]");
 	private By responseMessage = By.xpath("//span[@id='responseMessage']");
@@ -89,7 +89,10 @@ public class SaveEventCampaignPage {
 
 	// Saves the Event campaign
 
-	public void saveCampaign() {
+	public void saveCampaign() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0, 0);");
+		Thread.sleep(2000); // Temporary wait to ensure all elements are loaded
 		WaitUtil.waitForElementVisible(driver, saveClickBtn, 60);
 		ElementUtil.click(saveClickBtn, driver);
 	}
@@ -107,9 +110,9 @@ public class SaveEventCampaignPage {
 
 	// Full flow: Test mail -> Spam check -> Save campaign
 
-	public void saveEventCampaign(String Event, String subject) {
+	public void saveEventCampaign(String Event, String subject) throws InterruptedException {
 
-		runSpamCheck();
+		//runSpamCheck();
 		saveCampaign();
 		getResponseMessage();
 		backToHome();

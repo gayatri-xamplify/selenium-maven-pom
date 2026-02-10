@@ -41,7 +41,7 @@ public class SaveSurveyCampaignTest extends BaseTest {
 	
 
 	@Test(priority = 1, enabled = true)
-	public void createAndSaveSurveyCampaignTest() {
+	public void createAndSaveSurveyCampaignTest() throws InterruptedException {
 		logger.info("Test 1: Create and Save Survey Campaign - STARTED");
 
 		// Step 1: Create campaign

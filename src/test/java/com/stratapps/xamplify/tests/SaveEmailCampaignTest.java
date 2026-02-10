@@ -40,7 +40,7 @@ public class SaveEmailCampaignTest extends BaseTest {
 	
 	
     @Test(priority = 1, enabled = true)
-    public void createAndSaveEmailCampaignTest() {
+    public void createAndSaveEmailCampaignTest() throws InterruptedException {
         logger.info("Test 1: Create and Save Email Campaign - STARTED");
 
         // Step 1: Create campaign

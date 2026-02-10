@@ -69,7 +69,7 @@ public class ScheduleEventCampaignPage {
 			hourToSet = "1";
 			minuteToSet = "11";
 		} else {
-			hourToSet = "11";
+			hourToSet = "10";
 			minuteToSet = "59";
 		}
 
